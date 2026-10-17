@@ -150,5 +150,84 @@ class ExtractionMetricTests(unittest.TestCase):
         self.assertEqual(result["schema_validity"], 0)
 
 
+class ResumeAdapterTests(unittest.TestCase):
+    def test_resume_rejects_corruption_and_incompatible_rank(self):
+        import hashlib
+        import json
+        import tempfile
+        from pathlib import Path
+
+        from scripts.gemma_train import resume_metadata
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            adapter = root / "adapter"
+            adapter.mkdir()
+            weight = adapter / "adapters.safetensors"
+            weight.write_bytes(b"verified parent")
+            for name in ["data/finetune", "outputs/gemma_preparation"]:
+                (root / name).mkdir(parents=True)
+            corpus = root / "data/finetune/manifest.json"
+            corpus.write_text("{}")
+            (root / "outputs/gemma_preparation/weights.json").write_text('{"revision":"r1"}')
+            config = dict(
+                resume_adapter_file="adapter/adapters.safetensors",
+                num_layers=4,
+                fine_tune_type="lora",
+                lora_parameters={"rank": 8},
+            )
+            (adapter / "adapter_config.json").write_text(json.dumps(config))
+            (adapter / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "adapter": {"sha256": hashlib.sha256(weight.read_bytes()).hexdigest()},
+                        "sft_manifest_sha256": hashlib.sha256(corpus.read_bytes()).hexdigest(),
+                        "base_revision": "r1",
+                        "completed_iterations": 100,
+                    }
+                )
+            )
+            self.assertEqual(resume_metadata(config, root)["parent_total_optimizer_steps"], 100)
+            with self.assertRaisesRegex(AssertionError, "lora_parameters"):
+                resume_metadata(dict(config, lora_parameters={"rank": 16}), root)
+            weight.write_bytes(b"corrupted")
+            with self.assertRaisesRegex(AssertionError, "checksum"):
+                resume_metadata(config, root)
+
+
+class FullEpochTrainingTests(unittest.TestCase):
+    def test_full_epoch_covers_all_rows_and_rejects_dropped_tail(self):
+        from scripts.gemma_full_train import epoch_schedule
+
+        self.assertEqual(epoch_schedule(364, 1, 1)["iterations"], 364)
+        self.assertEqual(epoch_schedule(364, 1, 3)["iterations"], 1092)
+        with self.assertRaisesRegex(ValueError, "incomplete final batch"):
+            epoch_schedule(365, 2, 1)
+        with self.assertRaises(ValueError):
+            epoch_schedule(364, 1, 0)
+
+    def test_full_plan_does_not_authorize_training_but_explicit_command_does(self):
+        from contextlib import redirect_stdout
+        from io import StringIO
+        from unittest.mock import patch
+
+        from scripts import gemma_full_train
+
+        for approved in (False, True):
+            with (
+                patch.object(
+                    gemma_full_train, "prepare_full_corpus", return_value={"counts": {"train": 364}}
+                ),
+                patch.object(gemma_full_train.Path, "write_text"),
+                patch.object(gemma_full_train, "train_main", return_value=0) as launch,
+                redirect_stdout(StringIO()),
+            ):
+                arguments = ["--confirm-training"] if approved else []
+                self.assertEqual(gemma_full_train.main(arguments), 0)
+                forwarded = launch.call_args.args[0]
+                self.assertEqual("--confirm-training" in forwarded, approved)
+                self.assertEqual("--summarize" in forwarded, approved)
+
+
 if __name__ == "__main__":
     unittest.main()

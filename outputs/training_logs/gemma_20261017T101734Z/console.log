@@ -1,0 +1,19 @@
+Loading configuration file /Users/scara2906/Downloads/ML/outputs/training_logs/gemma_20261017T101734Z/config.yaml
+Loading pretrained model
+Loading datasets
+Training
+╭─ [1mmlx_lm.lora[0m ────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│    model           [1m/Users/scara2906/Downloads/ML/models/gemma-mlx-4bit[0m                                               │
+│    type            [1mlora · 4 layers · rank 8[0m                                                                          │
+│    dataset         [1m/Users/scara2906/Downloads/ML/data/finetune_full/v1.0.0[0m                                           │
+│    optimizer       [1madam · lr 1.0e-04[0m                                                                                 │
+│    batch · iters   [1m1 · 364[0m                                                                                           │
+│    max seq         [1m1,024[0m                                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Trainable parameters: 0.023% (1.737M/7463.013M)
+  [1miter   train_loss     tok/s     tokens[0m
+     1    [1mval[0m [1m1.052[0m    78.50s
+    10    [1m0.380 ▼[0m    [1m   57[0m      0.9k
+    20    [1m0.216 ▼[0m    [1m   64[0m      2.1k
+    30    [1m0.181 ▼[0m    [1m   33[0m      3.1k
+    40    [1m0.193 ▲[0m    [1m   32[0m      4.1k

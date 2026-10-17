@@ -26,6 +26,7 @@
     }
   },
   "config_sha256": "f43f8ffd699f9de5e412150ea3f1a12f677f26ef3b7786cd097990d93e7c1d23",
+  "resume": null,
   "corpus_validation": {
     "counts": {
       "train": 364,

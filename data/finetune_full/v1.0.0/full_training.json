@@ -1,0 +1,24 @@
+{
+  "source": "data/finetune",
+  "dataset": "data/finetune_full/v1.0.0",
+  "counts": {
+    "train": 364,
+    "valid": 72,
+    "test": 82
+  },
+  "train_split_only": true,
+  "validation_and_test_excluded_from_gradients": true,
+  "full_definition": "Every train JSONL example once per epoch; not all raw CSVs or full-parameter tuning",
+  "label_quality": "silver_source_fields",
+  "source_records": {
+    "train": 122,
+    "valid": 25,
+    "test": 28
+  },
+  "files": {
+    "train.jsonl": "5aed2122781e4e69235e0762150a4bf86353820098afd738356a202c2877696e",
+    "valid.jsonl": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+    "test.jsonl": "77800ff3222e545dda2a7a6d0265240c47a95d05184c3038613b8a4a3c62c671",
+    "manifest.json": "1fd675dfe8171ea0f0c2d306969f718bd4a219cbaaed6065f4042a36423776dd"
+  }
+}

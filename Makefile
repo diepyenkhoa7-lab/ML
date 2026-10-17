@@ -1,5 +1,6 @@
 PYTHON := .venv/bin/python
 GEMMA_ADAPTER ?= adapters/gemma-jobs/20261017T094853Z
+EPOCHS ?= 1
 export PIP_CACHE_DIR := $(CURDIR)/.cache/pip
 export HF_HOME := $(CURDIR)/.cache/huggingface
 export MPLCONFIGDIR := $(CURDIR)/.cache/matplotlib
@@ -7,11 +8,12 @@ export JUPYTER_DATA_DIR := $(CURDIR)/.cache/jupyter
 export JUPYTER_RUNTIME_DIR := $(CURDIR)/.cache/jupyter/runtime
 export IPYTHONDIR := $(CURDIR)/.cache/ipython
 
-.PHONY: help setup check check-mlx lint api lab validate-example validate-sft gemma-download gemma-base gemma-smoke gemma-adapter gemma-train data-fetch data-profile data-clean test-data data-split data-verify salary-train
+.PHONY: help setup check check-mlx lint api lab validate-example validate-sft gemma-download gemma-base gemma-smoke gemma-adapter gemma-plan-full gemma-infer-adapter gemma-train data-fetch data-profile data-clean test-data data-split data-verify salary-train
 
 help:
 	@echo "setup | check | check-mlx | lint | api | lab"
 	@echo "validate-example | validate-sft | gemma-download | gemma-base | gemma-smoke | gemma-adapter | gemma-train"
+	@echo "gemma-adapter: TRAIN all train JSONL, EPOCHS=1 by default | gemma-plan-full | gemma-infer-adapter"
 	@echo "salary-train | data-fetch | data-profile | data-clean | test-data | data-split | data-verify"
 
 setup:
@@ -50,7 +52,13 @@ gemma-base:
 gemma-smoke: validate-example
 	$(PYTHON) scripts/gemma_train.py --config configs/gemma_smoke.yaml
 
-gemma-adapter:
+gemma-adapter: validate-sft
+	$(PYTHON) scripts/gemma_full_train.py --epochs $(EPOCHS) --confirm-training
+
+gemma-plan-full:
+	$(PYTHON) scripts/gemma_full_train.py --epochs $(EPOCHS)
+
+gemma-infer-adapter:
 	$(PYTHON) scripts/gemma_infer.py --adapter $(GEMMA_ADAPTER) --output outputs/environment/gemma_adapter.json
 
 gemma-train: validate-sft

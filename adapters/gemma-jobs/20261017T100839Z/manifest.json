@@ -1,0 +1,26 @@
+{
+  "base_model": "google/gemma-4-E4B-it",
+  "base_revision": "ee0ef6023621cff504d758262d4e04895a5af4a2",
+  "run": "outputs/training_logs/gemma_20261017T100839Z",
+  "config_sha256": "f7758610158aa94cc050bd7fa23a74972a2d991621a1a4a8c56feeb6f0c17934",
+  "sft_manifest_sha256": "1fd675dfe8171ea0f0c2d306969f718bd4a219cbaaed6065f4042a36423776dd",
+  "data_quality": "silver_source_fields",
+  "completed_iterations": 100,
+  "total_optimizer_steps": 200,
+  "resume": {
+    "path": "adapters/gemma-jobs/20261017T094853Z/adapters.safetensors",
+    "sha256": "39e416885240dfabe1520516d069a0054c3887a86d3ca057987113163e7e1e57",
+    "parent_total_optimizer_steps": 100,
+    "mode": "adapter_weights_only_optimizer_reinitialized"
+  },
+  "selection": "predeclared final 100-step run; not selected using test",
+  "adapter": {
+    "path": "adapters/gemma-jobs/20261017T100839Z/adapters.safetensors",
+    "bytes": 6953691,
+    "sha256": "6aecc2e8f94ca44c3d925a680939ed4806395d1b93d333b185298e8f2f1d9fd8",
+    "tensors": 56
+  },
+  "adapter_config_sha256": "3281f3a38d8d3e5ad0522233a91eda11f8b19431125e3be8739d3b1b61aa54e2",
+  "training_completed": true,
+  "human_confirmation": "train"
+}

@@ -1,5 +1,23 @@
 # Nhật ký thay đổi
 
+## 2026-10-17 — Train thật toàn bộ JSONL và tách lệnh suy luận
+
+- `make gemma-adapter` train thật toàn bộ train JSONL, mặc định 1 epoch = 364 bước;
+  `EPOCHS=3` tính 1.092 bước. Chuẩn bị snapshot đủ 364/72/82, giữ valid/test riêng.
+- `make gemma-infer-adapter` chỉ suy luận; README và runbook phân biệt rõ các lệnh,
+  nhắc chỉ định GEMMA_ADAPTER để nạp adapter full mới thay cho default trial cũ.
+- Người dùng tự chạy full run `20261017T101925Z`: hoàn tất 364/364, exit 0;
+  train loss 0,380 → 0,032, validation loss 1,052 → 0,068 trên đủ 72 mẫu.
+- Dừng riêng lượt trùng do Codex khởi động `101734Z` ở khoảng 40 bước; giữ nguyên
+  lượt người dùng và log. Không khởi chạy suy luận hay huấn luyện mới trong giám sát.
+- Lưu config/console/CSV/biểu đồ/summary và final adapter 6.953.691 byte với checksum.
+  Accuracy/F1 của adapter full chưa đo; metric trial 100 bước được ghi riêng.
+- Lượt tiếp `100839Z` trước đó đã train thêm 100 từ adapter đầu, optimizer reset,
+  seed 43; tổng lineage 200 updates, validation loss 0,057 trên 5 batch, chưa có F1 riêng.
+- Bổ sung kiểm tra tương thích/checksum resume và coverage cả epoch; 25 unit tests
+  và Ruff đạt trước lượt full thực tế. Không đưa checkpoint trung gian/base weights lên Git.
+
+
 ## 2026-10-17 — Gemma trial đã được xác nhận
 
 - Người dùng trả lời `xac nhan`; đã chạy đúng cấu hình 100 iterations, 4 lớp cuối,

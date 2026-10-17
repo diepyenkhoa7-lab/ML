@@ -4,6 +4,36 @@
 Model trích xuất đã chốt: [google/gemma-4-E4B-it](https://huggingface.co/google/gemma-4-E4B-it).
 Frontend Vue 3 dự kiến ở bước tích hợp; FastAPI hiện có health, chưa có endpoint nghiệp vụ.
 
+## Lệnh train và lệnh suy luận
+
+| Lệnh | Tác dụng |
+|---|---|
+| `make gemma-adapter` | **Train thật** toàn bộ 364 mẫu train, mặc định 1 epoch = 364 bước |
+| `EPOCHS=3 make gemma-adapter` | Train thật 3 epochs = 1.092 bước |
+| `make gemma-infer-adapter` | **Chỉ suy luận**, không cập nhật trọng số |
+| `make gemma-plan-full` | Kiểm tra dữ liệu và in lịch train, không huấn luyện |
+| `make gemma-train` / `make gemma-smoke` | In kế hoạch trial cũ, không tự train |
+
+Dữ liệu ở `data/finetune_full/v1.0.0/`: 364 train / 72 validation / 82 test.
+Validation/test giữ riêng. Mỗi lần train tạo run và adapter mới.
+**`make gemma-infer-adapter` mặc định vẫn nạp adapter trial 100 bước.** Muốn dùng
+adapter mới, chỉ định `GEMMA_ADAPTER` như hướng dẫn dưới đây.
+
+Lượt bạn tự chạy `20261017T101925Z` đã hoàn tất **364/364 bước**, exit code 0.
+Train loss cuối **0,032**, validation loss **0,068** trên đủ 72 mẫu. Xem log bằng lệnh chỉ đọc:
+
+```bash
+tail -f outputs/training_logs/gemma_20261017T101925Z/console.log
+```
+
+Suy luận bằng chính adapter vừa train:
+
+```bash
+GEMMA_ADAPTER=adapters/gemma-jobs/20261017T101925Z make gemma-infer-adapter
+```
+
+Xem [hướng dẫn train, giám sát và suy luận](docs/GEMMA_FULL_TRAINING.md).
+
 ## Trạng thái hiện tại
 
 - Đã nhập/làm sạch bốn nguồn, rà soát nhãn và đóng băng split v1.0.1.
@@ -16,13 +46,16 @@ Frontend Vue 3 dự kiến ở bước tích hợp; FastAPI hiện có health, c
   chưa chứng minh tổng quát toàn thị trường.
 - Gemma: đủ trọng số Google và MLX 4-bit, checksum đã xác minh. JSONL silver có
   **364 / 72 / 82** mẫu, tương ứng 122 / 25 / 28 tin nguồn; gồm biến thể bỏ trường.
-  **Đã hoàn thành trial Gemma 100 iterations sau xác nhận của bạn.**
+  **Lượt full 1 epoch của bạn đã hoàn tất: `20261017T101925Z` (364 bước).**
+  Adapter ở `adapters/gemma-jobs/20261017T101925Z/`, train loss cuối 0,032,
+  validation loss 0,068 trên toàn bộ 72 mẫu; chưa đánh giá trích xuất riêng cho adapter full.
+  Các metric dưới đây thuộc **trial 100 bước trước đó**, không phải adapter full.
   Train loss 0,501 → 0,081; validation loss 1,135 → 0,070 trên 5 batch/lần.
   Validation 72 mẫu từ 25 tin nguồn: JSON hợp lệ 100%, schema 90,3%, Skill F1 0,884
   (base sau bỏ Markdown: 0,835); còn 7 lỗi schema, nhãn silver và chưa đánh giá test.
   [Bảng so sánh đầy đủ](outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md).
 - Đã chuẩn bị notebook 03, kế hoạch, wrapper lưu log và script đánh giá Gemma;
-  đã có adapter tại `adapters/gemma-jobs/20261017T094853Z/`;
+  đã có adapter full tại `adapters/gemma-jobs/20261017T101925Z/`;
   chức năng tư vấn hoàn chỉnh chưa triển khai.
 
 Xem [hướng dẫn train và bằng chứng](docs/TRAINING_RUNBOOK.md),
@@ -45,7 +78,8 @@ Chọn kernel **Python (IT Career Insight)**. Nếu đang mở bản notebook c�
   [Bản thực thi đầy đủ, lưu riêng](outputs/training_logs/salary_20261017T094526Z/02_salary_models.executed.ipynb)
   giữ output khi phiên Jupyter đang mở lưu đè bản cũ.
 - `notebooks/03_gemma_extraction.ipynb`: đủ bước chuẩn bị/xác nhận/train/đánh giá;
-  chưa thực thi. Run All với mặc định không train hoặc suy luận Gemma.
+  các cell kiểm tra đã được chạy riêng; Run All với mặc định không train hoặc suy luận Gemma.
+  Lệnh full và suy luận hiện hành xem bảng phía trên.
 
 ```bash
 make salary-train  # Chạy notebook 01 + 02, lưu transcript; không chạy Gemma.

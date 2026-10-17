@@ -15,11 +15,37 @@ from scripts.clean_data import checksum  # noqa: E402
 from scripts.validate_sft import validate_corpus  # noqa: E402
 
 
+def resume_metadata(config, root=ROOT):
+    root = root.resolve()
+    value = config.get("resume_adapter_file")
+    if not value:
+        return None
+    path = (root / value).resolve()
+    manifest = json.loads((path.parent / "manifest.json").read_text())
+    previous = json.loads((path.parent / "adapter_config.json").read_text())
+    assert checksum(path) == manifest["adapter"]["sha256"], "Parent adapter checksum mismatch"
+    for key in ["num_layers", "fine_tune_type", "lora_parameters"]:
+        assert config[key] == previous[key], f"Incompatible resumed adapter: {key}"
+    assert manifest["sft_manifest_sha256"] == checksum(
+        root / config.get("data", "data/finetune") / "manifest.json"
+    )
+    evidence = json.loads((root / "outputs/gemma_preparation/weights.json").read_text())
+    assert manifest["base_revision"] == evidence["revision"]
+    return {
+        "path": str(path.relative_to(root)),
+        "sha256": manifest["adapter"]["sha256"],
+        "parent_total_optimizer_steps": manifest.get(
+            "total_optimizer_steps", manifest["completed_iterations"]
+        ),
+        "mode": "adapter_weights_only_optimizer_reinitialized",
+    }
+
+
 def build_plan(config_path):
     config = yaml.safe_load(config_path.read_text())
     model = ROOT / config["model"]
     data = ROOT / config["data"]
-    strict = data.resolve() == (ROOT / "data/finetune").resolve()
+    strict = data.resolve() != (ROOT / "data/examples/finetune").resolve()
     result = validate_corpus(data, strict=strict)
     if not result["ok"]:
         raise ValueError(result["errors"])
@@ -38,6 +64,7 @@ def build_plan(config_path):
         "gemma_training_started": False,
         "config": config,
         "config_sha256": checksum(config_path),
+        "resume": resume_metadata(config),
         "corpus_validation": result,
         "weight_evidence": "outputs/gemma_preparation/weights.json",
         "weight_check": "recorded official SHA256 verified; current size checked; rehash on launch",
@@ -68,14 +95,18 @@ def main(argv=None):
         action="store_true",
         help="Use ONLY after the human approves this plan",
     )
+    parser.add_argument("--confirmation-note", help="Record the user's explicit training request")
+    parser.add_argument(
+        "--summarize", action="store_true", help="Verify/export losses after success"
+    )
     args = parser.parse_args(argv)
     path = (ROOT / args.config).resolve()
     plan = build_plan(path)
     destination = ROOT / "outputs/gemma_preparation" / f"{path.stem}_plan.json"
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n")
-    print(json.dumps(plan, ensure_ascii=False, indent=2), flush=True)
     if not args.confirm_training:
+        print(json.dumps(plan, ensure_ascii=False, indent=2), flush=True)
         print("PLAN ONLY. No Gemma training started. Await explicit user confirmation.")
         return 0
     weight = ROOT / plan["config"]["model"] / "model.safetensors"
@@ -87,12 +118,27 @@ def main(argv=None):
     config = dict(plan["config"])
     config["adapter_path"] = str(ROOT / "adapters/gemma-jobs" / stamp)
     config["model"], config["data"] = str(ROOT / config["model"]), str(ROOT / config["data"])
+    if config.get("resume_adapter_file"):
+        config["resume_adapter_file"] = str((ROOT / config["resume_adapter_file"]).resolve())
     runtime_config = log_dir / "config.yaml"
     runtime_config.write_text(yaml.safe_dump(config, sort_keys=False))
-    command = [sys.executable, "-u", "-m", "mlx_lm.lora", "--config", str(runtime_config)]
-    record = dict(plan, status="running", gemma_training_started=True, command=command)
+    command = [sys.executable, "-u", "-m", "mlx_lm", "lora", "--config", str(runtime_config)]
+    record = dict(
+        plan,
+        status="running",
+        gemma_training_started=True,
+        command=command,
+        human_confirmation_received=True,
+        human_confirmation_text=args.confirmation_note,
+        started_at_utc=datetime.now(timezone.utc).isoformat(),
+    )
     record_path = log_dir / "run.json"
     record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
+    print(
+        f"REAL TRAINING: {config['iters']} iterations; data={config['data']}; "
+        f"log={log_dir}; adapter={config['adapter_path']}",
+        flush=True,
+    )
     with (log_dir / "console.log").open("w") as log:
         process = subprocess.Popen(
             command, cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True
@@ -109,8 +155,16 @@ def main(argv=None):
             record.update(status="interrupted")
             record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
             raise
-    record.update(status="completed" if code == 0 else "failed", returncode=code)
+    record.update(
+        status="completed" if code == 0 else "failed",
+        returncode=code,
+        finished_at_utc=datetime.now(timezone.utc).isoformat(),
+    )
     record_path.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
+    if code == 0 and args.summarize:
+        from scripts.summarize_gemma_run import main as summarize
+
+        summarize(["--run", str(log_dir.relative_to(ROOT))])
     return code
 
 

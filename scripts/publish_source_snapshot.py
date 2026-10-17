@@ -44,6 +44,7 @@ def collect_files():
         "notebooks",
         "data/examples",
         "data/finetune",
+        "data/finetune_full",
         "data/splits/v1.0.1",
         "outputs/label_review/v1.0.1",
         "outputs/environment",
@@ -70,11 +71,12 @@ def collect_files():
     ]:
         if (ROOT / name).is_file():
             files.add(ROOT / name)
-    # Publish the small final adapter; keep intermediate checkpoints and base weights local.
-    for name in ["adapters.safetensors", "adapter_config.json", "manifest.json"]:
-        path = ROOT / "adapters/gemma-jobs/20261017T094853Z" / name
-        if path.is_file():
-            files.add(path)
+    # Summarized completed runs only; intermediate checkpoints and base weights stay local.
+    for manifest_path in (ROOT / "adapters/gemma-jobs").glob("*/manifest.json"):
+        if not json.loads(manifest_path.read_text()).get("training_completed"):
+            continue
+        for name in ["adapters.safetensors", "adapter_config.json", "manifest.json"]:
+            files.add(manifest_path.parent / name)
     excluded = {".backups", ".ipynb_checkpoints", "__pycache__", "node_modules", "dist"}
     files = {
         p

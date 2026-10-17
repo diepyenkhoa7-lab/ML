@@ -1,5 +1,8 @@
 # Huấn luyện và kết quả — 17/10/2026
 
+**Lệnh hiện tại:** `make gemma-adapter` train thật toàn bộ 364 mẫu train;
+`make gemma-infer-adapter` suy luận. Xem [hướng dẫn full training](GEMMA_FULL_TRAINING.md).
+
 ## 1. Dự đoán lương: đã chạy
 
 Chạy `make salary-train` hoặc mở notebook 01 rồi 02, kernel **Python (IT Career Insight)**.
@@ -38,7 +41,16 @@ Bằng chứng:
 - `outputs/training_logs/salary_20261017T092948Z/{run.json,console.log}`.
 - `outputs/eda/20261017T092843Z_e3747c/`: biểu đồ Matplotlib/Seaborn trên train CNTT VN.
 
-## 2. Gemma: đã hoàn thành trial 100 iterations sau xác nhận
+## 2. Gemma: lượt full hiện tại và lịch sử trial
+
+**Lượt full `20261017T101925Z` do người dùng tự chạy:** hoàn tất 364/364 bước,
+exit code 0, từ base trên toàn bộ bộ train. Train loss cuối 0,032; validation loss
+0,068 trên 72 mẫu. Codex chỉ giám sát và cập nhật hướng dẫn, không chạy thêm suy luận.
+Xem `outputs/training_logs/gemma_20261017T101925Z/REPORT.md` và
+`adapters/gemma-jobs/20261017T101925Z/manifest.json`. Metric trích xuất bên dưới
+thuộc trial 100 bước; chưa đo accuracy/F1 riêng cho adapter full.
+
+### Trial 100 bước trước đó
 
 Điều kiện xác nhận chỉ áp dụng Gemma; không chặn mô hình lương. Người dùng đã trả lời
 `xac nhan` cho trial 100 iterations. Run `20261017T094853Z` hoàn tất, exit code 0;
@@ -80,10 +92,10 @@ salary_min, salary_max, currency, salary_period. Giữ kỳ lương/tiền tệ 
 không thay cận bằng trung điểm. Trường bị bỏ trả null. Cặp prompt/chat đã kiểm tra prefix
 mask và token bằng tokenizer thật; dài nhất 614 token, không cắt mẫu.
 
-### Tái sử dụng adapter đã train
+### Tái sử dụng adapter đã train (chỉ suy luận)
 
 ```bash
-make gemma-adapter
+make gemma-infer-adapter
 # Tương đương:
 .venv/bin/python scripts/gemma_infer.py --adapter adapters/gemma-jobs/20261017T094853Z
 ```

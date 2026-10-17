@@ -1,0 +1,68 @@
+{
+  "status": "completed",
+  "gemma_training_started": true,
+  "config": {
+    "model": "models/gemma-mlx-4bit",
+    "train": true,
+    "fine_tune_type": "lora",
+    "data": "data/finetune_full/v1.0.0",
+    "adapter_path": "adapters/gemma-jobs",
+    "seed": 42,
+    "num_layers": 4,
+    "batch_size": 1,
+    "iters": 364,
+    "val_batches": -1,
+    "learning_rate": 0.0001,
+    "steps_per_report": 10,
+    "steps_per_eval": 364,
+    "save_every": 100,
+    "max_seq_length": 1024,
+    "grad_checkpoint": true,
+    "mask_prompt": true,
+    "lora_parameters": {
+      "rank": 8,
+      "dropout": 0.0,
+      "scale": 20.0
+    }
+  },
+  "config_sha256": "13f0d61d3e37dc8dfd51bf25aa3ed2a16adc63b4dd0c4c1a49eef293f2023d5a",
+  "resume": null,
+  "corpus_validation": {
+    "counts": {
+      "train": 364,
+      "valid": 72,
+      "test": 82
+    },
+    "ok": true,
+    "errors": []
+  },
+  "weight_evidence": "outputs/gemma_preparation/weights.json",
+  "weight_check": "recorded official SHA256 verified; current size checked; rehash on launch",
+  "expected_outputs": [
+    "adapters/gemma-jobs/<run_id>/adapters.safetensors",
+    "adapters/gemma-jobs/<run_id>/adapter_config.json",
+    "outputs/training_logs/gemma_<run_id>/console.log",
+    "outputs/training_logs/gemma_<run_id>/run.json"
+  ],
+  "limits": [
+    "Silver job-card labels, not human gold or full original ads",
+    "Training compatibility, throughput and adapter quality not yet verified",
+    "Loss is not extraction accuracy; evaluate JSON validity, field accuracy and Skill F1",
+    "Do not tune using test; compare base and fixed adapter on test after validation"
+  ],
+  "launch_after_user_confirmation_only": ".venv/bin/python scripts/gemma_train.py --config outputs/gemma_preparation/gemma_full_1epochs.yaml --confirm-training",
+  "command": [
+    "/Users/scara2906/Downloads/ML/.venv/bin/python",
+    "-u",
+    "-m",
+    "mlx_lm",
+    "lora",
+    "--config",
+    "/Users/scara2906/Downloads/ML/outputs/training_logs/gemma_20261017T101925Z/config.yaml"
+  ],
+  "human_confirmation_received": true,
+  "human_confirmation_text": "User invoked make gemma-adapter EPOCHS=1",
+  "started_at_utc": "2026-10-17T10:19:25.398548+00:00",
+  "returncode": 0,
+  "finished_at_utc": "2026-10-17T10:33:25.476348+00:00"
+}

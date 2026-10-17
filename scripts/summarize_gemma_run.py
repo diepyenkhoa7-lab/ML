@@ -15,17 +15,25 @@ sys.path.insert(0, str(ROOT))
 from scripts.clean_data import checksum  # noqa: E402
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run", type=Path, required=True)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     folder = (ROOT / args.run).resolve()
     record = json.loads((folder / "run.json").read_text())
     assert record["status"] == "completed" and record["returncode"] == 0
-    config = json.loads((ROOT / "data/finetune/manifest.json").read_text())
     import yaml
 
     runtime = yaml.safe_load((folder / "config.yaml").read_text())
+    corpus_manifest = Path(runtime["data"]) / "manifest.json"
+    config = json.loads(corpus_manifest.read_text())
+    val_description = (
+        "all validation examples"
+        if runtime["val_batches"] == -1
+        else f"{runtime['val_batches']} validation batches"
+    )
+    resume = record.get("resume")
+    total_steps = runtime["iters"] + (resume["parent_total_optimizer_steps"] if resume else 0)
     adapter = Path(runtime["adapter_path"])
     plain = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", (folder / "console.log").read_text())
     events = []
@@ -59,10 +67,12 @@ def main():
         ],
         "run": str(folder.relative_to(ROOT)),
         "config_sha256": checksum(folder / "config.yaml"),
-        "sft_manifest_sha256": checksum(ROOT / "data/finetune/manifest.json"),
+        "sft_manifest_sha256": checksum(corpus_manifest),
         "data_quality": config["quality"],
         "completed_iterations": runtime["iters"],
-        "selection": "predeclared final 100-step trial; not selected using test",
+        "total_optimizer_steps": total_steps,
+        "resume": resume,
+        "selection": f"predeclared final {runtime['iters']}-step run; not selected using test",
         "adapter": {
             "path": str(weights.relative_to(ROOT)),
             "bytes": weights.stat().st_size,
@@ -71,7 +81,7 @@ def main():
         },
         "adapter_config_sha256": checksum(adapter / "adapter_config.json"),
         "training_completed": True,
-        "human_confirmation": "User explicitly replied: xac nhan",
+        "human_confirmation": record.get("human_confirmation_text") or "explicit user confirmation",
     }
     (adapter / "manifest.json").write_text(
         json.dumps(adapter_manifest, ensure_ascii=False, indent=2) + "\n"
@@ -83,6 +93,9 @@ def main():
     summary = {
         "status": "completed",
         "iterations": runtime["iters"],
+        "total_optimizer_steps": total_steps,
+        "resume": resume,
+        "seed": runtime["seed"],
         "gemma_training_started": True,
         "human_confirmation_received": True,
         "run": str(folder.relative_to(ROOT)),
@@ -107,7 +120,7 @@ def main():
     import matplotlib.pyplot as plt
 
     fig, ax = plt.subplots(figsize=(9, 4.5))
-    for label, values in [("Train", train), ("Validation (5 batches)", valid)]:
+    for label, values in [("Train", train), (f"Validation ({val_description})", valid)]:
         ax.plot(
             [e["iteration"] for e in values],
             [e["loss_rounded_to_3dp"] for e in values],
@@ -121,10 +134,14 @@ def main():
     plt.close(fig)
     (folder / "REPORT.md").write_text(
         f"# Gemma trial — {folder.name}\n\n"
-        f"Completed {runtime['iters']} iterations; rank 8 / 4 layers / batch 1 / context 1024.\n"
+        f"Completed {runtime['iters']} iterations; rank {runtime['lora_parameters']['rank']} / "
+        f"{runtime['num_layers']} layers / batch {runtime['batch_size']} / "
+        f"context {runtime['max_seq_length']}.\n"
+        f"Total optimizer updates across parent/run: {total_steps}.\n"
+        f"Resume: {resume['mode'] if resume else 'none; initial run'}.\n"
         f"Train loss: {summary['first_train_loss']} → {summary['last_train_loss']}.\n"
         f"Validation loss: {summary['first_validation_loss']} → {summary['last_validation_loss']} "
-        "on 5 validation batches per event (before the displayed optimizer update).\n\n"
+        f"on {val_description} per event (before the displayed optimizer update).\n\n"
         "Losses are rounded console observations, not extraction accuracy. Test was not used.\n"
         "Labels are silver job-card fields, not independently reviewed gold.\n"
         f"Adapter: `{adapter_manifest['adapter']['path']}`.\n"

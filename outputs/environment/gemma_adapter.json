@@ -1,0 +1,24 @@
+{
+  "source_model": "google/gemma-4-E4B-it",
+  "manifest": {
+    "repo_id": "google/gemma-4-E4B-it",
+    "revision": "ee0ef6023621cff504d758262d4e04895a5af4a2",
+    "downloaded_at_utc": "2026-10-17T07:36:58.505241+00:00",
+    "source": "https://huggingface.co/google/gemma-4-E4B-it/tree/ee0ef6023621cff504d758262d4e04895a5af4a2",
+    "license": "apache-2.0 (theo model card tại thời điểm thiết lập)",
+    "format": "mlx-text-only",
+    "quantization": {
+      "bits": 4,
+      "group_size": 64,
+      "mode": "affine"
+    },
+    "mlx_lm_version": "0.32.2"
+  },
+  "adapter": "adapters/gemma-jobs/20261017T094853Z",
+  "prompt": "Trích xuất tin tuyển dụng thành JSON, chỉ trả JSON. Các khóa: role, location, experience_years, skills, salary_min, salary_max, currency, salary_period. Không có thông tin thì dùng null. Lương tính bằng số đồng. Tin: Tuyển Backend Developer tại Hà Nội, 3 năm kinh nghiệm, Python, FastAPI, PostgreSQL, lương 20–30 triệu VND/tháng.",
+  "output": "{\"role\": \"Backend Developer\", \"location\": \"Hà Nội\", \"experience_years\": 3.0, \"skills\": [\"Python\", \"FastAPI\", \"PostgreSQL\"], \"salary_min\": 20000000.0, \"salary_max\": 30000000.0, \"currency\": \"VND\", \"salary_period\": \"tháng\"}",
+  "json_valid": true,
+  "elapsed_seconds_including_load": 4.306752333002805,
+  "peak_memory_bytes": 4439324652,
+  "scope": "single synthetic prompt, not a quality evaluation"
+}
