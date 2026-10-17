@@ -1,0 +1,51 @@
+{
+  "cohort": "dataforge_AED_month_unknown",
+  "parent_cohort": null,
+  "rows": 1,
+  "groups": 1,
+  "currency": "AED",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "insufficient_data": {
+      "path": "data/splits/v1.0.1/dataforge_AED_month_unknown/insufficient_data.csv",
+      "rows": 1,
+      "sha256": "876d5cf1abe13acc3382e977a533e53db319e9f5d23ea595193fcb74c7c613a7"
+    }
+  },
+  "split_prepared": false,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 1,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "dataforge_2026_08": 1
+  },
+  "role_counts": {
+    "Data Scientist": 1
+  },
+  "partition_profiles": {}
+}

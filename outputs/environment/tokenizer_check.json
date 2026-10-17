@@ -1,0 +1,19 @@
+{
+  "model": "google/gemma-4-E4B-it",
+  "weights_required": false,
+  "splits": {
+    "test": {
+      "count": 2,
+      "max_tokens": 150
+    },
+    "train": {
+      "count": 6,
+      "max_tokens": 159
+    },
+    "valid": {
+      "count": 2,
+      "max_tokens": 148
+    }
+  },
+  "ok": true
+}

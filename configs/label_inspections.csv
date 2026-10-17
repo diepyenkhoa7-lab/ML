@@ -1,0 +1,70 @@
+record_id,action,reason,evidence
+dataforge_2026_08:111080,keep,checked_downloaded_fields,"Software Engineer, Data Infrastructure & Acquisition - Naperville, IL, USA; salary_raw=[140000.0, 200000.0]; target=14166.666666666666; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:14075,keep,checked_downloaded_fields,"Senior Software Engineer, Database; salary_raw=[186000.0, 331000.0]; target=21541.666666666668; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:28142,keep,checked_downloaded_fields,"Integration Engineer, Firmware; salary_raw=[125000.0, 220000.0]; target=14375.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:29645,keep,checked_downloaded_fields,"Software Engineer, Web Product; salary_raw=[175000.0, 275000.0]; target=18750.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:31755,review,checked_downloaded_fields,"Electronics Test Engineer (Early Career); salary_raw=[84000.0, 119000.0]; target=8458.333333333334; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:37324,keep,checked_downloaded_fields,"Senior GenAI Backend Software Engineer (773); salary_raw=[209100.0, 234100.0]; target=18466.666666666668; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:39538,keep,checked_downloaded_fields,"Staff Software Engineer, Replit Cloud; salary_raw=[265000.0, 390000.0]; target=27291.666666666668; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:47941,keep,checked_downloaded_fields,"Senior AEM Developer; salary_raw=[125000.0, 135000.0]; target=10833.333333333334; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:60022,keep,checked_downloaded_fields,"Senior Software Engineer, Secure XR (Sand Table); salary_raw=[191000.0, 253000.0]; target=18500.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:72248,review,role_mismatch_security_vs_data_engineer,Information System Security Officer bị gán Data Engineer do cụm Big Data trong chức danh
+dataforge_2026_08:76328,keep,checked_downloaded_fields,"Sr Software Engineer-Networking; salary_raw=[166000.0, 225000.0]; target=16291.666666666666; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+dataforge_2026_08:83946,keep,checked_downloaded_fields,"Director, Backend Engineering - Brokerage; salary_raw=[275000.0, 300000.0]; target=23958.333333333332; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:12332,keep,checked_downloaded_fields,"Developer, full-stack; salary_raw=80254.0; target=80254.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:14522,keep,checked_downloaded_fields,"Developer, full-stack; salary_raw=48726.0; target=48726.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:16822,keep,checked_downloaded_fields,"Developer, full-stack; salary_raw=16850.0; target=16850.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:18314,keep,checked_downloaded_fields,"Architect, software or solutions; salary_raw=180000.0; target=180000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:20572,keep,checked_downloaded_fields,"Developer, full-stack; salary_raw=83857.0; target=83857.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:20606,keep,checked_downloaded_fields,"Developer, back-end; salary_raw=4939.0; target=4939.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:210,keep,checked_downloaded_fields,"Developer, full-stack; salary_raw=78000.0; target=78000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:22355,keep,checked_downloaded_fields,"Engineering manager; salary_raw=200000.0; target=200000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:37435,keep,checked_downloaded_fields,"Developer, full-stack; salary_raw=110000.0; target=110000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:43915,keep,checked_downloaded_fields,"Developer, mobile; salary_raw=83280.0; target=83280.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:45876,keep,checked_downloaded_fields,"Developer, back-end; salary_raw=250000.0; target=250000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+stackoverflow_2025:9754,keep,checked_downloaded_fields,"Developer, full-stack; salary_raw=77150.0; target=77150.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:1660,exclude,footwear_qc,"Footwear QC Inspector; kỹ năng Footwear/Inspection, không phải QA phần mềm"
+user_vietnam_it_jobs:2572,review,checked_downloaded_fields,"[HCM] Công Ty Đồng Mart Tuyển Dụng Thực Tập Sinh Data Analyst/Pháp Chế Full-time 2026; salary_raw=1 triẹu - 8 triẹu/tháng; target=4500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:2584,review,checked_downloaded_fields,"[HCM] Công Ty FIN20 Tuyển Dụng Nhân Viên Fullstack Developer (Tradebot & Market Maker) Full-time 2026; salary_raw=15 triẹu - 20 triẹu/tháng; target=17500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:3420,review,checked_downloaded_fields,"[HCM] Công Ty Thiết Kế Và Xây Dựng DBPLUS Tuyển Dụng Chuyên Viên IT Support Full-time 2026; salary_raw=15 triẹu - 20 triẹu/tháng; target=17500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:3425,review,checked_downloaded_fields,"[HCM] Công Ty Tài Chính Mirae Asset Tuyển Dụng Nhân Viên Back-end Developer Full-time 2026; salary_raw=15 triẹu - 20 triẹu/tháng; target=17500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:3446,review,checked_downloaded_fields,"[HCM] Công Ty Vietnam Affiliate Vaff Tuyển Dụng Thực Tập Sinh IOT/Lập Trình Ứng Dụng Full-time 2026; salary_raw=1 triẹu - 40 triẹu/tháng; target=20500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:3523,exclude,language_tester,IELTS Tester; không phải kiểm thử phần mềm
+user_vietnam_it_jobs:3534,exclude,plc_ddc_controls,Lập trình điều khiển PLC/DDC; phạm vi điều khiển công nghiệp
+user_vietnam_it_jobs:3677,review,research_teaching_role,Research and Teaching Assistant; không đủ cơ sở gán vai trò Data Scientist
+user_vietnam_it_jobs:4400,exclude,construction_quality,Construction Supervisor Quality Assurance/Quality Control
+user_vietnam_it_jobs:4420,review,manufacturing_qc,"Nhân Viên QC; kỹ năng May Mẫu/kiểm soát hồ sơ, chưa có bằng chứng phần mềm"
+user_vietnam_it_jobs:4611,keep,checked_downloaded_fields,"Data Scientist; salary_raw=20tr-30tr ₫/tháng; target=25000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:4676,review,checked_downloaded_fields,"[HCM] Tập Đoàn Công Nghệ OPPO Tuyển Dụng Thực Tập Sinh Lập Trình PHP Full-time 2026; salary_raw=1 triẹu - 40 triẹu/tháng; target=20500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:4684,review,checked_downloaded_fields,"[HN] Công Ty Tư Vấn Du Học American Study Tuyển Dụng Kỹ Sư Lập Trình Nhúng Full-time 2026; salary_raw=10 triẹu - 15 triẹu/tháng; target=12500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:4687,review,checked_downloaded_fields,"[Bắc Giang/Quảng Ninh/Hải Phòng] Công Ty Kỹ Thuật Xây Dựng Đỉnh Việt Tuyển Dụng Nhân Viên IT HelpDesk/Thủ Quỹ Full-time 2026; salary_raw=10 triẹu - 15 triẹu/tháng; target=12500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:5227,exclude,mold_cnc_programming,Lập Trình Khuôn Mẫu; kỹ năng CNC Maintenance/Cơ Khí Chế Tạo/Thiết Kế Khuôn
+user_vietnam_it_jobs:8824,exclude,language_tester,Preschool English Tester; không phải kiểm thử phần mềm
+user_vietnam_it_jobs:8990,review,checked_downloaded_fields,"[HN] Công Ty AVEPOINT Tuyển Dụng Nhân Viên Business Analyst (Junior) Full-time 2026; salary_raw=1 triẹu - 40 triẹu/tháng; target=20500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:9012,review,checked_downloaded_fields,"[Online] YBOX.VN Tuyển Dụng Thực Tập Sinh Part-Time: Product Development & Business Analyst (Dành Cho Cả Người Biết Lập Trình & Không Lập Trình) - Không Yêu Cầu Kinh Nghiệm, Có Cấp Giấy Chứng Nhận; salary_raw=1 triẹu - 40 triẹu/tháng; target=20500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+user_vietnam_it_jobs:9473,review,qc_industry_unknown,QC tại Vũng Áng; không rõ là phần mềm
+user_vietnam_it_jobs:9701,review,qc_industry_unknown,QC tại VinFast/KCN Vũng Áng; cần đối chiếu ngành công việc
+vietjobs_2025:17395,keep,checked_downloaded_fields,"NodeJS Developer; salary_raw=15.0 - 25.0 triệu; target=20000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:17456,keep,checked_downloaded_fields,"Kỹ Sư AI, Xử Lý NLP Và Dữ Liệu Tiếng Việt; salary_raw=20.0 - 40.0 triệu; target=30000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:17478,review,incorrect_mobile_developer_role,User acquisition/digital marketing mobile app bị gán Mobile Developer
+vietjobs_2025:17590,keep,checked_downloaded_fields,"Intern Web Developer; salary_raw=10.0 - 15.0 triệu; target=12500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:17609,keep,checked_downloaded_fields,"Manual Tester - Tiếng Nhật N3; salary_raw=25.0 - 35.0 triệu; target=30000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:17612,keep,checked_downloaded_fields,".NET Developer (Product Bảo Hiểm); salary_raw=20.0 - 27.0 triệu; target=23500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:17724,keep,checked_downloaded_fields,"Java Developer; salary_raw=28.0 - 33.0 triệu; target=30500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:17738,review,incorrect_mobile_developer_role,Product owner mobile app bị gán Mobile Developer
+vietjobs_2025:17762,review,overseas_japan_work,Mô tả: Tuyển thẳng sang Nhật làm sau khi làm thủ tục xin visa; location Hà Nội không phải nơi làm việc
+vietjobs_2025:17782,review,fire_alarm_controls,"Lập trình tủ trung tâm báo cháy; yêu cầu điện/điện tử/PCCC, AutoCAD; không đủ căn cứ là software developer"
+vietjobs_2025:17842,keep,checked_downloaded_fields,"Kỹ Sư Phát Triển Phần Mềm - Backend Developer; salary_raw=53.0 - 63.0 triệu; target=58000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:18070,review,lighting_controls,"Lập trình T&C Dynalite/DMX điều khiển chiếu sáng, không phải nghề phần mềm trong phạm vi bộ chính"
+vietjobs_2025:18102,review,cnc_milling_operator,Mô tả vận hành máy phay CNC Fanuc/gá sản phẩm/thay dao/gia công
+vietjobs_2025:18195,review,building_automation_controls,"BMS/ELV, bóc tách vật tư, giám sát thi công xây lắp; không phải software developer"
+vietjobs_2025:18509,keep,checked_downloaded_fields,"UI/UX Designer; salary_raw=25.0 triệu; target=25000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:18526,exclude,teaching_role,"Trợ giảng/gia sư/giáo viên CNTT, không phải vai trò lập trình viên"
+vietjobs_2025:18535,keep,checked_downloaded_fields,"Nhân Viên Tester (QC/ Tester); salary_raw=10.0 - 15.0 triệu; target=12500000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:18797,keep,checked_downloaded_fields,"Tester-Yêu Cầu Từ N3 Tiếng Nhật Trở Lên; salary_raw=25.0 triệu; target=25000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:18876,keep,checked_downloaded_fields,"AI Engineer; salary_raw=20.0 - 24.0 triệu; target=22000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:18895,review,incorrect_mobile_developer_role,Creative strategist mobile app bị gán Mobile Developer
+vietjobs_2025:18946,review,incorrect_mobile_developer_role,"Mobile app ADS monetization, chưa chứng minh là developer"
+vietjobs_2025:18962,review,incorrect_mobile_developer_role,Product owner mobile app bị gán Mobile Developer
+vietjobs_2025:18999,keep,checked_downloaded_fields,"Devops; salary_raw=60.0 triệu; target=60000000.0; đối chiếu kiểu nhãn và trường nguồn, chưa xác minh độc lập với nhà tuyển dụng"
+vietjobs_2025:19013,exclude,marketing_role,Giám đốc tiếp thị mobile app bị gán Mobile Developer

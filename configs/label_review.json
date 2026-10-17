@@ -1,0 +1,26 @@
+{
+  "version": "1.0.1",
+  "seed": 42,
+  "fractions": [
+    0.7,
+    0.15,
+    0.15
+  ],
+  "minimum_cohort_groups": 50,
+  "minimum_partition_rows": 5,
+  "maximum_salary_range_ratio": 5,
+  "near_description_similarity": 0.92,
+  "near_title_similarity": 0.9,
+  "near_skills_jaccard": 0.85,
+  "minimum_description_chars": 200,
+  "developer_roles": [
+    "Software Developer",
+    "Backend Developer",
+    "Frontend Developer",
+    "Full-stack Developer",
+    "Mobile Developer",
+    "Embedded Engineer",
+    "ML Engineer",
+    "Data Engineer"
+  ]
+}

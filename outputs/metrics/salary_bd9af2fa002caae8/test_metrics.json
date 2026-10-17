@@ -1,0 +1,65 @@
+{
+  "protocol": {
+    "dataset_manifest_sha256": "c1def2e681fe7ad08391be0de5cf0e495a02c9cf2a93ddde07df391f8039b70c",
+    "frozen_snapshot_sha256": "fddc4fa54bf7cd12ad34d39b2e0ca9f1f43d4fa5d64c20e4aaaedf8fe19ac75f",
+    "notebook_code_sha256": "39fc3c727e3b4deef3555128ba2b7cbb7689d5770a12169703d25532a902d864",
+    "seed": 42,
+    "features": [
+      "experience_years",
+      "role",
+      "level",
+      "location",
+      "skills"
+    ],
+    "ridge_alphas": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "rf_depths": [
+      null,
+      6
+    ],
+    "rf_min_samples_leaf": [
+      2,
+      5
+    ],
+    "rf_trees": 300,
+    "primary_metric": "mae_vnd",
+    "fit_split": "train_only_no_refit",
+    "sklearn": "1.9.1",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6"
+  },
+  "selected_by_validation": "random_forest",
+  "model_hashes": {
+    "baseline_median": "ce8f336e478bb7189ece60b1dd2e2a21b598bdd192aa4ac78303c3b8328315fa",
+    "ridge": "e5cc4fbeb8d6d9b65aa4abab0a9ab3dbfd869f965c00eabfaf08fb09965fc809",
+    "random_forest": "e90ce9c56473e24eaef9b2f7dda9b197d2b41a68695ce90b84f724db5b88cc67"
+  },
+  "predictions_sha256": "f54842503829a331475c882137fbf5c50af989498b3fb72eb452ad0aa165f09d",
+  "metrics": [
+    {
+      "model": "baseline_median",
+      "mae_vnd": 8920833.333333334,
+      "rmse_vnd": 14338747.939074649,
+      "r2": -0.03311829296589419,
+      "negative_predictions": 0
+    },
+    {
+      "model": "ridge",
+      "mae_vnd": 7073608.90606381,
+      "rmse_vnd": 9602780.13818601,
+      "r2": 0.536636776116216,
+      "negative_predictions": 0
+    },
+    {
+      "model": "random_forest",
+      "mae_vnd": 6656369.662625107,
+      "rmse_vnd": 10517215.063498562,
+      "r2": 0.44418648810889894,
+      "negative_predictions": 0
+    }
+  ]
+}

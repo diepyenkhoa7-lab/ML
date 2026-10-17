@@ -1,0 +1,11 @@
+record_id,split,variant,reason
+user_vietnam_it_jobs:1700,train,omit_salary,field_evidence_elsewhere
+vietjobs_2025:18554,train,omit_experience,field_evidence_elsewhere
+user_vietnam_it_jobs:1701,valid,omit_salary,field_evidence_elsewhere
+user_vietnam_it_jobs:9099,valid,omit_salary,field_evidence_elsewhere
+user_vietnam_it_jobs:9414,valid,omit_salary,field_evidence_elsewhere
+vietjobs_2025:17507,test,omit_experience,field_evidence_elsewhere
+vietjobs_2025:17922,test,omit_experience,field_evidence_elsewhere
+vietjobs_2025:18673,train,original,duplicate_prompt_and_target
+vietjobs_2025:18673,train,omit_salary,duplicate_prompt_and_target
+vietjobs_2025:18673,train,omit_experience,duplicate_prompt_and_target

@@ -1,0 +1,63 @@
+{
+  "source": "user_vietnam_it_jobs",
+  "raw_rows": 6779,
+  "raw_path": "data/raw/user_vietnam_it_jobs/vietnam_it_job_posts.csv",
+  "raw_sha256": "d201d539d1bbc79a54a369eafc94d85efbb10bdece9f6ac80b9e5e4c9a0bc30c",
+  "dispositions": {
+    "quarantined_provenance": 3200,
+    "review": 2018,
+    "kept": 885,
+    "non_it": 638,
+    "duplicate": 38
+  },
+  "clean_rows": 885,
+  "review_rows": 5218,
+  "label_rows": 153,
+  "label_files": 1,
+  "files": {
+    "clean": {
+      "path": "data/processed/cleaned/user_vietnam_it_jobs/clean.csv",
+      "rows": 885,
+      "sha256": "09e62eb3376d3f5566cb73b6f6bc7b6effa77a358e49414bb8c2e2709d8fd0db"
+    },
+    "review": {
+      "path": "data/processed/cleaned/user_vietnam_it_jobs/review.csv",
+      "rows": 5218,
+      "sha256": "fa77982e448b82c57da37c38c5621fd817f7190d16babb7ff04ead256f176196"
+    },
+    "audit": {
+      "path": "data/processed/cleaned/user_vietnam_it_jobs/audit.csv",
+      "rows": 6779,
+      "sha256": "00d79855cc667e922b858f69e3526aa5f14a0c19921a9c94de393e8dd83dc28b"
+    },
+    "labels": [
+      {
+        "path": "data/processed/cleaned/user_vietnam_it_jobs/labels/VND_month_unknown.csv",
+        "rows": 153,
+        "sha256": "ae3e33ec06a5aae6eea86db86c56b405e4f7286060e677e876d7abc6b980fdd0"
+      }
+    ]
+  },
+  "review_reason_counts": {
+    "user_historical_block_unverified": 3200,
+    "salary_period_unknown": 3183,
+    "role_unclassified": 2444,
+    "salary_ambiguous_currency": 249,
+    "salary_unparsed": 18,
+    "multiple_roles_one_salary": 13,
+    "salary_outside_review_limits": 10,
+    "salary_currency_unknown": 1,
+    "salary_invalid_range": 1
+  },
+  "salary_status_counts_clean": {
+    "negotiable": 593,
+    "valid": 153,
+    "missing": 83,
+    "upper_bound": 47,
+    "lower_bound": 9
+  },
+  "decimal_salary_corrections": 0,
+  "missing_experience_clean": 109,
+  "missing_skills_clean": 314,
+  "input_metadata": "data/raw/user_vietnam_it_jobs/manifest.json"
+}

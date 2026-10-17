@@ -1,0 +1,136 @@
+{
+  "cohort": "dataforge_PLN_month_unknown",
+  "parent_cohort": null,
+  "rows": 82,
+  "groups": 78,
+  "currency": "PLN",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "train": {
+      "path": "data/splits/v1.0.1/dataforge_PLN_month_unknown/train.csv",
+      "rows": 57,
+      "sha256": "fd4f93dfb3ebef1f37eb1c43e3c47fde1d2920e34e41c2a45a00cc433cd53ace"
+    },
+    "valid": {
+      "path": "data/splits/v1.0.1/dataforge_PLN_month_unknown/valid.csv",
+      "rows": 8,
+      "sha256": "ede7ccbf4d7644fd519847a0bcd4960876f82109aa1ff572ace4823499ec404a"
+    },
+    "test": {
+      "path": "data/splits/v1.0.1/dataforge_PLN_month_unknown/test.csv",
+      "rows": 17,
+      "sha256": "aef13a9502c7d83047f53db0e4198902cd0f5f2d4626aa4068bacb9fc15c4586"
+    }
+  },
+  "split_prepared": true,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 82,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "dataforge_2026_08": 82
+  },
+  "role_counts": {
+    "Software Developer": 28,
+    "Backend Developer": 12,
+    "DevOps Engineer": 8,
+    "Full-stack Developer": 5,
+    "Mobile Developer": 5,
+    "ML Engineer": 4,
+    "IT Support": 4,
+    "Data Engineer": 3,
+    "Security Engineer": 3,
+    "Frontend Developer": 2,
+    "Cloud Engineer": 2,
+    "Data Scientist": 2,
+    "QA Engineer": 2,
+    "Database Administrator": 1,
+    "Data Analyst": 1
+  },
+  "partition_profiles": {
+    "test": {
+      "rows": 17,
+      "groups": 14,
+      "sources": {
+        "dataforge_2026_08": 17
+      },
+      "roles": {
+        "Software Developer": 9,
+        "Cloud Engineer": 2,
+        "IT Support": 2,
+        "Backend Developer": 2,
+        "Data Engineer": 1,
+        "Full-stack Developer": 1
+      },
+      "missing_experience": 17,
+      "missing_skills": 0
+    },
+    "train": {
+      "rows": 57,
+      "groups": 56,
+      "sources": {
+        "dataforge_2026_08": 57
+      },
+      "roles": {
+        "Software Developer": 18,
+        "Backend Developer": 8,
+        "DevOps Engineer": 7,
+        "Full-stack Developer": 4,
+        "Mobile Developer": 4,
+        "ML Engineer": 3,
+        "Data Scientist": 2,
+        "Data Engineer": 2,
+        "IT Support": 2,
+        "QA Engineer": 2,
+        "Security Engineer": 2,
+        "Frontend Developer": 1,
+        "Database Administrator": 1,
+        "Data Analyst": 1
+      },
+      "missing_experience": 57,
+      "missing_skills": 0
+    },
+    "valid": {
+      "rows": 8,
+      "groups": 8,
+      "sources": {
+        "dataforge_2026_08": 8
+      },
+      "roles": {
+        "Backend Developer": 2,
+        "Frontend Developer": 1,
+        "DevOps Engineer": 1,
+        "Mobile Developer": 1,
+        "Security Engineer": 1,
+        "Software Developer": 1,
+        "ML Engineer": 1
+      },
+      "missing_experience": 8,
+      "missing_skills": 0
+    }
+  }
+}

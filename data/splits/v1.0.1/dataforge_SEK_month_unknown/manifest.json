@@ -1,0 +1,55 @@
+{
+  "cohort": "dataforge_SEK_month_unknown",
+  "parent_cohort": null,
+  "rows": 12,
+  "groups": 12,
+  "currency": "SEK",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "insufficient_data": {
+      "path": "data/splits/v1.0.1/dataforge_SEK_month_unknown/insufficient_data.csv",
+      "rows": 12,
+      "sha256": "a7624fe9336bf7f0797e0b0c3ff21ca232474f765d39337cbde25b236aa6ff2c"
+    }
+  },
+  "split_prepared": false,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 12,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "dataforge_2026_08": 12
+  },
+  "role_counts": {
+    "Backend Developer": 5,
+    "Software Developer": 3,
+    "ML Engineer": 2,
+    "Software Architect": 1,
+    "DevOps Engineer": 1
+  },
+  "partition_profiles": {}
+}

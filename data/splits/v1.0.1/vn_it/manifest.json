@@ -1,0 +1,171 @@
+{
+  "cohort": "vn_it",
+  "parent_cohort": null,
+  "rows": 375,
+  "groups": 368,
+  "currency": "VND",
+  "target": "salary_monthly_vnd",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "train": {
+      "path": "data/splits/v1.0.1/vn_it/train.csv",
+      "rows": 261,
+      "sha256": "f686ec44f822965eb7ca16108898a5b6b59451b6a9a56e2a1d7e04ef129cf969"
+    },
+    "valid": {
+      "path": "data/splits/v1.0.1/vn_it/valid.csv",
+      "rows": 55,
+      "sha256": "14ccdec0aa6620eee099ffc6562962ea48170f40d26eba4ec8fe6bdb8398d1c5"
+    },
+    "test": {
+      "path": "data/splits/v1.0.1/vn_it/test.csv",
+      "rows": 59,
+      "sha256": "eb0bef411869100b4342824a65cd00fe834fbb9e4ff37891033f2fef96e43307"
+    }
+  },
+  "split_prepared": true,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "Source provenance limits remain; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 1,
+  "missing_skills_rows": 2,
+  "source_counts": {
+    "vietjobs_2025": 299,
+    "user_vietnam_it_jobs": 76
+  },
+  "role_counts": {
+    "Software Developer": 70,
+    "QA Engineer": 44,
+    "IT Support": 30,
+    "Business Analyst": 27,
+    "Full-stack Developer": 23,
+    "Frontend Developer": 23,
+    "Backend Developer": 20,
+    "System Administrator": 19,
+    "DevOps Engineer": 19,
+    "Mobile Developer": 17,
+    "UX/UI Designer": 15,
+    "Security Engineer": 14,
+    "Data Analyst": 12,
+    "Engineering Manager": 10,
+    "ML Engineer": 8,
+    "Data Engineer": 8,
+    "Embedded Engineer": 7,
+    "Data Scientist": 3,
+    "Software Architect": 2,
+    "Database Administrator": 2,
+    "Cloud Engineer": 2
+  },
+  "partition_profiles": {
+    "test": {
+      "rows": 59,
+      "groups": 56,
+      "sources": {
+        "vietjobs_2025": 50,
+        "user_vietnam_it_jobs": 9
+      },
+      "roles": {
+        "QA Engineer": 10,
+        "Software Developer": 7,
+        "Frontend Developer": 6,
+        "IT Support": 6,
+        "Full-stack Developer": 4,
+        "Backend Developer": 4,
+        "Business Analyst": 4,
+        "Data Analyst": 4,
+        "Mobile Developer": 4,
+        "Engineering Manager": 2,
+        "System Administrator": 2,
+        "Security Engineer": 2,
+        "DevOps Engineer": 1,
+        "Embedded Engineer": 1,
+        "ML Engineer": 1,
+        "Data Engineer": 1
+      },
+      "missing_experience": 0,
+      "missing_skills": 0
+    },
+    "train": {
+      "rows": 261,
+      "groups": 257,
+      "sources": {
+        "vietjobs_2025": 207,
+        "user_vietnam_it_jobs": 54
+      },
+      "roles": {
+        "Software Developer": 53,
+        "QA Engineer": 29,
+        "IT Support": 19,
+        "Business Analyst": 16,
+        "DevOps Engineer": 15,
+        "Full-stack Developer": 14,
+        "System Administrator": 13,
+        "Mobile Developer": 13,
+        "UX/UI Designer": 13,
+        "Frontend Developer": 13,
+        "Backend Developer": 12,
+        "Security Engineer": 11,
+        "Data Analyst": 7,
+        "ML Engineer": 6,
+        "Data Engineer": 6,
+        "Engineering Manager": 6,
+        "Embedded Engineer": 6,
+        "Data Scientist": 3,
+        "Software Architect": 2,
+        "Database Administrator": 2,
+        "Cloud Engineer": 2
+      },
+      "missing_experience": 1,
+      "missing_skills": 0
+    },
+    "valid": {
+      "rows": 55,
+      "groups": 55,
+      "sources": {
+        "vietjobs_2025": 42,
+        "user_vietnam_it_jobs": 13
+      },
+      "roles": {
+        "Software Developer": 10,
+        "Business Analyst": 7,
+        "IT Support": 5,
+        "Full-stack Developer": 5,
+        "QA Engineer": 5,
+        "Backend Developer": 4,
+        "Frontend Developer": 4,
+        "System Administrator": 4,
+        "DevOps Engineer": 3,
+        "Engineering Manager": 2,
+        "UX/UI Designer": 2,
+        "ML Engineer": 1,
+        "Security Engineer": 1,
+        "Data Analyst": 1,
+        "Data Engineer": 1
+      },
+      "missing_experience": 0,
+      "missing_skills": 2
+    }
+  }
+}

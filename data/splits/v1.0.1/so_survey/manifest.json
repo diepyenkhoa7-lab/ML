@@ -1,0 +1,174 @@
+{
+  "cohort": "so_survey",
+  "parent_cohort": null,
+  "rows": 18660,
+  "groups": 18660,
+  "currency": "USD",
+  "target": "compensation_annual_usd",
+  "salary_basis": "gross",
+  "target_definition": "self_reported_total_compensation",
+  "files": {
+    "train": {
+      "path": "data/splits/v1.0.1/so_survey/train.csv",
+      "rows": 13062,
+      "sha256": "0a32c8ca8136b87a378254a269650dad6a17ea0d2d3b0bdfe28d28429a07a571"
+    },
+    "valid": {
+      "path": "data/splits/v1.0.1/so_survey/valid.csv",
+      "rows": 2799,
+      "sha256": "002cf0a5ce0aa992213e7b48670edf146f6acfdcad4a823e50ecea7cb757a26a"
+    },
+    "test": {
+      "path": "data/splits/v1.0.1/so_survey/test.csv",
+      "rows": 2799,
+      "sha256": "417f139554461ba87ecef395194f002a4da5745e9ea6228e1a5271f5363264a1"
+    }
+  },
+  "split_prepared": true,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "Source provenance limits remain; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 146,
+  "missing_skills_rows": 1000,
+  "source_counts": {
+    "stackoverflow_2025": 18660
+  },
+  "role_counts": {
+    "Full-stack Developer": 7099,
+    "Backend Developer": 3794,
+    "Software Architect": 1364,
+    "Software Developer": 1338,
+    "Frontend Developer": 1044,
+    "Mobile Developer": 720,
+    "Embedded Engineer": 719,
+    "Engineering Manager": 500,
+    "DevOps Engineer": 490,
+    "Data Engineer": 419,
+    "ML Engineer": 302,
+    "Data Scientist": 296,
+    "Cloud Engineer": 195,
+    "QA Engineer": 115,
+    "Security Engineer": 77,
+    "Database Administrator": 61,
+    "Data Analyst": 52,
+    "IT Support": 32,
+    "System Administrator": 29,
+    "UX/UI Designer": 14
+  },
+  "partition_profiles": {
+    "test": {
+      "rows": 2799,
+      "groups": 2799,
+      "sources": {
+        "stackoverflow_2025": 2799
+      },
+      "roles": {
+        "Full-stack Developer": 1099,
+        "Backend Developer": 546,
+        "Software Developer": 211,
+        "Software Architect": 195,
+        "Frontend Developer": 146,
+        "Embedded Engineer": 115,
+        "Mobile Developer": 108,
+        "DevOps Engineer": 78,
+        "Engineering Manager": 68,
+        "Data Engineer": 59,
+        "Data Scientist": 41,
+        "ML Engineer": 39,
+        "Cloud Engineer": 30,
+        "QA Engineer": 24,
+        "Security Engineer": 12,
+        "Data Analyst": 9,
+        "Database Administrator": 8,
+        "System Administrator": 4,
+        "IT Support": 4,
+        "UX/UI Designer": 3
+      },
+      "missing_experience": 22,
+      "missing_skills": 160
+    },
+    "train": {
+      "rows": 13062,
+      "groups": 13062,
+      "sources": {
+        "stackoverflow_2025": 13062
+      },
+      "roles": {
+        "Full-stack Developer": 4940,
+        "Backend Developer": 2619,
+        "Software Architect": 964,
+        "Software Developer": 947,
+        "Frontend Developer": 738,
+        "Embedded Engineer": 520,
+        "Mobile Developer": 508,
+        "Engineering Manager": 369,
+        "DevOps Engineer": 345,
+        "Data Engineer": 295,
+        "ML Engineer": 220,
+        "Data Scientist": 207,
+        "Cloud Engineer": 137,
+        "QA Engineer": 74,
+        "Security Engineer": 51,
+        "Database Administrator": 43,
+        "Data Analyst": 33,
+        "System Administrator": 21,
+        "IT Support": 21,
+        "UX/UI Designer": 10
+      },
+      "missing_experience": 105,
+      "missing_skills": 690
+    },
+    "valid": {
+      "rows": 2799,
+      "groups": 2799,
+      "sources": {
+        "stackoverflow_2025": 2799
+      },
+      "roles": {
+        "Full-stack Developer": 1060,
+        "Backend Developer": 629,
+        "Software Architect": 205,
+        "Software Developer": 180,
+        "Frontend Developer": 160,
+        "Mobile Developer": 104,
+        "Embedded Engineer": 84,
+        "DevOps Engineer": 67,
+        "Data Engineer": 65,
+        "Engineering Manager": 63,
+        "Data Scientist": 48,
+        "ML Engineer": 43,
+        "Cloud Engineer": 28,
+        "QA Engineer": 17,
+        "Security Engineer": 14,
+        "Database Administrator": 10,
+        "Data Analyst": 10,
+        "IT Support": 7,
+        "System Administrator": 4,
+        "UX/UI Designer": 1
+      },
+      "missing_experience": 19,
+      "missing_skills": 150
+    }
+  }
+}

@@ -1,0 +1,28 @@
+.venv/
+.cache/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+notebooks/.backups/
+.ruff_cache/
+.DS_Store
+.env
+.env.*
+!.env.example
+node_modules/
+frontend/dist/
+*.log
+!outputs/training_logs/**/console.log
+
+# Trọng số lớn tải riêng; giữ README và manifest phiên bản.
+models/**
+!models/**/
+!models/**/README.md
+!models/**/manifest.json
+!models/**/.gitkeep
+adapters/**
+!adapters/**/
+!adapters/**/README.md
+!adapters/**/.gitkeep
+
+# Dataset và outputs/metrics KHÔNG bị bỏ qua toàn bộ.

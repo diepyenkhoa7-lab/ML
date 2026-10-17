@@ -1,0 +1,112 @@
+{
+  "checked_on": "2026-10-17",
+  "sources": [
+    {
+      "id": "vietjobs_2025",
+      "title": "VietJobs: Vietnamese Job Advertisements",
+      "page_url": "https://github.com/VinNLP/VietJobs",
+      "dataset_url": "https://huggingface.co/datasets/dinhieufam/VietJobs",
+      "revision": "ea140511b77935704e93d21c2973b72f46d48902",
+      "period": "2025-07 to 2025-10 (publisher README)",
+      "release": "2026-02 (publisher README); HF commit 2026-03-02",
+      "kind": "job_postings_structured",
+      "geography": "Vietnam",
+      "license_note": "GitHub project declares MIT; HF dataset has no dataset card/license declaration. Do not assume repository code license independently settles redistribution of scraped data.",
+      "files": [
+        {
+          "url": "https://huggingface.co/datasets/dinhieufam/VietJobs/resolve/ea140511b77935704e93d21c2973b72f46d48902/VietJobs.csv",
+          "path": "VietJobs.csv",
+          "expected_bytes": 103110903,
+          "expected_sha256": "85862b06fda4e814fe0c1d8622f173d189c92758345f77df16d1232d0c49d477"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VinNLP/VietJobs/main/README.md",
+          "path": "SOURCE_README.md"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/VinNLP/VietJobs/main/LICENSE",
+          "path": "REPOSITORY_LICENSE.txt"
+        }
+      ],
+      "period_note": "README says July–October 2025; paper section 3.1 says July 2025, one week. CSV has no per-post dates; exact collection period is uncertain."
+    },
+    {
+      "id": "dataforge_2026_08",
+      "title": "DataForge Tech Job Postings with Parsed Salaries — full open package",
+      "page_url": "https://data.zalize.com/datasets/tech-job-postings-salary-dataset",
+      "dataset_url": "https://huggingface.co/datasets/zalizedata/tech-job-postings-salary-dataset",
+      "revision": "2314a3ac6897d6a454d53a1120ec3a540e82907d",
+      "period": "Snapshot 2026-08-01; posted dates must be validated individually",
+      "release": "HF last modified 2026-08-14",
+      "kind": "job_postings_salary_ranges",
+      "geography": "International, primarily US/EU; not Vietnam salary ground truth",
+      "license_note": "HF card/site declare CC BY-NC 4.0 curated layer with attribution/backlink to https://data.zalize.com. Bundled LICENSE.md instead selects Tier 1 Internal Analytics, with AI/ML rights under Tier 2. Record this discrepancy; do not assume training/redistribution terms are settled.",
+      "files": [
+        {
+          "url": "https://huggingface.co/datasets/zalizedata/tech-job-postings-salary-dataset/resolve/2314a3ac6897d6a454d53a1120ec3a540e82907d/archive/jobs-tier1-L-2026-08-01.zip",
+          "path": "jobs-tier1-L-2026-08-01.zip",
+          "expected_bytes": 40400845,
+          "expected_sha256": "b9099ae46aeb89485f174e8b3d15dfa043781607f38571edbca8cf9c247f457f"
+        },
+        {
+          "url": "https://huggingface.co/datasets/zalizedata/tech-job-postings-salary-dataset/resolve/2314a3ac6897d6a454d53a1120ec3a540e82907d/README.md",
+          "path": "SOURCE_README.md"
+        },
+        {
+          "url": "https://data.zalize.com/datasets/tech-job-postings-salary-dataset/packages.json",
+          "path": "source_packages.json"
+        }
+      ]
+    },
+    {
+      "id": "stackoverflow_2025",
+      "title": "Stack Overflow Developer Survey 2025",
+      "page_url": "https://survey.stackoverflow.co/2025/",
+      "dataset_url": "https://github.com/StackExchange/Survey/tree/main/packages/archive/2025",
+      "revision": "6c646551e86ffcafca0ac04f1dfb17a2558ec23d",
+      "period": "Survey 2025",
+      "release": "2025; official 2026 raw results.csv returned HTTP 404 on 2026-10-17",
+      "kind": "self_reported_developer_survey",
+      "geography": "International, with country field",
+      "license_note": "Data: ODbL 1.0; individual database contents: DbCL 1.0; attribution Stack Exchange Inc./Stack Overflow Developer Survey.",
+      "files": [
+        {
+          "url": "https://media.githubusercontent.com/media/StackExchange/Survey/6c646551e86ffcafca0ac04f1dfb17a2558ec23d/packages/archive/2025/results.csv",
+          "path": "survey_results_public.csv",
+          "expected_bytes": 140893245,
+          "expected_sha256": "2d1f65308877282edfb4470520eabbc08cb499118432a3dcec6a66c086aa2baa",
+          "parallel_ranges": 4
+        },
+        {
+          "url": "https://media.githubusercontent.com/media/StackExchange/Survey/6c646551e86ffcafca0ac04f1dfb17a2558ec23d/packages/archive/2025/schema.csv",
+          "path": "survey_results_schema.csv"
+        },
+        {
+          "url": "https://raw.githubusercontent.com/StackExchange/Survey/6c646551e86ffcafca0ac04f1dfb17a2558ec23d/README.md",
+          "path": "SOURCE_README.md"
+        }
+      ]
+    },
+    {
+      "id": "user_vietnam_it_jobs",
+      "title": "Vietnam IT Job Posts — user supplied",
+      "page_url": null,
+      "dataset_url": null,
+      "original_path": "/Users/scara2906/Downloads/archive/vietnam_it_job_posts.csv",
+      "revision": null,
+      "period": "File posted_at ranges 2018-01-01 to 2026-07-06; 2,256/6,779 rows lack posted_at",
+      "release": "Unknown; imported 2026-10-17",
+      "kind": "user_provided_job_posts_unverified_provenance",
+      "geography": "Vietnam",
+      "license_note": "Unknown; user does not have original dataset URL. Individual job source URLs are present, but dataset publisher/collection method are unverified.",
+      "files": [
+        {
+          "local_path": "/Users/scara2906/Downloads/archive/vietnam_it_job_posts.csv",
+          "path": "vietnam_it_job_posts.csv",
+          "expected_bytes": 3317544,
+          "expected_sha256": "d201d539d1bbc79a54a369eafc94d85efbb10bdece9f6ac80b9e5e4c9a0bc30c"
+        }
+      ]
+    }
+  ]
+}

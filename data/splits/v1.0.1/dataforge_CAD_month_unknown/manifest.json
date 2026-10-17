@@ -1,0 +1,154 @@
+{
+  "cohort": "dataforge_CAD_month_unknown",
+  "parent_cohort": null,
+  "rows": 283,
+  "groups": 280,
+  "currency": "CAD",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "train": {
+      "path": "data/splits/v1.0.1/dataforge_CAD_month_unknown/train.csv",
+      "rows": 199,
+      "sha256": "fd9aca58a069facba5986feeac8c1d8cebc3a4452b9d112e35fde985f49cca45"
+    },
+    "valid": {
+      "path": "data/splits/v1.0.1/dataforge_CAD_month_unknown/valid.csv",
+      "rows": 37,
+      "sha256": "aac3dbc29ef8c5955fb08ef667729fcf956c04c5a8e20157620380d97908cdb1"
+    },
+    "test": {
+      "path": "data/splits/v1.0.1/dataforge_CAD_month_unknown/test.csv",
+      "rows": 47,
+      "sha256": "8898b0c4ef19c5a9abd46e72024d53d46d0989dc6cf1aca120b9ea6ad6f4a75d"
+    }
+  },
+  "split_prepared": true,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 283,
+  "missing_skills_rows": 1,
+  "source_counts": {
+    "dataforge_2026_08": 283
+  },
+  "role_counts": {
+    "Software Developer": 128,
+    "DevOps Engineer": 20,
+    "ML Engineer": 19,
+    "Full-stack Developer": 16,
+    "Security Engineer": 15,
+    "Engineering Manager": 13,
+    "Backend Developer": 13,
+    "Data Engineer": 10,
+    "Frontend Developer": 9,
+    "Mobile Developer": 9,
+    "Data Scientist": 7,
+    "Data Analyst": 6,
+    "Embedded Engineer": 5,
+    "Software Architect": 3,
+    "IT Support": 3,
+    "Database Administrator": 3,
+    "QA Engineer": 2,
+    "Cloud Engineer": 1,
+    "Business Analyst": 1
+  },
+  "partition_profiles": {
+    "test": {
+      "rows": 47,
+      "groups": 47,
+      "sources": {
+        "dataforge_2026_08": 47
+      },
+      "roles": {
+        "Software Developer": 25,
+        "DevOps Engineer": 3,
+        "ML Engineer": 3,
+        "Backend Developer": 3,
+        "Full-stack Developer": 2,
+        "Data Engineer": 2,
+        "Mobile Developer": 2,
+        "Data Scientist": 2,
+        "Software Architect": 1,
+        "Embedded Engineer": 1,
+        "Engineering Manager": 1,
+        "Security Engineer": 1,
+        "Data Analyst": 1
+      },
+      "missing_experience": 47,
+      "missing_skills": 0
+    },
+    "train": {
+      "rows": 199,
+      "groups": 196,
+      "sources": {
+        "dataforge_2026_08": 199
+      },
+      "roles": {
+        "Software Developer": 84,
+        "DevOps Engineer": 14,
+        "Security Engineer": 14,
+        "ML Engineer": 13,
+        "Engineering Manager": 12,
+        "Full-stack Developer": 11,
+        "Frontend Developer": 9,
+        "Backend Developer": 7,
+        "Data Engineer": 6,
+        "Data Analyst": 5,
+        "Mobile Developer": 5,
+        "Data Scientist": 4,
+        "Embedded Engineer": 4,
+        "IT Support": 3,
+        "Database Administrator": 3,
+        "QA Engineer": 2,
+        "Cloud Engineer": 1,
+        "Business Analyst": 1,
+        "Software Architect": 1
+      },
+      "missing_experience": 199,
+      "missing_skills": 1
+    },
+    "valid": {
+      "rows": 37,
+      "groups": 37,
+      "sources": {
+        "dataforge_2026_08": 37
+      },
+      "roles": {
+        "Software Developer": 19,
+        "DevOps Engineer": 3,
+        "ML Engineer": 3,
+        "Backend Developer": 3,
+        "Full-stack Developer": 3,
+        "Data Engineer": 2,
+        "Mobile Developer": 2,
+        "Data Scientist": 1,
+        "Software Architect": 1
+      },
+      "missing_experience": 37,
+      "missing_skills": 0
+    }
+  }
+}

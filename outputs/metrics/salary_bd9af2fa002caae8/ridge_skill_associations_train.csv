@@ -1,0 +1,41 @@
+feature,coefficient_vnd,skill,train_rows
+skills__python,1830093.0314509636,python,33
+skills__jira,1074400.547148192,jira,6
+skills__.net core,850836.70631628,.net core,6
+skills__.net,749068.7184975303,.net,9
+skills__dart,515845.89875202003,dart,6
+skills__spring boot,490492.03610004956,spring boot,9
+skills__rabbitmq,376560.19007178996,rabbitmq,8
+skills__aws,212303.89583189835,aws,5
+skills__svn,125507.19687384635,svn,6
+skills__sql,-37898.320892634154,sql,11
+skills__django,-38636.64151560264,django,6
+skills__angular,-39269.49279688078,angular,10
+skills__mongodb,-49338.583122385724,mongodb,19
+skills__react,-63544.19144817118,react,19
+skills__kafka,-122542.31359464576,kafka,8
+skills__postgresql,-172153.5418861566,postgresql,22
+skills__node.js,-182027.19637916898,node.js,20
+skills__flutter,-222684.25741585717,flutter,10
+skills__java spring boot,-256236.5035546399,java spring boot,6
+skills__git,-294165.75815946714,git,30
+skills__c/c++,-314720.81024124863,c/c++,5
+skills__html,-316808.2829042667,html,26
+skills__oracle,-369986.82516854233,oracle,12
+skills__java,-573855.2068274106,java,31
+skills__nosql,-573996.7221859246,nosql,6
+skills__nestjs,-677487.2641942399,nestjs,6
+skills__oop,-757131.5385907256,oop,7
+skills__typescript,-788587.8999595155,typescript,11
+skills__docker,-820210.1080754282,docker,16
+skills__redis,-885818.7224804964,redis,13
+skills__mysql,-960816.4279228273,mysql,15
+skills__restful api,-1045117.3841632609,restful api,14
+skills__kubernetes,-1071387.561070542,kubernetes,6
+skills__vue,-1103955.7087382278,vue,10
+skills__microservices,-1254798.7688877764,microservices,7
+skills__sql server,-1418930.638294469,sql server,12
+skills__css,-1467966.8556213882,css,23
+skills__javascript,-1521619.9988510935,javascript,36
+skills__php,-1628933.0352726679,php,12
+skills__c#,-2665654.9687994756,c#,14

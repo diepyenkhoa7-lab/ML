@@ -1,0 +1,53 @@
+{
+  "cohort": "dataforge_MXN_month_unknown",
+  "parent_cohort": null,
+  "rows": 8,
+  "groups": 8,
+  "currency": "MXN",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "insufficient_data": {
+      "path": "data/splits/v1.0.1/dataforge_MXN_month_unknown/insufficient_data.csv",
+      "rows": 8,
+      "sha256": "ff28e10e9cd5dac892705ff8667340990ccf78a9b88f8aeaa6a9b6ef1bf8093a"
+    }
+  },
+  "split_prepared": false,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 8,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "dataforge_2026_08": 8
+  },
+  "role_counts": {
+    "Software Developer": 6,
+    "Business Analyst": 1,
+    "Full-stack Developer": 1
+  },
+  "partition_profiles": {}
+}

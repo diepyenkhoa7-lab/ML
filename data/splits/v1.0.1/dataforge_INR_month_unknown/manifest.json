@@ -1,0 +1,60 @@
+{
+  "cohort": "dataforge_INR_month_unknown",
+  "parent_cohort": null,
+  "rows": 30,
+  "groups": 29,
+  "currency": "INR",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "insufficient_data": {
+      "path": "data/splits/v1.0.1/dataforge_INR_month_unknown/insufficient_data.csv",
+      "rows": 30,
+      "sha256": "08162f209602b330b556b0b9ab9542343d116f85d6ee9f86cf9fdc5387b7a533"
+    }
+  },
+  "split_prepared": false,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 30,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "dataforge_2026_08": 30
+  },
+  "role_counts": {
+    "Software Developer": 15,
+    "Backend Developer": 4,
+    "Full-stack Developer": 3,
+    "DevOps Engineer": 2,
+    "Data Analyst": 1,
+    "Security Engineer": 1,
+    "Mobile Developer": 1,
+    "Frontend Developer": 1,
+    "IT Support": 1,
+    "ML Engineer": 1
+  },
+  "partition_profiles": {}
+}

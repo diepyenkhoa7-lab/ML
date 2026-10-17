@@ -1,0 +1,194 @@
+{
+  "status": "passed",
+  "manifest_sha256": "fddc4fa54bf7cd12ad34d39b2e0ca9f1f43d4fa5d64c20e4aaaedf8fe19ac75f",
+  "candidate_rows": 33539,
+  "accepted_rows": 33133,
+  "quarantined_rows": 402,
+  "duplicate_rows": 4,
+  "detected_groups_crossing_partitions": 0,
+  "overlapping_record_ids": 0,
+  "checks": [
+    "Frozen manifest, policy, source and code hashes match",
+    "All raw data unchanged",
+    "Every candidate accepted, quarantined or duplicate",
+    "All exported labels match candidate fields and units",
+    "All Vietnam cohort rows have Vietnam country",
+    "No detected group or record crosses partitions",
+    "Independent split regeneration matches assignments",
+    "Developer subset follows parent split exactly",
+    "Feature whitelist enforced in every exported CSV",
+    "Small cohorts not assigned misleading tiny holdouts",
+    "This verifier does not fit predictors or train models; SFT is validated separately"
+  ],
+  "scope": "Integrity and defined rules; unknown duplicates and source label errors may remain",
+  "cohorts": [
+    {
+      "cohort": "dataforge_AED_month_unknown",
+      "rows": 1,
+      "groups": 1,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_AMD_month_unknown",
+      "rows": 1,
+      "groups": 1,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_AUD_month_unknown",
+      "rows": 18,
+      "groups": 18,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_BRL_month_unknown",
+      "rows": 12,
+      "groups": 12,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_CAD_month_unknown",
+      "rows": 283,
+      "groups": 280,
+      "split_prepared": true
+    },
+    {
+      "cohort": "dataforge_CHF_month_unknown",
+      "rows": 8,
+      "groups": 8,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_CNY_month_unknown",
+      "rows": 3,
+      "groups": 3,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_COP_month_unknown",
+      "rows": 2,
+      "groups": 2,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_CRC_month_unknown",
+      "rows": 6,
+      "groups": 5,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_EUR_month_unknown",
+      "rows": 640,
+      "groups": 610,
+      "split_prepared": true
+    },
+    {
+      "cohort": "dataforge_GBP_month_unknown",
+      "rows": 350,
+      "groups": 303,
+      "split_prepared": true
+    },
+    {
+      "cohort": "dataforge_HUF_month_unknown",
+      "rows": 12,
+      "groups": 9,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_INR_month_unknown",
+      "rows": 30,
+      "groups": 29,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_JPY_month_unknown",
+      "rows": 4,
+      "groups": 4,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_KRW_month_unknown",
+      "rows": 4,
+      "groups": 4,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_MXN_month_unknown",
+      "rows": 8,
+      "groups": 8,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_NZD_month_unknown",
+      "rows": 3,
+      "groups": 2,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_PHP_month_unknown",
+      "rows": 11,
+      "groups": 8,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_PLN_month_unknown",
+      "rows": 82,
+      "groups": 78,
+      "split_prepared": true
+    },
+    {
+      "cohort": "dataforge_RON_month_unknown",
+      "rows": 1,
+      "groups": 1,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_SEK_month_unknown",
+      "rows": 12,
+      "groups": 12,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_SGD_month_unknown",
+      "rows": 20,
+      "groups": 20,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_TWD_month_unknown",
+      "rows": 2,
+      "groups": 2,
+      "split_prepared": false
+    },
+    {
+      "cohort": "dataforge_USD_month_unknown",
+      "rows": 12583,
+      "groups": 12078,
+      "split_prepared": true
+    },
+    {
+      "cohort": "dataforge_ZAR_month_unknown",
+      "rows": 2,
+      "groups": 2,
+      "split_prepared": false
+    },
+    {
+      "cohort": "so_survey",
+      "rows": 18660,
+      "groups": 18660,
+      "split_prepared": true
+    },
+    {
+      "cohort": "vn_it",
+      "rows": 375,
+      "groups": 368,
+      "split_prepared": true
+    },
+    {
+      "cohort": "vn_developer",
+      "rows": 176,
+      "groups": 175,
+      "split_prepared": true
+    }
+  ]
+}

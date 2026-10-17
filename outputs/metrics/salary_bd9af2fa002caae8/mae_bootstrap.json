@@ -1,0 +1,8 @@
+{
+  "model": "random_forest",
+  "test_rows": 28,
+  "resamples": 2000,
+  "low_vnd": 4289832.162996739,
+  "high_vnd": 10163315.014071561,
+  "scope": "conditional on this small test sample; not all data/source uncertainty"
+}

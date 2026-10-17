@@ -1,0 +1,128 @@
+{
+  "cohort": "vn_developer",
+  "parent_cohort": "vn_it",
+  "rows": 176,
+  "groups": 175,
+  "currency": "VND",
+  "target": "salary_monthly_vnd",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "train": {
+      "path": "data/splits/v1.0.1/vn_developer/train.csv",
+      "rows": 123,
+      "sha256": "cd3200d87d13f2f443a5997393737b1be1bc9acd5f9e2c3a94d2d71fe3ca08c7"
+    },
+    "valid": {
+      "path": "data/splits/v1.0.1/vn_developer/valid.csv",
+      "rows": 25,
+      "sha256": "6be98f3be96964c8df660c3039464eb519bf3f35ca0a92fa1a2e296a7a1721b0"
+    },
+    "test": {
+      "path": "data/splits/v1.0.1/vn_developer/test.csv",
+      "rows": 28,
+      "sha256": "4590822a9a1c615e8e90a98b8ffc8c3f443fb89ea2c4f4fe7b95c546dad978c2"
+    }
+  },
+  "split_prepared": true,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "Source provenance limits remain; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 0,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "vietjobs_2025": 145,
+    "user_vietnam_it_jobs": 31
+  },
+  "role_counts": {
+    "Software Developer": 70,
+    "Full-stack Developer": 23,
+    "Frontend Developer": 23,
+    "Backend Developer": 20,
+    "Mobile Developer": 17,
+    "ML Engineer": 8,
+    "Data Engineer": 8,
+    "Embedded Engineer": 7
+  },
+  "partition_profiles": {
+    "test": {
+      "rows": 28,
+      "groups": 28,
+      "sources": {
+        "vietjobs_2025": 24,
+        "user_vietnam_it_jobs": 4
+      },
+      "roles": {
+        "Software Developer": 7,
+        "Frontend Developer": 6,
+        "Full-stack Developer": 4,
+        "Backend Developer": 4,
+        "Mobile Developer": 4,
+        "Embedded Engineer": 1,
+        "ML Engineer": 1,
+        "Data Engineer": 1
+      },
+      "missing_experience": 0,
+      "missing_skills": 0
+    },
+    "train": {
+      "rows": 123,
+      "groups": 122,
+      "sources": {
+        "vietjobs_2025": 102,
+        "user_vietnam_it_jobs": 21
+      },
+      "roles": {
+        "Software Developer": 53,
+        "Full-stack Developer": 14,
+        "Mobile Developer": 13,
+        "Frontend Developer": 13,
+        "Backend Developer": 12,
+        "ML Engineer": 6,
+        "Data Engineer": 6,
+        "Embedded Engineer": 6
+      },
+      "missing_experience": 0,
+      "missing_skills": 0
+    },
+    "valid": {
+      "rows": 25,
+      "groups": 25,
+      "sources": {
+        "vietjobs_2025": 19,
+        "user_vietnam_it_jobs": 6
+      },
+      "roles": {
+        "Software Developer": 10,
+        "Full-stack Developer": 5,
+        "Backend Developer": 4,
+        "Frontend Developer": 4,
+        "ML Engineer": 1,
+        "Data Engineer": 1
+      },
+      "missing_experience": 0,
+      "missing_skills": 0
+    }
+  }
+}

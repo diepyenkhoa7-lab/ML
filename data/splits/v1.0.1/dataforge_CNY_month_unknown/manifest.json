@@ -1,0 +1,52 @@
+{
+  "cohort": "dataforge_CNY_month_unknown",
+  "parent_cohort": null,
+  "rows": 3,
+  "groups": 3,
+  "currency": "CNY",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "insufficient_data": {
+      "path": "data/splits/v1.0.1/dataforge_CNY_month_unknown/insufficient_data.csv",
+      "rows": 3,
+      "sha256": "be455559ddaf9ca43ba26574a18544c810a4ef4d4fdb70d9953dc6c04f13a6de"
+    }
+  },
+  "split_prepared": false,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 3,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "dataforge_2026_08": 3
+  },
+  "role_counts": {
+    "Embedded Engineer": 2,
+    "Software Developer": 1
+  },
+  "partition_profiles": {}
+}

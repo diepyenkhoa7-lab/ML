@@ -1,0 +1,176 @@
+"""Build a bounded source snapshot; optionally create a separate Git publication branch.
+
+Preserves checkout, normal index, original refs and all local datasets. Does not push.
+"""
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+from clean_data import checksum
+
+ROOT = Path(__file__).resolve().parents[1]
+BRANCH = "publish/salary-gemma-prep"
+MANIFEST = ROOT / "outputs/source_publication/manifest.json"
+
+
+def collect_files():
+    files = set()
+    for name in [
+        "README.md",
+        "CHANGELOG.md",
+        "Makefile",
+        ".gitignore",
+        ".python-version",
+        ".env.example",
+        "pyproject.toml",
+        "data/DATA_CARD.md",
+    ]:
+        files.add(ROOT / name)
+    files.update(ROOT.glob("requirements*.txt"))
+    for directory in [
+        "scripts",
+        "tests",
+        "configs",
+        "docs",
+        "backend",
+        "frontend",
+        "reports",
+        "notebooks",
+        "data/examples",
+        "data/finetune",
+        "data/splits/v1.0.1",
+        "outputs/label_review/v1.0.1",
+        "outputs/environment",
+        "outputs/notebook_preparation",
+        "outputs/eda/20261017T092843Z_e3747c",
+        "outputs/metrics/salary_bd9af2fa002caae8",
+        "outputs/training_logs",
+        "outputs/gemma_preparation",
+        "models/salary/bd9af2fa002caae8",
+    ]:
+        files.update(p for p in (ROOT / directory).rglob("*") if p.is_file())
+    for source in ["user_vietnam_it_jobs", "vietjobs_2025"]:
+        for name in ["clean.csv", "manifest.json"]:
+            files.add(ROOT / "data/processed/cleaned" / source / name)
+    for name in [
+        "models/gemma-source/manifest.json",
+        "models/gemma-mlx-4bit/manifest.json",
+        "outputs/data_quality/cleaning/all_sources.json",
+        "models/README.md",
+        "adapters/README.md",
+    ]:
+        if (ROOT / name).is_file():
+            files.add(ROOT / name)
+    excluded = {".backups", ".ipynb_checkpoints", "__pycache__", "node_modules", "dist"}
+    files = {
+        p
+        for p in files
+        if not excluded.intersection(p.relative_to(ROOT).parts)
+        and p.suffix not in {".pyc", ".pyo"}
+        and p.name != ".DS_Store"
+    }
+    # Reject credential formats without echoing any matched content.
+    secret = re.compile(
+        rb"hf_[A-Za-z0-9]{25,}|gh[pousr]_[A-Za-z0-9]{30,}|"
+        rb"github_pat_[A-Za-z0-9_]{40,}|-----BEGIN (?:RSA |OPENSSH )?PRIVATE KEY-----"
+    )
+    for path in files:
+        assert path.is_file() and not path.is_symlink(), str(path)
+        assert path.stat().st_size < 20 * 1024 * 1024, f"Oversized publication file: {path}"
+        assert not secret.search(path.read_bytes()), f"Potential credential in {path}"
+    return sorted(files)
+
+
+def git(*args, env=None, input=None):
+    return subprocess.check_output(["git", *args], cwd=ROOT, env=env, input=input).decode().strip()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--publish", action="store_true", help="Create/update local source branch only"
+    )
+    args = parser.parse_args()
+    files = collect_files()
+    items = [
+        {"path": str(p.relative_to(ROOT)), "bytes": p.stat().st_size, "sha256": checksum(p)}
+        for p in files
+    ]
+    record = {
+        "branch": BRANCH,
+        "mode": "separate_history_source_snapshot",
+        "preserved_history_branch": "feat/salary-training-gemma-prep",
+        "includes": (
+            "source, executed notebooks, frozen splits, two VN clean CSVs, "
+            "silver JSONL, salary pipelines and logs"
+        ),
+        "excludes": "raw/bulky audit CSVs, old failed splits, Gemma weights, caches, credentials",
+        "reproduction": "docs/TRAINING_RUNBOOK.md",
+        "self_excluded_from_hashes": True,
+        "files": items,
+    }
+    MANIFEST.parent.mkdir(parents=True, exist_ok=True)
+    previous = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
+    record["generated_at_utc"] = previous.get(
+        "generated_at_utc", datetime.now(timezone.utc).isoformat()
+    )
+    MANIFEST.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
+    files.append(MANIFEST)
+    print(
+        json.dumps(
+            dict(
+                files=len(files),
+                total_bytes=sum(p.stat().st_size for p in files),
+                max_file_bytes=max(p.stat().st_size for p in files),
+                manifest=str(MANIFEST),
+            ),
+            indent=2,
+        )
+    )
+    if not args.publish:
+        print("Plan only; no Git refs modified, no push.")
+        return
+    ref = f"refs/heads/{BRANCH}"
+    found = (
+        subprocess.run(["git", "show-ref", "--verify", "--quiet", ref], cwd=ROOT).returncode == 0
+    )
+    parent = git("rev-parse", ref) if found else None
+    with tempfile.TemporaryDirectory(prefix="ml-source-index-") as temporary:
+        env = dict(os.environ, GIT_INDEX_FILE=str(Path(temporary) / "index"))
+        git("read-tree", "--empty", env=env)
+        listing = Path(temporary) / "files.nul"
+        listing.write_bytes(b"".join(str(p.relative_to(ROOT)).encode() + b"\0" for p in files))
+        git("add", "-f", "--pathspec-from-file=" + str(listing), "--pathspec-file-nul", env=env)
+        tree = git("write-tree", env=env)
+        if parent and git("rev-parse", parent + "^{tree}") == tree:
+            commit = parent
+        else:
+            message = (
+                "feat(ml): publish salary experiment and Gemma preparation\n\n"
+                "Run EDA and baseline/Ridge/Random Forest on frozen VN developer splits; "
+                "select RF by validation MAE and report all test metrics.\n"
+                "Prepare traceable silver extraction JSONL, verified Google/MLX weight "
+                "manifests and plan-only Gemma training with explicit confirmation.\n"
+                "Keep bulky data and old Git history local; publish bounded source snapshot "
+                "without force-push. See CHANGELOG.md and TRAINING_RUNBOOK.md.\n"
+                "Validation: unit tests, Ruff, full frozen-source audit, strict JSONL checks, "
+                "executed salary notebooks and pipeline reload. Gemma training not started.\n"
+            )
+            params = ["commit-tree", tree] + (["-p", parent] if parent else [])
+            commit = git(*params, input=message.encode())
+            git("update-ref", ref, commit, parent or "0" * 40)
+    print(
+        json.dumps(
+            dict(branch=BRANCH, commit=commit, pushed=False, original_checkout_preserved=True)
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

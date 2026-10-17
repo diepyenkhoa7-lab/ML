@@ -1,0 +1,24 @@
+seed: 42
+target: salary_monthly_vnd
+dataset:
+  cohort: vn_developer
+  manifest: data/splits/v1.0.1/vn_developer/manifest.json
+  frozen: data/splits/v1.0.1/FROZEN.json
+  train: data/splits/v1.0.1/vn_developer/train.csv
+  valid: data/splits/v1.0.1/vn_developer/valid.csv
+  test: data/splits/v1.0.1/vn_developer/test.csv
+numeric_features: [experience_years]
+categorical_features: [role, level, location]
+multilabel_features: [skills]
+# Không đưa salary_min/max hoặc description chứa lương vào feature.
+models: [ridge, random_forest]
+metrics: [mae, rmse, r2]
+split:
+  mode: precomputed_grouped
+  train: 0.7
+  valid: 0.15
+  test: 0.15
+  group_key: leakage_group_id
+  prefer_temporal_if_available: false
+# Các tỷ lệ là mục tiêu theo nhóm của bộ VN CNTT cha; bộ developer kế thừa cùng split.
+# Chỉ fit imputer/encoder/vectorizer/scaler trên train; không chọn model bằng test.

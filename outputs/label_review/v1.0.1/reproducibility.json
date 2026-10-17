@@ -1,0 +1,7 @@
+{
+  "status": "passed",
+  "unchanged_rerun_identical_manifest": true,
+  "manifest_sha256": "fddc4fa54bf7cd12ad34d39b2e0ca9f1f43d4fa5d64c20e4aaaedf8fe19ac75f",
+  "changed_seed_rejected_for_frozen_version": true,
+  "checksums_cover_all_split_and_review_csvs": true
+}

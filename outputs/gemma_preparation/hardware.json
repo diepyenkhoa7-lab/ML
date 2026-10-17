@@ -1,0 +1,16 @@
+{
+  "device_info": {
+    "device_name": "Apple M3 Pro",
+    "max_recommended_working_set_size": 30150672384,
+    "memory_size": 38654705664,
+    "architecture": "applegpu_g15s",
+    "max_buffer_length": 22613000192,
+    "resource_limit": 499000
+  },
+  "tensor_add_result": [
+    2,
+    3
+  ],
+  "scope": "GPU tensor computation only; no Gemma inference or training",
+  "gemma_training_started": false
+}

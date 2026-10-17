@@ -1,0 +1,69 @@
+{
+  "experiment_id": "bd9af2fa002caae8",
+  "selected_model": "random_forest",
+  "target": "salary_monthly_vnd",
+  "unit": "VND/month",
+  "basis": "unknown",
+  "features": [
+    "experience_years",
+    "role",
+    "level",
+    "location",
+    "skills"
+  ],
+  "protocol": {
+    "dataset_manifest_sha256": "c1def2e681fe7ad08391be0de5cf0e495a02c9cf2a93ddde07df391f8039b70c",
+    "frozen_snapshot_sha256": "fddc4fa54bf7cd12ad34d39b2e0ca9f1f43d4fa5d64c20e4aaaedf8fe19ac75f",
+    "notebook_code_sha256": "39fc3c727e3b4deef3555128ba2b7cbb7689d5770a12169703d25532a902d864",
+    "seed": 42,
+    "features": [
+      "experience_years",
+      "role",
+      "level",
+      "location",
+      "skills"
+    ],
+    "ridge_alphas": [
+      0.1,
+      1.0,
+      10.0,
+      100.0
+    ],
+    "rf_depths": [
+      null,
+      6
+    ],
+    "rf_min_samples_leaf": [
+      2,
+      5
+    ],
+    "rf_trees": 300,
+    "primary_metric": "mae_vnd",
+    "fit_split": "train_only_no_refit",
+    "sklearn": "1.9.1",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6"
+  },
+  "artifacts": {
+    "baseline_median": {
+      "path": "models/salary/bd9af2fa002caae8/baseline_median.joblib",
+      "sha256": "ce8f336e478bb7189ece60b1dd2e2a21b598bdd192aa4ac78303c3b8328315fa"
+    },
+    "ridge": {
+      "path": "models/salary/bd9af2fa002caae8/ridge.joblib",
+      "sha256": "e5cc4fbeb8d6d9b65aa4abab0a9ab3dbfd869f965c00eabfaf08fb09965fc809"
+    },
+    "random_forest": {
+      "path": "models/salary/bd9af2fa002caae8/random_forest.joblib",
+      "sha256": "e90ce9c56473e24eaef9b2f7dda9b197d2b41a68695ce90b84f724db5b88cc67"
+    }
+  },
+  "best_model_sha256": "e90ce9c56473e24eaef9b2f7dda9b197d2b41a68695ce90b84f724db5b88cc67",
+  "python": "3.11.17",
+  "joblib": "1.6.0",
+  "limits": [
+    "176 mẫu, test 28",
+    "nhãn nguồn chưa phải gold",
+    "không chia theo thời gian"
+  ]
+}

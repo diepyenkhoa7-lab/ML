@@ -1,0 +1,56 @@
+{
+  "cohort": "dataforge_AUD_month_unknown",
+  "parent_cohort": null,
+  "rows": 18,
+  "groups": 18,
+  "currency": "AUD",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "insufficient_data": {
+      "path": "data/splits/v1.0.1/dataforge_AUD_month_unknown/insufficient_data.csv",
+      "rows": 18,
+      "sha256": "0d3f9f7019a56a07486037bda300a8a1f6305e0b20a71a0702233704abad6e38"
+    }
+  },
+  "split_prepared": false,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 18,
+  "missing_skills_rows": 0,
+  "source_counts": {
+    "dataforge_2026_08": 18
+  },
+  "role_counts": {
+    "IT Support": 7,
+    "Software Developer": 5,
+    "Security Engineer": 3,
+    "Data Scientist": 1,
+    "DevOps Engineer": 1,
+    "Engineering Manager": 1
+  },
+  "partition_profiles": {}
+}

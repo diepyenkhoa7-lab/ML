@@ -1,0 +1,158 @@
+{
+  "cohort": "dataforge_GBP_month_unknown",
+  "parent_cohort": null,
+  "rows": 350,
+  "groups": 303,
+  "currency": "GBP",
+  "target": "salary_monthly_native",
+  "salary_basis": "unknown",
+  "target_definition": "advertised_salary_midpoint",
+  "files": {
+    "train": {
+      "path": "data/splits/v1.0.1/dataforge_GBP_month_unknown/train.csv",
+      "rows": 256,
+      "sha256": "5c1eb1cde5c860582d7789e469d9d2fb97e7076f5d382d53e149168c928f8f15"
+    },
+    "valid": {
+      "path": "data/splits/v1.0.1/dataforge_GBP_month_unknown/valid.csv",
+      "rows": 40,
+      "sha256": "ad320c258212e06878863eb9b8bc543d5641fb5af1c1dc179157934dcc0ac82b"
+    },
+    "test": {
+      "path": "data/splits/v1.0.1/dataforge_GBP_month_unknown/test.csv",
+      "rows": 54,
+      "sha256": "ebc5248b6ea34fd2f95526fa4341eb7237a550c032f342e1c929f0e09cc94eab"
+    }
+  },
+  "split_prepared": true,
+  "label_validation_scope": "downloaded_fields_not_independent_ground_truth",
+  "source_terms_note": "DataForge terms unresolved; see docs/DATA_SOURCES.md",
+  "features": [
+    "role",
+    "level",
+    "country",
+    "location",
+    "is_remote",
+    "experience_years",
+    "experience_min",
+    "experience_max",
+    "experience_kind",
+    "experience_missing",
+    "skills",
+    "skills_json",
+    "skills_missing"
+  ],
+  "metadata_not_features": [
+    "record_id",
+    "group_id",
+    "leakage_group_id",
+    "source_dataset",
+    "source_row_index"
+  ],
+  "missing_experience_rows": 350,
+  "missing_skills_rows": 5,
+  "source_counts": {
+    "dataforge_2026_08": 350
+  },
+  "role_counts": {
+    "Software Developer": 105,
+    "Backend Developer": 45,
+    "ML Engineer": 39,
+    "Data Engineer": 22,
+    "Data Analyst": 18,
+    "Data Scientist": 17,
+    "Full-stack Developer": 16,
+    "Security Engineer": 12,
+    "IT Support": 11,
+    "Mobile Developer": 11,
+    "DevOps Engineer": 9,
+    "Engineering Manager": 9,
+    "Cloud Engineer": 8,
+    "Software Architect": 7,
+    "Frontend Developer": 5,
+    "System Administrator": 5,
+    "Embedded Engineer": 5,
+    "QA Engineer": 3,
+    "Business Analyst": 3
+  },
+  "partition_profiles": {
+    "test": {
+      "rows": 54,
+      "groups": 48,
+      "sources": {
+        "dataforge_2026_08": 54
+      },
+      "roles": {
+        "Software Developer": 14,
+        "ML Engineer": 10,
+        "Full-stack Developer": 4,
+        "Data Scientist": 4,
+        "Backend Developer": 4,
+        "Data Analyst": 4,
+        "DevOps Engineer": 3,
+        "System Administrator": 3,
+        "Cloud Engineer": 2,
+        "IT Support": 2,
+        "Mobile Developer": 2,
+        "Frontend Developer": 1,
+        "Security Engineer": 1
+      },
+      "missing_experience": 54,
+      "missing_skills": 1
+    },
+    "train": {
+      "rows": 256,
+      "groups": 220,
+      "sources": {
+        "dataforge_2026_08": 256
+      },
+      "roles": {
+        "Software Developer": 75,
+        "Backend Developer": 37,
+        "ML Engineer": 25,
+        "Data Engineer": 19,
+        "Data Scientist": 12,
+        "Data Analyst": 12,
+        "Security Engineer": 10,
+        "IT Support": 9,
+        "Mobile Developer": 8,
+        "Full-stack Developer": 8,
+        "Engineering Manager": 8,
+        "Software Architect": 7,
+        "Cloud Engineer": 5,
+        "DevOps Engineer": 5,
+        "Embedded Engineer": 5,
+        "Frontend Developer": 4,
+        "QA Engineer": 3,
+        "Business Analyst": 3,
+        "System Administrator": 1
+      },
+      "missing_experience": 256,
+      "missing_skills": 4
+    },
+    "valid": {
+      "rows": 40,
+      "groups": 35,
+      "sources": {
+        "dataforge_2026_08": 40
+      },
+      "roles": {
+        "Software Developer": 16,
+        "Full-stack Developer": 4,
+        "ML Engineer": 4,
+        "Backend Developer": 4,
+        "Data Engineer": 3,
+        "Data Analyst": 2,
+        "Data Scientist": 1,
+        "Cloud Engineer": 1,
+        "Security Engineer": 1,
+        "DevOps Engineer": 1,
+        "System Administrator": 1,
+        "Mobile Developer": 1,
+        "Engineering Manager": 1
+      },
+      "missing_experience": 40,
+      "missing_skills": 0
+    }
+  }
+}

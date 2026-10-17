@@ -1,0 +1,26 @@
+{
+  "kind": "salary_notebooks",
+  "gemma_training": false,
+  "runs": [
+    {
+      "command": [
+        "/Users/scara2906/Downloads/ML/.venv/bin/python",
+        "-m",
+        "nbconvert",
+        "--to",
+        "notebook",
+        "--execute",
+        "/Users/scara2906/Downloads/ML/notebooks/02_salary_models.ipynb",
+        "--output",
+        "02_salary_models.executed.ipynb",
+        "--output-dir",
+        "/Users/scara2906/Downloads/ML/outputs/training_logs/salary_20261017T094349Z",
+        "--ExecutePreprocessor.timeout=900",
+        "--ExecutePreprocessor.kernel_name=it-career-insight"
+      ],
+      "started_at_utc": "2026-10-17T09:43:49.925232+00:00",
+      "returncode": 1,
+      "finished_at_utc": "2026-10-17T09:43:53.819982+00:00"
+    }
+  ]
+}
