@@ -1,0 +1,93 @@
+# Chạy ứng dụng IT Career Insight
+
+## Mở trên máy hiện tại
+
+```bash
+cd /Users/scara2906/Downloads/ML
+make app
+```
+
+Mở http://127.0.0.1:8000. Lệnh build Vue và chạy FastAPI một worker, không train.
+Nếu app đã chạy tại địa chỉ này, dùng ngay; Ctrl+C ở terminal chạy server để dừng.
+Đổi cổng khi cần: `APP_PORT=8010 make app`.
+
+Máy clone mới cần Python 3.11 + Node 20.19+ hoặc 22.12+:
+
+```bash
+make setup
+make frontend-setup
+make app
+```
+
+Model lương nhỏ có trong nhánh source. Để tái hiện trên Mac ARM64, dùng phiên bản
+trong `requirements-lock-macos-arm64.txt` (scikit-learn 1.9.1 khi train model). Gemma là tùy chọn khi nhập bảng đã có cột;
+muốn đọc mô tả cần bản MLX + adapter theo README/GEMMA_TUNING.md. Base weights tải
+riêng, không có trong Git. App chỉ nạp artifact tin cậy khớp checksum.
+
+## Từ bảng đến kết quả
+
+1. Chọn CSV (UTF-8, hỗ trợ phân cách phẩy/chấm phẩy/tab/pipe), XLSX (sheet đầu),
+   hoặc JSON (array object). Có bảng mẫu 48 tin thật ở giao diện và data/examples/.
+2. Xem trước rồi ghép cột. Cần vai trò/chức danh, hoặc mô tả + bật Gemma.
+   Cột kỹ năng có thể là array JSON hoặc chuỗi phân cách `;`/`,`/`|`.
+3. Nếu có cột `salary_monthly_vnd`, hiểu là số VND/tháng. Với cột lương chung,
+   numeric cần chọn tiền tệ/kỳ; hệ số triệu chỉ áp dụng giá trị số thuần.
+   Chuỗi có đơn vị như `20–30 triệu VND/tháng`, `240 triệu VND/năm` tự phân tích.
+   Giữ trung điểm hai cận theo quy ước nhãn model. Năm chia 12. Không tự đổi USD.
+   Thiếu/không rõ đơn vị vẫn dự đoán nhưng không dùng lương đó tính metric.
+4. Ngày đăng nhận ISO `YYYY-MM-DD` (kể cả timestamp) hoặc `DD/MM/YYYY`.
+   Ngày lỗi có cảnh báo; thiếu ngày không tạo biểu đồ thời gian.
+5. Bật Gemma khi cần đọc mô tả: tối đa 20 mô tả/lượt, kiểm tra context 1.024 token
+   gồm phần dành cho output. Mô tả dài cần rút gọn, không cắt ngầm. Gemma chỉ điền
+   trường thiếu; không ghi đè cột đã cung cấp. Lương Gemma đọc được lưu riêng,
+   không dùng làm nhãn tính MAE. Schema lỗi được báo, giữ raw output trong ZIP.
+6. Bấm Phân tích. Xem tiến độ → Tổng quan / Dự đoán từng dòng / Chất lượng & sai số.
+   Top công nghệ dùng danh mục v1 (alias chuẩn và công nghệ thông dụng); kỹ năng ngoài
+   danh mục vẫn được giữ trong bảng. Chọn nguồn lương cung cấp/dự đoán; chọn trạng thái của từng dòng để đọc cảnh báo.
+7. Tải CSV, Excel, từng PNG, hoặc ZIP gồm bảng CSV/XLSX/JSON, report.md, manifest
+   (checksum đầu vào/model/code/output), biểu đồ và raw output Gemma nếu đã dùng.
+
+Mỗi dòng giữ source_row và các cột gốc dưới tiền tố input_. Dòng lỗi vẫn được xuất,
+không đi vào model. Trùng hoàn toàn giữ dự đoán nhưng loại khỏi metric/biểu đồ.
+CSV/XLSX escape chuỗi giống công thức; JSON giữ giá trị gốc.
+
+## Tư vấn nghề nghiệp
+
+Chọn vai trò, cấp bậc, kinh nghiệm, khu vực, kỹ năng → Dự đoán & xem gợi ý.
+RF trả lương tham khảo; Ridge dùng đối chiếu. Gợi ý lấy từ kỹ năng có ít nhất 5 mẫu
+train và hệ số Ridge dương, xếp theo mức tăng dự đoán RF khi thêm một kỹ năng.
+Chỉ đề xuất nếu chênh lệch RF dương; nếu không có thì báo chưa đủ bằng chứng.
+Đây là quan hệ từ model/dữ liệu, không chứng minh học kỹ năng sẽ tăng thu nhập.
+Giải thích được điền bằng Python từ số liệu kiểm tra được; Gemma phụ trách trích xuất.
+
+## Giới hạn và dữ liệu
+
+- Local một người dùng, chỉ bind 127.0.0.1; một worker, không phải bản deploy public.
+- 10 MiB/file, 2.000 dòng, 100 cột; XLSX giải nén tối đa 50 MiB.
+- Vai trò hỗ trợ: tám vai trò trong model; các nghề khác báo chưa hỗ trợ thay vì đoán.
+- Dữ liệu upload và kết quả ở outputs/app_runtime/, được ignore và không publish.
+  Job hoàn tất đọc lại được sau restart; job dang dở được đánh dấu cần chạy lại.
+  Xóa một thư mục UUID ở đây sau khi dừng app nếu muốn xóa dữ liệu tương ứng.
+- Không có MAE/RMSE/R² khi thiếu nhãn. Metric bảng nhập không phải kiểm định độc lập,
+  nhất là dữ liệu mẫu lấy từ train. Test lịch sử RF chỉ 28 tin, MAE khoảng 6,66 triệu/tháng.
+- Nhãn silver; gross/net chưa rõ; không suy số năm từ seniority. Không có khoảng tin
+  cậy được hiệu chỉnh nên app không bịa khoảng chắc chắn quanh dự đoán.
+- Không chạy train trong lúc Gemma suy luận. App kiểm tra tiến trình train trước khi
+  bắt đầu trích xuất, nhưng operator vẫn cần tránh khởi chạy train sau thời điểm kiểm tra.
+
+## Kiểm thử và phát triển
+
+```bash
+make app-test
+make lint
+npm --prefix frontend run format:check
+# phát triển: một terminal make api; terminal khác:
+npm --prefix frontend run dev
+```
+
+API/OpenAPI: http://127.0.0.1:8000/docs. Endpoint chính:
+`POST /api/datasets`, `POST /api/datasets/demo`, `POST /api/analyses`,
+`GET /api/analyses/{id}`, `GET /api/analyses/{id}/rows`,
+`GET /api/analyses/{id}/artifacts/{name}`, `POST /api/salary/predict`,
+`POST /api/career/advice`. Endpoint Gemma được tích hợp trong job phân tích
+qua `use_gemma: true`, không có endpoint train.

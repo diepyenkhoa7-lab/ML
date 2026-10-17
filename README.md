@@ -2,7 +2,21 @@
 
 Đề tài 4: phân tích thị trường việc làm CNTT và dự đoán lương lập trình viên bằng Python.
 Model trích xuất đã chốt: [google/gemma-4-E4B-it](https://huggingface.co/google/gemma-4-E4B-it).
-Frontend Vue 3 dự kiến ở bước tích hợp; FastAPI hiện có health, chưa có endpoint nghiệp vụ.
+Ứng dụng Vue 3 + FastAPI đã nối nhập bảng → dự đoán → biểu đồ → xuất kết quả,
+cùng trang tư vấn nghề nghiệp và Gemma đọc mô tả khi bật.
+
+## Mở ứng dụng
+
+```bash
+make frontend-setup  # Lần đầu: cài dependency Vue/Vite theo lockfile.
+make app
+```
+
+Mở **http://127.0.0.1:8000**. Chọn CSV/XLSX/JSON hoặc thử 48 tin có sẵn,
+kiểm tra ghép cột rồi bấm Phân tích. Tải CSV, Excel, PNG hoặc toàn bộ ZIP.
+Lệnh này chỉ chạy ứng dụng/suy luận; không train. Dữ liệu nhập nằm tại
+`outputs/app_runtime/`, giữ ngoài Git. [Hướng dẫn chi tiết](docs/APP_RUNBOOK.md),
+[kế hoạch & tiêu chí](docs/APP_IMPLEMENTATION_PLAN.md).
 
 ## Lệnh train và lệnh suy luận
 
@@ -64,7 +78,8 @@ Kết quả: [bảng chọn bằng validation](outputs/metrics/gemma_tuning/REPO
   vẫn được giữ riêng.
 - Đã chuẩn bị notebook 03, kế hoạch, wrapper lưu log và script đánh giá Gemma;
   mặc định suy luận dùng adapter đã chọn bằng validation;
-  chức năng tư vấn hoàn chỉnh chưa triển khai.
+  ứng dụng tư vấn dùng dự đoán RF/Ridge và hỗ trợ kỹ năng từ train.
+  Giải thích bằng Python có bằng chứng; Gemma dùng cho trích xuất, không sinh số lương.
 
 Xem [hướng dẫn train và bằng chứng](docs/TRAINING_RUNBOOK.md),
 [kết quả lương](outputs/metrics/salary_bd9af2fa002caae8/REPORT.md),
@@ -176,8 +191,9 @@ Các nguồn có giới hạn xuất xứ/điều khoản ghi rõ tại DATA_SOU
 
 ## Sản phẩm còn lại
 
-Tích hợp API dự đoán/trích xuất/tư vấn và giao diện; bổ sung nhãn gold và holdout mới khi mở vòng nghiên cứu khác;
-báo cáo cá nhân theo mẫu giảng viên, đặt tên `STT_Họ và tên_MSSV`; demo ứng dụng.
+Bổ sung nhãn gold và holdout mới khi mở vòng nghiên cứu khác; báo cáo cá nhân theo
+mẫu giảng viên, đặt tên `STT_Họ và tên_MSSV`; chuẩn bị kịch bản thuyết trình.
+Ứng dụng local đã có luồng demo nhập bảng, dự đoán, biểu đồ, tư vấn và tải kết quả.
 Đối chiếu [bảng bàn giao](docs/DELIVERABLES.md).
 
 Tham chiếu: [Google model card](https://huggingface.co/google/gemma-4-E4B-it),

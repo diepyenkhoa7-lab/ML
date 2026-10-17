@@ -3,7 +3,7 @@
   "mode": "separate_history_source_snapshot",
   "preserved_history_branch": "feat/salary-training-gemma-prep",
   "includes": "source, executed notebooks, frozen splits, two VN clean CSVs, silver JSONL, salary pipelines, small final Gemma adapter and logs",
-  "excludes": "raw/bulky audit CSVs, old failed splits, Gemma base weights, intermediate adapter checkpoints, caches, credentials",
+  "excludes": "raw/bulky audit CSVs, old failed splits, Gemma base weights, intermediate adapter checkpoints, unreviewed Gemma runs, user upload/runtime, caches, credentials",
   "reproduction": "docs/TRAINING_RUNBOOK.md",
   "self_excluded_from_hashes": true,
   "files": [
@@ -14,8 +14,8 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 499,
-      "sha256": "875d4b45e4ca201c2294d07ee984091842d8281f9cfba889337b29ad0f2e5ecd"
+      "bytes": 583,
+      "sha256": "bda12f87eb32a238f052844f36c903536bfcdd4614e80bfea1c32b6187f5a747"
     },
     {
       "path": ".python-version",
@@ -24,18 +24,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 6102,
-      "sha256": "5bcc189ed6a4841a05c07a1723b77748548b9022edf37b68263f8477cfd88390"
+      "bytes": 7755,
+      "sha256": "0068a710301477cc2e3df3b20a2ce6cdbf622119f26df51db17bd8fedcb63378"
     },
     {
       "path": "Makefile",
-      "bytes": 2775,
-      "sha256": "badd5d0db1c243bc70b3e4ee1e0aba4b3973c59bfe70b076a3dd96bce8ef3b30"
+      "bytes": 3212,
+      "sha256": "c11b9e697d0c8c0263dd26c15387a4beecd3247377f4ad2bfffd787ddb3a5dbe"
     },
     {
       "path": "README.md",
-      "bytes": 10392,
-      "sha256": "dc8a5a635841154718468232197c883216d154a67f29bdf8e7e2533b61d72760"
+      "bytes": 11222,
+      "sha256": "35df236dbfa51177b87fa93bb38790bf9b307306154324f42b8634e6d57b1f65"
     },
     {
       "path": "adapters/README.md",
@@ -144,8 +144,43 @@
     },
     {
       "path": "backend/app/main.py",
-      "bytes": 313,
-      "sha256": "f034fa8e06eda5eed7650d4063784a238c0f0b365074f029f662df460e86fb61"
+      "bytes": 6831,
+      "sha256": "d1614e65d1f416fcb424561e7bd300b36f9e173dce760403bde8c6d2694e5aaf"
+    },
+    {
+      "path": "backend/app/schemas.py",
+      "bytes": 2522,
+      "sha256": "3788093b37ab7e30c9e3f5adf40435f25735d5428ea1ebc3bc6dadb55b290a57"
+    },
+    {
+      "path": "backend/app/services/analysis.py",
+      "bytes": 11085,
+      "sha256": "0037e1fac95c4a4ea7bf9b4f855b3f02afc2660084fee23cd5875ae00974fecd"
+    },
+    {
+      "path": "backend/app/services/charts.py",
+      "bytes": 8452,
+      "sha256": "da4d6459b7d9d1c4f4505b238221105abcc7fe6a0f66294455886f0434a2320c"
+    },
+    {
+      "path": "backend/app/services/data.py",
+      "bytes": 8733,
+      "sha256": "efe8fb21f2bbc067191f262266790b588deb62ab96667051858118cfe5ad9cab"
+    },
+    {
+      "path": "backend/app/services/gemma.py",
+      "bytes": 2739,
+      "sha256": "a0aaec51b4d38c2e646cf76d20a0f4eebf9480589d195d1badb0dd695e5c6853"
+    },
+    {
+      "path": "backend/app/services/salary.py",
+      "bytes": 5695,
+      "sha256": "0bc549f46eef3501d4eceb9fcb7e4ebd79a2cc5fd13b74a3f9ffaf2985c41c43"
+    },
+    {
+      "path": "backend/app/services/store.py",
+      "bytes": 4987,
+      "sha256": "2dd4a2889f5b15810a49fad851ca02cce1f1f159a9a5c9240f12488303e35ede"
     },
     {
       "path": "configs/cleaning.json",
@@ -218,9 +253,29 @@
       "sha256": "59d2c02a7937852caa1e5f2c70617ef114a757e7431314a11d40cabd895ff2ea"
     },
     {
+      "path": "data/examples/APPLICATION_DEMO.md",
+      "bytes": 425,
+      "sha256": "99ee8f620aee9037bd6a5872f21af4f23e3f0ea5916c4d95c11b29c14e53c716"
+    },
+    {
       "path": "data/examples/README.md",
       "bytes": 637,
       "sha256": "def847ca8f4005fa136e0a5a408db22ea70d5b0f42c1c28925474ef4cf447c3d"
+    },
+    {
+      "path": "data/examples/application_demo.csv",
+      "bytes": 7015,
+      "sha256": "c20beb0bed52dfd1f8d4c5a0d546c85a640205a50597bceadf657cbfe2cf579e"
+    },
+    {
+      "path": "data/examples/application_demo.json",
+      "bytes": 13713,
+      "sha256": "70d981dded036beae5409eb316aad1b25c13f818b9d680739fe1493e8b18d99c"
+    },
+    {
+      "path": "data/examples/application_demo.xlsx",
+      "bytes": 8434,
+      "sha256": "0907b48074e9b4b8ca74366cd3fc2666509b0665a3da0446592a6159e1b4ef09"
     },
     {
       "path": "data/examples/finetune/test.jsonl",
@@ -688,6 +743,16 @@
       "sha256": "14ccdec0aa6620eee099ffc6562962ea48170f40d26eba4ec8fe6bdb8398d1c5"
     },
     {
+      "path": "docs/APP_IMPLEMENTATION_PLAN.md",
+      "bytes": 4667,
+      "sha256": "e7be1528c7b69b62ab49084610967c14511bd921139e46e5bcf174c91c172c66"
+    },
+    {
+      "path": "docs/APP_RUNBOOK.md",
+      "bytes": 5782,
+      "sha256": "c38343df44ce874e4945063c3462cef6953be7d56432b03e44270fdad6b6ec09"
+    },
+    {
       "path": "docs/DATASET.md",
       "bytes": 4037,
       "sha256": "37eeac281e19bcfa0af7aeb88c5367599781d4ecc0aa8eb7e85b45e5dbe5391e"
@@ -704,8 +769,8 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 2627,
-      "sha256": "83d3198e23469b23e73a8334ad0c6edff68cbe071f85ae5ec24d8257f6f52f92"
+      "bytes": 2884,
+      "sha256": "549b01afa25cd955f8c9f073b3f442f5108c87d76f95846cfa370fefcd6e9681"
     },
     {
       "path": "docs/ENVIRONMENT_STATUS.md",
@@ -734,8 +799,48 @@
     },
     {
       "path": "frontend/README.md",
-      "bytes": 244,
-      "sha256": "0103ff83eb888144ae0203ed32b7adb489f18555de77b40972d2690f15488c78"
+      "bytes": 531,
+      "sha256": "071cbebddaa905d44a88235b00e445047e2360eb3e17aeef6cae5a16a031be57"
+    },
+    {
+      "path": "frontend/index.html",
+      "bytes": 448,
+      "sha256": "75c3af0f4d0b95ac412eb7113e248d7b2d9d7c1b8a64f976ef7ef3d54e157150"
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "bytes": 44981,
+      "sha256": "3e67dc60a8229a3a96d42c68332f58e9857a79e245ef256a234ba8553eb7d42e"
+    },
+    {
+      "path": "frontend/package.json",
+      "bytes": 542,
+      "sha256": "4496486598aa390aecfa87e43571eba37f27218761820daafdd3cc7c5a3acfd4"
+    },
+    {
+      "path": "frontend/public/favicon.svg",
+      "bytes": 183,
+      "sha256": "f93d24a178b6f0edcdb54e11a571349b48a1385128cba901ffac73de76f10e6d"
+    },
+    {
+      "path": "frontend/src/App.vue",
+      "bytes": 37753,
+      "sha256": "7dceb9eb876f3f88cfae3205b31555e0dbe37f24906d58b3f588a8f38f70b641"
+    },
+    {
+      "path": "frontend/src/main.js",
+      "bytes": 114,
+      "sha256": "a9a77d229d3df173585188d0cfcdeb479cf61b5a0028b67353b4f5998c9e3ad9"
+    },
+    {
+      "path": "frontend/src/style.css",
+      "bytes": 24294,
+      "sha256": "28bfd867ac9b7cf75badbd2a9033bb6f4f4c0fb5eac8536506ea532cd970d7b1"
+    },
+    {
+      "path": "frontend/vite.config.js",
+      "bytes": 247,
+      "sha256": "208e953c8e97a7ca24cf6e6d7b716aafba4aad1f7695eb0382705fd89ae070a9"
     },
     {
       "path": "models/README.md",
@@ -796,6 +901,56 @@
       "path": "notebooks/03_gemma_extraction.ipynb",
       "bytes": 7646,
       "sha256": "441e2a333eee56fa3df6979bde35808106d30facb3bffcbfb6ed6136108bc215"
+    },
+    {
+      "path": "outputs/app_verification/REPORT.md",
+      "bytes": 1759,
+      "sha256": "8f24166d3e1defc398e37781115d97e19d66b3679d6d4723eb0b3e1c4d65375e"
+    },
+    {
+      "path": "outputs/app_verification/advice-desktop.png",
+      "bytes": 168123,
+      "sha256": "7431e3aead9d203d90fd46512f7f75cb9b7916c0e8ef65670e0b3530c6db52ca"
+    },
+    {
+      "path": "outputs/app_verification/api_smoke.json",
+      "bytes": 2394,
+      "sha256": "2b50cf90c19fe5cdd326a926ce6571536747784811a078914909159918c094a9"
+    },
+    {
+      "path": "outputs/app_verification/browser.json",
+      "bytes": 1927,
+      "sha256": "4cc337ccb73602f5ae446235af47ebf462f9837c03bf6b4f7ce2aa2960577963"
+    },
+    {
+      "path": "outputs/app_verification/dashboard-desktop.png",
+      "bytes": 198113,
+      "sha256": "e952af73ca1d4a08db4f97905ff0bf3a73218f658da455b7cf21bae7ce16f122"
+    },
+    {
+      "path": "outputs/app_verification/dashboard-mobile.png",
+      "bytes": 70739,
+      "sha256": "9564a4dd15a5e9a8404bb1062dc9cd2494d3fdc5e9e3fd79e61bc6ab61793cda"
+    },
+    {
+      "path": "outputs/app_verification/frontend-build.log",
+      "bytes": 391,
+      "sha256": "c1705727b85d3faa65c9fdf47516c56294ce2aeb1fd003065f3462eab74b697c"
+    },
+    {
+      "path": "outputs/app_verification/gemma_smoke.json",
+      "bytes": 4482,
+      "sha256": "097c0120dc289dae0323aea1d5cea911fd4943a841beac87f2263a045e5cfd59"
+    },
+    {
+      "path": "outputs/app_verification/source_export.json",
+      "bytes": 4722,
+      "sha256": "c4eda0cede86fdec2b395b4699a9a385b8164039f4088ba27bea350446c496ec"
+    },
+    {
+      "path": "outputs/app_verification/tests.log",
+      "bytes": 182,
+      "sha256": "8cdef351d94216bc0f8a2cb2599cc2a9ff0ffca0d97f38c284ed88152d6615b2"
     },
     {
       "path": "outputs/data_quality/cleaning/all_sources.json",
@@ -1569,8 +1724,8 @@
     },
     {
       "path": "requirements-lock-macos-arm64.txt",
-      "bytes": 2929,
-      "sha256": "bffd6b11b654e4a3a6946fceb0b2e42fdf622ba1679dbb3cb38e251a4dd48e87"
+      "bytes": 2954,
+      "sha256": "8ea4cfa66acf4f6e7cd6d4e883b52c639f1eccc12192336c1448c21e5eac8bb9"
     },
     {
       "path": "requirements-mlx.txt",
@@ -1579,8 +1734,13 @@
     },
     {
       "path": "requirements.txt",
-      "bytes": 221,
-      "sha256": "14acd5d3003aba6a166da8baa15caf8d0350dea2280d62e084b7dac8490b1e2f"
+      "bytes": 251,
+      "sha256": "357a0e0e88300fe2ae9f3f55ddb486e20464db964dbe703d99a3940895270409"
+    },
+    {
+      "path": "scripts/app_gemma_extract.py",
+      "bytes": 2667,
+      "sha256": "9830f691d819b257a40371c31111edb5a0d67093be0e6edd53495504140cfe17"
     },
     {
       "path": "scripts/check_env.py",
@@ -1659,8 +1819,8 @@
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 8099,
-      "sha256": "2ab5b1d0f964b69ad37131d3092c2baa7b1d132f4b177a963e1d29dad28df19d"
+      "bytes": 9266,
+      "sha256": "58407f1815d0f1ef81bc12c371eba5fdb598f674278308a4849b868c1de09769"
     },
     {
       "path": "scripts/report_gemma_tuning.py",
@@ -1693,9 +1853,19 @@
       "sha256": "41ec6f22fc532c5efda3c55ccdc08f1cceadbff1cb15e377e33861a73c784f4c"
     },
     {
+      "path": "scripts/verify_application.py",
+      "bytes": 4339,
+      "sha256": "a9d1bff6548be3e6d8bbfda6fa7164c8db479945405bebe8816d4769d393ea2f"
+    },
+    {
       "path": "scripts/verify_salary_splits.py",
       "bytes": 7425,
       "sha256": "a3996c2d797e7830df70b8a76404072ffd7df78510c7a2c4341b15354c70377d"
+    },
+    {
+      "path": "tests/test_application.py",
+      "bytes": 10841,
+      "sha256": "b4e6c439f806eb41479c09ff6c5b3a405889c24ab1c6e688a01debe8433b44f3"
     },
     {
       "path": "tests/test_data_cleaning.py",
@@ -1718,5 +1888,5 @@
       "sha256": "861ef4bf2c5dcd0d2ca05258564d2bda195d6db254e043daa7b6e8ffcb663bc2"
     }
   ],
-  "generated_at_utc": "2026-10-17T11:32:17.748273+00:00"
+  "generated_at_utc": "2026-10-17T12:38:53.430452+00:00"
 }

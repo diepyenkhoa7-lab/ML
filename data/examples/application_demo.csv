@@ -1,0 +1,49 @@
+record_id,role,level,experience_years,location,skills,salary_monthly_vnd
+user_vietnam_it_jobs:1700,ML Engineer,Employee,2.0,Hà Nội,AI;Git;LangChain;Python;Teamwork,25000000.0
+user_vietnam_it_jobs:1716,Software Developer,Employee,0.0,Hà Nội,Hạ tầng CNTT & Quản trị hệ thống;JavaScript;Python;Triển Khai Thiết Bị Mạng;VPN,17500000.0
+user_vietnam_it_jobs:3607,Software Developer,Employee,3.0,Hà Nội,Lập Trình C++;MES;Phân Tích Lỗi;Tự Động Hóa;Visual Studio,22000000.0
+user_vietnam_it_jobs:3861,Software Developer,Employee,2.0,Hà Nội,Agile Methodology;C Programming Language;Data Management;Problem Solving;SQL Server,27500000.0
+user_vietnam_it_jobs:3919,Software Developer,Fresher,0.0,Hà Nội,CRM;Odoo;PowerBI;Python,25000000.0
+user_vietnam_it_jobs:3964,Software Developer,Employee,3.0,Hà Nội,C#;SQL Server;Tư Duy Logic;VB.NET,27500000.0
+user_vietnam_it_jobs:3985,Software Developer,Employee,1.0,Hà Nội,ASP.NET;English Reading;HTML/CSS;Java;Python,29166666.666666668
+user_vietnam_it_jobs:3988,Mobile Developer,Employee,1.0,Đà Nẵng,APIs;Dart;Flutter;Java,29166666.666666668
+user_vietnam_it_jobs:3989,Software Developer,Employee,1.0,Hà Nội,Database Software;Network Programming;Problem-solving;Software Development;Utility Maintenance,29166666.666666668
+user_vietnam_it_jobs:3990,Software Developer,Employee,1.0,Hà Nội,Framework;Front-End;Node.js;Server-Side Template Language;Web API,29166666.666666668
+user_vietnam_it_jobs:3991,Software Developer,Employee,1.0,Hà Nội,HTML;JSP;Spring Framework,29166666.666666668
+user_vietnam_it_jobs:4018,Backend Developer,Employee,2.0,Hà Nội,Agile;Golang;Microservices;PHP;Python,21000000.0
+user_vietnam_it_jobs:4057,Software Developer,Fresher,1.0,Hà Nội,Database Design;JavaScript;Node.js;SQL,12000000.0
+user_vietnam_it_jobs:4758,Software Developer,Employee,0.0,Hà Nội,Hạ tầng CNTT & Quản trị hệ thống;Python;Triển Khai Thiết Bị Mạng;VPN,17500000.0
+user_vietnam_it_jobs:5058,Mobile Developer,Employee,3.0,TP.HCM,.Net Core;C#;Restful Apis;WMS,34000000.0
+user_vietnam_it_jobs:5212,Data Engineer,Employee,3.0,Hà Nội,Big Data Architecture;Communication Skills;Data Engineering;Nosql Databases;Sql Databases,40000000.0
+user_vietnam_it_jobs:5351,Software Developer,Fresher,0.0,Hà Nội,CRM;Odoo;PowerBI;Python,25000000.0
+user_vietnam_it_jobs:8734,ML Engineer,Employee,3.0,TP.HCM,Audio Visual Production;Distributed Systems;Machine Learning;NLP;Python,76000000.0
+user_vietnam_it_jobs:9346,Software Developer,Employee,3.0,Hà Nội,Coding;Machine Learning;Python;Software Development;Software Engineering,70000000.0
+user_vietnam_it_jobs:9424,Software Developer,Employee,1.0,Hà Nội,HTML;JSP;Spring Framework,29166666.666666668
+user_vietnam_it_jobs:9928,Full-stack Developer,Employee,3.0,Hà Nội,.NetCore;Full Stack Development;Node.js;Python;RESTful API,23500000.0
+vietjobs_2025:17362,Frontend Developer,,2.0,TP.HCM,Ajax;Bootstrap;CSS;Echart;Fetch;HTML;Java;JavaScript;jQuery;JSON;MySQL;Node.js;PHP;Python;uni-app;Vue,20000000.0
+vietjobs_2025:17391,Backend Developer,,2.0,Hà Nội,CSS;Git;HTML;JavaScript;Laravel;MongoDB;MySQL;PHP;PostgreSQL,27500000.0
+vietjobs_2025:17395,Software Developer,,2.0,Hà Nội,API;Bitbucket;Bootstrap;CSS;ExpressJS;Git;HTML;JavaScript;n8n opensouce;NestJS;Node.js;PostgreSQL;Rest;SOAP;SQL Server;TypeScript,20000000.0
+vietjobs_2025:17411,Backend Developer,,2.0,Hà Nội,API RESTful;AWS;Azure;Django;Docker;Express.js;Flask;Git;Go;Google Cloud;Java;Node.js;NoSQL;PHP;Python;Ruby on Rails;Spring Boot;SQL,24000000.0
+vietjobs_2025:17413,Software Developer,,5.0,TP.HCM,.NET Core;C#;CI/CD;Docker;PostgreSQL;RESTful API;SQL,40000000.0
+vietjobs_2025:17415,Mobile Developer,,2.0,Hà Nội,Flutter;GoogleMapSDK;Java;Kotlin;Objective-C;RESTful API;Swift;Web socket,25000000.0
+vietjobs_2025:17416,Embedded Engineer,Fresher,0.0,Hà Nội,ARM Cortex-M;AUTOSAR;C;C++;Embedded Software Development;OOP;Visual Studio,7000000.0
+vietjobs_2025:17419,Frontend Developer,,3.0,Hà Nội,CSS;HTML;JavaScript;MUI;React;React Query;Redux toolkit;Taiwindcss;ThreeJS;TypeScript,23000000.0
+vietjobs_2025:17435,Frontend Developer,,2.0,Hà Nội,CSS;HTML;JavaScript;Vue,16500000.0
+vietjobs_2025:17437,Frontend Developer,,3.0,Hà Nội,CSS;HTML;JavaScript;MUI;React;React Query;Redux toolkit;Taiwindcss;ThreeJS;TypeScript,23000000.0
+vietjobs_2025:17456,ML Engineer,,2.0,TP.HCM,HuggingFace Transformers;LangChain;NER;NLP;Python;recommend system;semantic search;text classification,30000000.0
+vietjobs_2025:17484,Backend Developer,,2.0,Hà Nội,embeddings;ETL pipelines;Golang;MongoDB;Node.js;PostgreSQL;vector database,40000000.0
+vietjobs_2025:17486,Mobile Developer,Employee,2.0,hà đông,"Ads SDK (AdMob, Unity Ads);C#;design pattern;MMP (Appsflyer, Adjust);OOP;SOLID;Unity",15000000.0
+vietjobs_2025:17494,Full-stack Developer,,3.0,Hà Nội,AWS;FreePBX;Freeswitch;FusionPBX;GCP;Git;Kafka;MongoDB;Node.js;RabbitMQ;React,31500000.0
+vietjobs_2025:17509,Mobile Developer,,2.0,Hà Nội,"API integration;Dart;Flutter;Microservice architecture;State management (Provider, Bloc)",23500000.0
+vietjobs_2025:17511,Backend Developer,,2.0,Hà Nội,Git;Kafka;MongoDB;NestJS;Node.js;PostgreSQL;RabbitMQ;Redis,22000000.0
+vietjobs_2025:17526,Mobile Developer,,3.0,Hà Nội,"Android Studio;Dart;Dart DevTool;Flipper;Flutter;GitLab;Shared Preferences;SQLite;State Management (Provider, Bloc);SVN;XCode",26000000.0
+vietjobs_2025:17527,Software Developer,,2.0,TP.HCM,Agile;AI;CI/CD;Django;Docker;Fast API;Flask;Git;Kubernetes;Machine Learning;Microservices;NoSQL;PostgreSQL;Python;Scrum;SQL Server,12500000.0
+vietjobs_2025:17561,Software Developer,Employee,1.0,Hà Nội,Angular;Docker;ELK Stack;Java;MongoDB;Oracle;Redis;RESTful API;Spring Boot;Spring Data;Spring Security,17500000.0
+vietjobs_2025:17579,Frontend Developer,,2.0,Hà Nội,Docker;Figma;Git Flow;JavaScript;Linux;OpenAPI;React;Recoil;Redux;TypeScript,20000000.0
+vietjobs_2025:17581,Frontend Developer,,3.0,Hà Nội,Angular;Angular Universal;Bootstrap;CSS;HTML;JavaScript;Next.js;NgRx;React;Redux;Restful API;Vue;Websocket;Zustand,25000000.0
+vietjobs_2025:17582,Software Developer,,2.0,Hà Nội,Hibernate;Java;RESTAPI;Springboot,18500000.0
+vietjobs_2025:17587,Software Developer,Junior,1.0,Hà Nội,.NET;.NET Core;API;ASP.NET;C#;Elasticsearch;Entity Framework;Kafka;RabbitMQ;Redis;SQL;Type Script;Vue,11000000.0
+vietjobs_2025:17590,Software Developer,Intern,1.0,Hà Nội,JavaScript;React;RestFul Api;Vue,12500000.0
+vietjobs_2025:17593,Full-stack Developer,,2.0,TP.HCM,.NET;ASP.NET Core;C#;cloud-native applications;Entity Framework Core;JavaScript;microservices architectures;NoSQL databases;React JS;RESTful APIs;SQL Server,12500000.0
+vietjobs_2025:17594,Backend Developer,,2.0,Hà Nội,Elasticsearch;Git;Java;Kafka;Memcached;MongoDB;MySQL;Oracle;PostgreSQL;Redis;Spring Framework;SQL Server,18500000.0
+vietjobs_2025:17599,Software Developer,,1.0,Hà Nội,Html/Css;Java;Java Spring Boot;MongoDB;MySQL;Oracle;Redis;SQL,13000000.0

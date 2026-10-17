@@ -1,0 +1,1029 @@
+<script setup>
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+const page = ref("upload"),
+  meta = ref(null),
+  dataset = ref(null),
+  mapping = ref({});
+const error = ref(""),
+  busy = ref(false),
+  job = ref(null),
+  rows = ref([]),
+  offset = ref(0);
+const resultTab = ref("overview"),
+  salarySource = ref("observed"),
+  profileBusy = ref(false),
+  advice = ref(null);
+const useGemma = ref(false),
+  currency = ref(""),
+  period = ref(""),
+  scale = ref(1);
+const profile = ref({
+  role: "Backend Developer",
+  level: "Junior",
+  experience_years: 3,
+  location: "Hà Nội",
+  skills: "Python, SQL",
+});
+let timer = null;
+const labels = {
+  title: "Chức danh",
+  role: "Vai trò",
+  level: "Cấp bậc",
+  experience_years: "Kinh nghiệm",
+  location: "Khu vực",
+  skills: "Kỹ năng",
+  salary: "Lương cung cấp",
+  posted_date: "Ngày đăng",
+  description: "Mô tả tuyển dụng",
+};
+const icons = {
+  upload: "M12 16V4m-4 4 4-4 4 4M4 16v4h16v-4",
+  results: "M4 20V10h4v10m4 0V4h4v16m4 0v-7h3",
+  advice: "M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0l-1 2H9z",
+};
+const result = computed(() =>
+  job.value?.status === "completed" ? job.value.result : null,
+);
+const running = computed(() =>
+  ["queued", "running"].includes(job.value?.status),
+);
+const canAnalyze = computed(
+  () =>
+    dataset.value &&
+    !busy.value &&
+    !running.value &&
+    (mapping.value.role ||
+      mapping.value.title ||
+      (mapping.value.description && useGemma.value)),
+);
+const charts = computed(() =>
+  (result.value?.charts || []).filter(
+    (c) =>
+      c.id === "actual_predicted" ||
+      (!c.id.endsWith("_observed") && !c.id.endsWith("_predicted")) ||
+      c.id.endsWith("_" + salarySource.value),
+  ),
+);
+const money = (n) =>
+  n === null || n === undefined
+    ? "—"
+    : new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 1 }).format(
+        n / 1e6,
+      );
+const integer = (n) => new Intl.NumberFormat("vi-VN").format(n ?? 0);
+const artifact = (name) =>
+  `/api/analyses/${job.value.id}/artifacts/${encodeURIComponent(name)}`;
+async function api(url, options = {}) {
+  const response = await fetch(url, options);
+  let data;
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error(
+      "Không đọc được phản hồi máy chủ. Kiểm tra kết nối rồi thử lại.",
+    );
+  }
+  if (!response.ok)
+    throw new Error(
+      Array.isArray(data.detail)
+        ? data.detail.map((x) => x.msg).join("; ")
+        : data.detail || "Yêu cầu chưa thực hiện được",
+    );
+  return data;
+}
+function acceptDataset(data) {
+  dataset.value = data;
+  mapping.value = {
+    ...Object.fromEntries(Object.keys(labels).map((k) => [k, ""])),
+    ...data.suggested_mapping,
+  };
+  page.value = "upload";
+  currency.value = "";
+  period.value = "";
+  scale.value = 1;
+  useGemma.value = false;
+}
+async function upload(file) {
+  if (!file || busy.value) return;
+  error.value = "";
+  busy.value = true;
+  try {
+    if (file.size > 10 * 1024 * 1024)
+      throw new Error("File vượt 10 MiB. Hãy giảm kích thước bảng.");
+    const form = new FormData();
+    form.append("file", file);
+    acceptDataset(await api("/api/datasets", { method: "POST", body: form }));
+  } catch (e) {
+    error.value = e.message;
+  } finally {
+    busy.value = false;
+  }
+}
+async function demo() {
+  error.value = "";
+  busy.value = true;
+  try {
+    acceptDataset(await api("/api/datasets/demo", { method: "POST" }));
+  } catch (e) {
+    error.value = e.message;
+  } finally {
+    busy.value = false;
+  }
+}
+async function analyze() {
+  error.value = "";
+  busy.value = true;
+  try {
+    job.value = await api("/api/analyses", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        dataset_id: dataset.value.dataset_id,
+        mapping: mapping.value,
+        currency: currency.value || null,
+        period: period.value || null,
+        salary_scale: Number(scale.value),
+        use_gemma: useGemma.value,
+      }),
+    });
+    localStorage.setItem("career-last-job", job.value.id);
+    page.value = "results";
+    resultTab.value = "overview";
+    offset.value = 0;
+    await poll();
+  } catch (e) {
+    error.value = e.message;
+  } finally {
+    busy.value = false;
+  }
+}
+async function poll() {
+  clearTimeout(timer);
+  try {
+    job.value = await api(`/api/analyses/${job.value.id}`);
+    if (running.value) timer = setTimeout(poll, 1100);
+    else if (job.value.status === "completed") {
+      salarySource.value = result.value.summary.labeled
+        ? "observed"
+        : "predicted";
+      await loadRows(0);
+    } else error.value = job.value.error;
+  } catch (e) {
+    error.value = e.message;
+    job.value = {
+      ...job.value,
+      status: "failed",
+      error:
+        "Chưa đọc được trạng thái máy chủ. Kết quả có thể vẫn đang xử lý; chọn kiểm tra lại.",
+    };
+  }
+}
+async function loadRows(value) {
+  error.value = "";
+  try {
+    const data = await api(
+      `/api/analyses/${job.value.id}/rows?offset=${value}&limit=25`,
+    );
+    rows.value = data.rows;
+    offset.value = value;
+  } catch (e) {
+    error.value = e.message;
+  }
+}
+async function getAdvice() {
+  error.value = "";
+  profileBusy.value = true;
+  try {
+    advice.value = await api("/api/career/advice", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...profile.value,
+        experience_years:
+          profile.value.experience_years === ""
+            ? null
+            : Number(profile.value.experience_years),
+        skills: profile.value.skills
+          .split(/[,;\n]/)
+          .map((x) => x.trim())
+          .filter(Boolean),
+      }),
+    });
+  } catch (e) {
+    error.value = e.message;
+  } finally {
+    profileBusy.value = false;
+  }
+}
+onMounted(async () => {
+  try {
+    meta.value = await api("/api/meta");
+    const previous = localStorage.getItem("career-last-job");
+    if (previous) {
+      job.value = { id: previous };
+      try {
+        await poll();
+      } catch {
+        localStorage.removeItem("career-last-job");
+      }
+    }
+  } catch (e) {
+    error.value = e.message;
+  }
+});
+onBeforeUnmount(() => clearTimeout(timer));
+</script>
+
+<template>
+  <div class="workspace">
+    <aside class="sidebar">
+      <a
+        class="brand"
+        href="#"
+        @click.prevent="page = 'upload'"
+        aria-label="IT Career Insight, trang nhập dữ liệu"
+      >
+        <span class="brand-mark"><i></i><i></i><i></i></span
+        ><span
+          >career<span class="brand-light">insight</span
+          ><small>THỊ TRƯỜNG VIỆC LÀM CNTT</small></span
+        >
+      </a>
+      <span class="nav-caption">KHÔNG GIAN LÀM VIỆC</span>
+      <nav aria-label="Điều hướng chính">
+        <button
+          v-for="[id, title] in [
+            ['upload', 'Nhập dữ liệu'],
+            ['results', 'Kết quả phân tích'],
+            ['advice', 'Tư vấn nghề nghiệp'],
+          ]"
+          :key="id"
+          :class="{ selected: page === id }"
+          @click="page = id"
+          :aria-current="page === id ? 'page' : undefined"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            aria-hidden="true"
+          >
+            <path :d="icons[id]" /></svg
+          >{{ title
+          }}<span v-if="id === 'results' && result" class="nav-dot"></span>
+        </button>
+      </nav>
+      <div class="sidebar-note">
+        <span class="small-dot"></span>Phân tích trên máy của bạn
+        <p>
+          Dữ liệu nhập được lưu local.<br />Model chạy suy luận khi bạn yêu cầu.
+        </p>
+      </div>
+      <div class="sidebar-bottom">
+        <span class="project-number">04</span>
+        <div>
+          Đề tài phân tích dữ liệu<small>Python · AI / Machine Learning</small>
+        </div>
+      </div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div class="breadcrumb">
+          IT Career Insight <span>/</span>
+          {{
+            page === "upload"
+              ? "Nhập dữ liệu"
+              : page === "results"
+                ? "Kết quả phân tích"
+                : "Tư vấn nghề nghiệp"
+          }}
+        </div>
+        <span class="local-badge"><i></i>Local workspace</span>
+      </header>
+      <div class="content">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">DỮ LIỆU THẬT. GÓC NHÌN RÕ HƠN.</div>
+            <h1>
+              {{
+                page === "upload"
+                  ? "Từ bảng dữ liệu đến bức tranh thị trường."
+                  : page === "results"
+                    ? "Thị trường CNTT trong dữ liệu của bạn."
+                    : "Bước tiếp theo trong sự nghiệp."
+              }}
+            </h1>
+            <p>
+              {{
+                page === "upload"
+                  ? "Nhập dữ liệu tuyển dụng, dự đoán mức lương và khám phá những kỹ năng được tìm kiếm."
+                  : page === "results"
+                    ? "Đọc nhu cầu kỹ năng, phân bố thu nhập và kết quả dự đoán theo từng tin tuyển dụng."
+                    : "Ước tính mức lương và xem những kỹ năng đáng cân nhắc cho hồ sơ của bạn."
+              }}
+            </p>
+          </div>
+          <div class="model-badge">
+            <span>MODEL DỰ ĐOÁN</span><strong>Random Forest</strong
+            ><small>Đơn vị: VND / tháng</small>
+          </div>
+        </div>
+        <div v-if="error" class="alert error" role="alert">
+          <strong>Chưa thực hiện được.</strong> {{ error }}
+          <button
+            class="dismiss"
+            @click="error = ''"
+            aria-label="Đóng thông báo"
+          >
+            ×
+          </button>
+        </div>
+        <template v-if="page === 'upload'">
+          <div class="steps">
+            <span class="active"><b>01</b> Nhập bảng</span><i></i
+            ><span :class="{ active: dataset }"
+              ><b>02</b> Kiểm tra & ghép cột</span
+            ><i></i
+            ><span :class="{ active: result }"
+              ><b>03</b> Phân tích & xuất kết quả</span
+            >
+          </div>
+          <section class="panel import-panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Đưa dữ liệu của bạn vào</h2>
+                <p>
+                  Mỗi dòng là một tin tuyển dụng hoặc một hồ sơ cần ước tính
+                  lương.
+                </p>
+              </div>
+              <span class="pill neutral">CSV · XLSX · JSON</span>
+            </div>
+            <div class="import-layout">
+              <label
+                class="dropzone"
+                @dragover.prevent
+                @drop.prevent="upload($event.dataTransfer.files[0])"
+              >
+                <input
+                  type="file"
+                  accept=".csv,.xlsx,.json"
+                  aria-label="Chọn bảng dữ liệu CSV, XLSX hoặc JSON"
+                  @change="upload($event.target.files[0])"
+                  :disabled="busy || running"
+                />
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M8 3H5v18h14V7l-4-4H8m6 0v5h5M12 17v-6m-3 3 3-3 3 3"
+                  />
+                </svg>
+                <strong>{{
+                  busy
+                    ? "Đang đọc bảng dữ liệu…"
+                    : dataset
+                      ? dataset.filename
+                      : "Kéo thả file vào đây"
+                }}</strong
+                ><span>hoặc chọn file từ máy tính</span
+                ><small
+                  >Tối đa 10 MiB · 2.000 dòng · Sheet đầu tiên của XLSX</small
+                >
+              </label>
+              <div class="import-help">
+                <span class="eyebrow">BẠN SẼ NHẬN ĐƯỢC</span>
+                <ul>
+                  <li>
+                    <b>01</b>
+                    <div>
+                      Dự đoán mức lương<small
+                        >Theo vai trò, kinh nghiệm, kỹ năng và khu vực</small
+                      >
+                    </div>
+                  </li>
+                  <li>
+                    <b>02</b>
+                    <div>
+                      Bức tranh nhu cầu tuyển dụng<small
+                        >Biểu đồ kỹ năng, thu nhập và phân bố công việc</small
+                      >
+                    </div>
+                  </li>
+                  <li>
+                    <b>03</b>
+                    <div>
+                      Kết quả để mang đi<small
+                        >Bảng CSV / Excel và bộ biểu đồ PNG</small
+                      >
+                    </div>
+                  </li>
+                </ul>
+                <button
+                  class="text-button"
+                  @click="demo"
+                  :disabled="busy || running"
+                >
+                  Thử với 48 tin có sẵn <span>↗</span>
+                </button>
+              </div>
+            </div>
+          </section>
+          <template v-if="dataset">
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>
+                    Kiểm tra dữ liệu
+                    <span class="pill"
+                      >{{ integer(dataset.row_count) }} dòng</span
+                    >
+                  </h2>
+                  <p>
+                    {{ dataset.filename }} · {{ dataset.columns.length }} cột
+                  </p>
+                </div>
+                <span class="pill neutral"
+                  >Xem trước {{ dataset.preview.length }} dòng</span
+                >
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th v-for="column in dataset.columns" :key="column">
+                        {{ column }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(row, i) in dataset.preview" :key="i">
+                      <td
+                        v-for="column in dataset.columns"
+                        :key="column"
+                        class="preview-cell"
+                        :title="String(row[column] ?? '')"
+                      >
+                        {{
+                          Array.isArray(row[column])
+                            ? row[column].join(", ")
+                            : (row[column] ?? "—")
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="source-note">{{ dataset.provenance }}</div>
+            </section>
+            <section class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Ghép cột với thông tin cần phân tích</h2>
+                  <p>
+                    Gợi ý đã được điền sẵn. Bạn có thể chọn lại theo cấu trúc
+                    bảng của mình.
+                  </p>
+                </div>
+              </div>
+              <div class="mapping-grid">
+                <label v-for="(label, key) in labels" :key="key"
+                  >{{ label
+                  }}<select v-model="mapping[key]">
+                    <option value="">Không có cột này</option>
+                    <option
+                      v-for="column in dataset.columns"
+                      :key="column"
+                      :value="column"
+                    >
+                      {{ column }}
+                    </option>
+                  </select></label
+                >
+              </div>
+              <div
+                v-if="mapping.salary && mapping.salary !== 'salary_monthly_vnd'"
+                class="unit-controls"
+              >
+                <div>
+                  <strong>Đơn vị của cột lương</strong
+                  ><small
+                    >Chọn cho giá trị số chưa ghi rõ đơn vị. Thông tin ghi trong
+                    chuỗi được ưu tiên.</small
+                  >
+                </div>
+                <label
+                  >Tiền tệ<select v-model="currency">
+                    <option value="">Chưa xác định</option>
+                    <option>VND</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                  </select></label
+                ><label
+                  >Kỳ lương<select v-model="period">
+                    <option value="">Chưa xác định</option>
+                    <option value="month">Tháng</option>
+                    <option value="year">Năm</option>
+                  </select></label
+                ><label
+                  >Đơn vị số<select v-model="scale">
+                    <option :value="1">Nguyên đơn vị tiền</option>
+                    <option :value="1000000">Triệu đơn vị tiền</option>
+                  </select></label
+                >
+              </div>
+              <div class="run-controls">
+                <div>
+                  <label class="checkbox"
+                    ><input
+                      type="checkbox"
+                      v-model="useGemma"
+                      :disabled="
+                        !mapping.description ||
+                        !meta?.gemma.available ||
+                        meta?.gemma.training_active
+                      "
+                    />Dùng Gemma đọc cột mô tả</label
+                  ><small>{{
+                    meta?.gemma.training_check_error
+                      ? "Không kiểm tra được GPU; chạy app từ Terminal rồi thử lại."
+                      : meta?.gemma.training_active
+                        ? "GPU đang train; chờ hoàn tất để dùng Gemma."
+                        : !meta?.gemma.available
+                          ? "Chưa có trọng số Gemma trên máy."
+                          : "Tối đa 20 mô tả/lượt. Bảng đã có cột chuẩn có thể phân tích trực tiếp."
+                  }}</small>
+                </div>
+                <button
+                  class="primary"
+                  :disabled="!canAnalyze"
+                  @click="analyze"
+                >
+                  {{ running ? "Đang phân tích…" : "Phân tích bảng dữ liệu" }}
+                  <span>→</span>
+                </button>
+              </div>
+            </section>
+          </template>
+          <div class="template-downloads">
+            Tải bảng mẫu:
+            <a href="/api/templates/application_demo.csv" download>CSV ↓</a
+            ><a href="/api/templates/application_demo.xlsx" download>Excel ↓</a
+            ><a href="/api/templates/application_demo.json" download>JSON ↓</a
+            ><small
+              >48 tin train thật, nhãn silver; dùng minh họa chức năng.</small
+            >
+          </div>
+          <div class="bottom-note">
+            <span>Không có cột lương?</span> Bạn vẫn có thể dự đoán. Chỉ tính
+            sai số khi bảng có lương VND cùng kỳ hợp lệ.
+          </div>
+        </template>
+        <template v-else-if="page === 'results'">
+          <section
+            v-if="running"
+            class="panel job-progress"
+            role="status"
+            aria-live="polite"
+          >
+            <div class="spinner"></div>
+            <h2>{{ job.stage }}</h2>
+            <p>Đang xử lý dữ liệu và tạo kết quả của bạn.</p>
+            <progress :value="job.progress" max="100"></progress
+            ><small>{{ job.progress }}%</small>
+          </section>
+          <section v-else-if="!result" class="panel empty-state">
+            <div class="empty-icon">↗</div>
+            <h2>
+              {{
+                job?.status === "failed"
+                  ? "Lượt phân tích chưa hoàn tất"
+                  : "Bảng dữ liệu đầu tiên đang chờ bạn"
+              }}
+            </h2>
+            <p>
+              {{
+                job?.error ||
+                "Nhập một bảng hoặc thử dữ liệu có sẵn để khám phá kết quả."
+              }}
+            </p>
+            <button class="primary" @click="page = 'upload'">
+              Đến phần nhập dữ liệu →</button
+            ><button
+              v-if="job?.id"
+              class="text-button retry-button"
+              @click="poll"
+            >
+              Kiểm tra lại kết quả
+            </button>
+          </section>
+          <template v-else>
+            <div class="result-toolbar">
+              <div>
+                <span class="file-label">▤ {{ result.filename }}</span
+                ><small>{{ result.provenance }}</small>
+              </div>
+              <a class="primary" :href="artifact('analysis.zip')" download
+                >Tải toàn bộ kết quả <span>↓</span></a
+              >
+            </div>
+            <div class="stat-grid">
+              <div>
+                <span>TIN ĐÃ PHÂN TÍCH</span
+                ><strong
+                  >{{ integer(result.summary.predicted)
+                  }}<small> / {{ integer(result.summary.rows) }}</small></strong
+                >
+                <p>
+                  {{ result.summary.invalid }} dòng lỗi ·
+                  {{ result.summary.duplicates }} dòng trùng
+                </p>
+              </div>
+              <div>
+                <span>TRUNG VỊ LƯƠNG DỰ ĐOÁN</span
+                ><strong
+                  >{{ money(result.summary.median_prediction_vnd) }}
+                  <small>triệu</small></strong
+                >
+                <p>Random Forest · VND / tháng</p>
+              </div>
+              <div>
+                <span>KỸ NĂNG ĐƯỢC GHI NHẬN</span
+                ><strong>{{ integer(result.summary.skill_count) }}</strong>
+                <p>
+                  Từ {{ integer(result.summary.unique_jobs) }} tin không trùng
+                </p>
+              </div>
+              <div>
+                <span>DÒNG CÓ LƯƠNG ĐỐI CHIẾU</span
+                ><strong>{{ integer(result.summary.labeled) }}</strong>
+                <p>Cùng tiền tệ và kỳ lương</p>
+              </div>
+            </div>
+            <div class="result-tabs" role="tablist" aria-label="Phần kết quả">
+              <button
+                v-for="[id, title] in [
+                  ['overview', 'Tổng quan thị trường'],
+                  ['rows', 'Dự đoán từng dòng'],
+                  ['quality', 'Chất lượng & sai số'],
+                ]"
+                :key="id"
+                role="tab"
+                :aria-selected="resultTab === id"
+                :class="{ active: resultTab === id }"
+                @click="resultTab = id"
+              >
+                {{ title }}
+              </button>
+            </div>
+            <template v-if="resultTab === 'overview'"
+              ><div class="section-heading">
+                <div>
+                  <h2>Nhu cầu kỹ năng & thu nhập</h2>
+                  <p>
+                    Các biểu đồ được tính từ bảng nhập, đã loại bản trùng hoàn
+                    toàn.
+                  </p>
+                </div>
+                <label class="chart-source"
+                  >Nguồn lương<select v-model="salarySource">
+                    <option
+                      value="observed"
+                      :disabled="!result.summary.labeled"
+                    >
+                      Lương cung cấp
+                    </option>
+                    <option value="predicted">Lương dự đoán RF</option>
+                  </select></label
+                >
+              </div>
+              <div class="chart-grid">
+                <article
+                  v-for="chart in charts"
+                  :key="chart.id"
+                  class="panel chart-panel"
+                >
+                  <div>
+                    <h3>{{ chart.title }}</h3>
+                    <a
+                      :href="artifact(chart.file)"
+                      :download="chart.file"
+                      aria-label="Tải ảnh biểu đồ"
+                      title="Tải PNG"
+                      >↓</a
+                    >
+                  </div>
+                  <img
+                    :src="artifact(chart.file)"
+                    :alt="chart.title"
+                    loading="lazy"
+                  />
+                  <p>{{ chart.caption }}</p>
+                </article>
+              </div></template
+            >
+            <section v-else-if="resultTab === 'rows'" class="panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Dự đoán cho từng dòng</h2>
+                  <p>
+                    Chênh lệch = dự đoán RF − lương cung cấp. Chọn trạng thái để
+                    đọc lỗi hoặc cảnh báo.
+                  </p>
+                </div>
+                <div class="download-links">
+                  <a :href="artifact('results.csv')" download>CSV ↓</a
+                  ><a :href="artifact('results.xlsx')" download>Excel ↓</a>
+                </div>
+              </div>
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Dòng</th>
+                      <th>Vai trò</th>
+                      <th>Kinh nghiệm</th>
+                      <th>Khu vực</th>
+                      <th>Kỹ năng</th>
+                      <th>RF · triệu/tháng</th>
+                      <th>Ridge · triệu/tháng</th>
+                      <th>Cung cấp</th>
+                      <th>Chênh lệch</th>
+                      <th>Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="row in rows" :key="row.source_row">
+                      <td>{{ row.source_row }}</td>
+                      <td>
+                        {{ row.role || "—" }}<small>{{ row.level }}</small>
+                      </td>
+                      <td>{{ row.experience_years ?? "—" }}</td>
+                      <td>{{ row.location || "—" }}</td>
+                      <td class="skills-cell">
+                        {{ row.skills.join(", ") || "—" }}
+                      </td>
+                      <td class="number">
+                        {{ money(row.predicted_salary_vnd) }}
+                      </td>
+                      <td>{{ money(row.ridge_salary_vnd) }}</td>
+                      <td>{{ money(row.salary_monthly_vnd) }}</td>
+                      <td>{{ money(row.error_vnd) }}</td>
+                      <td>
+                        <details
+                          v-if="row.errors.length || row.warnings.length"
+                          class="row-details"
+                        >
+                          <summary>
+                            <span
+                              class="pill"
+                              :class="
+                                row.status === 'invalid' ? 'bad' : 'warning'
+                              "
+                              >{{
+                                row.status === "invalid" ? "Lỗi" : "Cần xem"
+                              }}</span
+                            >
+                          </summary>
+                          <ul>
+                            <li
+                              v-for="note in [...row.errors, ...row.warnings]"
+                              :key="note"
+                            >
+                              {{ note }}
+                            </li>
+                          </ul>
+                        </details>
+                        <span v-else class="pill">Hoàn tất</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination">
+                <span
+                  >{{ offset + 1 }}–{{
+                    Math.min(offset + 25, result.summary.rows)
+                  }}
+                  / {{ result.summary.rows }} dòng</span
+                ><button
+                  class="secondary"
+                  @click="loadRows(offset - 25)"
+                  :disabled="offset === 0"
+                >
+                  ← Trước</button
+                ><button
+                  class="secondary"
+                  @click="loadRows(offset + 25)"
+                  :disabled="offset + 25 >= result.summary.rows"
+                >
+                  Sau →
+                </button>
+              </div>
+            </section>
+            <template v-else
+              ><section class="panel quality-panel">
+                <h2>Độ khớp trên bảng đang nhập</h2>
+                <p class="muted">
+                  Số đo dưới đây có thể bao gồm dữ liệu model từng thấy. Không
+                  thay thế đánh giá trên tập test độc lập.
+                </p>
+                <div
+                  class="table-scroll"
+                  v-if="Object.keys(result.metrics).length"
+                >
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Model</th>
+                        <th>Số mẫu</th>
+                        <th>MAE · triệu/tháng</th>
+                        <th>RMSE · triệu/tháng</th>
+                        <th>R²</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(metric, name) in result.metrics" :key="name">
+                        <td>
+                          {{
+                            name === "random_forest" ? "Random Forest" : "Ridge"
+                          }}
+                        </td>
+                        <td>{{ metric.samples }}</td>
+                        <td>{{ money(metric.mae_vnd) }}</td>
+                        <td>{{ money(metric.rmse_vnd) }}</td>
+                        <td>
+                          {{
+                            metric.r2 === null
+                              ? "Không đủ biến thiên"
+                              : metric.r2.toFixed(3)
+                          }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div v-else class="info-note">
+                  Không có nhãn lương phù hợp để tính MAE, RMSE hoặc R². Các dự
+                  đoán vẫn có trong bảng kết quả.
+                </div>
+                <ul class="quality-notes">
+                  <li v-for="note in result.warnings" :key="note">
+                    {{ note }}
+                  </li>
+                </ul>
+                <details>
+                  <summary>Thông tin model & khả năng tái hiện</summary>
+                  <p>
+                    Model {{ result.model.experiment_id }},
+                    {{ result.model.train_jobs }} tin train, nhãn silver. MAE
+                    test lịch sử:
+                    {{ money(result.model.historical_test.mae_vnd) }} triệu
+                    VND/tháng trên
+                    {{ result.model.historical_test.samples }} tin.
+                  </p>
+                  <p>
+                    File manifest trong gói ZIP ghi checksum, ánh xạ cột và cấu
+                    hình phân tích.
+                  </p>
+                </details>
+              </section></template
+            >
+          </template>
+        </template>
+        <template v-else>
+          <div class="advice-layout">
+            <section class="panel profile-panel">
+              <h2>Hồ sơ của bạn</h2>
+              <p class="muted">
+                Dùng cùng các thông tin đầu vào của mô hình lương.
+              </p>
+              <form @submit.prevent="getAdvice">
+                <label
+                  >Vai trò<select v-model="profile.role">
+                    <option
+                      v-for="role in meta?.salary_model.roles"
+                      :key="role"
+                    >
+                      {{ role }}
+                    </option>
+                  </select></label
+                >
+                <div class="form-two">
+                  <label
+                    >Cấp bậc<select v-model="profile.level">
+                      <option
+                        v-for="level in [
+                          ...(meta?.salary_model.levels || []),
+                          'Unknown',
+                        ]"
+                        :key="level"
+                      >
+                        {{ level }}
+                      </option>
+                    </select></label
+                  ><label
+                    >Kinh nghiệm (năm)<input
+                      v-model="profile.experience_years"
+                      type="number"
+                      min="0"
+                      max="80"
+                      step="0.5"
+                      placeholder="Chưa có thông tin"
+                  /></label>
+                </div>
+                <label
+                  >Khu vực<input
+                    v-model="profile.location"
+                    placeholder="Ví dụ: Hà Nội" /></label
+                ><label
+                  >Kỹ năng<input
+                    v-model="profile.skills"
+                    placeholder="Python, SQL, FastAPI"
+                  /><small>Phân cách bằng dấu phẩy.</small></label
+                ><button
+                  type="submit"
+                  class="primary"
+                  :disabled="profileBusy || !meta"
+                >
+                  {{ profileBusy ? "Đang ước tính…" : "Dự đoán & xem gợi ý" }} →
+                </button>
+              </form>
+            </section>
+            <div v-if="advice" class="advice-result">
+              <section class="salary-spotlight">
+                <span>ƯỚC TÍNH THEO HỒ SƠ</span
+                ><strong
+                  >{{ money(advice.predictions.random_forest) }}
+                  <small>triệu VND/tháng</small></strong
+                >
+                <p>
+                  Random Forest · Ridge đối chiếu:
+                  {{ money(advice.predictions.ridge) }} triệu/tháng
+                </p>
+                <small
+                  >Ước tính tham khảo, chưa xác định gross/net. MAE test lịch sử
+                  khoảng
+                  {{ money(advice.evidence.historical_test_mae_vnd) }}
+                  triệu/tháng.</small
+                >
+              </section>
+              <h2>Kỹ năng để cân nhắc tiếp theo</h2>
+              <p class="muted">{{ advice.explanation }}</p>
+              <div class="recommendations">
+                <article
+                  v-for="item in advice.recommendations"
+                  :key="item.skill"
+                  class="panel"
+                >
+                  <span class="pill neutral"
+                    >{{ item.train_support }} mẫu train</span
+                  >
+                  <h3>{{ item.skill }}</h3>
+                  <strong
+                    >{{ item.predicted_delta_vnd > 0 ? "+" : ""
+                    }}{{ money(item.predicted_delta_vnd) }} triệu</strong
+                  ><small>Thay đổi dự đoán RF khi thêm kỹ năng</small>
+                </article>
+              </div>
+              <div v-if="!advice.recommendations.length" class="info-note">
+                Chưa đủ bằng chứng trong train để gợi ý thêm kỹ năng.
+              </div>
+              <div v-if="advice.warnings.length" class="info-note">
+                <strong>Lưu ý về hồ sơ</strong>
+                <ul>
+                  <li v-for="warning in advice.warnings" :key="warning">
+                    {{ warning }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <section v-else class="panel empty-state advice-empty">
+              <div class="empty-icon">↗</div>
+              <h2>Một góc nhìn cho bước tiếp theo</h2>
+              <p>
+                Điền hồ sơ để xem mức lương ước tính và gợi ý có số mẫu hỗ trợ
+                từ dữ liệu train.
+              </p>
+              <span class="pill neutral"
+                >Gợi ý dựa trên dữ liệu · Không cam kết tăng lương</span
+              >
+            </section>
+          </div>
+        </template>
+        <footer class="footer">
+          <span>IT Career Insight <b>·</b> Phân tích việc làm CNTT</span
+          ><span
+            >Gemma đọc tin <b>·</b> RF / Ridge dự đoán <b>·</b> Python vẽ biểu
+            đồ</span
+          >
+        </footer>
+      </div>
+    </main>
+  </div>
+</template>

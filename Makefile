@@ -1,6 +1,7 @@
 PYTHON := .venv/bin/python
 GEMMA_ADAPTER ?= adapters/gemma-jobs/20261017T105728Z
 EPOCHS ?= 1
+APP_PORT ?= 8000
 export PIP_CACHE_DIR := $(CURDIR)/.cache/pip
 export HF_HOME := $(CURDIR)/.cache/huggingface
 export MPLCONFIGDIR := $(CURDIR)/.cache/matplotlib
@@ -11,6 +12,7 @@ export IPYTHONDIR := $(CURDIR)/.cache/ipython
 .PHONY: help setup check check-mlx lint api lab validate-example validate-sft gemma-download gemma-base gemma-smoke gemma-adapter gemma-plan-full gemma-infer-adapter gemma-train data-fetch data-profile data-clean test-data data-split data-verify salary-train
 
 help:
+	@echo "app: build Vue + serve local app | frontend-setup | frontend-build | app-test"
 	@echo "setup | check | check-mlx | lint | api | lab"
 	@echo "validate-example | validate-sft | gemma-download | gemma-base | gemma-smoke | gemma-adapter | gemma-train"
 	@echo "gemma-adapter: TRAIN all train JSONL, EPOCHS=1 by default | gemma-plan-full | gemma-infer-adapter"
@@ -32,6 +34,19 @@ lint:
 
 api:
 	$(PYTHON) -m uvicorn backend.app.main:app --reload --host 127.0.0.1 --port 8000
+
+.PHONY: app frontend-setup frontend-build app-test
+frontend-setup:
+	npm ci --prefix frontend --cache $(CURDIR)/.cache/npm
+
+frontend-build:
+	npm --prefix frontend run build
+
+app: frontend-build
+	$(PYTHON) -m uvicorn backend.app.main:app --host 127.0.0.1 --port $(APP_PORT)
+
+app-test:
+	$(PYTHON) -m unittest tests.test_application -v
 
 lab:
 	@mkdir -p "$(JUPYTER_RUNTIME_DIR)" "$(IPYTHONDIR)"

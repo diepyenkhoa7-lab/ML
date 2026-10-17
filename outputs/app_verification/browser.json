@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "tool": "ECC chrome-devtools",
+  "url": "http://127.0.0.1:8000",
+  "upload_method": "Browser File API from same-origin application template, native change event and real FormData POST. Native OS file-picker path access was unavailable in the browser tool.",
+  "fixture": "data/examples/application_demo.csv: 48 real silver train rows; functional test only",
+  "checks": [
+    {
+      "name": "upload_preview",
+      "result": "48 rows, 7 columns, auto-mapping visible"
+    },
+    {
+      "name": "mapping_required_guard",
+      "result": "clearing role disabled Analyze, restoring role enabled it"
+    },
+    {
+      "name": "batch",
+      "result": "48/48 predictions, no errors, 10 generated charts"
+    },
+    {
+      "name": "pagination",
+      "result": "25 rows on first page; 23 rows on second page, starts at source row 26"
+    },
+    {
+      "name": "downloads",
+      "result": "CSV and XLSX returned 200 with nonempty bytes; ZIP returned 200, PK header and valid archive verified by API tests"
+    },
+    {
+      "name": "chart_source",
+      "result": "switch observed/predicted updates chart headings; actual/predicted comparison stays visible"
+    },
+    {
+      "name": "career_advice",
+      "result": "Backend/Junior/4 years/TP.HCM/Python+FastAPI+PostgreSQL returned 43.8 million RF, three supported positive counterfactual skill suggestions"
+    },
+    {
+      "name": "desktop",
+      "result": "1440 CSS px, scrollWidth 1440"
+    },
+    {
+      "name": "mobile",
+      "result": "390 CSS px, scrollWidth 390; all three navigation buttons inside viewport"
+    },
+    {
+      "name": "console",
+      "result": "No console errors on final navigation"
+    }
+  ],
+  "screenshots": [
+    "dashboard-desktop.png",
+    "dashboard-mobile.png",
+    "advice-desktop.png"
+  ],
+  "boundary": "Functional UI evidence, not independent model-quality evaluation or public deployment validation"
+}

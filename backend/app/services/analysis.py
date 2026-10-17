@@ -1,0 +1,258 @@
+"""Upload-to-export engine. Uses existing fitted models; never trains."""
+
+import csv
+import hashlib
+import json
+import math
+import platform
+import zipfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+from backend.app.services.charts import build_charts
+from backend.app.services.data import ROOT, normalize_row, text
+from backend.app.services.gemma import ADAPTER, extract_cards
+from backend.app.services.salary import EXPERIMENT, salary_service
+
+
+def write_json(path, value):
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
+    temporary.replace(path)
+
+
+def spreadsheet_safe(value):
+    if isinstance(value, str) and value.lstrip().startswith(("=", "+", "-", "@")):
+        return "'" + value
+    return value
+
+
+def export_results(rows, folder, report):
+    flat = []
+    for row in rows:
+        item = {k: v for k, v in row.items() if k not in {"input", "extraction"}}
+        item.update({"input_" + k: v for k, v in row["input"].items()})
+        if row.get("extraction"):
+            item["gemma_extraction"] = json.dumps(row["extraction"], ensure_ascii=False)
+        item = {
+            k: json.dumps(v, ensure_ascii=False) if isinstance(v, (list, dict)) else v
+            for k, v in item.items()
+        }
+        flat.append(item)
+    frame = pd.DataFrame(flat)
+    frame = frame.map(spreadsheet_safe)
+    frame.to_csv(
+        folder / "results.csv",
+        index=False,
+        encoding="utf-8-sig",
+        quoting=csv.QUOTE_MINIMAL,
+        lineterminator="\n",
+    )
+    frame.to_excel(folder / "results.xlsx", index=False, engine="openpyxl")
+    write_json(folder / "results.json", rows)
+    lines = [
+        "# Kết quả phân tích bảng dữ liệu",
+        "",
+        f"Nguồn: {report['filename']}",
+        f"Model: {EXPERIMENT}; selected=random_forest; unit=VND/month.",
+        f"Dòng nhập: {report['summary']['rows']}; "
+        f"thành công: {report['summary']['predicted']}; lỗi: {report['summary']['invalid']}.",
+        "",
+        "Độ khớp trên bảng nhập, không phải holdout độc lập:",
+        json.dumps(report["metrics"], ensure_ascii=False, indent=2),
+        "",
+        "Lương VND/năm được chia 12; nhãn là trung điểm khoảng nếu đủ hai cận.",
+        "Không đổi ngoại tệ tự động. Lương trích bằng Gemma không dùng làm nhãn đánh giá.",
+        "Dòng trùng hoàn toàn vẫn có kết quả nhưng loại khỏi biểu đồ/metric.",
+        "Không có ngày đăng hợp lệ thì không tạo xu hướng theo thời gian.",
+        "Nhãn nguồn silver, gross/net có thể chưa rõ; gợi ý kỹ năng không phải tác động nhân quả.",
+        "",
+    ]
+    (folder / "report.md").write_text("\n".join(lines))
+    files = ["results.csv", "results.xlsx", "results.json", "report.md"] + [
+        c["file"] for c in report["charts"]
+    ]
+    if (folder / "gemma_outputs.json").exists():
+        files.append("gemma_outputs.json")
+    provenance = dict(
+        created_at_utc=datetime.now(timezone.utc).isoformat(),
+        filename=report["filename"],
+        input_sha256=report["input_sha256"],
+        dataset_provenance=report["provenance"],
+        request=report["request"],
+        salary_manifest_sha256=hashlib.sha256(
+            (ROOT / f"models/salary/{EXPERIMENT}/manifest.json").read_bytes()
+        ).hexdigest(),
+        adapter=ADAPTER if report["request"]["use_gemma"] else None,
+        adapter_sha256=json.loads((ROOT / ADAPTER / "manifest.json").read_text())["adapter"][
+            "sha256"
+        ]
+        if report["request"]["use_gemma"]
+        else None,
+        predictions_do_not_train=True,
+        application_source_sha256={
+            str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in [
+                *sorted((ROOT / "backend/app").rglob("*.py")),
+                ROOT / "scripts/app_gemma_extract.py",
+            ]
+        },
+        environment={
+            "python": platform.python_version(),
+            "pandas": pd.__version__,
+            "numpy": np.__version__,
+        },
+        files={name: hashlib.sha256((folder / name).read_bytes()).hexdigest() for name in files},
+    )
+    write_json(folder / "manifest.json", provenance)
+    files += ["manifest.json"]
+    with zipfile.ZipFile(folder / "analysis.zip", "w", zipfile.ZIP_DEFLATED) as archive:
+        for name in files:
+            archive.write(folder / name, name)
+    return files + ["analysis.zip"]
+
+
+def analyze(dataset, options, folder: Path, progress):
+    model = salary_service()
+    mapping = options.mapping
+    if set(mapping.values()) - set(dataset["columns"]):
+        raise ValueError("Cột được ghép không tồn tại trong file")
+    if not any(k in mapping for k in ["role", "title", "description"]):
+        raise ValueError("Cần ghép vai trò, chức danh hoặc mô tả tuyển dụng")
+    raw_rows = dataset["rows"]
+    extracted = {}
+    progress("Chuẩn hóa dữ liệu", 10)
+    if options.use_gemma and "description" in mapping:
+        indices = [i for i, raw in enumerate(raw_rows) if text(raw.get(mapping["description"]))]
+        if indices:
+            cards = []
+            for i in indices:
+                raw = raw_rows[i]
+                pieces = [f"{key}: {text(raw.get(column))}" for key, column in mapping.items()]
+                cards.append("Phiếu tin tuyển dụng từ dữ liệu đã thu thập:\n" + "\n".join(pieces))
+            progress(f"Gemma đang đọc {len(cards)} mô tả", 15)
+            extracted = dict(zip(indices, extract_cards(cards)))
+            write_json(
+                folder / "gemma_outputs.json",
+                {str(i + 1): result for i, result in extracted.items()},
+            )
+    rows, seen = [], {}
+    for i, raw in enumerate(raw_rows):
+        result = extracted.get(i, {})
+        try:
+            row = normalize_row(raw, mapping, options, result.get("value"))
+        except (ValueError, TypeError) as exc:
+            row = dict(
+                role=None,
+                level="Unknown",
+                location=None,
+                experience_years=None,
+                skills=[],
+                salary_monthly_vnd=None,
+                salary_status="invalid",
+                posted_date=None,
+                warnings=[],
+                errors=[str(exc)],
+                extraction=None,
+            )
+        if result.get("error"):
+            row["warnings"].append("Gemma: " + result["error"])
+        if row["role"] and row["role"] not in model.roles:
+            row["errors"].append("Vai trò chưa hỗ trợ; model hiện dành cho nhóm lập trình viên")
+        if (
+            len(row["skills"]) > 100
+            or any(len(s) > 200 for s in row["skills"])
+            or len(row["location"] or "") > 200
+        ):
+            row["errors"].append("Tên kỹ năng/khu vực quá dài hoặc vượt 100 kỹ năng")
+        key = json.dumps(raw, ensure_ascii=False, sort_keys=True)
+        duplicate_of = seen.get(key)
+        seen.setdefault(key, i + 1)
+        row.update(
+            source_row=i + 1,
+            input=raw,
+            duplicate_of=duplicate_of,
+            status="invalid" if row["errors"] else "ok",
+            predicted_salary_vnd=None,
+            ridge_salary_vnd=None,
+            error_vnd=None,
+        )
+        if row["status"] == "ok":
+            row["warnings"].extend(model.warnings(row))
+        if duplicate_of:
+            row["warnings"].append(
+                f"Trùng hoàn toàn dòng {duplicate_of}; không đếm lại trong thống kê"
+            )
+        rows.append(row)
+    valid = [r for r in rows if r["status"] == "ok"]
+    progress("Dự đoán bằng Random Forest và Ridge", 40)
+    if valid:
+        predictions = model.predict(valid)
+        for i, row in enumerate(valid):
+            rf, ridge = predictions["random_forest"][i], predictions["ridge"][i]
+            if not math.isfinite(rf) or not math.isfinite(ridge):
+                raise ValueError("Model trả kết quả không hữu hạn")
+            row.update(predicted_salary_vnd=round(rf), ridge_salary_vnd=round(ridge))
+            if row["salary_monthly_vnd"] is not None:
+                row["error_vnd"] = round(rf - row["salary_monthly_vnd"])
+    unique = [r for r in valid if r["duplicate_of"] is None]
+    labeled = [r for r in unique if r["salary_monthly_vnd"] is not None]
+    metrics = {}
+    if labeled:
+        target = [r["salary_monthly_vnd"] for r in labeled]
+        for name, col in [("random_forest", "predicted_salary_vnd"), ("ridge", "ridge_salary_vnd")]:
+            pred = [r[col] for r in labeled]
+            metrics[name] = dict(
+                samples=len(target),
+                mae_vnd=mean_absolute_error(target, pred),
+                rmse_vnd=math.sqrt(mean_squared_error(target, pred)),
+                r2=r2_score(target, pred) if len(target) > 1 and np.var(target) > 0 else None,
+            )
+    progress("Vẽ biểu đồ Matplotlib & Seaborn", 60)
+    charts = build_charts(rows, folder)
+    warnings = [
+        "Metric trên bảng nhập chỉ là độ khớp tại đây, không thay thế test độc lập.",
+        "Lương dự đoán: VND/tháng; gross/net chưa xác định. Không phải cam kết thu nhập.",
+    ]
+    if not labeled:
+        warnings.append("Không có nhãn lương VND/tháng hợp lệ; không tính MAE/RMSE/R².")
+    if not any(r["posted_date"] for r in unique):
+        warnings.append(
+            "Không có ngày đăng hợp lệ; chỉ thể hiện thống kê tại bảng, "
+            "không có xu hướng thời gian."
+        )
+    report = dict(
+        filename=dataset["filename"],
+        provenance=dataset["provenance"],
+        input_sha256=dataset["input_sha256"],
+        request=options.model_dump(),
+        summary=dict(
+            rows=len(rows),
+            predicted=len(valid),
+            invalid=len(rows) - len(valid),
+            duplicates=sum(r["duplicate_of"] is not None for r in rows),
+            labeled=len(labeled),
+            unique_jobs=len(unique),
+            median_prediction_vnd=float(np.median([r["predicted_salary_vnd"] for r in unique]))
+            if unique
+            else None,
+            skill_count=len({s for r in unique for s in r["skills"]}),
+        ),
+        metrics=metrics,
+        charts=charts,
+        warnings=warnings,
+        model=dict(
+            experiment_id=EXPERIMENT,
+            selected_model="random_forest",
+            train_jobs=123,
+            historical_test=dict(samples=28, mae_vnd=6656370, rmse_vnd=10517000, r2=0.444),
+        ),
+    )
+    progress("Xuất bảng và gói kết quả", 90)
+    report["files"] = export_results(rows, folder, report)
+    write_json(folder / "report.json", report)
+    return report

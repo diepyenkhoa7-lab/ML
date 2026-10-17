@@ -26,3 +26,6 @@ adapters/**
 !adapters/**/.gitkeep
 
 # Dataset và outputs/metrics KHÔNG bị bỏ qua toàn bộ.
+
+# Dữ liệu người dùng nhập và kết quả app local
+outputs/app_runtime/

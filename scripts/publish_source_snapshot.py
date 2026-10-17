@@ -20,6 +20,18 @@ MANIFEST = ROOT / "outputs/source_publication/manifest.json"
 
 
 def collect_files():
+    # Publish reviewed/released runs only; do not capture another manual training job.
+    reviewed_runs = set()
+    if MANIFEST.exists():
+        for item in json.loads(MANIFEST.read_text()).get("files", []):
+            parts = Path(item["path"]).parts
+            if parts[:2] == ("outputs", "training_logs") and len(parts) > 2:
+                if parts[2].startswith("gemma_"):
+                    reviewed_runs.add(parts[2].removeprefix("gemma_"))
+            if parts[:2] == ("adapters", "gemma-jobs") and len(parts) > 2:
+                reviewed_runs.add(parts[2])
+    for metrics in (ROOT / "outputs/metrics").glob("gemma_*_adapter_valid/metrics.json"):
+        reviewed_runs.add(Path(json.loads(metrics.read_text())["adapter"]).name)
     files = set()
     for name in [
         "README.md",
@@ -49,6 +61,7 @@ def collect_files():
         "outputs/label_review/v1.0.1",
         "outputs/environment",
         "outputs/notebook_preparation",
+        "outputs/app_verification",
         "outputs/eda/20261017T092843Z_e3747c",
         "outputs/metrics/salary_bd9af2fa002caae8",
         "outputs/metrics/gemma_20261017T094853Z_base_valid",
@@ -79,7 +92,9 @@ def collect_files():
             files.add(ROOT / name)
     # Summarized completed runs only; intermediate checkpoints and base weights stay local.
     for manifest_path in (ROOT / "adapters/gemma-jobs").glob("*/manifest.json"):
-        if not json.loads(manifest_path.read_text()).get("training_completed"):
+        if manifest_path.parent.name not in reviewed_runs or not json.loads(
+            manifest_path.read_text()
+        ).get("training_completed"):
             continue
         for name in ["adapters.safetensors", "adapter_config.json", "manifest.json"]:
             files.add(manifest_path.parent / name)
@@ -90,6 +105,11 @@ def collect_files():
         if not excluded.intersection(p.relative_to(ROOT).parts)
         and p.suffix not in {".pyc", ".pyo"}
         and p.name != ".DS_Store"
+        and not (
+            p.relative_to(ROOT).parts[:2] == ("outputs", "training_logs")
+            and p.relative_to(ROOT).parts[2].startswith("gemma_")
+            and p.relative_to(ROOT).parts[2].removeprefix("gemma_") not in reviewed_runs
+        )
     }
     # Reject credential formats without echoing any matched content.
     secret = re.compile(
@@ -129,7 +149,8 @@ def main():
         ),
         "excludes": (
             "raw/bulky audit CSVs, old failed splits, Gemma base weights, "
-            "intermediate adapter checkpoints, caches, credentials"
+            "intermediate adapter checkpoints, unreviewed Gemma runs, user upload/runtime, "
+            "caches, credentials"
         ),
         "reproduction": "docs/TRAINING_RUNBOOK.md",
         "self_excluded_from_hashes": True,

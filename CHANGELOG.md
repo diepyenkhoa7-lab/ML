@@ -1,5 +1,24 @@
 # Nhật ký thay đổi
 
+## 2026-10-17 — Ứng dụng từ nhập bảng đến xuất kết quả
+
+- Lập kế hoạch/AC và triển khai Vue 3 + FastAPI: CSV/XLSX/JSON → preview/ghép cột →
+  dự đoán RF/Ridge từ pipeline đã lưu → biểu đồ Matplotlib/Seaborn → CSV/XLSX/JSON/PNG/ZIP.
+- Dữ liệu gốc và số dòng được giữ; dòng lỗi có lý do, bản trùng không đếm lại trong
+  thống kê. Không đoán tiền tệ/kỳ; không tạo metric khi thiếu nhãn hoặc trend khi thiếu ngày.
+- Gemma worker inference-only dùng adapter 105728Z, checksum/schema/context guard,
+  kiểm tra GPU đang train, lưu raw output. Đã kiểm tra thực chuỗi extraction → RF.
+- Tư vấn theo hồ sơ dùng các kỹ năng có support train ≥5, hệ số Ridge dương và
+  chênh lệch RF dương; giải thích bằng số liệu Python, không hứa tác động nhân quả.
+- Export chống công thức bảng tính, manifest ghi input/model/code/output hash.
+  Runtime/upload local ở outputs/app_runtime bị loại khỏi Git. Source publication
+  chỉ giữ các lượt Gemma đã review/release, không lấy thêm job người dùng đang chạy.
+- 40 tests đạt, Ruff/Prettier/build đạt; browser kiểm tra upload bằng File API từ
+  template app, mapping guard, phân trang, chuyển nguồn biểu đồ, download và tư vấn.
+  Ảnh desktop/mobile thật và bằng chứng tại outputs/app_verification/.
+- `make app` build Vue và chạy app tại 127.0.0.1:8000, không train. Hướng dẫn tại
+  docs/APP_RUNBOOK.md. Đây là app local một người dùng, chưa triển khai public.
+
 ## 2026-10-17 — Đánh giá full và train lặp Gemma thật
 
 - Theo xác nhận mới của người dùng, chấm full baseline và train thêm 3 lượt × 364

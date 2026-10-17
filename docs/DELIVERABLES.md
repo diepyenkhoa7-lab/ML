@@ -8,15 +8,16 @@
 | Ít nhất 2 metric | MAE, RMSE; thêm R² | Đã có MAE, RMSE, R² của baseline/Ridge/RF |
 | Giá trị kỹ năng | Thống kê theo vai trò, số mẫu và mức lương | Đã có thống kê và hệ số Ridge trên train; không suy nhân quả |
 | Gemma | google/gemma-4-E4B-it + adapter + so sánh trước/sau | Đã train full và thêm 3 lượt; chọn 105728Z bằng validation (Skill F1 93,76%). Metric test và giới hạn trong outputs/metrics/gemma_tuning/FINAL_REPORT.md |
-| Ứng dụng tư vấn | Hồ sơ → lương → đề xuất kỹ năng → giải thích | API khởi tạo có health, chưa có nghiệp vụ |
+| Ứng dụng tư vấn | Hồ sơ → lương → đề xuất kỹ năng → giải thích | Đã có Vue/FastAPI, dự đoán RF/Ridge và gợi ý có hỗ trợ từ train; xem APP_RUNBOOK.md |
 | Báo cáo cá nhân | `STT_Họ và tên_MSSV`, theo mẫu giảng viên | Chưa có mẫu hoặc thông tin sinh viên |
 | Link dự án | GitHub/GitLab truy cập được, README chạy lại | Remote theihoz/ML; nhánh publish/salary-gemma-prep |
 | Dataset | File dữ liệu thật + nguồn, quyền sử dụng | Đã nhập nguồn; một số xuất xứ/điều khoản còn cần xác minh, xem docs/DATA_SOURCES.md |
-| Demo | Kịch bản, model/adapter, môi trường chạy ổn định | Có mô hình lương và adapter Gemma; còn API/giao diện và kịch bản |
+| Demo | Kịch bản, model/adapter, môi trường chạy ổn định | Có app local nhập CSV/XLSX/JSON, ghép cột, dự đoán, biểu đồ, tư vấn và xuất file; có kiểm thử API/browser, còn chuẩn bị thuyết trình |
 
-API dự kiến: `GET /analytics/overview`, `POST /jobs/extract`,
-`POST /salary/predict`, `POST /career/advice`. Chưa tạo endpoint trả kết quả giả.
-Gemma nhận kết quả hồi quy và thống kê làm bằng chứng khi tư vấn.
+API thực tế: upload tại `POST /api/datasets`, job tại `POST /api/analyses`,
+đọc trạng thái/kết quả/biểu đồ/download theo ID; `POST /api/salary/predict` và
+`POST /api/career/advice`. Gemma đọc mô tả trong job với `use_gemma: true`.
+Giải thích/tư vấn điền từ số liệu Python; không gọi Gemma để bịa số lương.
 
 Đánh giá Gemma: JSON hợp lệ, accuracy từng trường và Skill F1 trên cùng test set;
 chấm tư vấn bằng rubric cố định và tỷ lệ phát biểu đúng số liệu.
