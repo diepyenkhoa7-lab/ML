@@ -1459,3 +1459,11 @@ details p {
     line-height: 1.5;
   }
 }
+
+.market-reference {
+  padding: 24px;
+}
+.market-reference p {
+  margin: 12px 0;
+  line-height: 1.6;
+}

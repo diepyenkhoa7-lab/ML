@@ -132,3 +132,9 @@ Tải lại bằng `make data-fetch`; lập hồ sơ và tái xuất các tập 
 Một số CSV gốc lớn hơn giới hạn file GitHub thông thường. Khi đưa dự án lên Git,
 dùng Git LFS hoặc bàn giao URL nguồn đã cố định commit + checksum + script tải lại;
 không bỏ qua dataset bàn giao mà không có cách tải tái lập.
+
+## Bổ sung 18/10/2026: TiniX / CareerPathKG
+
+[TiniX Vietnamese Job Descriptions](https://huggingface.co/datasets/tinixai/vietnamese-job-descriptions), revision `679c3a17347ff6ce769d9bf510c122a087493cf6`: 606.878 tin nhiều ngành năm2022–2026, parquet khoảng280MiB, CC-BY-NC-4.0 theo dataset card. Ghi công Le et al., CareerPathKG, EACL Industry2026. Có title/company/salary/requirements/year nhưng không có URL/ngày chi tiết cho từng tin; không tuyên bố mọi tin đều mới ở thời điểm tải.
+
+Chỉ dùng subset lập trình viên2025–2026 cho nghiên cứu salaryv2.1.0. Explicit-month holdout tách riêng khỏi nhãn train thiếu kỳ (giả định tháng, weight0,3). Raw/checksum tại `data/raw/tinixai_2026/`, frozen dẫn xuất và protocol tại `data/splits/v2.1.0/` và `configs/salary_v2_protocol.json`. Không trộn báo cáo ITviec/TopDev dạng trung vị nhóm thành nhãn cá nhân; tham chiếu riêng ở `data/references/`.

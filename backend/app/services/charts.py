@@ -69,7 +69,8 @@ import pandas as pd  # noqa: E402
 import seaborn as sns  # noqa: E402
 
 
-def build_charts(rows, folder: Path):
+def build_charts(rows, folder: Path, model_name="random_forest"):
+    model_label = "Ridge" if model_name == "ridge" else "Random Forest"
     valid = pd.DataFrame([r for r in rows if r["status"] == "ok" and r["duplicate_of"] is None])
     charts = []
     sns.set_theme(style="whitegrid", palette=["#29816b", "#407e9f", "#c07c55"])
@@ -124,7 +125,7 @@ def build_charts(rows, folder: Path):
         demand_plot,
     )
 
-    sources = [("predicted", "predicted_salary_vnd", "Dự đoán RF")]
+    sources = [("predicted", "predicted_salary_vnd", f"Dự đoán {model_label}")]
     if valid.salary_monthly_vnd.notna().any():
         sources.insert(0, ("observed", "salary_monthly_vnd", "Lương được cung cấp"))
     for source, column, label in sources:
@@ -239,7 +240,9 @@ def build_charts(rows, folder: Path):
         low = min(labeled.salary_monthly_vnd.min(), labeled.predicted_salary_vnd.min()) / 1e6
         high = max(labeled.salary_monthly_vnd.max(), labeled.predicted_salary_vnd.max()) / 1e6
         ax.plot([low, high], [low, high], "--", color="#c07c55")
-        ax.set(xlabel="Cung cấp (triệu VND/tháng)", ylabel="Dự đoán RF (triệu VND/tháng)")
+        ax.set(
+            xlabel="Cung cấp (triệu VND/tháng)", ylabel=f"Dự đoán {model_label} (triệu VND/tháng)"
+        )
         return True
 
     if not labeled.empty:

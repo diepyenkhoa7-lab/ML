@@ -1,0 +1,98 @@
+{
+  "role=Backend Developer": {
+    "samples": 8,
+    "mae_vnd": 3387918.032933452,
+    "rmse_vnd": 4419152.938633864,
+    "r2": 0.5332460414593132,
+    "median_absolute_error_vnd": 2151283.0396925267,
+    "within_5m": 0.625
+  },
+  "role=Frontend Developer": {
+    "samples": 5,
+    "mae_vnd": 7835313.07750077,
+    "rmse_vnd": 9445324.416770708,
+    "r2": -3.268619776939949,
+    "median_absolute_error_vnd": 5804476.026325151,
+    "within_5m": 0.2
+  },
+  "role=Full-stack Developer": {
+    "samples": 2,
+    "mae_vnd": 5768839.677316252,
+    "rmse_vnd": 6410951.212300823,
+    "r2": 0.6752569248671494,
+    "median_absolute_error_vnd": 5768839.677316252,
+    "within_5m": 0.5
+  },
+  "role=Mobile Developer": {
+    "samples": 2,
+    "mae_vnd": 4508308.999413073,
+    "rmse_vnd": 4968882.547920878,
+    "r2": -0.21924907531025584,
+    "median_absolute_error_vnd": 4508308.999413073,
+    "within_5m": 0.5
+  },
+  "role=Software Developer": {
+    "samples": 13,
+    "mae_vnd": 3551445.8038319577,
+    "rmse_vnd": 4192217.7058892893,
+    "r2": 0.48476744096734636,
+    "median_absolute_error_vnd": 3492286.613104712,
+    "within_5m": 0.7692307692307693
+  },
+  "location=728 Võ Văn Kiệt | 728 Võ Văn Kiệt, Phường 1, Quận 5": {
+    "samples": 1,
+    "mae_vnd": 6597553.777040571,
+    "rmse_vnd": 6597553.777040571,
+    "r2": null,
+    "median_absolute_error_vnd": 6597553.777040571,
+    "within_5m": 0.0
+  },
+  "location=Bac Giang Lô B2, KCN Đại Đồng, xã Hoàn Sơn, huyện Tiên Du, tỉnh Bắc Ninh Bac Giang": {
+    "samples": 1,
+    "mae_vnd": 959723.9168402627,
+    "rmse_vnd": 959723.9168402627,
+    "r2": null,
+    "median_absolute_error_vnd": 959723.9168402627,
+    "within_5m": 1.0
+  },
+  "location=Hà Nội": {
+    "samples": 16,
+    "mae_vnd": 2979390.6578711816,
+    "rmse_vnd": 3950348.407704509,
+    "r2": 0.6843188738983084,
+    "median_absolute_error_vnd": 2038508.2064208388,
+    "within_5m": 0.8125
+  },
+  "location=TP.HCM": {
+    "samples": 11,
+    "mae_vnd": 6579597.272135753,
+    "rmse_vnd": 7622105.502390097,
+    "r2": 0.4444810583766393,
+    "median_absolute_error_vnd": 5321820.915158816,
+    "within_5m": 0.36363636363636365
+  },
+  "location=Thuận An 331 Liên Huyện, An Phú Binh Duong": {
+    "samples": 1,
+    "mae_vnd": 5399904.240932535,
+    "rmse_vnd": 5399904.240932535,
+    "r2": null,
+    "median_absolute_error_vnd": 5399904.240932535,
+    "within_5m": 0.0
+  },
+  "source_year=2025": {
+    "samples": 12,
+    "mae_vnd": 3579470.275604947,
+    "rmse_vnd": 3977310.1809447715,
+    "r2": 0.4623310159967291,
+    "median_absolute_error_vnd": 3492286.613104712,
+    "within_5m": 0.75
+  },
+  "source_year=2026": {
+    "samples": 18,
+    "mae_vnd": 5002742.174832567,
+    "rmse_vnd": 6551188.408748835,
+    "r2": 0.4159825896814897,
+    "median_absolute_error_vnd": 4567246.344069835,
+    "within_5m": 0.5
+  }
+}

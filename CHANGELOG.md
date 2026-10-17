@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-10-18 — Thêm dữ liệu, train salary v2 và đối chiếu thị trường
+
+- Tải nguồn TiniX606878 tin có revision/checksum/CC-BY-NC; raw lớn tải riêng. Frozen
+  v2.1.0 có train79 explicit+1078 weak(monthly assumption, weight0,3), valid25/test30
+  explicit-month; company-disjoint, oldholdoutcompany excluded. Drafts chưa fit giữ local.
+- Train thật12 ứng viên; chọn Ridgealpha1 bằng validation. Cùng30test mới: MAE4,433M
+  soRFv1 8,246M, RMSE5,664M so10,508M; passfixedgate, kích hoạt quaapplication.json,
+  RF đối chiếu và v1rollback. Giữ nguyên Gemma/frozenv1; không tuning theo test đã mở.
+- Đối chiếu ITviec/TopDev riêng: lệch aggregate ITviec v2~21,1%, v1~8,2% nên không
+  tuyên bố cải thiện marketalignment; không đưa reportmedian vào nhãn cá nhân. Web
+  hiển thị modelthực chạy, salaryoffer estimate và ITviec reference/source riêng.
+- 63 tests đạt; train/serve parity, selection/export/metric, frozenv2 và marketreference.
+  API CSV/XLSX/JSON và Gemma GPU thật→Ridge đạt. Báo cáo/runbook/journal có evidence.
+
 ## 2026-10-18 — ECC architecture audit và tích hợp Gemma rõ trên web
 
 - Sửa 3 finding high và 5 medium: hợp đồng Gemma theo request/dòng/hash, provenance

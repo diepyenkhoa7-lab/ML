@@ -54,9 +54,9 @@ CSV/XLSX escape chuỗi giống công thức; JSON giữ giá trị gốc.
 ## Tư vấn nghề nghiệp
 
 Chọn vai trò, cấp bậc, kinh nghiệm, khu vực, kỹ năng → Dự đoán & xem gợi ý.
-RF trả lương tham khảo; Ridge dùng đối chiếu. Gợi ý lấy từ kỹ năng có ít nhất 5 mẫu
-train và hệ số Ridge dương, xếp theo mức tăng dự đoán RF khi thêm một kỹ năng.
-Chỉ đề xuất nếu chênh lệch RF dương; nếu không có thì báo chưa đủ bằng chứng.
+Model hiện tại là Ridge v2; RF dùng đối chiếu (theo configs/application.json). Gợi ý lấy từ kỹ năng có ít nhất 5 mẫu
+train và hệ số Ridge dương, xếp theo mức tăng dự đoán model chính khi thêm một kỹ năng, cần ít nhất 5 mẫu cùng vai trò.
+Chỉ đề xuất nếu chênh lệch model dương; nếu không có thì báo chưa đủ bằng chứng.
 Đây là quan hệ từ model/dữ liệu, không chứng minh học kỹ năng sẽ tăng thu nhập.
 Giải thích được điền bằng Python từ số liệu kiểm tra được; Gemma phụ trách trích xuất.
 
@@ -69,7 +69,7 @@ Giải thích được điền bằng Python từ số liệu kiểm tra đượ
   Job hoàn tất đọc lại được sau restart; job dang dở được đánh dấu cần chạy lại.
   Xóa một thư mục UUID ở đây sau khi dừng app nếu muốn xóa dữ liệu tương ứng.
 - Không có MAE/RMSE/R² khi thiếu nhãn. Metric bảng nhập không phải kiểm định độc lập,
-  nhất là dữ liệu mẫu lấy từ train. Test lịch sử RF chỉ 28 tin, MAE khoảng 6,66 triệu/tháng.
+  nhất là dữ liệu mẫu lấy từ train. V2 test mới30 tin, Ridge MAE khoảng4,43 triệu; v1 lịch sử test28 tin MAE6,66 triệu, khác tập.
 - Nhãn silver; gross/net chưa rõ; không suy số năm từ seniority. Không có khoảng tin
   cậy được hiệu chỉnh nên app không bịa khoảng chắc chắn quanh dự đoán.
 - Các lệnh train/suy luận/evaluate của dự án dùng khóa GPU chung `.cache/gemma-gpu.lock`;
@@ -105,3 +105,8 @@ API/OpenAPI: http://127.0.0.1:8000/docs. Endpoint chính:
 `GET /api/analyses/{id}/artifacts/{name}`, `POST /api/salary/predict`,
 `POST /api/career/advice`. Endpoint Gemma được tích hợp trong job phân tích
 qua `use_gemma: true`, không có endpoint train.
+
+Bản v2: xem [SALARY_V2_RUNBOOK](SALARY_V2_RUNBOOK.md). Badge, bảng và biểu đồ lấy model
+của chính job, nên kết quả lịch sử không bị gán nhãn model mới. Mục tư vấn hiển thị riêng
+trung vị khảo sát ITviec, không dùng nó thay lương chào tuyển dự đoán. Train có1078 nhãn
+thiếu kỳ lương với giả định tháng/trọng số0,3; không coi toàn bộ dữ liệu là gold.

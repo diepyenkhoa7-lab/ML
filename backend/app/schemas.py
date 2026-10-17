@@ -72,7 +72,19 @@ class Profile(BaseModel):
         return value
 
 
+class MarketReference(BaseModel):
+    available: bool
+    source: str
+    source_url: str
+    role: str
+    experience_band: str | None
+    median_vnd_month: int | None
+    prediction_minus_median_vnd: int | None
+    caution: str
+
+
 class ProfileResult(BaseModel):
+    market_reference: MarketReference
     profile: dict[str, Any]
     predictions: dict[str, float]
     selected_model: str

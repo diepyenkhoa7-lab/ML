@@ -12,3 +12,6 @@ PyYAML>=6,<7
 requests>=2.32,<3
 
 python-multipart>=0.0.20,<1
+
+# Pinned-parquet salary source preparation (26.0.0 in macOS lockfile).
+pyarrow>=20,<27

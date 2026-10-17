@@ -16,7 +16,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from backend.app.services.charts import build_charts
 from backend.app.services.data import ROOT, normalize_row, text
 from backend.app.services.gemma import extract_cards
-from backend.app.services.salary import EXPERIMENT, salary_service
+from backend.app.services.salary import salary_service
 
 
 def write_json(path, value):
@@ -58,7 +58,8 @@ def export_results(rows, folder, report):
         "# Kết quả phân tích bảng dữ liệu",
         "",
         f"Nguồn: {report['filename']}",
-        f"Model: {EXPERIMENT}; selected=random_forest; unit=VND/month.",
+        f"Model: {report['model']['experiment_id']}; "
+        f"selected={report['model']['selected_model']}; unit=VND/month.",
         f"Dòng nhập: {report['summary']['rows']}; "
         f"thành công: {report['summary']['predicted']}; lỗi: {report['summary']['invalid']}.",
         "",
@@ -190,6 +191,8 @@ def analyze(dataset, options, folder: Path, progress):
             status="invalid" if row["errors"] else "ok",
             predicted_salary_vnd=None,
             ridge_salary_vnd=None,
+            random_forest_salary_vnd=None,
+            comparison_salary_vnd=None,
             error_vnd=None,
         )
         if row["status"] == "ok":
@@ -207,15 +210,25 @@ def analyze(dataset, options, folder: Path, progress):
             rf, ridge = predictions["random_forest"][i], predictions["ridge"][i]
             if not math.isfinite(rf) or not math.isfinite(ridge):
                 raise ValueError("Model trả kết quả không hữu hạn")
-            row.update(predicted_salary_vnd=round(rf), ridge_salary_vnd=round(ridge))
+            chosen = predictions[model.selected_model][i]
+            other = ridge if model.selected_model == "random_forest" else rf
+            row.update(
+                predicted_salary_vnd=round(chosen),
+                ridge_salary_vnd=round(ridge),
+                random_forest_salary_vnd=round(rf),
+                comparison_salary_vnd=round(other),
+            )
             if row["salary_monthly_vnd"] is not None:
-                row["error_vnd"] = round(rf - row["salary_monthly_vnd"])
+                row["error_vnd"] = round(chosen - row["salary_monthly_vnd"])
     unique = [r for r in valid if r["duplicate_of"] is None]
     labeled = [r for r in unique if r["salary_monthly_vnd"] is not None]
     metrics = {}
     if labeled:
         target = [r["salary_monthly_vnd"] for r in labeled]
-        for name, col in [("random_forest", "predicted_salary_vnd"), ("ridge", "ridge_salary_vnd")]:
+        for name, col in [
+            ("random_forest", "random_forest_salary_vnd"),
+            ("ridge", "ridge_salary_vnd"),
+        ]:
             pred = [r[col] for r in labeled]
             metrics[name] = dict(
                 samples=len(target),
@@ -224,7 +237,7 @@ def analyze(dataset, options, folder: Path, progress):
                 r2=r2_score(target, pred) if len(target) > 1 and np.var(target) > 0 else None,
             )
     progress("Vẽ biểu đồ Matplotlib & Seaborn", 60)
-    charts = build_charts(rows, folder)
+    charts = build_charts(rows, folder, model_name=model.selected_model)
     warnings = [
         "Metric trên bảng nhập chỉ là độ khớp tại đây, không thay thế test độc lập.",
         "Lương dự đoán: VND/tháng; gross/net chưa xác định. Không phải cam kết thu nhập.",
@@ -260,10 +273,14 @@ def analyze(dataset, options, folder: Path, progress):
         charts=charts,
         warnings=warnings,
         model=dict(
-            experiment_id=EXPERIMENT,
-            selected_model="random_forest",
+            experiment_id=model.experiment,
+            selected_model=model.selected_model,
             train_jobs=len(model.train),
-            historical_test=dict(samples=28, mae_vnd=6656370, rmse_vnd=10517000, r2=0.444),
+            historical_test=model.historical_test,
+            label_quality=model.label_quality,
+            train_label_counts=model.train.label_quality.value_counts().to_dict()
+            if "label_quality" in model.train
+            else {"silver": len(model.train)},
         ),
     )
     progress("Xuất bảng và gói kết quả", 90)

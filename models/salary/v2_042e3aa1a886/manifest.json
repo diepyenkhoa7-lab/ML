@@ -1,0 +1,40 @@
+{
+  "experiment_id": "v2_042e3aa1a886",
+  "selected_model": "ridge",
+  "artifacts": {
+    "ridge": {
+      "path": "models/salary/v2_042e3aa1a886/ridge.joblib",
+      "sha256": "70feaacff3c19accb520035726f10817a644242009a0efff22b9f8d2236393e2"
+    },
+    "random_forest": {
+      "path": "models/salary/v2_042e3aa1a886/random_forest.joblib",
+      "sha256": "decfa68899ba6caf6dcca810e8d6d8e203426d1d06759bab228520e3367f1bd0"
+    }
+  },
+  "features": [
+    "experience_years",
+    "role",
+    "level",
+    "location",
+    "skills"
+  ],
+  "target": "salary_monthly_vnd",
+  "unit": "VND/month",
+  "dataset_manifest": {
+    "path": "data/splits/v2.1.0/vn_developer/manifest.json",
+    "sha256": "042e3aa1a88631d8a5a8b371e37aff79deb9544976dad503d865d212c3e5def6"
+  },
+  "training_snapshot": {
+    "path": "models/salary/v2_042e3aa1a886/training_snapshot.csv",
+    "sha256": "07b29012282178f21c35caccebf8c75c623eefb97431b8d0d1f7695f0b230adc"
+  },
+  "evaluation": {
+    "path": "outputs/metrics/salary_v2_042e3aa1a886/test_metrics.json",
+    "sha256": "2eb169b0706959c53831eec5badcda73c13101c395a698f8b7db3861d8a96256"
+  },
+  "selection_sha256": "cb713f505529b9d535571578730f9f423f19eb42ce3b9a825e729138b98fc3ff",
+  "protocol_sha256": "18e96f716fd92bc05452acfdaf9dc9b3a32e844b70f7c6a23d36d5fd71066646",
+  "promotion_eligible": true,
+  "label_quality": "silver explicit + optional weak-period TRAIN ONLY",
+  "sklearn": "1.9.1"
+}

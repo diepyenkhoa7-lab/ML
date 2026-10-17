@@ -1,0 +1,6 @@
+{
+  "salary_experiment": "v2_042e3aa1a886",
+  "rollback_experiment": "bd9af2fa002caae8",
+  "promoted_on": "2026-10-18",
+  "reason": "Validation-selected Ridge passed locked gates on new explicit-month company-grouped holdout; keep v1 artifacts for rollback"
+}

@@ -55,6 +55,11 @@ def collect_files():
         "reports",
         "notebooks",
         "data/examples",
+        "data/references",
+        "data/splits/v2.1.0",
+        "outputs/research/2026-10-18",
+        "outputs/metrics/salary_v2_042e3aa1a886",
+        "models/salary/v2_042e3aa1a886",
         "data/finetune",
         "data/finetune_full",
         "data/splits/v1.0.1",
@@ -83,6 +88,8 @@ def collect_files():
     # Mutable manual one-prompt inference is not an evaluated model artifact.
     files.discard(ROOT / "outputs/environment/gemma_adapter.json")
     for name in [
+        "data/raw/tinixai_2026/manifest.json",
+        "data/raw/tinixai_2026/README.md",
         "models/gemma-source/manifest.json",
         "models/gemma-mlx-4bit/manifest.json",
         "outputs/data_quality/cleaning/all_sources.json",

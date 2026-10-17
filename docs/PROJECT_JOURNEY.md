@@ -86,6 +86,32 @@ Bản hiện tại đã có snapshot dữ liệu/nhãn/split, kết quả Ridge/
 
 Nếu mở vòng nghiên cứu tiếp theo, tài liệu hiện hành đề xuất duyệt nhãn gold, thêm tin độc lập và tạo holdout mới trước khi đánh giá; không dùng lại test đã mở làm validation. Các bước đó chưa được tính là kết quả của phiên bản này.
 
+## 10. Mốc audit và nguồn dữ liệu mới ngày 18/10/2026
+
+Commit local `344d108` đã ghi nhận một vòng audit kiến trúc ứng dụng với 3 lỗi mức high và 5 lỗi mức medium. Báo cáo `outputs/architecture_audit/2026-10-18/REPORT.md` mô tả các biện pháp đã kiểm chứng: hợp đồng batch Gemma theo từng dòng, snapshot/checksum và provenance gắn với lần chạy, hàng đợi tối đa 2 job, cô lập state JSON hỏng, tái tạo tư vấn kỹ năng từ train + Ridge đã xác minh, revision fence cho UI, file lock GPU và parser/schema nghiêm ngặt. Bằng chứng là 55 test, Ruff 42 file, Prettier/build, API CSV/XLSX/JSON và một mẫu Gemma suy luận GPU thật → RF; ảnh web Gemma nằm tại `outputs/architecture_audit/2026-10-18/gemma_web.png`.
+
+Audit này chỉ xác nhận cấu trúc, provenance và luồng suy luận. Báo cáo nói rõ không train lại, không chấm lại benchmark, không làm giảm MAE lịch sử; MAE 6,656 triệu/tháng trên 28 mẫu silver test vẫn là kết quả cũ. Vì vậy các thay đổi audit được ghi là đã kiểm chứng ở tầng ứng dụng, không được diễn giải thành cải thiện chất lượng mô hình.
+
+Sau audit, người dùng yêu cầu tìm thêm dữ liệu và tiếp tục một vòng train lương để đối chiếu nguồn ITviec/TopDev. Nguồn mới đã tải và lưu cục bộ là Tinix Vietnam Job Description: 606.878 tin, revision `679c3a17347ff6ce769d9bf510c122a087493cf6`, giấy phép được dataset card ghi là CC BY-NC 4.0. Manifest, checksum và README nằm ở `data/raw/tinixai_2026/`; profile nghiên cứu nằm ở `outputs/research/2026-10-18/`. Hiện đang rà soát label period, censored salary và duplicate. Chưa train vòng mới, chưa có metric mới và chưa có kết luận đối chiếu ITviec/TopDev; mọi trạng thái đó vẫn là đang thực hiện.
+
+## 11. Protocol lương v2.1.0 và vòng train mới
+
+Sau bước rà soát Tinix, protocol `configs/salary_v2_protocol.json` v2.1.0 được khóa trước khi train. Hai bản 2.0.0 và 2.0.1 chỉ là draft preparation để truy vết các lần sửa guard censored/period và holdout company cũ; chúng không được dùng như kết quả train. Bộ frozen tại `data/splits/v2.1.0/vn_developer/` tách strict train 79 mẫu khỏi weak train 1.078 mẫu (trọng số 0,3, monthly là ASSUMPTION và chỉ được dùng trong train), cùng validation 25 và test 30 có explicit-month. Split company-disjoint bao gồm cả weak data và loại các company đã có trong valid/test cũ v1.
+
+Đã train thật 12 ứng viên (2 arms × 3 Ridge alpha × 3 Random Forest leaf). Kết quả và log nằm tại `outputs/metrics/salary_v2_042e3aa1a886/` và `outputs/training_logs/salary_v2_20261018/console.log`. Candidate được chọn là Ridge alpha=1 trên strict+weak 1.157 mẫu; RF tốt nhất dùng leaf=2. Validation MAE của Ridge là 5,424 triệu VND, RF là 6,207 triệu. Trên cùng new test 30 mẫu: Ridge MAE 4,433 triệu, RMSE 5,664 triệu, R² 0,54035 và 60% mẫu có sai số dưới 5 triệu; RF v2 MAE 5,737 triệu. So sánh với RF v1 trên cùng new test cho MAE 8,246 triệu, RMSE 10,508 triệu và R² âm; paired company bootstrap improvement 95% là 0,707–6,776 triệu. Các promotion gates cố định đã đạt và `configs/application.json` kích hoạt Ridge v2, trong khi v1 được giữ để rollback.
+
+Các số v2 không được so trực tiếp với RF v1 MAE 6,656 triệu trên test cũ 28 mẫu như thể cùng một holdout. V2 có nhãn, split và mục tiêu khác; ý nghĩa của kết quả là so sánh đã định trước trong v2 và đối chiếu RF v1 trên new test. Gemma không train thêm và adapter được chọn trước đó không đổi.
+
+## 12. Sanity check ITviec/TopDev và trạng thái hiện tại
+
+Sanity check bên ngoài dùng các nhóm median VND chính thức từ ITviec 2025–2026 và dữ liệu TopDev 2024–2025 theo USD gross ratio-only. File tham chiếu nằm ở `data/references/`, kết quả ở `outputs/research/2026-10-18/external_sanity/`. Trên 13 nhóm ITviec có thể đối chiếu, median absolute aggregate gap được ghi là 8,18% cho mô hình cũ và 21,09% cho mô hình mới, với mô hình mới phần lớn thấp hơn. Đây không phải cùng population hoặc cùng label: survey là actual salary, còn mục tiêu hiện tại là midpoint của advertised salary range. Vì vậy chưa được kết luận là market alignment đã cải thiện, không fit các median tham chiếu để dự đoán từng cá nhân, và không dùng sanity check này để hiệu chỉnh model.
+
+Ứng dụng hiện có API `market_reference`; web hiển thị nhóm tham chiếu ITviec cùng source URL nhưng không ép calibration. Luồng Gemma extraction → Ridge được chọn + RF comparison → charts/export đã được API real-GPU kiểm chứng trong `outputs/research/2026-10-18/api_smoke_v2.json`. Trạng thái hiện tại ghi nhận 63 tests đã pass và final checks vẫn đang diễn ra; chưa coi publication/push là hoàn tất. Heartbeat monitoring đã được tạo để theo dõi định kỳ, nhưng nhật ký này không suy diễn rằng agent chạy vô hạn khi phiên rảnh.
+
+Mốc nghiệm thu trước publication tiếp tục xác nhận 63 tests sau khi tích hợp serving và `market_reference`, Ruff trên 48 file, Prettier/build và pip check. Bản source copy độc lập cũng chạy 63 tests, `npm ci` offline/build sạch và kiểm tra frozen v1/strict SFT; bằng chứng ở `outputs/research/2026-10-18/source_export.json`. Browser thật trên desktop 1440px và mobile 390px kiểm tra adapter/count, Ridge v2, ITviec và không tràn ngang; bằng chứng ở `outputs/research/2026-10-18/browser_checks.json`, `gemma_mobile.png` và `ridge_market_desktop.png`. Các kiểm tra ghi nhận ITviec 30,1M cho Backend 3–4 years riêng với model 26,5M, recommendations giữ support >=5 cùng role train, và lịch sử RF v1 vẫn hiển thị RF dù current model là Ridge.
+
+Runbook `docs/SALARY_V2_RUNBOOK.md`, metrics report, `run.json` và `executed_training_source.py` đã lưu; README, data source và data card đã đồng bộ. Advisor role-support filter đã được kiểm tra theo đúng ngữ cảnh và không fit lại model mới. Publication/commit/push vẫn do parent thực hiện; heartbeat 15 phút là cơ chế theo dõi, không phải bằng chứng agent chạy liên tục.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`

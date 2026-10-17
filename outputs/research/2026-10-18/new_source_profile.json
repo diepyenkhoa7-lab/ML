@@ -1,0 +1,73 @@
+{
+  "counts": {
+    "candidate": 3489,
+    "no_explicit_month_evidence": 1251,
+    "unknown_experience": 577,
+    "bad_or_nonvnd_amount": 676,
+    "accepted_explicit": 153,
+    "unsupported_role": 822,
+    "out_of_scope_range": 10
+  },
+  "examples": [
+    {
+      "title": "Middle Frontend (Thu Nhập 18-25tr/Tháng, Nguyễn Tuân - Thanh Xuân)",
+      "salary": "18 - 25 triệu",
+      "evidence": "benefits: 18.000.000- 25.000.000d/thang",
+      "experience": "2 năm"
+    },
+    {
+      "title": "PHP DEVELOPER (Laravel)",
+      "salary": "20 - 30 triệu",
+      "evidence": "benefits: 20 – 30 trieu/thang",
+      "experience": "3 năm"
+    },
+    {
+      "title": "AI Developer [Hà Nội] - Thu Nhập Hấp Dẫn Deal Theo Năng Lực",
+      "salary": "50 triệu",
+      "evidence": "benefits: 50 trieu/thang",
+      "experience": "3 năm"
+    },
+    {
+      "title": "AI Developer [Hà Nội] - Thu Nhập Hấp Dẫn Upto 50M",
+      "salary": "50 triệu",
+      "evidence": "benefits: 50 trieu/thang",
+      "experience": "3 năm"
+    },
+    {
+      "title": "Tech Lead/ Core Developer (Solution Architect)",
+      "salary": "60 triệu",
+      "evidence": "benefits: 60 trieu vnd/thang",
+      "experience": "5 năm"
+    },
+    {
+      "title": "Lập Trình Frontend",
+      "salary": "15 - 25 triệu",
+      "evidence": "benefits: 15- 25 trieu/thang",
+      "experience": "2 năm"
+    },
+    {
+      "title": "Lập Trình Viên Backend (Python)",
+      "salary": "16 - 20 triệu",
+      "evidence": "benefits: 16.000.000 – 20.000.000 vnd/thang",
+      "experience": "1 năm"
+    },
+    {
+      "title": "Nhân Viên Lập Trình Viên Backend PHP",
+      "salary": "10 - 18 triệu",
+      "evidence": "benefits: 10 – 18 trieu / thang",
+      "experience": "1 năm"
+    },
+    {
+      "title": "Lập Trình Viên Backend Middle Node.Js (Thu Nhập 18-25Tr++/Tháng)",
+      "salary": "18 - 25 triệu",
+      "evidence": "benefits: 18- 25 trieu dong/thang",
+      "experience": "2 năm"
+    },
+    {
+      "title": "Lập Trình Viên Backend PHP",
+      "salary": "7 - 15 triệu",
+      "evidence": "benefits: 7- 15 trieu/thang",
+      "experience": "1 năm"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "completed",
+  "scope": "aggregate sanity check only; no model/label/calibration changes",
+  "data_source": "selected model training profiles only; no validation/test opened",
+  "itviec_available_groups": 13,
+  "itviec_insufficient_groups": 1,
+  "median_absolute_gap_percent": 21.09456198469083,
+  "caution": "Survey actual income vs disclosed advertised ranges; experience/skills/employer populations and gross/net differ. Gap is NOT prediction MAE.",
+  "topdev": "USD kept native; compare relative role ratios only, no implicit FX",
+  "files": {
+    "itviec_comparison.csv": "f797a25e01f53ba8d1bef8b9e9a8a80e316f0c9953f1c28eb58f03616450348c",
+    "itviec_comparison.png": "de852c66d9e2780ea0c98fd5d3d6e502981a8448d34151490d9b7a4933ec547b",
+    "topdev_relative_comparison.csv": "7acd607ae08913404930fba0e419d54331a168af9cfb7f36c46848ecf9e286d6"
+  }
+}

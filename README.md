@@ -201,3 +201,9 @@ Tham chiếu: [Google model card](https://huggingface.co/google/gemma-4-E4B-it),
 
 Audit kiến trúc ngày 18/10: [báo cáo](outputs/architecture_audit/2026-10-18/REPORT.md).
 Hành trình, khái niệm và khó khăn có bằng chứng: [PROJECT_JOURNEY](docs/PROJECT_JOURNEY.md).
+
+## Cập nhật 18/10: salary v2 + Gemma trên web
+
+Ứng dụng hiện chọn Ridge `v2_042e3aa1a886`, Random Forest đối chiếu, Gemma trích mô tả. Trên **cùng30 test mới**, MAE RFv1 8,246 → Ridgev2 4,433 triệu VND/tháng, RMSE10,508→5,664; không so trực tiếp với test cũ28tin. Train1157 gồm79 nhãn tháng +1078 nhãn yếu(weight0,3); valid25/test30 chỉ nhãn có bằng chứng tháng, company-disjoint.
+
+Đối chiếu ITviec theo nhóm vẫn lệch khoảng21,1% và tệ hơn v1 ở phép sanity check này; đó là thu nhập khảo sát, khác lương chào tuyển. Web hiển thị số tham chiếu riêng, không ép dự đoán khớp báo cáo. [Kết quả và giới hạn](outputs/metrics/salary_v2_042e3aa1a886/REPORT.md), [lệnh chạy/train/rollback](docs/SALARY_V2_RUNBOOK.md).

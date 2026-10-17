@@ -17,7 +17,7 @@ from openpyxl import load_workbook
 from backend.app.main import create_app
 from backend.app.schemas import AnalysisRequest
 from backend.app.services.data import ROOT, normalize_row, read_table, skills_from, suggest_mapping
-from backend.app.services.salary import salary_service
+from backend.app.services.salary import SalaryService
 
 
 class GemmaGuardTests(unittest.TestCase):
@@ -112,7 +112,7 @@ class ImportContractTests(unittest.TestCase):
             )
             for r in source.itertuples()
         ]
-        actual = salary_service().predict(rows)["random_forest"]
+        actual = SalaryService().predict(rows)["random_forest"]
         expected = joblib.load(folder / "best_model.joblib").predict(
             source[["experience_years", "role", "level", "location", "skills"]]
         )
@@ -236,13 +236,38 @@ class ApplicationTests(unittest.TestCase):
         self.assertGreater(value["predictions"]["random_forest"], 0)
         self.assertTrue(
             all(
-                r["train_support"] >= 5 and r["skill"] not in {"python", "sql"}
+                r["train_support"] >= 5
+                and r["role_support"] >= 5
+                and r["skill"] not in {"python", "sql"}
                 for r in value["recommendations"]
             )
         )
         self.assertEqual(
             self.client.post("/api/career/advice", json=dict(role="Accountant")).status_code, 422
         )
+
+    def test_ridge_selected_in_api_exports_and_per_model_metrics(self):
+        profile = dict(
+            role="Backend Developer",
+            level="Employee",
+            location="Hà Nội",
+            skills=["Python"],
+            experience_years=3,
+        )
+        response = self.client.post("/api/career/advice", json=profile).json()
+        self.assertEqual(response["selected_model"], "ridge")
+        frame = pd.DataFrame([dict(profile, skills="Python", salary_monthly_vnd=20e6)])
+        identifier, result = self.run_job(frame)
+        row = self.client.get(f"/api/analyses/{identifier}/rows").json()["rows"][0]
+        self.assertEqual(row["predicted_salary_vnd"], row["ridge_salary_vnd"])
+        self.assertEqual(row["comparison_salary_vnd"], row["random_forest_salary_vnd"])
+        self.assertEqual(row["error_vnd"], row["ridge_salary_vnd"] - 20e6)
+        self.assertEqual(
+            result["metrics"]["random_forest"]["mae_vnd"],
+            abs(row["random_forest_salary_vnd"] - 20e6),
+        )
+        self.assertEqual(result["model"]["experiment_id"], "v2_042e3aa1a886")
+        self.assertEqual(result["model"]["historical_test"]["samples"], 30)
 
     def test_queue_returns_429_and_retry_hint(self):
         store = self.app.state.store

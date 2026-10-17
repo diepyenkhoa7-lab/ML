@@ -1,5 +1,5 @@
 {
-  "checked_on": "2026-10-17",
+  "checked_on": "2026-10-18",
   "sources": [
     {
       "id": "vietjobs_2025",
@@ -107,6 +107,32 @@
           "expected_sha256": "d201d539d1bbc79a54a369eafc94d85efbb10bdece9f6ac80b9e5e4c9a0bc30c"
         }
       ]
+    },
+    {
+      "id": "tinixai_2026",
+      "title": "Vietnamese Job Descriptions — CareerPathKG / TiniX AI",
+      "page_url": "https://huggingface.co/datasets/tinixai/vietnamese-job-descriptions",
+      "dataset_url": "https://huggingface.co/datasets/tinixai/vietnamese-job-descriptions",
+      "revision": "679c3a17347ff6ce769d9bf510c122a087493cf6",
+      "period": "Source card years 2022–2026; row year field only, no per-post URL/day",
+      "kind": "vietnam_job_postings",
+      "geography": "Vietnam",
+      "license_note": "CC-BY-NC-4.0 per source card. Attribution TiniX AI / Le et al. CareerPathKG 2026. Academic noncommercial use.",
+      "files": [
+        {
+          "url": "https://huggingface.co/datasets/tinixai/vietnamese-job-descriptions/resolve/679c3a17347ff6ce769d9bf510c122a087493cf6/README.md",
+          "path": "README.md",
+          "expected_bytes": 10365,
+          "expected_sha256": "84c6fd9400aff39085844f3d6d43213c49d02cbec35210cebae856aa1ea4b491"
+        },
+        {
+          "url": "https://huggingface.co/datasets/tinixai/vietnamese-job-descriptions/resolve/679c3a17347ff6ce769d9bf510c122a087493cf6/data.parquet",
+          "path": "data.parquet",
+          "expected_bytes": 293171544,
+          "expected_sha256": "4d5e11b58490edc40900386986de71e844cd9f0f3a5fc714418747f66462f834"
+        }
+      ],
+      "quality_note": "606878 rows overall, not all IT. Recent software role subset only. Explicit-month holdouts; missing-period labels marked weak and used train-only at weight 0.3. No report medians turned into individual labels."
     }
   ]
 }

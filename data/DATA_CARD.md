@@ -89,3 +89,7 @@ fit tiền xử lý trên train. Không dùng trực tiếp
 `data/finetune/*.jsonl` đã có nhãn silver phiếu tin tuyển dụng 364/72/82,
 chưa được duyệt thủ công độc lập. Xem manifest và runbook; đã
 huấn luyện trial Gemma 100 bước sau xác nhận người dùng. `data/examples/` tiếp tục chỉ là mẫu giả lập kiểm tra kỹ thuật.
+
+## Snapshot nghiên cứu mới v2.1.0 (18/10/2026)
+
+Model đang phục vụ là Ridge `v2_042e3aa1a886`, RF đối chiếu; snapshot/metric v1 còn nguyên. Nguồn mới TiniX/CareerPathKG (CC-BY-NC-4.0) có606.878 tin nhiều ngành, chọn phần lập trình viên2025–2026. Final train79explicit+1078weak_month(weight0,3), valid25/test30explicit-month, company-disjoint và loại công ty holdoutv1. Target là trung điểm lương chào tuyển, chưa chắc gross/net; nhãn silver, không phải gold. Giá trị period thiếu được đánh dấu giả định, không dùng vào validation/test. Xem `docs/SALARY_V2_RUNBOOK.md` và `outputs/metrics/salary_v2_042e3aa1a886/REPORT.md`. Đối chiếu báo cáo khảo sát là sanity check khác quần thể; không phải accuracy mới.

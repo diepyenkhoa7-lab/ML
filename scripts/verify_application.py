@@ -96,8 +96,21 @@ def main():
         assert row["status"] == "ok" and row["extraction"]["role"] == "Backend Developer", row
         assert result["result"]["metrics"] == {}
         assert "gemma_outputs.json" in result["result"]["files"]
-        checks.append(dict(format="gemma_description", status="passed", row=row))
-        print("Gemma extraction -> RF prediction passed", flush=True)
+        selected = result["result"]["model"]["selected_model"]
+        expected = (
+            row["ridge_salary_vnd"] if selected == "ridge" else row["random_forest_salary_vnd"]
+        )
+        assert row["predicted_salary_vnd"] == expected
+        checks.append(
+            dict(
+                format="gemma_description",
+                status="passed",
+                row=row,
+                model=result["result"]["model"],
+                gemma_execution=result["result"]["gemma_execution"],
+            )
+        )
+        print(f"Gemma extraction -> {selected} prediction passed", flush=True)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(
         json.dumps(

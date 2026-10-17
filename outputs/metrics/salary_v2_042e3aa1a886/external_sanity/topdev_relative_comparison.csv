@@ -1,0 +1,9 @@
+role,median_usd_month_gross,page,source_url,data_kind,current_prediction_median_vnd,topdev_ratio_to_backend,model_ratio_to_backend
+Software Developer,1350,28,https://topdev.vn/download-report,aggregate_report_not_individual_label,20921444.557858493,1.007462686567164,0.8219841302594019
+Frontend Developer,1300,28,https://topdev.vn/download-report,aggregate_report_not_individual_label,22756625.900619917,0.9701492537313433,0.8940867011753959
+Backend Developer,1340,28,https://topdev.vn/download-report,aggregate_report_not_individual_label,25452370.41408099,1.0,1.0
+Full-stack Developer,1540,28,https://topdev.vn/download-report,aggregate_report_not_individual_label,22149051.298557505,1.1492537313432836,0.8702156592182867
+Mobile Developer,1200,28,https://topdev.vn/download-report,aggregate_report_not_individual_label,22760005.78729029,0.8955223880597015,0.8942194937843115
+Embedded Engineer,1400,28,https://topdev.vn/download-report,aggregate_report_not_individual_label,18116285.244868875,1.044776119402985,0.7117720255574476
+Data Engineer,1410,28,https://topdev.vn/download-report,aggregate_report_not_individual_label,26781777.1332457,1.0522388059701493,1.0522311555873494
+ML Engineer,1680,29,https://topdev.vn/download-report,aggregate_report_not_individual_label,,1.2537313432835822,

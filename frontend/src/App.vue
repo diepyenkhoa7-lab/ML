@@ -77,6 +77,19 @@ const charts = computed(() =>
       c.id.endsWith("_" + salarySource.value),
   ),
 );
+const modelLabel = (name) =>
+  name === "ridge"
+    ? "Ridge"
+    : name === "random_forest"
+      ? "Random Forest"
+      : "Đang tải";
+const comparisonFamily = (name) =>
+  name === "ridge" ? "random_forest" : "ridge";
+const visibleModel = computed(() =>
+  page.value === "results" && result.value
+    ? result.value.model.selected_model
+    : advice.value?.selected_model || meta.value?.salary_model.selected_model,
+);
 const money = (n) =>
   n === null || n === undefined
     ? "—"
@@ -359,7 +372,8 @@ onBeforeUnmount(() => {
             </p>
           </div>
           <div class="model-badge">
-            <span>MODEL DỰ ĐOÁN</span><strong>Random Forest</strong
+            <span>MODEL DỰ ĐOÁN</span
+            ><strong>{{ modelLabel(visibleModel) }}</strong
             ><small>Đơn vị: VND / tháng</small>
           </div>
         </div>
@@ -684,7 +698,9 @@ onBeforeUnmount(() => {
                   >{{ money(result.summary.median_prediction_vnd) }}
                   <small>triệu</small></strong
                 >
-                <p>Random Forest · VND / tháng</p>
+                <p>
+                  {{ modelLabel(result.model.selected_model) }} · VND / tháng
+                </p>
               </div>
               <div>
                 <span>KỸ NĂNG ĐƯỢC GHI NHẬN</span
@@ -732,7 +748,10 @@ onBeforeUnmount(() => {
                     >
                       Lương cung cấp
                     </option>
-                    <option value="predicted">Lương dự đoán RF</option>
+                    <option value="predicted">
+                      Lương dự đoán
+                      {{ modelLabel(result.model.selected_model) }}
+                    </option>
                   </select></label
                 >
               </div>
@@ -766,8 +785,9 @@ onBeforeUnmount(() => {
                 <div>
                   <h2>Dự đoán cho từng dòng</h2>
                   <p>
-                    Chênh lệch = dự đoán RF − lương cung cấp. Chọn trạng thái để
-                    đọc lỗi hoặc cảnh báo.
+                    Chênh lệch = dự đoán
+                    {{ modelLabel(result.model.selected_model) }} − lương cung
+                    cấp. Chọn trạng thái để đọc lỗi hoặc cảnh báo.
                   </p>
                 </div>
                 <div class="download-links">
@@ -784,8 +804,18 @@ onBeforeUnmount(() => {
                       <th>Kinh nghiệm</th>
                       <th>Khu vực</th>
                       <th>Kỹ năng</th>
-                      <th>RF · triệu/tháng</th>
-                      <th>Ridge · triệu/tháng</th>
+                      <th>
+                        {{ modelLabel(result.model.selected_model) }} ·
+                        triệu/tháng
+                      </th>
+                      <th>
+                        {{
+                          modelLabel(
+                            comparisonFamily(result.model.selected_model),
+                          )
+                        }}
+                        · triệu/tháng
+                      </th>
                       <th>Cung cấp</th>
                       <th>Chênh lệch</th>
                       <th v-if="result.gemma_execution?.used">Gemma đọc tin</th>
@@ -806,7 +836,13 @@ onBeforeUnmount(() => {
                       <td class="number">
                         {{ money(row.predicted_salary_vnd) }}
                       </td>
-                      <td>{{ money(row.ridge_salary_vnd) }}</td>
+                      <td>
+                        {{
+                          money(
+                            row.comparison_salary_vnd ?? row.ridge_salary_vnd,
+                          )
+                        }}
+                      </td>
                       <td>{{ money(row.salary_monthly_vnd) }}</td>
                       <td>{{ money(row.error_vnd) }}</td>
                       <td v-if="result.gemma_execution?.used">
@@ -970,6 +1006,20 @@ onBeforeUnmount(() => {
                     VND/tháng trên
                     {{ result.model.historical_test.samples }} tin.
                   </p>
+                  <p
+                    v-if="
+                      result.model.train_label_counts?.assumed_month_train_only
+                    "
+                    class="muted"
+                  >
+                    Trong train có
+                    {{
+                      result.model.train_label_counts.assumed_month_train_only
+                    }}
+                    tin cần giả định kỳ lương tháng (trọng số 0,3);
+                    validation/test chỉ dùng tin có bằng chứng lương tháng. Kết
+                    quả không phải nhãn gold.
+                  </p>
                   <p>
                     File manifest trong gói ZIP ghi checksum, ánh xạ cột và cấu
                     hình phân tích.
@@ -1002,8 +1052,10 @@ onBeforeUnmount(() => {
                     >Cấp bậc<select v-model="profile.level">
                       <option
                         v-for="level in [
-                          ...(meta?.salary_model.levels || []),
-                          'Unknown',
+                          ...new Set([
+                            ...(meta?.salary_model.levels || []),
+                            'Unknown',
+                          ]),
                         ]"
                         :key="level"
                       >
@@ -1040,20 +1092,55 @@ onBeforeUnmount(() => {
             </section>
             <div v-if="advice" class="advice-result">
               <section class="salary-spotlight">
-                <span>ƯỚC TÍNH THEO HỒ SƠ</span
+                <span>ƯỚC TÍNH LƯƠNG CHÀO TUYỂN</span
                 ><strong
-                  >{{ money(advice.predictions.random_forest) }}
+                  >{{ money(advice.predictions[advice.selected_model]) }}
                   <small>triệu VND/tháng</small></strong
                 >
                 <p>
-                  Random Forest · Ridge đối chiếu:
-                  {{ money(advice.predictions.ridge) }} triệu/tháng
+                  {{ modelLabel(advice.selected_model) }} ·
+                  {{ modelLabel(comparisonFamily(advice.selected_model)) }} đối
+                  chiếu:
+                  {{
+                    money(
+                      advice.predictions[
+                        comparisonFamily(advice.selected_model)
+                      ],
+                    )
+                  }}
+                  triệu/tháng
                 </p>
                 <small
                   >Ước tính tham khảo, chưa xác định gross/net. MAE test lịch sử
                   khoảng
                   {{ money(advice.evidence.historical_test_mae_vnd) }}
                   triệu/tháng.</small
+                >
+              </section>
+              <section
+                class="panel market-reference"
+                v-if="advice.market_reference"
+              >
+                <h2>Đối chiếu mặt bằng thị trường</h2>
+                <p v-if="advice.market_reference.available">
+                  {{ advice.market_reference.source }} ·
+                  {{ advice.market_reference.experience_band }} năm kinh nghiệm:
+                  <strong
+                    >{{ money(advice.market_reference.median_vnd_month) }} triệu
+                    VND/tháng</strong
+                  >
+                  (trung vị).
+                </p>
+                <p v-else>
+                  Chưa có ô tham chiếu được công bố cho cặp vai trò/kinh nghiệm
+                  này trong bảng đã thu thập.
+                </p>
+                <p class="muted">{{ advice.market_reference.caution }}</p>
+                <a
+                  :href="advice.market_reference.source_url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Xem báo cáo nguồn ↗</a
                 >
               </section>
               <h2>Kỹ năng để cân nhắc tiếp theo</h2>
@@ -1065,13 +1152,18 @@ onBeforeUnmount(() => {
                   class="panel"
                 >
                   <span class="pill neutral"
-                    >{{ item.train_support }} mẫu train</span
+                    >{{ item.role_support ?? item.train_support }} mẫu train
+                    cùng vai trò</span
                   >
                   <h3>{{ item.skill }}</h3>
                   <strong
                     >{{ item.predicted_delta_vnd > 0 ? "+" : ""
                     }}{{ money(item.predicted_delta_vnd) }} triệu</strong
-                  ><small>Thay đổi dự đoán RF khi thêm kỹ năng</small>
+                  ><small
+                    >Thay đổi dự đoán
+                    {{ modelLabel(advice.selected_model) }} khi thêm kỹ
+                    năng</small
+                  >
                 </article>
               </div>
               <div v-if="!advice.recommendations.length" class="info-note">
@@ -1102,7 +1194,7 @@ onBeforeUnmount(() => {
         <footer class="footer">
           <span>IT Career Insight <b>·</b> Phân tích việc làm CNTT</span
           ><span
-            >Gemma đọc tin <b>·</b> RF / Ridge dự đoán <b>·</b> Python vẽ biểu
+            >Gemma đọc tin <b>·</b> Ridge / RF dự đoán <b>·</b> Python vẽ biểu
             đồ</span
           >
         </footer>
