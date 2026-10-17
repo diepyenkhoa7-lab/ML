@@ -1183,6 +1183,11 @@
       "sha256": "3ecd416fa6daa93af2374fbd3ce5488e4aae08623320502ff1508d9e70f39373"
     },
     {
+      "path": "outputs/training_logs/gemma_20261017T101925Z/publication_verification.json",
+      "bytes": 1006,
+      "sha256": "919dcb321b4e282c8c3caf2670d361b0ec6e563154b6e0c2844c5ebffa0f6876"
+    },
+    {
       "path": "outputs/training_logs/gemma_20261017T101925Z/run.json",
       "bytes": 2263,
       "sha256": "33b6f74c9b22b7d5b241f6952a1b07d38605c942b544602886b7faefd928c104"
@@ -1398,5 +1403,5 @@
       "sha256": "861ef4bf2c5dcd0d2ca05258564d2bda195d6db254e043daa7b6e8ffcb663bc2"
     }
   ],
-  "generated_at_utc": "2026-10-17T10:34:27.441777+00:00"
+  "generated_at_utc": "2026-10-17T10:35:38.729927+00:00"
 }

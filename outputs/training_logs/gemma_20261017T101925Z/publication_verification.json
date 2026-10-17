@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "verified_source_commit": "c80d548945b74652d35f43b4deeccd8401fcc383",
+  "files_checksum_verified": 278,
+  "checks": [
+    {
+      "command": [
+        "scripts/validate_sft.py",
+        "--data",
+        "data/finetune_full/v1.0.0",
+        "--strict-extraction"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "scripts",
+        "backend",
+        "tests"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "make_training_route": ".venv/bin/python scripts/validate_sft.py --data data/finetune --strict-extraction\n.venv/bin/python scripts/gemma_full_train.py --epochs 1 --confirm-training\n",
+  "no_training_or_inference_executed_by_verification": true,
+  "note": "Follow-up publication adds verification evidence and refreshed publication manifest only."
+}
