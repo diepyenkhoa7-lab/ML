@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "verified_source_commit": "3b227ca4d1eb903ad5c3c717a9431d48a00d3906",
+  "files_checksum_verified": 240,
+  "scope": "isolated source archive with final adapter, without large base weights/raw data",
+  "adapter_sha256": "39e416885240dfabe1520516d069a0054c3887a86d3ca057987113163e7e1e57",
+  "checks": [
+    {
+      "command": [
+        "scripts/verify_salary_splits.py",
+        "--training-only"
+      ],
+      "returncode": 0,
+      "output": "{\n  \"status\": \"passed\",\n  \"scope\": \"frozen CSV integrity only; raw audit excluded\",\n  \"cohorts\": {\n    \"dataforge_AED_month_unknown\": 1,\n    \"dataforge_AMD_month_unknown\": 1,\n    \"dataforge_AUD_month_unknown\": 18,\n    \"dataforge_BRL_month_unknown\": 12,\n    \"dataforge_CAD_month_unknown\": 283,\n    \"dataforge_CHF_month_unknown\": 8,\n    \"dataforge_CNY_month_unknown\": 3,\n    \"dataforge_COP_month_unknown\": 2,\n    \"dataforge_CRC_month_unknown\": 6,\n    \"dataforge_EUR_month_unknown\": 640,\n    \"dataforge_GBP_month_unknown\": 350,\n    \"dataforge_HUF_month_unknown\": 12,\n    \"dataforge_INR_month_unknown\": 30,\n    \"dataforge_JPY_month_unknown\": 4,\n    \"dataforge_KRW_month_unknown\": 4,\n    \"dataforge_MXN_month_unknown\": 8,\n    \"dataforge_NZD_month_unknown\": 3,\n    \"dataforge_PHP_month_unknown\": 11,\n    \"dataforge_PLN_month_unknown\": 82,\n    \"dataforge_RON_month_unknown\": 1,\n    \"dataforge_SEK_month_unknown\": 12,\n    \"dataforge_SGD_month_unknown\": 20,\n    \"dataforge_TWD_month_unknown\": 2,\n    \"dataforge_USD_month_unknown\": 12583,\n    \"dataforge_ZAR_month_unknown\": 2,\n    \"so_survey\": 18660,\n    \"vn_it\": 375,\n    \"vn_developer\": 176\n  }\n}\n"
+    },
+    {
+      "command": [
+        "scripts/validate_sft.py",
+        "--strict-extraction"
+      ],
+      "returncode": 0,
+      "output": "{\n  \"counts\": {\n    \"train\": 364,\n    \"valid\": 72,\n    \"test\": 82\n  },\n  \"ok\": true,\n  \"errors\": []\n}\n"
+    },
+    {
+      "command": [
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "returncode": 0,
+      "output": "Cleaning stackoverflow_2025: 4 rows\nstackoverflow_2025: clean=3, review=1, labels=1\n----------------------------------------------------------------------\nRan 22 tests in 0.766s\n\nOK\n"
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "scripts",
+        "backend",
+        "tests"
+      ],
+      "returncode": 0,
+      "output": "All checks passed!\n"
+    }
+  ],
+  "no_additional_training": true,
+  "test_evaluated": false,
+  "note": "Any follow-up publication adds this verification and a refreshed manifest only."
+}
