@@ -2,15 +2,15 @@
   "branch": "publish/salary-gemma-prep",
   "mode": "separate_history_source_snapshot",
   "preserved_history_branch": "feat/salary-training-gemma-prep",
-  "includes": "source, executed notebooks, frozen splits, two VN clean CSVs, silver JSONL, salary pipelines and logs",
-  "excludes": "raw/bulky audit CSVs, old failed splits, Gemma weights, caches, credentials",
+  "includes": "source, executed notebooks, frozen splits, two VN clean CSVs, silver JSONL, salary pipelines, small final Gemma adapter and logs",
+  "excludes": "raw/bulky audit CSVs, old failed splits, Gemma base weights, intermediate adapter checkpoints, caches, credentials",
   "reproduction": "docs/TRAINING_RUNBOOK.md",
   "self_excluded_from_hashes": true,
   "files": [
     {
       "path": ".env.example",
-      "bytes": 198,
-      "sha256": "7f2cd9e25e5207ec1884c6753a3f98756f348cad24837c982462a40d3db94e58"
+      "bytes": 229,
+      "sha256": "7c0f53fd688565fc5c1488af143e87d232184e45c64b691e0c7a3e888ecb1d87"
     },
     {
       "path": ".gitignore",
@@ -24,23 +24,38 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 1675,
-      "sha256": "a649d4393a4e838239636b0dac15afa2496def9426dc590b11b5a6e7ac86394b"
+      "bytes": 2846,
+      "sha256": "4e81df0a3aff2a6640d91ad5771df81c7976c84914b2e0ed70712f9a2effccba"
     },
     {
       "path": "Makefile",
-      "bytes": 2382,
-      "sha256": "73614bc9c21de46cb2b182eea8473c2093970532e9973ca2fe821d15fd990cb4"
+      "bytes": 2432,
+      "sha256": "44ffe1b0882e4d1e401b0304c0bbd671a8a1513cc388f7eedfa163d53b524ac7"
     },
     {
       "path": "README.md",
-      "bytes": 7290,
-      "sha256": "40267f5dab3a9f653ef8f84b0ec3bf77dadd316c41377778fb984c141a61a5ee"
+      "bytes": 7963,
+      "sha256": "0e0325b55a671eced0ac1bc789b4ed917cc14c64039ca44bf942007a61fedfa0"
     },
     {
       "path": "adapters/README.md",
       "bytes": 444,
       "sha256": "f0c18efc4b3ab74fbee627f5f648e71fca3dde56f466aa55fea148ecfd562789"
+    },
+    {
+      "path": "adapters/gemma-jobs/20261017T094853Z/adapter_config.json",
+      "bytes": 1164,
+      "sha256": "f0a0d0e78fad54dec3533a346bfdfa75b955ade27731416012fed7d5df7934fc"
+    },
+    {
+      "path": "adapters/gemma-jobs/20261017T094853Z/adapters.safetensors",
+      "bytes": 6953691,
+      "sha256": "39e416885240dfabe1520516d069a0054c3887a86d3ca057987113163e7e1e57"
+    },
+    {
+      "path": "adapters/gemma-jobs/20261017T094853Z/manifest.json",
+      "bytes": 894,
+      "sha256": "f686ae46b27b4a95f776a2898c0127ffa51b7a99ea998a7b940e54bb0c6cf007"
     },
     {
       "path": "backend/__init__.py",
@@ -94,8 +109,8 @@
     },
     {
       "path": "data/DATA_CARD.md",
-      "bytes": 6501,
-      "sha256": "22a255593c8e009666442945c50a13b749956792d547707df08edc4f86c201d1"
+      "bytes": 6527,
+      "sha256": "59d2c02a7937852caa1e5f2c70617ef114a757e7431314a11d40cabd895ff2ea"
     },
     {
       "path": "data/examples/README.md",
@@ -554,13 +569,13 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 2517,
-      "sha256": "df8c0d387b15e8fc9e5dda1ab23ae56ea6b267cba0b08e059fe57b4cbf2796e3"
+      "bytes": 2552,
+      "sha256": "8e49d116ddff6deaca303b64149be95b377e6dafc98fb71f22aa009c48d92f3f"
     },
     {
       "path": "docs/ENVIRONMENT_STATUS.md",
-      "bytes": 2849,
-      "sha256": "ac00b008c934cf6cf2fde65542735ea979e2915caa722a500a8eb1504d909506"
+      "bytes": 2908,
+      "sha256": "0212583c5fc9eb8d9dc33619b8f770d81ffb70544d454a2799ae37ffdd564be3"
     },
     {
       "path": "docs/LABEL_REVIEW_AND_SPLITS.md",
@@ -569,8 +584,8 @@
     },
     {
       "path": "docs/TRAINING_RUNBOOK.md",
-      "bytes": 8458,
-      "sha256": "79c7fa2906f5d3eec4a4831d0e8ce4fefde3fa64bd04f7aabcaa96f415e792b1"
+      "bytes": 10978,
+      "sha256": "87980f2bdb90009fee16178f830202053fa9f33fbab18d8301e22f16a21297dd"
     },
     {
       "path": "frontend/README.md",
@@ -634,8 +649,8 @@
     },
     {
       "path": "notebooks/03_gemma_extraction.ipynb",
-      "bytes": 6601,
-      "sha256": "021139857032e3c95288ef2afbe1525cc9cddbd2acb5f29ec98c45bcd12341fb"
+      "bytes": 6923,
+      "sha256": "94e329e458db3eaaa390d392ab80a70acd9ed1a1b72db2b575a5ac8621716415"
     },
     {
       "path": "outputs/data_quality/cleaning/all_sources.json",
@@ -788,6 +803,11 @@
       "sha256": "d4f63267b38b6895f4bbf103694758f25cc30d192fa6ee239eac5fd2aec9996b"
     },
     {
+      "path": "outputs/gemma_preparation/training_status.json",
+      "bytes": 1043,
+      "sha256": "8e4b329d8ef48bc7ed1815057280f4ed436ce6d44c5e94eeba85cfd0119f7bae"
+    },
+    {
       "path": "outputs/gemma_preparation/weights.json",
       "bytes": 595,
       "sha256": "e57e6308e78e853038f23700143e60745c820cf00a3fb23992a3c5f90ad4ec75"
@@ -826,6 +846,41 @@
       "path": "outputs/label_review/v1.0.1/validation.json",
       "bytes": 4572,
       "sha256": "0a25a923757362b9b4e63f14d255400ecd5d0d3566f16a66bb434c694953daba"
+    },
+    {
+      "path": "outputs/metrics/gemma_20261017T094853Z_adapter_valid/metrics.json",
+      "bytes": 1287,
+      "sha256": "0181ce19db3cb5410fd235bdb4a24a960e234e32cd516df27888b819517e4c3e"
+    },
+    {
+      "path": "outputs/metrics/gemma_20261017T094853Z_adapter_valid/predictions.jsonl",
+      "bytes": 27242,
+      "sha256": "2210c0b9d97542899f50a3bccd20873007e91e9200a6144a580eff8a5ccd19a9"
+    },
+    {
+      "path": "outputs/metrics/gemma_20261017T094853Z_adapter_valid/schema_errors.json",
+      "bytes": 3677,
+      "sha256": "b643d351f5e479065907c758f6888ee6c238949076ae9d2843492c9d9d92b12d"
+    },
+    {
+      "path": "outputs/metrics/gemma_20261017T094853Z_base_valid/metrics.json",
+      "bytes": 1024,
+      "sha256": "b86eccea6d97d2690a0dad5dfa42be1c83ef7357b4c8cc705bc865830dc86493"
+    },
+    {
+      "path": "outputs/metrics/gemma_20261017T094853Z_base_valid/predictions.jsonl",
+      "bytes": 31903,
+      "sha256": "26a534721cfcbd66a7dbac68d7248e73f66013fc08ebb5779d16b906b3bf1b47"
+    },
+    {
+      "path": "outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md",
+      "bytes": 1036,
+      "sha256": "4f645beb080c5a66568c89334eeca488603cd18d7b17a480d7f0eb6bd618f0d4"
+    },
+    {
+      "path": "outputs/metrics/gemma_20261017T094853Z_comparison/metrics.json",
+      "bytes": 5021,
+      "sha256": "fc0f3fd40b59784527481a1a9234b75dd7e34329ced9d18cbbe066e8f4bb92b3"
     },
     {
       "path": "outputs/metrics/salary_bd9af2fa002caae8/REPORT.md",
@@ -916,6 +971,41 @@
       "path": "outputs/notebook_preparation/status.json",
       "bytes": 1814,
       "sha256": "d2dac4f81f72b2a6da401ef0d5523c5fa552ca991dab51eff7911eb6adff3b1e"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261017T094853Z/REPORT.md",
+      "bytes": 1594,
+      "sha256": "affc7ae5257cfe31ce3473b8a43b5a99c409a76d037afd1df6a962528b492352"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261017T094853Z/config.yaml",
+      "bytes": 479,
+      "sha256": "0d6bd8009dc4f31c0c4f1ac6afa0a1d8f9aa257e014d43194c98dbbe6fbcd76d"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261017T094853Z/console.log",
+      "bytes": 3533,
+      "sha256": "f9ba2d95820f6aa3ceea96b2c08a266b89c78727953163c55944be6a9743e9e0"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261017T094853Z/loss_curve.png",
+      "bytes": 53554,
+      "sha256": "acfdbd245437a076abbb4d5f08e3de8c219ca9e58969bce67c9046b48b2ab094"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261017T094853Z/loss_history.csv",
+      "bytes": 431,
+      "sha256": "42a8e7653b90a7b67c64d5df7d8dababee85d319c5a4f8388e140a9197e6f39f"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261017T094853Z/run.json",
+      "bytes": 1972,
+      "sha256": "ae45e8dde1629b2f8668a820c500955e3b9f65e3c4e455b8a9ac1bebebd1ada9"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261017T094853Z/summary.json",
+      "bytes": 608,
+      "sha256": "d68488c32bfb7554421bc9df392486b270eacbc9ed44dac62a6aee2f43366708"
     },
     {
       "path": "outputs/training_logs/publication_snapshot/verification.json",
@@ -1018,6 +1108,11 @@
       "sha256": "7b16987738e3836f154ae3b989120bf358a5fa0ef4244a024bf7798e7903cabe"
     },
     {
+      "path": "scripts/compare_gemma_validation.py",
+      "bytes": 4706,
+      "sha256": "79436fa5ad57932576ea925f89c1f3401625f2499d92b30fd9aebfde34afd621"
+    },
+    {
       "path": "scripts/data_cleaning.py",
       "bytes": 28392,
       "sha256": "9497f98c6c0c5f92a038589492bbd5f7ca792af46a181fa0924b1e52a8d6177e"
@@ -1029,8 +1124,8 @@
     },
     {
       "path": "scripts/evaluate_gemma.py",
-      "bytes": 5804,
-      "sha256": "f300940a0bcf024e89cb96ee51416c03a19568c86ae7a36ead60c0c4c244a2e5"
+      "bytes": 6449,
+      "sha256": "78f2470e01dd90e2d4ba77f041e039ff6e988c4c15e4d6a7900110a086e3e502"
     },
     {
       "path": "scripts/fetch_salary_sources.py",
@@ -1069,8 +1164,8 @@
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 6675,
-      "sha256": "5e303f7819998f7b530759dbe376f08b1db98896e168b9f22251ca6c98b303a2"
+      "bytes": 7558,
+      "sha256": "8f2ee35d4c1df1eef3df6ef2bcca6915ecefd46dfa552e1f662c38d1875c40db"
     },
     {
       "path": "scripts/run_salary_notebooks.py",
@@ -1081,6 +1176,11 @@
       "path": "scripts/setup.sh",
       "bytes": 1262,
       "sha256": "caa81cf4538f7daf84a8c4f8992ccc3039b21792eaf241c0f8cbb9a010c64421"
+    },
+    {
+      "path": "scripts/summarize_gemma_run.py",
+      "bytes": 5990,
+      "sha256": "65c497f48dc536ad9f664cdec9b40380fbec1f9f8af1247926b3289ef90ee1e8"
     },
     {
       "path": "scripts/validate_sft.py",
@@ -1108,5 +1208,5 @@
       "sha256": "861ef4bf2c5dcd0d2ca05258564d2bda195d6db254e043daa7b6e8ffcb663bc2"
     }
   ],
-  "generated_at_utc": "2026-10-17T09:42:15.700083+00:00"
+  "generated_at_utc": "2026-10-17T10:01:54.584717+00:00"
 }

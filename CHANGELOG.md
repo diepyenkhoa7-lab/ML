@@ -1,5 +1,20 @@
 # Nhật ký thay đổi
 
+## 2026-10-17 — Gemma trial đã được xác nhận
+
+- Người dùng trả lời `xac nhan`; đã chạy đúng cấu hình 100 iterations, 4 lớp cuối,
+  LoRA rank 8, batch 1, context 1024, lr 1e-4; không mở rộng trial hoặc dùng test.
+- Run `20261017T094853Z` hoàn tất exit 0. Train loss 0,501 → 0,081;
+  validation loss 1,135 → 0,070 trên 5 batch/lần, đo trước update tại iteration hiển thị.
+- Lưu checkpoint 25/50/75/100, final adapter 6.953.691 byte, SHA256 và manifest.
+  Trọng số gốc và checkpoint trung gian giữ local; final adapter nhỏ được publish.
+- Xuất CSV/biểu đồ loss và runbook; so sánh model gốc/adapter trên validation,
+  giữ raw predictions và diagnostic bỏ Markdown fence để phân biệt định dạng/nội dung.
+- Validation 72 mẫu / 25 tin: adapter JSON validity 100%, schema 90,3%, Skill F1
+  0,884; base sau bỏ fence có Skill F1 0,835. Giữ 7 lỗi schema (6 duplicate skill,
+  1 sai keys) và dự đoán thô; không train thêm hoặc dùng test.
+- Mặc định lệnh train vẫn xuất kế hoạch; lượt train mới vẫn cần xác nhận người dùng.
+
 ## 2026-10-17 — Salary training và Gemma preparation
 
 - Chuẩn bị đầy đủ notebook EDA/so sánh baseline, Ridge, Random Forest; chạy trên split

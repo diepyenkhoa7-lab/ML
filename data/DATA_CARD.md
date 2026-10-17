@@ -6,7 +6,7 @@
 176 mẫu (123 train / 25 validation / 28 test); CNTT rộng có 375 mẫu. Khảo sát và
 các tiền tệ quốc tế giữ riêng. 402 nhãn ứng viên cách ly, 4 bản trùng bị loại.
 Xem [quy tắc và giới hạn](../docs/LABEL_REVIEW_AND_SPLITS.md) cùng
-[báo cáo](../outputs/label_review/v1.0.1/REPORT.md). Mô hình lương đã train; Gemma chưa train. Xem [runbook](../docs/TRAINING_RUNBOOK.md).
+[báo cáo](../outputs/label_review/v1.0.1/REPORT.md). Mô hình lương và trial Gemma 100 bước đã train. Xem [runbook](../docs/TRAINING_RUNBOOK.md).
 
 ## Kết quả chuẩn hóa phiên bản 1.0.0
 
@@ -87,5 +87,5 @@ fit tiền xử lý trên train. Không dùng trực tiếp
 `salary_min/max`, chuỗi salary hoặc nội dung chứa lương làm feature hồi quy.
 
 `data/finetune/*.jsonl` đã có nhãn silver phiếu tin tuyển dụng 364/72/82,
-chưa được duyệt thủ công độc lập. Xem manifest và runbook; chưa
-huấn luyện Gemma; mô hình lương đã chạy. `data/examples/` tiếp tục chỉ là mẫu giả lập kiểm tra kỹ thuật.
+chưa được duyệt thủ công độc lập. Xem manifest và runbook; đã
+huấn luyện trial Gemma 100 bước sau xác nhận người dùng. `data/examples/` tiếp tục chỉ là mẫu giả lập kiểm tra kỹ thuật.

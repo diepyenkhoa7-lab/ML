@@ -50,6 +50,9 @@ def collect_files():
         "outputs/notebook_preparation",
         "outputs/eda/20261017T092843Z_e3747c",
         "outputs/metrics/salary_bd9af2fa002caae8",
+        "outputs/metrics/gemma_20261017T094853Z_base_valid",
+        "outputs/metrics/gemma_20261017T094853Z_adapter_valid",
+        "outputs/metrics/gemma_20261017T094853Z_comparison",
         "outputs/training_logs",
         "outputs/gemma_preparation",
         "models/salary/bd9af2fa002caae8",
@@ -67,6 +70,11 @@ def collect_files():
     ]:
         if (ROOT / name).is_file():
             files.add(ROOT / name)
+    # Publish the small final adapter; keep intermediate checkpoints and base weights local.
+    for name in ["adapters.safetensors", "adapter_config.json", "manifest.json"]:
+        path = ROOT / "adapters/gemma-jobs/20261017T094853Z" / name
+        if path.is_file():
+            files.add(path)
     excluded = {".backups", ".ipynb_checkpoints", "__pycache__", "node_modules", "dist"}
     files = {
         p
@@ -96,6 +104,7 @@ def main():
     parser.add_argument(
         "--publish", action="store_true", help="Create/update local source branch only"
     )
+    parser.add_argument("--message-file", type=Path, help="Commit message for this source snapshot")
     args = parser.parse_args()
     files = collect_files()
     items = [
@@ -108,17 +117,22 @@ def main():
         "preserved_history_branch": "feat/salary-training-gemma-prep",
         "includes": (
             "source, executed notebooks, frozen splits, two VN clean CSVs, "
-            "silver JSONL, salary pipelines and logs"
+            "silver JSONL, salary pipelines, small final Gemma adapter and logs"
         ),
-        "excludes": "raw/bulky audit CSVs, old failed splits, Gemma weights, caches, credentials",
+        "excludes": (
+            "raw/bulky audit CSVs, old failed splits, Gemma base weights, "
+            "intermediate adapter checkpoints, caches, credentials"
+        ),
         "reproduction": "docs/TRAINING_RUNBOOK.md",
         "self_excluded_from_hashes": True,
         "files": items,
     }
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
     previous = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
-    record["generated_at_utc"] = previous.get(
-        "generated_at_utc", datetime.now(timezone.utc).isoformat()
+    record["generated_at_utc"] = (
+        previous["generated_at_utc"]
+        if previous.get("files") == items
+        else datetime.now(timezone.utc).isoformat()
     )
     MANIFEST.write_text(json.dumps(record, ensure_ascii=False, indent=2) + "\n")
     files.append(MANIFEST)
@@ -152,7 +166,7 @@ def main():
             commit = parent
         else:
             message = (
-                "feat(ml): publish salary experiment and Gemma preparation\n\n"
+                "feat(ml): publish salary and Gemma experiment artifacts\n\n"
                 "Run EDA and baseline/Ridge/Random Forest on frozen VN developer splits; "
                 "select RF by validation MAE and report all test metrics.\n"
                 "Prepare traceable silver extraction JSONL, verified Google/MLX weight "
@@ -160,8 +174,11 @@ def main():
                 "Keep bulky data and old Git history local; publish bounded source snapshot "
                 "without force-push. See CHANGELOG.md and TRAINING_RUNBOOK.md.\n"
                 "Validation: unit tests, Ruff, full frozen-source audit, strict JSONL checks, "
-                "executed salary notebooks and pipeline reload. Gemma training not started.\n"
+                "executed salary notebooks and pipeline reload. "
+                "Latest Gemma status and metrics are recorded in the run logs.\n"
             )
+            if args.message_file:
+                message = args.message_file.read_text()
             params = ["commit-tree", tree] + (["-p", parent] if parent else [])
             commit = git(*params, input=message.encode())
             git("update-ref", ref, commit, parent or "0" * 40)

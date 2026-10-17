@@ -38,16 +38,27 @@ Bằng chứng:
 - `outputs/training_logs/salary_20261017T092948Z/{run.json,console.log}`.
 - `outputs/eda/20261017T092843Z_e3747c/`: biểu đồ Matplotlib/Seaborn trên train CNTT VN.
 
-## 2. Gemma: chuẩn bị xong, đang chờ người dùng xác nhận train
+## 2. Gemma: đã hoàn thành trial 100 iterations sau xác nhận
 
-Điều kiện xác nhận chỉ áp dụng Gemma; không chặn mô hình lương. Chưa chạy LoRA hoặc
-smoke train Gemma. `make gemma-train` và `make gemma-smoke` **chỉ xuất kế hoạch**.
+Điều kiện xác nhận chỉ áp dụng Gemma; không chặn mô hình lương. Người dùng đã trả lời
+`xac nhan` cho trial 100 iterations. Run `20261017T094853Z` hoàn tất, exit code 0;
+train loss 0,501 → 0,081, validation loss 1,135 → 0,070 trên 5 batch/lần.
+MLX đo validation trước optimizer update ở số bước được hiển thị; số loss log làm tròn
+3 chữ số, không phải accuracy. Có checkpoint 25/50/75/100 và adapter cuối 6.953.691 byte.
+Adapter cuối đúng kế hoạch 100 bước, không chọn checkpoint bằng test.
+
+Log/config/CSV loss/biểu đồ/summary: `outputs/training_logs/gemma_20261017T094853Z/`.
+Adapter/config/checksum: `adapters/gemma-jobs/20261017T094853Z/`.
+`make gemma-train` và `make gemma-smoke` vẫn **chỉ xuất kế hoạch** cho lượt mới.
+Các trường `training_started: false` trong manifest tạo dữ liệu/trọng số là snapshot lúc
+chuẩn bị; trạng thái hiện tại nằm tại `outputs/gemma_preparation/training_status.json`.
 
 Model chính thức `google/gemma-4-E4B-it`, revision
 `ee0ef6023621cff504d758262d4e04895a5af4a2`. Trọng số gốc 15.992.595.884 byte đã khớp SHA256
 Google; bản MLX 4-bit có 4.198.925.877 byte. Không cần tải lại trên máy hiện tại.
 Chi tiết: `outputs/gemma_preparation/weights.json`. GPU Metal M3 Pro đã tính tensor được;
-chưa xác minh LoRA, thông lượng train, bộ nhớ train hay chất lượng adapter.
+đã chạy LoRA thực tế, train khoảng 58–66 supervised tokens/s sau warmup;
+chưa đo peak memory train và không suy chất lượng adapter từ loss.
 
 Bộ `data/finetune/manifest.json`:
 
@@ -69,7 +80,18 @@ salary_min, salary_max, currency, salary_period. Giữ kỳ lương/tiền tệ 
 không thay cận bằng trung điểm. Trường bị bỏ trả null. Cặp prompt/chat đã kiểm tra prefix
 mask và token bằng tokenizer thật; dài nhất 614 token, không cắt mẫu.
 
-### Các bước chạy sau khi xác nhận
+### Tái sử dụng adapter đã train
+
+```bash
+make gemma-adapter
+# Tương đương:
+.venv/bin/python scripts/gemma_infer.py --adapter adapters/gemma-jobs/20261017T094853Z
+```
+
+Lệnh này suy luận một prompt kỹ thuật, không train thêm. Dùng script evaluate bên dưới
+để đánh giá có nhãn; không gọi kết quả một prompt là benchmark.
+
+### Các bước chạy một lượt mới sau khi xác nhận
 
 1. Mở `notebooks/03_gemma_extraction.ipynb` hoặc dùng Terminal trong thư mục dự án.
 2. Chạy `make validate-sft` và `make gemma-train` để đọc kế hoạch.
@@ -99,9 +121,26 @@ loss không phải độ chính xác trích xuất. Nếu lỗi, giữ log và s
 
 Chọn checkpoint theo validation rồi đánh giá cả hai trên `--split test`, thư mục output
 mới, giữ nguyên mọi tham số. Script xuất predictions và JSON validity, schema validity,
-accuracy từng trường, Skill micro F1. Chưa chạy bước này nên chưa có metric Gemma.
+accuracy từng trường, Skill micro F1. Kết quả run hiện tại nằm ở `outputs/metrics/gemma_20261017T094853Z_*_valid/`;
+bảng so sánh tại `outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md`.
 Trường thiếu tính sai; numeric tolerance 1e-6; skills dùng tập và F1 không phân biệt hoa/thường.
 Metric này đo khớp nhãn silver, không chứng minh nhãn đúng thực tế.
+
+
+## Đánh giá validation sau trial
+
+72 mẫu từ 25 tin nguồn, nhãn silver, chưa dùng test. Adapter: JSON thuần hợp lệ
+100%, đúng schema 90,3%, trung bình accuracy 8 trường 91,1%, Skill micro F1 0,884.
+Model gốc bọc cả 72 câu trả lời trong Markdown; sau khi chỉ bỏ lớp này, trung bình
+accuracy trường 79,0%, Skill F1 0,835. Không diễn giải điểm strict JSON 0 của model
+gốc thành không hiểu nội dung. Chẩn đoán bỏ fence dùng cùng quy tắc cho cả hai.
+
+Adapter còn 7 lỗi schema (6 kỹ năng trùng, 1 sai bộ khóa), lưu nguyên kết quả và
+schema_errors.json; không sửa output hoặc train tiếp để làm đẹp điểm. Mẫu bỏ trường
+là biến thể, không phải tin độc lập. Kết quả chỉ đo khớp nhãn silver của phiếu tin.
+
+Bảng so sánh và metric từng trường: `outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md`.
+Dự đoán thô và checksums: `outputs/metrics/gemma_20261017T094853Z_{base,adapter}_valid/`.
 
 ## 3. Git và dữ liệu lớn
 
@@ -112,7 +151,7 @@ Không force-push, không rewrite lịch sử cũ. Danh sách file thực tế v
 `outputs/source_publication/manifest.json`.
 
 Snapshot có code, notebook đã chạy, JSONL, bộ chia v1.0.1, hai CSV sạch VN, pipeline lương
-nhỏ, metrics/log, config tái lập. Không đưa trọng số Gemma, cache, token hoặc raw/bản audit
+nhỏ, adapter Gemma cuối 6,95 MB, metrics/log và config tái lập. Không đưa trọng số Gemma gốc, checkpoint trung gian, cache, token hoặc raw/bản audit
 cồng kềnh lên Git. URL/revision/checksum để tải nguồn nằm ở `configs/data_sources.json` và
 các manifest. File người dùng chưa có URL gốc; phải bổ sung thủ công nếu cần tái làm sạch
 nguồn đó, không thể tải lại tự động. Nguồn/điều khoản chưa xác nhận ghi tại DATA_SOURCES.md.

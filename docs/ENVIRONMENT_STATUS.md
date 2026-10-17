@@ -2,7 +2,8 @@
 
 Đã chạy EDA và mô hình lương thật, chuẩn bị JSONL Gemma và xác minh đủ trọng số.
 Xem [runbook hiện tại](TRAINING_RUNBOOK.md) và `outputs/gemma_preparation/weights.json`.
-Gemma chưa train; chờ xác nhận riêng của người dùng. Nội dung bên dưới là biên bản
+Gemma đã train đủ trial 100 bước sau xác nhận; adapter/log tại
+`outputs/training_logs/gemma_20261017T094853Z/`. Nội dung bên dưới là biên bản
 thiết lập ban đầu, các dòng "chưa có dữ liệu/trọng số" là trạng thái lịch sử.
 
 ---

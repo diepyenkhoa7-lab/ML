@@ -16,9 +16,14 @@ Frontend Vue 3 dự kiến ở bước tích hợp; FastAPI hiện có health, c
   chưa chứng minh tổng quát toàn thị trường.
 - Gemma: đủ trọng số Google và MLX 4-bit, checksum đã xác minh. JSONL silver có
   **364 / 72 / 82** mẫu, tương ứng 122 / 25 / 28 tin nguồn; gồm biến thể bỏ trường.
-  **Chưa train Gemma. Mọi huấn luyện Gemma, kể cả smoke, cần bạn xác nhận trước.**
+  **Đã hoàn thành trial Gemma 100 iterations sau xác nhận của bạn.**
+  Train loss 0,501 → 0,081; validation loss 1,135 → 0,070 trên 5 batch/lần.
+  Validation 72 mẫu từ 25 tin nguồn: JSON hợp lệ 100%, schema 90,3%, Skill F1 0,884
+  (base sau bỏ Markdown: 0,835); còn 7 lỗi schema, nhãn silver và chưa đánh giá test.
+  [Bảng so sánh đầy đủ](outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md).
 - Đã chuẩn bị notebook 03, kế hoạch, wrapper lưu log và script đánh giá Gemma;
-  chưa có metric/adapter Gemma hoặc chức năng tư vấn hoàn chỉnh.
+  đã có adapter tại `adapters/gemma-jobs/20261017T094853Z/`;
+  chức năng tư vấn hoàn chỉnh chưa triển khai.
 
 Xem [hướng dẫn train và bằng chứng](docs/TRAINING_RUNBOOK.md),
 [kết quả lương](outputs/metrics/salary_bd9af2fa002caae8/REPORT.md),
@@ -76,7 +81,7 @@ Model gốc Google revision `ee0ef6023621cff504d758262d4e04895a5af4a2`, trọng 
 15.992.595.884 byte; bản MLX text-only 4-bit 4.198.925.877 byte.
 Trên máy hiện tại đã có đủ, không cần tải lại. SHA256 tại
 `outputs/gemma_preparation/weights.json`; manifest ở hai thư mục model.
-Chưa benchmark hoặc xác minh LoRA trên model đầy đủ. Bản chuyển chỉ dùng văn bản.
+Đã xác minh LoRA chạy đủ 100 bước, lưu adapter và nạp lại để đánh giá. Bản chuyển chỉ dùng văn bản.
 
 Máy khác tải riêng, không đưa trọng số lên Git:
 
@@ -99,14 +104,16 @@ và `make gemma-smoke` chỉ tạo kế hoạch. Sau khi bạn xác nhận mới
 Wrapper lưu console loss, cấu hình, exit code và checkpoint theo run_id; không ghi đè
 lượt cũ. `scripts/evaluate_gemma.py` chuẩn bị JSON validity, schema validity, accuracy
 8 trường và Skill F1. Chọn checkpoint trên validation, sau đó so base/adapter trên test.
-Chưa có metric Gemma cho đến khi thực hiện đánh giá.
+Run train và đường cong loss tại `outputs/training_logs/gemma_20261017T094853Z/`.
+Kết quả so sánh validation được lưu riêng trong `outputs/metrics/`.
 
 ## Nhánh Git gọn và dữ liệu lớn
 
 Nhánh bàn giao **`publish/salary-gemma-prep`** chứa source, notebook, CSV sạch VN,
 CSV split, JSONL, pipeline lương nhỏ, metric và log. Manifest liệt kê file tại
 `outputs/source_publication/manifest.json`. Lịch sử cũ và dữ liệu lớn local được giữ
-nguyên; không force-push. Trọng số Gemma, cache, raw/bảng audit lớn tải/lưu riêng.
+nguyên; không force-push. Trọng số Gemma gốc, cache, raw/bảng audit lớn và checkpoint trung gian tải/lưu riêng.
+Adapter cuối nhỏ (6,95 MB), config và checksum được đưa cùng source để tái sử dụng.
 
 `configs/data_sources.json` ghi URL/revision/checksum. File `vietnam_it_job_posts.csv`
 người dùng gửi chưa có URL nguồn, cần cung cấp thủ công để làm sạch lại từ raw.
@@ -125,7 +132,7 @@ Các nguồn có giới hạn xuất xứ/điều khoản ghi rõ tại DATA_SOU
 
 ## Sản phẩm còn lại
 
-Tích hợp API dự đoán/trích xuất/tư vấn và giao diện; đánh giá Gemma sau xác nhận;
+Tích hợp API dự đoán/trích xuất/tư vấn và giao diện; đánh giá holdout Gemma khi chốt pipeline;
 báo cáo cá nhân theo mẫu giảng viên, đặt tên `STT_Họ và tên_MSSV`; demo ứng dụng.
 Đối chiếu [bảng bàn giao](docs/DELIVERABLES.md).
 

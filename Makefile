@@ -1,4 +1,5 @@
 PYTHON := .venv/bin/python
+GEMMA_ADAPTER ?= adapters/gemma-jobs/20261017T094853Z
 export PIP_CACHE_DIR := $(CURDIR)/.cache/pip
 export HF_HOME := $(CURDIR)/.cache/huggingface
 export MPLCONFIGDIR := $(CURDIR)/.cache/matplotlib
@@ -50,7 +51,7 @@ gemma-smoke: validate-example
 	$(PYTHON) scripts/gemma_train.py --config configs/gemma_smoke.yaml
 
 gemma-adapter:
-	$(PYTHON) scripts/gemma_infer.py --adapter adapters/gemma-smoke --output outputs/environment/gemma_adapter.json
+	$(PYTHON) scripts/gemma_infer.py --adapter $(GEMMA_ADAPTER) --output outputs/environment/gemma_adapter.json
 
 gemma-train: validate-sft
 	$(PYTHON) scripts/gemma_train.py --config configs/gemma_train.yaml

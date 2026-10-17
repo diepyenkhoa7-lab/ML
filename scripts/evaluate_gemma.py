@@ -4,6 +4,7 @@ import argparse
 import json
 import math
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -90,6 +91,7 @@ def main():
     if output.exists():
         raise SystemExit("Preserve existing evaluation; choose a new --output directory")
     output.mkdir(parents=True)
+    started = datetime.now(timezone.utc).isoformat()
     if args.generate:
         import mlx.core as mx
         from mlx_lm import generate, load
@@ -131,6 +133,14 @@ def main():
         dataset_sha256=checksum(source),
         adapter=str(args.adapter) if args.adapter else None,
         gemma_training_started_by_this_command=False,
+        independent_source_records=len({row["source_record_id"] for row in rows}),
+        started_at_utc=started,
+        finished_at_utc=datetime.now(timezone.utc).isoformat(),
+        model_manifest_sha256=checksum(ROOT / "models/gemma-mlx-4bit/manifest.json"),
+        adapter_sha256=checksum(args.adapter / "adapters.safetensors") if args.adapter else None,
+        generation={"temperature": 0.0, "max_tokens": 256, "seed": 42, "enable_thinking": False}
+        if args.generate
+        else "external_predictions_not_generated_by_this_command",
     )
     (output / "metrics.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     print(json.dumps(result, ensure_ascii=False, indent=2))

@@ -1,0 +1,44 @@
+[
+  {
+    "index": 39,
+    "source_record_id": "vietjobs_2025:18514",
+    "error": "Duplicate skill",
+    "output": "{\"role\": \"Frontend Developer\", \"location\": \"TP.HCM\", \"experience_years\": 2.0, \"skills\": [\"CSS Framework\", \"HTML\", \"JavaScript\", \"Next.js\", \"React\", \"RESTful API\", \"CSS\", \"CSS Framework\", \"Typescript\", \"Flutter\"], \"salary_min\": 13000000.0, \"salary_max\": 20000000.0, \"currency\": \"VND\", \"salary_period\": \"month\"}"
+  },
+  {
+    "index": 40,
+    "source_record_id": "vietjobs_2025:18514",
+    "error": "Duplicate skill",
+    "output": "{\"role\": \"Frontend Developer\", \"location\": \"TP.HCM\", \"experience_years\": 2.0, \"skills\": [\"CSS Framework\", \"HTML\", \"JavaScript\", \"Next.js\", \"React\", \"RESTful API\", \"CSS\", \"CSS Framework\", \"TypeScript\", \"Flutter\"], \"salary_min\": null, \"salary_max\": null, \"currency\": null, \"salary_period\": null}"
+  },
+  {
+    "index": 64,
+    "source_record_id": "vietjobs_2025:19156",
+    "error": "Duplicate skill",
+    "output": "{\"role\": \"Software Developer\", \"location\": \"Hà Nội\", \"experience_years\": 1.0, \"skills\": [\"Android\", \"Intellij\", \"Git\", \"Java\", \"Java\", \"Linux\", \"Python\", \"Redmine\", \"Ruby\", \"Redmine\", \"Jira\"], \"salary_min\": null, \"salary_max\": null, \"currency\": null, \"salary_period\": null}"
+  },
+  {
+    "index": 67,
+    "source_record_id": "vietjobs_2025:19229",
+    "error": "Duplicate skill",
+    "output": "{\"role\": \"Full-stack Developer\", \"location\": \"Hà Nội\", \"experience_years\": 1.0, \"skills\": [\"Angular\", \"Node.js\", \"React\", \"Vue\", \"Angular\", \"Java\", \".NET\", \"Python\", \"SQL\"], \"salary_min\": null, \"salary_max\": null, \"currency\": null, \"salary_period\": null}"
+  },
+  {
+    "index": 69,
+    "source_record_id": "vietjobs_2025:19230",
+    "error": "Duplicate skill",
+    "output": "{\"role\": \"Full-stack Developer\", \"location\": \"quận 7\", \"experience_years\": 5.0, \"skills\": [\"Docker\", \"Docker\", \"Linux\", \"React\", \"React\", \"Node.js\", \"Amazon Web Services\", \"Google Cloud\", \"Kafka\", \"Snowflake\", \"RabbitMQ\", \"ZeroMQ\", \"threejs\", \"Unity\", \"ROS\"], \"salary_min\": 50000000.0, \"salary_max\": 90000000.0, \"currency\": \"VND\", \"salary_period\": \"month\"}"
+  },
+  {
+    "index": 70,
+    "source_record_id": "vietjobs_2025:19230",
+    "error": "Extraction JSON must contain exactly the eight schema keys",
+    "output": "{\"role\": \"Full-stack Developer\", \"location\": \"quận 7\", \"experience_years\": 5.0, \"skills\": [\"Docker\", \"Docker\", \"Linux\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \"React\", \" \"]}"
+  },
+  {
+    "index": 71,
+    "source_record_id": "vietjobs_2025:19230",
+    "error": "Duplicate skill",
+    "output": "{\"role\": \"Full-stack Developer\", \"location\": \"quận 7\", \"experience_years\": null, \"skills\": [\"Docker\", \"Docker\", \"Linux\", \"React\", \"React\", \"Node.js\", \"Amazon Web Services\", \"Google Cloud\", \"Kafka\", \"Snowflake\", \"RabbitMQ\", \"ZeroMQ\", \"threejs\", \"Unity\", \"ROS\"], \"salary_min\": 50000000.0, \"salary_max\": 90000000.0, \"currency\": \"VND\", \"salary_period\": \"month\"}"
+  }
+]
