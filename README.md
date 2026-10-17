@@ -16,8 +16,8 @@ Frontend Vue 3 dự kiến ở bước tích hợp; FastAPI hiện có health, c
 
 Dữ liệu ở `data/finetune_full/v1.0.0/`: 364 train / 72 validation / 82 test.
 Validation/test giữ riêng. Mỗi lần train tạo run và adapter mới.
-**`make gemma-infer-adapter` mặc định vẫn nạp adapter trial 100 bước.** Muốn dùng
-adapter mới, chỉ định `GEMMA_ADAPTER` như hướng dẫn dưới đây.
+**`make gemma-infer-adapter` mặc định nạp bản tốt nhất theo validation:
+`20261017T105728Z`.** Có thể chỉ định `GEMMA_ADAPTER` để dùng bản khác.
 
 Lượt bạn tự chạy `20261017T101925Z` đã hoàn tất **364/364 bước**, exit code 0.
 Train loss cuối **0,032**, validation loss **0,068** trên đủ 72 mẫu. Xem log bằng lệnh chỉ đọc:
@@ -26,13 +26,18 @@ Train loss cuối **0,032**, validation loss **0,068** trên đủ 72 mẫu. Xem
 tail -f outputs/training_logs/gemma_20261017T101925Z/console.log
 ```
 
-Suy luận bằng chính adapter vừa train:
+Suy luận bằng adapter được chọn sau các lượt cải tiến (không train):
 
 ```bash
+make gemma-infer-adapter
+# Bản full ban đầu vẫn được giữ để so sánh/quay lại:
 GEMMA_ADAPTER=adapters/gemma-jobs/20261017T101925Z make gemma-infer-adapter
 ```
 
 Xem [hướng dẫn train, giám sát và suy luận](docs/GEMMA_FULL_TRAINING.md).
+Protocol và lệnh đánh giá: [Gemma tuning](docs/GEMMA_TUNING.md).
+Kết quả: [bảng chọn bằng validation](outputs/metrics/gemma_tuning/REPORT.md),
+[đánh giá cuối](outputs/metrics/gemma_tuning/FINAL_REPORT.md).
 
 ## Trạng thái hiện tại
 
@@ -46,16 +51,19 @@ Xem [hướng dẫn train, giám sát và suy luận](docs/GEMMA_FULL_TRAINING.m
   chưa chứng minh tổng quát toàn thị trường.
 - Gemma: đủ trọng số Google và MLX 4-bit, checksum đã xác minh. JSONL silver có
   **364 / 72 / 82** mẫu, tương ứng 122 / 25 / 28 tin nguồn; gồm biến thể bỏ trường.
-  **Lượt full 1 epoch của bạn đã hoàn tất: `20261017T101925Z` (364 bước).**
-  Adapter ở `adapters/gemma-jobs/20261017T101925Z/`, train loss cuối 0,032,
-  validation loss 0,068 trên toàn bộ 72 mẫu; chưa đánh giá trích xuất riêng cho adapter full.
-  Các metric dưới đây thuộc **trial 100 bước trước đó**, không phải adapter full.
-  Train loss 0,501 → 0,081; validation loss 1,135 → 0,070 trên 5 batch/lần.
-  Validation 72 mẫu từ 25 tin nguồn: JSON hợp lệ 100%, schema 90,3%, Skill F1 0,884
-  (base sau bỏ Markdown: 0,835); còn 7 lỗi schema, nhãn silver và chưa đánh giá test.
-  [Bảng so sánh đầy đủ](outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md).
+  Sau full baseline đã train thật thêm 3 lượt × 364 bước với lr giảm dần.
+  Chọn `20261017T105728Z` bằng validation; lượt cuối giảm điểm nên bị loại.
+  Validation: Skill F1 **93,76%** (baseline full 90,22%), accuracy trung bình 8 trường
+  **93,75%**, schema **95,83%**, JSON **100%**. Skills exact chỉ **56,94%**;
+  nhãn silver, còn alias/duplicate và mục tiêu schema 98%/accuracy 95% chưa đạt.
+  Test (82 mẫu / 28 tin): Skill F1 **91,85%**, accuracy trung bình **93,90%**,
+  schema **95,12%**, JSON **100%**; skills exact **54,88%**.
+  Test chỉ chấm sau khi khóa lựa chọn, không train tiếp bằng lỗi test;
+  xem [báo cáo cuối và từng trường](outputs/metrics/gemma_tuning/FINAL_REPORT.md).
+  [Trial 100 bước cũ](outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md)
+  vẫn được giữ riêng.
 - Đã chuẩn bị notebook 03, kế hoạch, wrapper lưu log và script đánh giá Gemma;
-  đã có adapter full tại `adapters/gemma-jobs/20261017T101925Z/`;
+  mặc định suy luận dùng adapter đã chọn bằng validation;
   chức năng tư vấn hoàn chỉnh chưa triển khai.
 
 Xem [hướng dẫn train và bằng chứng](docs/TRAINING_RUNBOOK.md),
@@ -115,7 +123,8 @@ Model gốc Google revision `ee0ef6023621cff504d758262d4e04895a5af4a2`, trọng 
 15.992.595.884 byte; bản MLX text-only 4-bit 4.198.925.877 byte.
 Trên máy hiện tại đã có đủ, không cần tải lại. SHA256 tại
 `outputs/gemma_preparation/weights.json`; manifest ở hai thư mục model.
-Đã xác minh LoRA chạy đủ 100 bước, lưu adapter và nạp lại để đánh giá. Bản chuyển chỉ dùng văn bản.
+Đã chạy full baseline và 3 lượt cải tiến thật, lưu/nạp lại adapter để đánh giá.
+Bản chuyển chỉ dùng văn bản.
 
 Máy khác tải riêng, không đưa trọng số lên Git:
 
@@ -130,16 +139,17 @@ chưa phải dữ liệu tin tự do đầy đủ hoặc dữ liệu tư vấn. 
 không trùng nguồn/nhóm/prompt, không cắt token; dài nhất 614 token. Năm/tháng và tiền tệ
 được giữ theo nguồn. Manifest/ledger ghi nguồn và các biến thể bị loại.
 
-Trial đề xuất: MLX 4-bit LoRA, 4 lớp cuối, rank 8, batch 1, 100 iterations,
-learning rate 1e-4, context 1024, mask prompt, gradient checkpoint. `make gemma-train`
-và `make gemma-smoke` chỉ tạo kế hoạch. Sau khi bạn xác nhận mới dùng lệnh
-`--confirm-training` ghi rõ trong [runbook](docs/TRAINING_RUNBOOK.md).
+Full baseline: MLX 4-bit LoRA, 4 lớp cuối, rank 8, batch 1, 364 updates,
+learning rate 1e-4, context 1024, mask prompt, gradient checkpoint. Các config tuning
+dùng lr 5e-5 / 2e-5 / 1e-5 và ghi adapter cha/seed. Người dùng đã cho phép đợt train
+lặp này; lệnh `make gemma-adapter` là yêu cầu chạy thật một lượt mới.
+`make gemma-train` và `make gemma-smoke` chỉ giữ kế hoạch trial cũ.
 
 Wrapper lưu console loss, cấu hình, exit code và checkpoint theo run_id; không ghi đè
-lượt cũ. `scripts/evaluate_gemma.py` chuẩn bị JSON validity, schema validity, accuracy
-8 trường và Skill F1. Chọn checkpoint trên validation, sau đó so base/adapter trên test.
-Run train và đường cong loss tại `outputs/training_logs/gemma_20261017T094853Z/`.
-Kết quả so sánh validation được lưu riêng trong `outputs/metrics/`.
+lượt cũ. `scripts/evaluate_gemma.py` chấm JSON validity, schema validity, accuracy
+8 trường và Skill F1. Chọn adapter trên validation, sau đó chấm test riêng cho bản
+được chọn; không đổi model từ kết quả test. Log/loss curve theo từng run tại
+`outputs/training_logs/`; kết quả và quyết định ở `outputs/metrics/gemma_tuning/`.
 
 ## Nhánh Git gọn và dữ liệu lớn
 
@@ -166,7 +176,7 @@ Các nguồn có giới hạn xuất xứ/điều khoản ghi rõ tại DATA_SOU
 
 ## Sản phẩm còn lại
 
-Tích hợp API dự đoán/trích xuất/tư vấn và giao diện; đánh giá holdout Gemma khi chốt pipeline;
+Tích hợp API dự đoán/trích xuất/tư vấn và giao diện; bổ sung nhãn gold và holdout mới khi mở vòng nghiên cứu khác;
 báo cáo cá nhân theo mẫu giảng viên, đặt tên `STT_Họ và tên_MSSV`; demo ứng dụng.
 Đối chiếu [bảng bàn giao](docs/DELIVERABLES.md).
 

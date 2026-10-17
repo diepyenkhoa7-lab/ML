@@ -1,0 +1,59 @@
+Loading configuration file /Users/scara2906/Downloads/ML/outputs/training_logs/gemma_20261017T105728Z/config.yaml
+Loading pretrained model
+Loading datasets
+Training
+Loading fine-tuned weights from /Users/scara2906/Downloads/ML/adapters/gemma-jobs/20261017T104241Z/adapters.safetensors
+╭─ [1mmlx_lm.lora[0m ────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│    model           [1m/Users/scara2906/Downloads/ML/models/gemma-mlx-4bit[0m                                               │
+│    type            [1mlora · 4 layers · rank 8[0m                                                                          │
+│    dataset         [1m/Users/scara2906/Downloads/ML/data/finetune_full/v1.0.0[0m                                           │
+│    optimizer       [1madam · lr 2.0e-05[0m                                                                                 │
+│    batch · iters   [1m1 · 364[0m                                                                                           │
+│    max seq         [1m1,024[0m                                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Trainable parameters: 0.023% (1.737M/7463.013M)
+  [1miter   train_loss     tok/s     tokens[0m
+     1    [1mval[0m [1m0.083[0m    5.23s
+    10    [1m0.004 ▼[0m    [1m   66[0m      1.2k
+    20    [1m0.003 ▼[0m    [1m   59[0m      2.2k
+    30    [1m0.043 ▲[0m    [1m   63[0m      3.3k
+    40    [1m0.014 ▼[0m    [1m   62[0m      4.3k
+    50    [1m0.016 ▲[0m    [1m   59[0m      5.3k
+    60    [1m0.017 ▲[0m    [1m   67[0m      6.6k
+    70    [1m0.008 ▼[0m    [1m   60[0m      7.6k
+    80    [1m0.021 ▲[0m    [1m   65[0m      8.7k
+    90    [1m0.004 ▼[0m    [1m   60[0m      9.7k
+   100    [1m0.006 ▲[0m    [1m   60[0m     10.7k
+  [1msave[0m  0000100_adapters.safetensors
+   110    [1m0.001 ▼[0m    [1m   61[0m     11.7k
+   120    [1m0.012 ▲[0m    [1m   60[0m     12.6k
+   130    [1m0.017 ▲[0m    [1m   61[0m     13.6k
+   140    [1m0.001 ▼[0m    [1m   59[0m     14.6k
+   150    [1m0.004 ▲[0m    [1m   66[0m     15.8k
+   160    [1m0.019 ▲[0m    [1m   67[0m     17.0k
+   170    [1m0.004 ▼[0m    [1m   65[0m     18.1k
+   180    [1m0.005 ▲[0m    [1m   62[0m     19.2k
+   182    [1mval[0m [1m0.069[0m    5.61s
+   190    [1m0.004 ▼[0m    [1m   63[0m     20.3k
+   200    [1m0.001 ▼[0m    [1m   62[0m     21.3k
+  [1msave[0m  0000200_adapters.safetensors
+   210    [1m0.003 ▲[0m    [1m   63[0m     22.4k
+   220    [1m0.000 ▼[0m    [1m   58[0m     23.4k
+   230    [1m0.001 ▲[0m    [1m   63[0m     24.5k
+   240    [1m0.002 ▲[0m    [1m   62[0m     25.5k
+   250    [1m0.003 ▲[0m    [1m   65[0m     26.6k
+   260    [1m0.004 ▲[0m    [1m   63[0m     27.7k
+   270    [1m0.001 ▼[0m    [1m   63[0m     28.8k
+   280    [1m0.001 ▲[0m    [1m   64[0m     29.9k
+   290    [1m0.001 ▲[0m    [1m   61[0m     31.0k
+   300    [1m0.001 ▼[0m    [1m   59[0m     32.0k
+  [1msave[0m  0000300_adapters.safetensors
+   310    [1m0.005 ▲[0m    [1m   58[0m     32.9k
+   320    [1m0.003 ▼[0m    [1m   65[0m     34.0k
+   330    [1m0.001 ▼[0m    [1m   63[0m     35.1k
+   340    [1m0.001 ▲[0m    [1m   57[0m     36.0k
+   350    [1m0.004 ▲[0m    [1m   61[0m     37.0k
+   360    [1m0.000 ▼[0m    [1m   62[0m     38.0k
+   364    [1mval[0m [1m0.063[0m    5.15s
+   364    [1m0.000 ▼[0m    [1m   61[0m     38.4k
+[1mtrain[0m ██████████████████████████████ [1m100%[0m · [1m  364[0m/364

@@ -7,7 +7,7 @@
 | Ít nhất 2 mô hình | Ridge và Random Forest, cùng tập chia | Đã train Ridge/Random Forest trên bộ developer v1.0.1 |
 | Ít nhất 2 metric | MAE, RMSE; thêm R² | Đã có MAE, RMSE, R² của baseline/Ridge/RF |
 | Giá trị kỹ năng | Thống kê theo vai trò, số mẫu và mức lương | Đã có thống kê và hệ số Ridge trên train; không suy nhân quả |
-| Gemma | google/gemma-4-E4B-it + adapter + so sánh trước/sau | Đã hoàn tất full epoch 364 bước và lưu adapter/log; metric trích xuất hiện có thuộc trial 100 bước |
+| Gemma | google/gemma-4-E4B-it + adapter + so sánh trước/sau | Đã train full và thêm 3 lượt; chọn 105728Z bằng validation (Skill F1 93,76%). Metric test và giới hạn trong outputs/metrics/gemma_tuning/FINAL_REPORT.md |
 | Ứng dụng tư vấn | Hồ sơ → lương → đề xuất kỹ năng → giải thích | API khởi tạo có health, chưa có nghiệp vụ |
 | Báo cáo cá nhân | `STT_Họ và tên_MSSV`, theo mẫu giảng viên | Chưa có mẫu hoặc thông tin sinh viên |
 | Link dự án | GitHub/GitLab truy cập được, README chạy lại | Remote theihoz/ML; nhánh publish/salary-gemma-prep |

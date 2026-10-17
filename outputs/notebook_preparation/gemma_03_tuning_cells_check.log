@@ -1,0 +1,180 @@
+Executing default cell 1
+Workspace: /Users/scara2906/Downloads/ML
+Executing default cell 3
+{
+  "counts": {
+    "train": 364,
+    "valid": 72,
+    "test": 82
+  },
+  "ok": true,
+  "errors": []
+}
+{
+  "train": {
+    "examples": 364,
+    "source_records": 122,
+    "groups": 121,
+    "max_tokens": 614,
+    "sha256": "5aed2122781e4e69235e0762150a4bf86353820098afd738356a202c2877696e",
+    "original_examples": 122
+  },
+  "valid": {
+    "examples": 72,
+    "source_records": 25,
+    "groups": 25,
+    "max_tokens": 476,
+    "sha256": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+    "original_examples": 25
+  },
+  "test": {
+    "examples": 82,
+    "source_records": 28,
+    "groups": 28,
+    "max_tokens": 555,
+    "sha256": "77800ff3222e545dda2a7a6d0265240c47a95d05184c3038613b8a4a3c62c671",
+    "original_examples": 28
+  }
+}
+{
+  "repo_id": "google/gemma-4-E4B-it",
+  "revision": "ee0ef6023621cff504d758262d4e04895a5af4a2",
+  "official_weight_sha256": "cfbd3d2f1cd71bd471c37fe2bf8546d5028d41e5736f64e1ca6c6b8893125503",
+  "official_checksum_match": true,
+  "weights": {
+    "gemma-source": {
+      "bytes": 15992595884,
+      "sha256": "cfbd3d2f1cd71bd471c37fe2bf8546d5028d41e5736f64e1ca6c6b8893125503"
+    },
+    "gemma-mlx-4bit": {
+      "bytes": 4198925877,
+      "sha256": "e105100225815b521c6405c57ea23974530b868ddfea1e3ea9ec7ce1cf9fae38"
+    }
+  },
+  "download_required": false,
+  "gemma_training_started": false
+}
+{
+  "source_record_id": "user_vietnam_it_jobs:1700",
+  "group_id": "15850030015bf2137434ed2acca6d24905736b7d906a6af51233b3d42cbc63e1",
+  "source_dataset": "user_vietnam_it_jobs",
+  "variant": "original",
+  "label_quality": "silver_source_fields",
+  "task": "job_card_extraction",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Đọc phiếu tin tuyển dụng, trả đúng một JSON, không giải thích. Các khóa: role, location, experience_years, skills, salary_min, salary_max, currency, salary_period. Chuẩn hóa role về một trong: Software Developer, Backend Developer, Frontend Developer, Full-stack Developer, Mobile Developer, Embedded Engineer, ML Engineer, Data Engineer. Chuẩn địa điểm Hà Nội, TP.HCM, Đà Nẵng khi tương đương; giữ tên khác. Kỹ năng là danh sách tên công nghệ được nêu, chuẩn hóa alias thông dụng. Không suy số năm từ seniority. Không yêu cầu kinh nghiệm là 0. Thiếu thông tin trả null. Lương là số tiền hai cận theo tiền tệ/kỳ gốc, không lấy trung điểm, không đổi ngoại tệ. Không có số tiền lương thì salary_min, salary_max, currency, salary_period đều null. Kỳ lương: month hoặc year. Đọc đơn vị nguồn được ghi rõ trong phiếu, không đoán."
+    },
+    {
+      "role": "user",
+      "content": "Phiếu tin tuyển dụng từ dữ liệu đã thu thập:\nChức danh: AI Engineer (Middle Level) (Thu Nhập 20-30 Triệu)\nCông ty: K&M Holdings\nĐịa điểm: Hà Nội\nKinh nghiệm: 2\nKỹ năng: [\"Python\", \"Git\", \"LangChain\", \"Teamwork\", \"AI\", \"AI\"]\nLương: 20tr-30tr ₫/tháng"
+    },
+    {
+      "role": "assistant",
+      "content": "{\"role\": \"ML Engineer\", \"location\": \"Hà Nội\", \"experience_years\": 2.0, \"skills\": [\"AI\", \"Git\", \"LangChain\", \"Python\", \"Teamwork\"], \"salary_min\": 20000000.0, \"salary_max\": 30000000.0, \"currency\": \"VND\", \"salary_period\": \"month\"}"
+    }
+  ],
+  "tokens": 418,
+  "prompt_tokens": 322,
+  "split": "train"
+}
+Executing default cell 5
+{
+  "train_examples": 364,
+  "batch_size": 1,
+  "epochs": 1,
+  "steps_per_epoch": 364,
+  "iterations": 364,
+  "dataset": {
+    "source": "data/finetune",
+    "dataset": "data/finetune_full/v1.0.0",
+    "counts": {
+      "train": 364,
+      "valid": 72,
+      "test": 82
+    },
+    "train_split_only": true,
+    "validation_and_test_excluded_from_gradients": true,
+    "full_definition": "Every train JSONL example once per epoch; not all raw CSVs or full-parameter tuning",
+    "label_quality": "silver_source_fields",
+    "source_records": {
+      "train": 122,
+      "valid": 25,
+      "test": 28
+    },
+    "files": {
+      "train.jsonl": "5aed2122781e4e69235e0762150a4bf86353820098afd738356a202c2877696e",
+      "valid.jsonl": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+      "test.jsonl": "77800ff3222e545dda2a7a6d0265240c47a95d05184c3038613b8a4a3c62c671",
+      "manifest.json": "1fd675dfe8171ea0f0c2d306969f718bd4a219cbaaed6065f4042a36423776dd"
+    }
+  },
+  "config": "outputs/gemma_preparation/gemma_full_1epochs.yaml",
+  "training_started": false,
+  "mode": "full_dataset_lora_epochs",
+  "start_from": "official base model; no existing adapter overwritten",
+  "human_confirmation": "Explicit invocation of make gemma-adapter starts training"
+}
+{
+  "status": "awaiting_human_confirmation",
+  "gemma_training_started": false,
+  "config": {
+    "model": "models/gemma-mlx-4bit",
+    "train": true,
+    "fine_tune_type": "lora",
+    "data": "data/finetune_full/v1.0.0",
+    "adapter_path": "adapters/gemma-jobs",
+    "seed": 42,
+    "num_layers": 4,
+    "batch_size": 1,
+    "iters": 364,
+    "val_batches": -1,
+    "learning_rate": 0.0001,
+    "steps_per_report": 10,
+    "steps_per_eval": 364,
+    "save_every": 100,
+    "max_seq_length": 1024,
+    "grad_checkpoint": true,
+    "mask_prompt": true,
+    "lora_parameters": {
+      "rank": 8,
+      "dropout": 0.0,
+      "scale": 20.0
+    }
+  },
+  "config_sha256": "13f0d61d3e37dc8dfd51bf25aa3ed2a16adc63b4dd0c4c1a49eef293f2023d5a",
+  "resume": null,
+  "corpus_validation": {
+    "counts": {
+      "train": 364,
+      "valid": 72,
+      "test": 82
+    },
+    "ok": true,
+    "errors": []
+  },
+  "weight_evidence": "outputs/gemma_preparation/weights.json",
+  "weight_check": "recorded official SHA256 verified; current size checked; rehash on launch",
+  "expected_outputs": [
+    "adapters/gemma-jobs/<run_id>/adapters.safetensors",
+    "adapters/gemma-jobs/<run_id>/adapter_config.json",
+    "outputs/training_logs/gemma_<run_id>/console.log",
+    "outputs/training_logs/gemma_<run_id>/run.json"
+  ],
+  "limits": [
+    "Silver job-card labels, not human gold or full original ads",
+    "Training compatibility, throughput and adapter quality not yet verified",
+    "Loss is not extraction accuracy; evaluate JSON validity, field accuracy and Skill F1",
+    "Do not tune using test; compare base and fixed adapter on test after validation"
+  ],
+  "launch_after_user_confirmation_only": ".venv/bin/python scripts/gemma_train.py --config outputs/gemma_preparation/gemma_full_1epochs.yaml --confirm-training"
+}
+PLAN ONLY. No Gemma training started. Await explicit user confirmation.
+Executing default cell 7
+KHÔNG train. Muốn suy luận, dùng make gemma-infer-adapter.
+Executing default cell 9
+Chưa chạy suy luận. Adapter theo validation: adapters/gemma-jobs/20261017T105728Z
+Executing default cell 11
+<IPython.core.display.Markdown object>
+PASS: default cells executed; no training or model inference launched.

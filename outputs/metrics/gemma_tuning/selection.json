@@ -1,0 +1,210 @@
+{
+  "protocol_sha256": "b1342dfe320b06673afbafe019742e25024f7e80ccdb5af4de99f15fa1c0e0b6",
+  "protocol": {
+    "version": "1.0.0",
+    "baseline_adapter": "adapters/gemma-jobs/20261017T101925Z",
+    "selection_split": "valid",
+    "test_policy": "Evaluate selected adapter once after selection; do not tune on test",
+    "primary_score": "0.5 * mean_field_exact_accuracy + 0.3 * skill_micro_f1 + 0.2 * schema_validity",
+    "promotion_min_delta": 0.002,
+    "guardrails": {
+      "json_validity_must_not_decrease": true,
+      "max_mean_field_accuracy_drop": 0.005,
+      "max_skill_f1_drop": 0.01
+    },
+    "targets": {
+      "json_validity": 1.0,
+      "schema_validity": 0.98,
+      "mean_field_exact_accuracy": 0.95,
+      "skill_micro_f1": 0.92
+    },
+    "max_candidates": 3,
+    "patience": 2,
+    "candidate_learning_rates": [
+      5e-05,
+      2e-05,
+      1e-05
+    ],
+    "candidate_seeds": [
+      44,
+      45,
+      46
+    ],
+    "candidate_epochs": 1,
+    "steps_per_epoch": 364,
+    "resume_mode": "best adapter weights; optimizer reinitialized for each candidate",
+    "label_quality": "silver source fields, not independent human gold",
+    "human_authorization": "User explicitly allowed repeated training and improvement on 2026-10-17",
+    "raw_scores_primary": true,
+    "output_repairs_for_primary_scores": false
+  },
+  "selected_adapter": "adapters/gemma-jobs/20261017T105728Z",
+  "selected_evaluation": "outputs/metrics/gemma_20261017T105728Z_adapter_valid",
+  "selection_split": "valid",
+  "stop_reason": "candidate budget exhausted",
+  "candidates_evaluated": 3,
+  "targets_met": false,
+  "records": [
+    {
+      "examples": 72,
+      "json_validity": 1.0,
+      "schema_validity": 0.8888888888888888,
+      "field_exact_accuracy": {
+        "role": 0.8055555555555556,
+        "location": 1.0,
+        "experience_years": 0.9861111111111112,
+        "skills": 0.4444444444444444,
+        "salary_min": 1.0,
+        "salary_max": 1.0,
+        "currency": 1.0,
+        "salary_period": 1.0
+      },
+      "skill_micro_precision": 0.9112903225806451,
+      "skill_micro_recall": 0.8932806324110671,
+      "skill_micro_f1": 0.9021956087824351,
+      "limits": "Silver references; augmented cards are not independent jobs; not advice quality",
+      "split": "valid",
+      "dataset_sha256": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+      "adapter": "adapters/gemma-jobs/20261017T101925Z",
+      "gemma_training_started_by_this_command": false,
+      "independent_source_records": 25,
+      "started_at_utc": "2026-10-17T10:38:38.045511+00:00",
+      "finished_at_utc": "2026-10-17T10:42:07.066645+00:00",
+      "model_manifest_sha256": "785c2fb3754e0bd27859f5cf0fd70d1bf75485ba7d51b8a6a922dec3d35fd8cd",
+      "adapter_sha256": "80c8ef5fb98fb1e03a3f9ddbdd69257dbde198cf321885fd5cb7058080e052ca",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 256,
+        "seed": 42,
+        "enable_thinking": false
+      },
+      "mean_field_exact_accuracy": 0.904513888888889,
+      "selection_score": 0.9006934048569528,
+      "evaluation": "outputs/metrics/gemma_20261017T101925Z_adapter_valid",
+      "promoted": true,
+      "reasons": [
+        "baseline"
+      ]
+    },
+    {
+      "examples": 72,
+      "json_validity": 1.0,
+      "schema_validity": 0.9444444444444444,
+      "field_exact_accuracy": {
+        "role": 0.9305555555555556,
+        "location": 1.0,
+        "experience_years": 0.9583333333333334,
+        "skills": 0.5277777777777778,
+        "salary_min": 1.0,
+        "salary_max": 1.0,
+        "currency": 1.0,
+        "salary_period": 1.0
+      },
+      "skill_micro_precision": 0.9092702169625246,
+      "skill_micro_recall": 0.9110671936758893,
+      "skill_micro_f1": 0.910167818361303,
+      "limits": "Silver references; augmented cards are not independent jobs; not advice quality",
+      "split": "valid",
+      "dataset_sha256": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+      "adapter": "adapters/gemma-jobs/20261017T104241Z",
+      "gemma_training_started_by_this_command": false,
+      "independent_source_records": 25,
+      "started_at_utc": "2026-10-17T10:53:48.151831+00:00",
+      "finished_at_utc": "2026-10-17T10:57:13.587668+00:00",
+      "model_manifest_sha256": "785c2fb3754e0bd27859f5cf0fd70d1bf75485ba7d51b8a6a922dec3d35fd8cd",
+      "adapter_sha256": "54dc1b31af41c5642682257886e4df84a90661fe5f4051cc5c4bb6e335bb64e2",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 256,
+        "seed": 42,
+        "enable_thinking": false
+      },
+      "mean_field_exact_accuracy": 0.9270833333333333,
+      "selection_score": 0.9254809010639464,
+      "evaluation": "outputs/metrics/gemma_20261017T104241Z_adapter_valid",
+      "promoted": true,
+      "reasons": []
+    },
+    {
+      "examples": 72,
+      "json_validity": 1.0,
+      "schema_validity": 0.9583333333333334,
+      "field_exact_accuracy": {
+        "role": 0.9444444444444444,
+        "location": 1.0,
+        "experience_years": 0.9861111111111112,
+        "skills": 0.5694444444444444,
+        "salary_min": 1.0,
+        "salary_max": 1.0,
+        "currency": 1.0,
+        "salary_period": 1.0
+      },
+      "skill_micro_precision": 0.9403578528827038,
+      "skill_micro_recall": 0.9347826086956522,
+      "skill_micro_f1": 0.9375619425173439,
+      "limits": "Silver references; augmented cards are not independent jobs; not advice quality",
+      "split": "valid",
+      "dataset_sha256": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+      "adapter": "adapters/gemma-jobs/20261017T105728Z",
+      "gemma_training_started_by_this_command": false,
+      "independent_source_records": 25,
+      "started_at_utc": "2026-10-17T11:08:18.949028+00:00",
+      "finished_at_utc": "2026-10-17T11:11:52.504730+00:00",
+      "model_manifest_sha256": "785c2fb3754e0bd27859f5cf0fd70d1bf75485ba7d51b8a6a922dec3d35fd8cd",
+      "adapter_sha256": "fceb60125606c8eb9bc5a89a656b0f7ef5338c2b3e4c78f8426e956c716c7287",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 256,
+        "seed": 42,
+        "enable_thinking": false
+      },
+      "mean_field_exact_accuracy": 0.9375,
+      "selection_score": 0.9416852494218698,
+      "evaluation": "outputs/metrics/gemma_20261017T105728Z_adapter_valid",
+      "promoted": true,
+      "reasons": []
+    },
+    {
+      "examples": 72,
+      "json_validity": 1.0,
+      "schema_validity": 0.9583333333333334,
+      "field_exact_accuracy": {
+        "role": 0.9166666666666666,
+        "location": 1.0,
+        "experience_years": 0.9861111111111112,
+        "skills": 0.5694444444444444,
+        "salary_min": 1.0,
+        "salary_max": 1.0,
+        "currency": 1.0,
+        "salary_period": 1.0
+      },
+      "skill_micro_precision": 0.9271653543307087,
+      "skill_micro_recall": 0.9308300395256917,
+      "skill_micro_f1": 0.9289940828402367,
+      "limits": "Silver references; augmented cards are not independent jobs; not advice quality",
+      "split": "valid",
+      "dataset_sha256": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+      "adapter": "adapters/gemma-jobs/20261017T111205Z",
+      "gemma_training_started_by_this_command": false,
+      "independent_source_records": 25,
+      "started_at_utc": "2026-10-17T11:22:51.483262+00:00",
+      "finished_at_utc": "2026-10-17T11:26:16.211174+00:00",
+      "model_manifest_sha256": "785c2fb3754e0bd27859f5cf0fd70d1bf75485ba7d51b8a6a922dec3d35fd8cd",
+      "adapter_sha256": "efdd9e16a981a4e03cf9355d6db3f2a4f0d88116a1f34fd2ce22fcd671f6d5f9",
+      "generation": {
+        "temperature": 0.0,
+        "max_tokens": 256,
+        "seed": 42,
+        "enable_thinking": false
+      },
+      "mean_field_exact_accuracy": 0.9340277777777778,
+      "selection_score": 0.9373787804076266,
+      "evaluation": "outputs/metrics/gemma_20261017T111205Z_adapter_valid",
+      "promoted": false,
+      "reasons": [
+        "score gain below minimum delta"
+      ]
+    }
+  ],
+  "test_used_for_selection": false
+}

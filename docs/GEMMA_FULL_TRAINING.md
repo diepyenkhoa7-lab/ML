@@ -67,8 +67,10 @@ GEMMA_ADAPTER=adapters/gemma-jobs/20261017T101925Z make gemma-infer-adapter
 ```
 
 `make gemma-adapter` là train; `make gemma-infer-adapter` là suy luận.
-Lệnh suy luận mặc định dùng adapter trial `20261017T094853Z`, vì vậy cần chỉ định
-`GEMMA_ADAPTER` khi muốn dùng kết quả của lượt full mới.
+Lệnh suy luận mặc định dùng adapter tốt nhất theo validation `20261017T105728Z`,
+không tự chuyển sang run mới nhất. Lượt cuối `20261017T111205Z` giảm điểm nên bị loại.
+Chỉ định `GEMMA_ADAPTER` khi muốn dùng bản khác. Lệnh suy luận dùng cùng system
+prompt/schema với train và báo JSON/schema validity, không sửa đầu ra trước khi chấm.
 Trên máy hiện tại trọng số đã đủ. Máy clone khác cần tải model riêng theo revision
 cố định trong README. Base weights và checkpoint trung gian lớn giữ local; adapter
 cuối nhỏ được publish cùng source sau khi xác minh.
@@ -85,8 +87,11 @@ Các adapter này giữ riêng; lệnh full mặc định bắt đầu từ base
 
 Lượt bạn tự chạy đã hoàn tất 364/364 bước, exit code 0. Train loss 0,380 → 0,032;
 validation loss 1,052 → 0,068 trên toàn bộ 72 mẫu. Adapter cuối đã khớp checksum
-trong manifest; log, CSV và biểu đồ loss đã được tạo. Chưa đo accuracy/F1 riêng
-cho adapter full. Lượt do Codex khởi động `101734Z`
+trong manifest; log, CSV và biểu đồ loss đã được tạo. Đã chấm adapter full trên
+72 mẫu validation: JSON 100%, schema 88,89%, Skill F1 90,22%; chưa dùng test
+ở bước baseline này. Sau đó người dùng cho phép train lặp để cải thiện;
+xem [protocol, bảng chọn adapter và hướng dẫn đánh giá](GEMMA_TUNING.md).
+Lượt do Codex khởi động `101734Z`
 đã dừng để tránh chạy hai job trên cùng GPU; log riêng vẫn được giữ.
 
 ```bash

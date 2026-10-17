@@ -62,6 +62,12 @@ def collect_files():
     for source in ["user_vietnam_it_jobs", "vietjobs_2025"]:
         for name in ["clean.csv", "manifest.json"]:
             files.add(ROOT / "data/processed/cleaned" / source / name)
+    # Raw predictions and validation-only selection evidence for later tuning runs.
+    for directory in (ROOT / "outputs/metrics").glob("gemma_*"):
+        if directory.is_dir():
+            files.update(p for p in directory.rglob("*") if p.is_file())
+    # Mutable manual one-prompt inference is not an evaluated model artifact.
+    files.discard(ROOT / "outputs/environment/gemma_adapter.json")
     for name in [
         "models/gemma-source/manifest.json",
         "models/gemma-mlx-4bit/manifest.json",

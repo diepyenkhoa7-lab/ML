@@ -1,5 +1,5 @@
 PYTHON := .venv/bin/python
-GEMMA_ADAPTER ?= adapters/gemma-jobs/20261017T094853Z
+GEMMA_ADAPTER ?= adapters/gemma-jobs/20261017T105728Z
 EPOCHS ?= 1
 export PIP_CACHE_DIR := $(CURDIR)/.cache/pip
 export HF_HOME := $(CURDIR)/.cache/huggingface

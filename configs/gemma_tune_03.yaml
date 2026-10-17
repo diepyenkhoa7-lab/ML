@@ -1,0 +1,22 @@
+model: models/gemma-mlx-4bit
+train: true
+fine_tune_type: lora
+data: data/finetune_full/v1.0.0
+adapter_path: adapters/gemma-jobs
+seed: 46
+num_layers: 4
+batch_size: 1
+iters: 364
+val_batches: 5
+learning_rate: 1.0e-05
+steps_per_report: 10
+steps_per_eval: 182
+save_every: 100
+max_seq_length: 1024
+grad_checkpoint: true
+mask_prompt: true
+lora_parameters:
+  rank: 8
+  dropout: 0.0
+  scale: 20.0
+resume_adapter_file: adapters/gemma-jobs/20261017T105728Z/adapters.safetensors

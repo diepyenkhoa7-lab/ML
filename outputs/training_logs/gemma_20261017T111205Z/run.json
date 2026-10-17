@@ -1,0 +1,74 @@
+{
+  "status": "completed",
+  "gemma_training_started": true,
+  "config": {
+    "model": "models/gemma-mlx-4bit",
+    "train": true,
+    "fine_tune_type": "lora",
+    "data": "data/finetune_full/v1.0.0",
+    "adapter_path": "adapters/gemma-jobs",
+    "seed": 46,
+    "num_layers": 4,
+    "batch_size": 1,
+    "iters": 364,
+    "val_batches": 5,
+    "learning_rate": 1e-05,
+    "steps_per_report": 10,
+    "steps_per_eval": 182,
+    "save_every": 100,
+    "max_seq_length": 1024,
+    "grad_checkpoint": true,
+    "mask_prompt": true,
+    "lora_parameters": {
+      "rank": 8,
+      "dropout": 0.0,
+      "scale": 20.0
+    },
+    "resume_adapter_file": "adapters/gemma-jobs/20261017T105728Z/adapters.safetensors"
+  },
+  "config_sha256": "3a5ff222c1833347bbdf439aa4535645eb19a263351f8f184a25ceff1cf11c47",
+  "resume": {
+    "path": "adapters/gemma-jobs/20261017T105728Z/adapters.safetensors",
+    "sha256": "fceb60125606c8eb9bc5a89a656b0f7ef5338c2b3e4c78f8426e956c716c7287",
+    "parent_total_optimizer_steps": 1092,
+    "mode": "adapter_weights_only_optimizer_reinitialized"
+  },
+  "corpus_validation": {
+    "counts": {
+      "train": 364,
+      "valid": 72,
+      "test": 82
+    },
+    "ok": true,
+    "errors": []
+  },
+  "weight_evidence": "outputs/gemma_preparation/weights.json",
+  "weight_check": "recorded official SHA256 verified; current size checked; rehash on launch",
+  "expected_outputs": [
+    "adapters/gemma-jobs/<run_id>/adapters.safetensors",
+    "adapters/gemma-jobs/<run_id>/adapter_config.json",
+    "outputs/training_logs/gemma_<run_id>/console.log",
+    "outputs/training_logs/gemma_<run_id>/run.json"
+  ],
+  "limits": [
+    "Silver job-card labels, not human gold or full original ads",
+    "Training compatibility, throughput and adapter quality not yet verified",
+    "Loss is not extraction accuracy; evaluate JSON validity, field accuracy and Skill F1",
+    "Do not tune using test; compare base and fixed adapter on test after validation"
+  ],
+  "launch_after_user_confirmation_only": ".venv/bin/python scripts/gemma_train.py --config configs/gemma_tune_03.yaml --confirm-training",
+  "command": [
+    "/Users/scara2906/Downloads/ML/.venv/bin/python",
+    "-u",
+    "-m",
+    "mlx_lm",
+    "lora",
+    "--config",
+    "/Users/scara2906/Downloads/ML/outputs/training_logs/gemma_20261017T111205Z/config.yaml"
+  ],
+  "human_confirmation_received": true,
+  "human_confirmation_text": "User authorized repeated real Gemma training and evaluation improvements on 2026-10-17; candidate 3 resumes validation-selected candidate 2 under locked protocol.",
+  "started_at_utc": "2026-10-17T11:12:05.644476+00:00",
+  "returncode": 0,
+  "finished_at_utc": "2026-10-17T11:22:42.271254+00:00"
+}

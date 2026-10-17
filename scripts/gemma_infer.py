@@ -3,10 +3,15 @@
 import argparse
 import json
 import os
+import sys
 import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+from scripts.clean_data import checksum  # noqa: E402
+from scripts.prepare_gemma_sft import SYSTEM, validate_label  # noqa: E402
+
 os.environ.setdefault("HF_HOME", str(ROOT / ".cache/huggingface"))
 
 
@@ -19,11 +24,9 @@ def main():
     parser.add_argument(
         "--prompt",
         default=(
-            "Trích xuất tin tuyển dụng thành JSON, chỉ trả JSON. "
-            "Các khóa: role, location, experience_years, skills, salary_min, salary_max, "
-            "currency, salary_period. Không có thông tin thì dùng null. Lương tính bằng số đồng. "
-            "Tin: Tuyển Backend Developer tại Hà Nội, 3 năm kinh nghiệm, "
-            "Python, FastAPI, PostgreSQL, lương 20–30 triệu VND/tháng."
+            "Phiếu tin tuyển dụng từ dữ liệu đã thu thập:\n"
+            "Chức danh: Backend Developer\nĐịa điểm: Hà Nội\nKinh nghiệm: 3 năm\n"
+            "Kỹ năng: Python, FastAPI, PostgreSQL\nLương: 20–30 triệu VND/tháng"
         ),
     )
     args = parser.parse_args()
@@ -39,7 +42,7 @@ def main():
         str(args.model), adapter_path=str(args.adapter) if args.adapter else None
     )
     prompt = tokenizer.apply_chat_template(
-        [{"role": "user", "content": args.prompt}],
+        [{"role": "system", "content": SYSTEM}, {"role": "user", "content": args.prompt}],
         tokenize=False,
         add_generation_prompt=True,
         enable_thinking=False,
@@ -56,13 +59,25 @@ def main():
         extracted = json.loads(text.strip())
     except ValueError:
         extracted = None
+    schema_error = None
+    try:
+        if not isinstance(extracted, dict):
+            raise ValueError("Expected JSON object")
+        validate_label(extracted)
+    except (ValueError, TypeError) as exc:
+        schema_error = str(exc)
     result = {
         "source_model": "google/gemma-4-E4B-it",
         "manifest": json.loads((args.model / "manifest.json").read_text()),
         "adapter": str(args.adapter) if args.adapter else None,
+        "adapter_sha256": checksum(args.adapter / "adapters.safetensors") if args.adapter else None,
+        "system_prompt": SYSTEM,
         "prompt": args.prompt,
         "output": text,
         "json_valid": isinstance(extracted, dict),
+        "schema_valid": schema_error is None,
+        "schema_error": schema_error,
+        "gemma_training_started_by_this_command": False,
         "elapsed_seconds_including_load": time.perf_counter() - start,
         "peak_memory_bytes": mx.get_peak_memory(),
         "scope": "single synthetic prompt, not a quality evaluation",

@@ -1,5 +1,26 @@
 # Nhật ký thay đổi
 
+## 2026-10-17 — Đánh giá full và train lặp Gemma thật
+
+- Theo xác nhận mới của người dùng, chấm full baseline và train thêm 3 lượt × 364
+  updates với lr 5e-5 / 2e-5 / 1e-5, seed 44/45/46; resume adapter tốt nhất,
+  optimizer khởi tạo lại. Cấu hình/console/loss/exit code/checksum lưu riêng từng run.
+- Khóa protocol trước khi đọc baseline: chọn bằng validation, không sửa output/nhãn,
+  có ngưỡng cải thiện/guardrail và giới hạn 3 ứng viên. JSONL/splits giữ nguyên checksum.
+- Baseline full Skill F1 90,22%; lượt 1 đạt 91,02%; lượt 2 đạt 93,76%; lượt 3
+  giảm còn 92,90% nên loại. Chọn `20261017T105728Z`, lineage 1.092 updates.
+- Validation bản chọn: JSON 100%, schema 95,83%, accuracy trung bình 93,75%,
+  skills exact 56,94%. Mục tiêu schema 98%/accuracy 95% chưa đạt; không hạ mục tiêu.
+- Test chỉ chấm một lần sau khóa chọn: JSON 100%, schema 95,12%, accuracy trung
+  bình 93,90%, Skill F1 91,85%, skills exact 54,88% trên 82 biến thể / 28 tin.
+  Không train tiếp theo lỗi test. Nhãn silver, chưa phải benchmark gold hoặc mọi tin tự do.
+- Đặt `make gemma-infer-adapter` mặc định về adapter được chọn; giữ `make gemma-adapter`
+  là train từ base. Đồng bộ system prompt suy luận với train; báo lỗi schema, không sửa
+  đầu ra. Giữ nguyên file suy luận người dùng tự tạo, không publish output tạm đó.
+- Cập nhật notebook 03, kiểm tra các cell mặc định không train/inference; thêm báo cáo,
+  biểu đồ so sánh, lỗi từng trường/slice và numeric MAE cùng đơn vị. 30 unit tests,
+  Ruff, strict JSONL và frozen CSV integrity đạt. Trọng số base/checkpoint giữ local.
+
 ## 2026-10-17 — Train thật toàn bộ JSONL và tách lệnh suy luận
 
 - `make gemma-adapter` train thật toàn bộ train JSONL, mặc định 1 epoch = 364 bước;

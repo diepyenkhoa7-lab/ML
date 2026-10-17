@@ -41,14 +41,19 @@ Bằng chứng:
 - `outputs/training_logs/salary_20261017T092948Z/{run.json,console.log}`.
 - `outputs/eda/20261017T092843Z_e3747c/`: biểu đồ Matplotlib/Seaborn trên train CNTT VN.
 
-## 2. Gemma: lượt full hiện tại và lịch sử trial
+## 2. Gemma: full baseline, cải tiến và lịch sử trial
 
 **Lượt full `20261017T101925Z` do người dùng tự chạy:** hoàn tất 364/364 bước,
 exit code 0, từ base trên toàn bộ bộ train. Train loss cuối 0,032; validation loss
-0,068 trên 72 mẫu. Codex chỉ giám sát và cập nhật hướng dẫn, không chạy thêm suy luận.
+0,068 trên 72 mẫu. Trong lượt này Codex chỉ giám sát; sau đó người dùng đã cho phép
+đánh giá và train lặp để cải thiện.
 Xem `outputs/training_logs/gemma_20261017T101925Z/REPORT.md` và
-`adapters/gemma-jobs/20261017T101925Z/manifest.json`. Metric trích xuất bên dưới
-thuộc trial 100 bước; chưa đo accuracy/F1 riêng cho adapter full.
+`adapters/gemma-jobs/20261017T101925Z/manifest.json`. Baseline full đạt JSON 100%,
+schema 88,89%, Skill F1 90,22% trên validation. Bảng lựa chọn các lượt cải tiến:
+`outputs/metrics/gemma_tuning/REPORT.md`; kết quả sau chốt model:
+`outputs/metrics/gemma_tuning/FINAL_REPORT.md`.
+Xem [protocol và lệnh train/đánh giá riêng](GEMMA_TUNING.md).
+Metric bên dưới mục trial thuộc trial 100 bước, không thay cho kết quả tuning mới.
 
 ### Trial 100 bước trước đó
 
@@ -97,7 +102,7 @@ mask và token bằng tokenizer thật; dài nhất 614 token, không cắt mẫ
 ```bash
 make gemma-infer-adapter
 # Tương đương:
-.venv/bin/python scripts/gemma_infer.py --adapter adapters/gemma-jobs/20261017T094853Z
+.venv/bin/python scripts/gemma_infer.py --adapter adapters/gemma-jobs/20261017T105728Z
 ```
 
 Lệnh này suy luận một prompt kỹ thuật, không train thêm. Dùng script evaluate bên dưới
@@ -133,7 +138,7 @@ loss không phải độ chính xác trích xuất. Nếu lỗi, giữ log và s
 
 Chọn checkpoint theo validation rồi đánh giá cả hai trên `--split test`, thư mục output
 mới, giữ nguyên mọi tham số. Script xuất predictions và JSON validity, schema validity,
-accuracy từng trường, Skill micro F1. Kết quả run hiện tại nằm ở `outputs/metrics/gemma_20261017T094853Z_*_valid/`;
+accuracy từng trường, Skill micro F1. Kết quả trial cũ nằm ở `outputs/metrics/gemma_20261017T094853Z_*_valid/`;
 bảng so sánh tại `outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md`.
 Trường thiếu tính sai; numeric tolerance 1e-6; skills dùng tập và F1 không phân biệt hoa/thường.
 Metric này đo khớp nhãn silver, không chứng minh nhãn đúng thực tế.
@@ -148,7 +153,8 @@ accuracy trường 79,0%, Skill F1 0,835. Không diễn giải điểm strict JS
 gốc thành không hiểu nội dung. Chẩn đoán bỏ fence dùng cùng quy tắc cho cả hai.
 
 Adapter còn 7 lỗi schema (6 kỹ năng trùng, 1 sai bộ khóa), lưu nguyên kết quả và
-schema_errors.json; không sửa output hoặc train tiếp để làm đẹp điểm. Mẫu bỏ trường
+schema_errors.json; không sửa output để làm đẹp điểm. Sau đó người dùng cho phép
+đợt cải tiến riêng, được ghi ở GEMMA_TUNING.md. Mẫu bỏ trường
 là biến thể, không phải tin độc lập. Kết quả chỉ đo khớp nhãn silver của phiếu tin.
 
 Bảng so sánh và metric từng trường: `outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md`.
