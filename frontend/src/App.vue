@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 const page = ref("upload"),
   meta = ref(null),
   dataset = ref(null),
@@ -25,6 +25,19 @@ const profile = ref({
   skills: "Python, SQL",
 });
 let timer = null;
+let pollRevision = 0;
+let rowsRevision = 0;
+let profileRevision = 0;
+watch(
+  profile,
+  () => {
+    // Every displayed prediction belongs to the submitted profile, never a newer edit.
+    profileRevision++;
+    advice.value = null;
+    profileBusy.value = false;
+  },
+  { deep: true, flush: "sync" },
+);
 const labels = {
   title: "Chức danh",
   role: "Vai trò",
@@ -131,6 +144,10 @@ async function demo() {
   }
 }
 async function analyze() {
+  clearTimeout(timer);
+  pollRevision++;
+  rowsRevision++;
+  rows.value = [];
   error.value = "";
   busy.value = true;
   try {
@@ -159,9 +176,13 @@ async function analyze() {
 }
 async function poll() {
   clearTimeout(timer);
+  const revision = ++pollRevision;
+  const identifier = job.value.id;
   try {
-    job.value = await api(`/api/analyses/${job.value.id}`);
-    if (running.value) timer = setTimeout(poll, 1100);
+    const state = await api(`/api/analyses/${identifier}`);
+    if (revision !== pollRevision || identifier !== job.value?.id) return;
+    job.value = state;
+    if (running.value) timer = setTimeout(() => poll(), 1100);
     else if (job.value.status === "completed") {
       salarySource.value = result.value.summary.labeled
         ? "observed"
@@ -169,6 +190,7 @@ async function poll() {
       await loadRows(0);
     } else error.value = job.value.error;
   } catch (e) {
+    if (revision !== pollRevision || identifier !== job.value?.id) return;
     error.value = e.message;
     job.value = {
       ...job.value,
@@ -179,22 +201,28 @@ async function poll() {
   }
 }
 async function loadRows(value) {
+  const revision = ++rowsRevision;
+  const identifier = job.value.id;
   error.value = "";
   try {
     const data = await api(
-      `/api/analyses/${job.value.id}/rows?offset=${value}&limit=25`,
+      `/api/analyses/${identifier}/rows?offset=${value}&limit=25`,
     );
+    if (revision !== rowsRevision || identifier !== job.value?.id) return;
     rows.value = data.rows;
     offset.value = value;
   } catch (e) {
-    error.value = e.message;
+    if (revision === rowsRevision && identifier === job.value?.id)
+      error.value = e.message;
   }
 }
 async function getAdvice() {
+  const revision = ++profileRevision;
+  advice.value = null;
   error.value = "";
   profileBusy.value = true;
   try {
-    advice.value = await api("/api/career/advice", {
+    const data = await api("/api/career/advice", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -209,10 +237,11 @@ async function getAdvice() {
           .filter(Boolean),
       }),
     });
+    if (revision === profileRevision) advice.value = data;
   } catch (e) {
-    error.value = e.message;
+    if (revision === profileRevision) error.value = e.message;
   } finally {
-    profileBusy.value = false;
+    if (revision === profileRevision) profileBusy.value = false;
   }
 }
 onMounted(async () => {
@@ -231,7 +260,12 @@ onMounted(async () => {
     error.value = e.message;
   }
 });
-onBeforeUnmount(() => clearTimeout(timer));
+onBeforeUnmount(() => {
+  clearTimeout(timer);
+  pollRevision++;
+  rowsRevision++;
+  profileRevision++;
+});
 </script>
 
 <template>
@@ -754,6 +788,7 @@ onBeforeUnmount(() => clearTimeout(timer));
                       <th>Ridge · triệu/tháng</th>
                       <th>Cung cấp</th>
                       <th>Chênh lệch</th>
+                      <th v-if="result.gemma_execution?.used">Gemma đọc tin</th>
                       <th>Trạng thái</th>
                     </tr>
                   </thead>
@@ -774,6 +809,20 @@ onBeforeUnmount(() => clearTimeout(timer));
                       <td>{{ money(row.ridge_salary_vnd) }}</td>
                       <td>{{ money(row.salary_monthly_vnd) }}</td>
                       <td>{{ money(row.error_vnd) }}</td>
+                      <td v-if="result.gemma_execution?.used">
+                        <span
+                          class="pill"
+                          :class="row.gemma_status === 'failed' ? 'bad' : ''"
+                        >
+                          {{
+                            row.gemma_status === "succeeded"
+                              ? "Đã trích xuất"
+                              : row.gemma_status === "failed"
+                                ? "Trích xuất lỗi"
+                                : "Không dùng"
+                          }}
+                        </span>
+                      </td>
                       <td>
                         <details
                           v-if="row.errors.length || row.warnings.length"
@@ -827,7 +876,41 @@ onBeforeUnmount(() => clearTimeout(timer));
               </div>
             </section>
             <template v-else
-              ><section class="panel quality-panel">
+              ><section
+                v-if="result.gemma_execution"
+                class="panel quality-panel"
+              >
+                <h2>Gemma đọc tin tuyển dụng</h2>
+                <template v-if="result.gemma_execution.used">
+                  <p>
+                    {{ result.gemma_execution.succeeded }} /
+                    {{ result.gemma_execution.rows }} mô tả trích xuất thành
+                    công; {{ result.gemma_execution.failed }} dòng lỗi.
+                  </p>
+                  <p class="muted">
+                    Adapter:
+                    {{
+                      result.gemma_execution.provenance.adapter.split("/").pop()
+                    }}
+                    · chỉ suy luận.
+                  </p>
+                  <a :href="artifact('gemma_outputs.json')" download
+                    >Tải JSON gốc và lỗi từng dòng ↓</a
+                  >
+                  <p class="muted">
+                    Gemma trích thông tin; Random Forest / Ridge dự đoán lương.
+                    Lương do Gemma đọc không được dùng làm nhãn đánh giá.
+                  </p>
+                </template>
+                <p v-else class="muted">
+                  {{
+                    result.gemma_execution.requested
+                      ? "Đã chọn Gemma nhưng không có mô tả khác rỗng để xử lý."
+                      : "Lượt này dùng các cột có sẵn; chưa gọi Gemma."
+                  }}
+                </p>
+              </section>
+              <section class="panel quality-panel">
                 <h2>Độ khớp trên bảng đang nhập</h2>
                 <p class="muted">
                   Số đo dưới đây có thể bao gồm dữ liệu model từng thấy. Không

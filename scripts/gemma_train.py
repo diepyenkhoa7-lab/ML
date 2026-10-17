@@ -12,6 +12,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.clean_data import checksum  # noqa: E402
+from scripts.gpu_lock import gpu_lock  # noqa: E402
 from scripts.validate_sft import validate_corpus  # noqa: E402
 
 
@@ -109,6 +110,11 @@ def main(argv=None):
         print(json.dumps(plan, ensure_ascii=False, indent=2), flush=True)
         print("PLAN ONLY. No Gemma training started. Await explicit user confirmation.")
         return 0
+    with gpu_lock():
+        return train(plan, args)
+
+
+def train(plan, args):
     weight = ROOT / plan["config"]["model"] / "model.safetensors"
     evidence = json.loads((ROOT / plan["weight_evidence"]).read_text())
     assert checksum(weight) == evidence["weights"][weight.parent.name]["sha256"]

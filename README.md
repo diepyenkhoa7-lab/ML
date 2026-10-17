@@ -198,3 +198,6 @@ mẫu giảng viên, đặt tên `STT_Họ và tên_MSSV`; chuẩn bị kịch b
 
 Tham chiếu: [Google model card](https://huggingface.co/google/gemma-4-E4B-it),
 [MLX-LM LoRA/QLoRA](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/LORA.md).
+
+Audit kiến trúc ngày 18/10: [báo cáo](outputs/architecture_audit/2026-10-18/REPORT.md).
+Hành trình, khái niệm và khó khăn có bằng chứng: [PROJECT_JOURNEY](docs/PROJECT_JOURNEY.md).

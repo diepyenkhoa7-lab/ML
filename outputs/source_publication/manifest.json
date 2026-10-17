@@ -24,18 +24,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 7755,
-      "sha256": "0068a710301477cc2e3df3b20a2ce6cdbf622119f26df51db17bd8fedcb63378"
+      "bytes": 8750,
+      "sha256": "e3601abcf909e9186694c92a4c34ce0814f6ccc21e7358444869af358ce3aa28"
     },
     {
       "path": "Makefile",
-      "bytes": 3212,
-      "sha256": "c11b9e697d0c8c0263dd26c15387a4beecd3247377f4ad2bfffd787ddb3a5dbe"
+      "bytes": 3242,
+      "sha256": "f14698ae547e4995dd781801ad34c2dcd668815049871212439913a37b21619d"
     },
     {
       "path": "README.md",
-      "bytes": 11222,
-      "sha256": "35df236dbfa51177b87fa93bb38790bf9b307306154324f42b8634e6d57b1f65"
+      "bytes": 11423,
+      "sha256": "26be041b5b4fabf6806080b0d12d71a12ee0be382cca63dbd780a8babc3f676a"
     },
     {
       "path": "adapters/README.md",
@@ -144,18 +144,18 @@
     },
     {
       "path": "backend/app/main.py",
-      "bytes": 6831,
-      "sha256": "d1614e65d1f416fcb424561e7bd300b36f9e173dce760403bde8c6d2694e5aaf"
+      "bytes": 7159,
+      "sha256": "550c0cb2d8aeaf7b3b631e57b7423d0a78f077cda53124da2176faf7e807e1f5"
     },
     {
       "path": "backend/app/schemas.py",
-      "bytes": 2522,
-      "sha256": "3788093b37ab7e30c9e3f5adf40435f25735d5428ea1ebc3bc6dadb55b290a57"
+      "bytes": 2586,
+      "sha256": "5d515272956e23e3944a9a187e79a8be0302f93dbcc72e852b1c973aae8375bd"
     },
     {
       "path": "backend/app/services/analysis.py",
-      "bytes": 11085,
-      "sha256": "0037e1fac95c4a4ea7bf9b4f855b3f02afc2660084fee23cd5875ae00974fecd"
+      "bytes": 11991,
+      "sha256": "f68facd34d1b443b4e33c52a22b0445ce3044a952a1ddd15e584a3e559018d12"
     },
     {
       "path": "backend/app/services/charts.py",
@@ -163,24 +163,29 @@
       "sha256": "da4d6459b7d9d1c4f4505b238221105abcc7fe6a0f66294455886f0434a2320c"
     },
     {
+      "path": "backend/app/services/contracts.py",
+      "bytes": 3552,
+      "sha256": "ac72abbf675a51875704b37f5a04c58af3832c63ff93ba4c7facce4e55ce2383"
+    },
+    {
       "path": "backend/app/services/data.py",
-      "bytes": 8733,
-      "sha256": "efe8fb21f2bbc067191f262266790b588deb62ab96667051858118cfe5ad9cab"
+      "bytes": 9193,
+      "sha256": "751441eccfee222e886feceb6ee46a7e65404705fea7ea68b5feb1c4cc1323a0"
     },
     {
       "path": "backend/app/services/gemma.py",
-      "bytes": 2739,
-      "sha256": "a0aaec51b4d38c2e646cf76d20a0f4eebf9480589d195d1badb0dd695e5c6853"
+      "bytes": 4301,
+      "sha256": "817d387a3808fdf3d322ffaf7a4d93197d1e6cf7ad16c322e482505e633fbdcc"
     },
     {
       "path": "backend/app/services/salary.py",
-      "bytes": 5695,
-      "sha256": "0bc549f46eef3501d4eceb9fcb7e4ebd79a2cc5fd13b74a3f9ffaf2985c41c43"
+      "bytes": 7564,
+      "sha256": "bcad87c23a0355175d661bd6ac2efd77637fe8a84576534cdccf3cfb56803437"
     },
     {
       "path": "backend/app/services/store.py",
-      "bytes": 4987,
-      "sha256": "2dd4a2889f5b15810a49fad851ca02cce1f1f159a9a5c9240f12488303e35ede"
+      "bytes": 7710,
+      "sha256": "adca4e6207c596c93d550f8c49392a45092521f18b6e056b9a646d3606bea846"
     },
     {
       "path": "configs/cleaning.json",
@@ -749,8 +754,8 @@
     },
     {
       "path": "docs/APP_RUNBOOK.md",
-      "bytes": 5782,
-      "sha256": "c38343df44ce874e4945063c3462cef6953be7d56432b03e44270fdad6b6ec09"
+      "bytes": 7253,
+      "sha256": "fe00b430f4bf88b3973f6a47e6f3facd9a214fa3e376a6d2c4eaaccdbd699e45"
     },
     {
       "path": "docs/DATASET.md",
@@ -793,6 +798,11 @@
       "sha256": "00dfb864671f7f8635ee1e2b9f914b68d5c6a7cbcc2ae7544e8f376f1dfc0f69"
     },
     {
+      "path": "docs/PROJECT_JOURNEY.md",
+      "bytes": 12321,
+      "sha256": "5c5966ae966e9ff924f86bcb76e204e333f8b657b790808777b05d0b98580525"
+    },
+    {
       "path": "docs/TRAINING_RUNBOOK.md",
       "bytes": 12171,
       "sha256": "4b658a6737dda5e102e43509ce608edb8790cbb5bc8936dc6b05917fe76e1f31"
@@ -824,8 +834,8 @@
     },
     {
       "path": "frontend/src/App.vue",
-      "bytes": 37753,
-      "sha256": "7dceb9eb876f3f88cfae3205b31555e0dbe37f24906d58b3f588a8f38f70b641"
+      "bytes": 41135,
+      "sha256": "a4b44111e384192b7ef228fa6356cdf2823946c8e12130e9959bfbc8854fc86e"
     },
     {
       "path": "frontend/src/main.js",
@@ -951,6 +961,46 @@
       "path": "outputs/app_verification/tests.log",
       "bytes": 182,
       "sha256": "8cdef351d94216bc0f8a2cb2599cc2a9ff0ffca0d97f38c284ed88152d6615b2"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/REPORT.md",
+      "bytes": 8062,
+      "sha256": "77c1ba5a8b753316263c3483b999fc1e8910843df152a4b4442f5050b1a7ea36"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/api_smoke.json",
+      "bytes": 2431,
+      "sha256": "d918b4956c106d41b6bbab2d91d5865a02f747fefb372fad97e35785766c7ce0"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/before.json",
+      "bytes": 375,
+      "sha256": "124be29546b3d5d601b7a9aad759a4e630c987550ae409e2fcce54fc18a699b7"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/browser_checks.json",
+      "bytes": 313,
+      "sha256": "c1de1ef86f9b7c98492a50bacbfa9c39dfb9dc865a98c18f6c26377dc9acec2d"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/gemma_web.png",
+      "bytes": 192396,
+      "sha256": "61d1a7ecf34927943e445a733936711a90abe363c2302b4e8f0ebd6b89bb3c9f"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/report.json",
+      "bytes": 13280,
+      "sha256": "d983b42c96c466bd6ce3247f0460af5ddcdac3e7880b25df1d32534fdcaa26c7"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/source_export.json",
+      "bytes": 4722,
+      "sha256": "f77a057b00a967a022df36d36bf1d097454265ba692bc31a4c7c6692633e0352"
+    },
+    {
+      "path": "outputs/architecture_audit/2026-10-18/tests.log",
+      "bytes": 182,
+      "sha256": "1bfbb6f1d7a5aa275ce6eb340d2f59530e524753999f99338b411c2656f3b76f"
     },
     {
       "path": "outputs/data_quality/cleaning/all_sources.json",
@@ -1739,8 +1789,8 @@
     },
     {
       "path": "scripts/app_gemma_extract.py",
-      "bytes": 2667,
-      "sha256": "9830f691d819b257a40371c31111edb5a0d67093be0e6edd53495504140cfe17"
+      "bytes": 3885,
+      "sha256": "dcdf2f64236da2eff3721b21a67c026ee0176fcf0789d8270cf5ead936425f1e"
     },
     {
       "path": "scripts/check_env.py",
@@ -1774,8 +1824,8 @@
     },
     {
       "path": "scripts/evaluate_gemma.py",
-      "bytes": 6449,
-      "sha256": "78f2470e01dd90e2d4ba77f041e039ff6e988c4c15e4d6a7900110a086e3e502"
+      "bytes": 6650,
+      "sha256": "94952f44f626c92d5ebe4e2e1b0787b800a74e91ecfe2a8b5b11bf8652b4919f"
     },
     {
       "path": "scripts/fetch_salary_sources.py",
@@ -1789,13 +1839,18 @@
     },
     {
       "path": "scripts/gemma_infer.py",
-      "bytes": 3434,
-      "sha256": "a8646140128aa3d4c1c692897227f2b0f1d1e83d47da4e04a01e833f507ddead"
+      "bytes": 3546,
+      "sha256": "752bd606821c4451db1536928576fb75747cfe0d6363544f88c9c751253674bb"
     },
     {
       "path": "scripts/gemma_train.py",
-      "bytes": 7589,
-      "sha256": "9bd8cd9f3aa40f108dec673f9b7563d8a852be21c56682ce75f3e5080de2d04e"
+      "bytes": 7720,
+      "sha256": "a007de1d1fd3bdb77f78eec0105424726f029876a9ef8c4faf9a079b446800ce"
+    },
+    {
+      "path": "scripts/gpu_lock.py",
+      "bytes": 710,
+      "sha256": "d671657e6a264429cc438377f8065622dfa87f96ea08d26e5f1a85973eea65c1"
     },
     {
       "path": "scripts/label_review.py",
@@ -1819,8 +1874,8 @@
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 9266,
-      "sha256": "58407f1815d0f1ef81bc12c371eba5fdb598f674278308a4849b868c1de09769"
+      "bytes": 9304,
+      "sha256": "9af2a8e24fe83619bb03b4c3751ad4156db86f12a46a9a627a560f75a9238525"
     },
     {
       "path": "scripts/report_gemma_tuning.py",
@@ -1864,8 +1919,13 @@
     },
     {
       "path": "tests/test_application.py",
-      "bytes": 10841,
-      "sha256": "b4e6c439f806eb41479c09ff6c5b3a405889c24ab1c6e688a01debe8433b44f3"
+      "bytes": 12328,
+      "sha256": "304efd75bdacc4decc654cc9a7eaf6ad62b82361d5882214260afc9bc3c07ac8"
+    },
+    {
+      "path": "tests/test_architecture_audit.py",
+      "bytes": 12195,
+      "sha256": "a1e09e9f54c80f5fb614a2edd5e14cc27c0b329720a66943204050a8d1873b82"
     },
     {
       "path": "tests/test_data_cleaning.py",
@@ -1888,5 +1948,5 @@
       "sha256": "861ef4bf2c5dcd0d2ca05258564d2bda195d6db254e043daa7b6e8ffcb663bc2"
     }
   ],
-  "generated_at_utc": "2026-10-17T12:38:53.430452+00:00"
+  "generated_at_utc": "2026-10-17T23:34:53.827203+00:00"
 }

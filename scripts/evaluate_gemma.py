@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.clean_data import checksum  # noqa: E402
+from scripts.gpu_lock import gpu_lock  # noqa: E402
 from scripts.prepare_gemma_sft import FIELDS, validate_label  # noqa: E402
 
 
@@ -93,38 +94,39 @@ def main():
     output.mkdir(parents=True)
     started = datetime.now(timezone.utc).isoformat()
     if args.generate:
-        import mlx.core as mx
-        from mlx_lm import generate, load
-        from mlx_lm.sample_utils import make_sampler
+        with gpu_lock():
+            import mlx.core as mx
+            from mlx_lm import generate, load
+            from mlx_lm.sample_utils import make_sampler
 
-        mx.random.seed(42)
-        model, tokenizer = load(
-            str(ROOT / "models/gemma-mlx-4bit"),
-            adapter_path=str(args.adapter) if args.adapter else None,
-        )
-        predictions = []
-        for index, row in enumerate(rows):
-            prompt = tokenizer.apply_chat_template(
-                row["messages"][:-1],
-                tokenize=False,
-                add_generation_prompt=True,
-                enable_thinking=False,
+            mx.random.seed(42)
+            model, tokenizer = load(
+                str(ROOT / "models/gemma-mlx-4bit"),
+                adapter_path=str(args.adapter) if args.adapter else None,
             )
-            result = generate(
-                model,
-                tokenizer,
-                prompt=prompt,
-                max_tokens=256,
-                sampler=make_sampler(temp=0.0),
-                verbose=False,
-            )
-            predictions.append(
-                dict(index=index, source_record_id=row["source_record_id"], output=result)
-            )
-            print(f"{index + 1}/{len(rows)}", flush=True)
-            (output / "predictions.jsonl").write_text(
-                "".join(json.dumps(p, ensure_ascii=False) + "\n" for p in predictions)
-            )
+            predictions = []
+            for index, row in enumerate(rows):
+                prompt = tokenizer.apply_chat_template(
+                    row["messages"][:-1],
+                    tokenize=False,
+                    add_generation_prompt=True,
+                    enable_thinking=False,
+                )
+                result = generate(
+                    model,
+                    tokenizer,
+                    prompt=prompt,
+                    max_tokens=256,
+                    sampler=make_sampler(temp=0.0),
+                    verbose=False,
+                )
+                predictions.append(
+                    dict(index=index, source_record_id=row["source_record_id"], output=result)
+                )
+                print(f"{index + 1}/{len(rows)}", flush=True)
+                (output / "predictions.jsonl").write_text(
+                    "".join(json.dumps(p, ensure_ascii=False) + "\n" for p in predictions)
+                )
     else:
         predictions = [json.loads(line) for line in args.predictions.read_text().splitlines()]
     result = score(rows, predictions)

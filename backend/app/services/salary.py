@@ -1,6 +1,7 @@
 """Load only checksum-verified trusted artifacts; preserve fitted preprocessing."""
 
 import hashlib
+import io
 import json
 from functools import lru_cache
 
@@ -17,15 +18,33 @@ FEATURES = ["experience_years", "role", "level", "location", "skills"]
 class SalaryService:
     def __init__(self):
         folder = ROOT / "models/salary" / EXPERIMENT
-        self.manifest = json.loads((folder / "manifest.json").read_text())
+        manifest_bytes = (folder / "manifest.json").read_bytes()
+        self.manifest = json.loads(manifest_bytes)
+        self.provenance = dict(
+            salary_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(), models={}
+        )
         self.models = {}
         for name in ["ridge", "random_forest"]:
             item = self.manifest["artifacts"][name]
             path = ROOT / item["path"]
-            if hashlib.sha256(path.read_bytes()).hexdigest() != item["sha256"]:
+            content = path.read_bytes()
+            if hashlib.sha256(content).hexdigest() != item["sha256"]:
                 raise ValueError("Model checksum mismatch; refusing to load")
-            self.models[name] = joblib.load(path)
-        self.train = pd.read_csv(ROOT / "data/splits/v1.0.1/vn_developer/train.csv")
+            self.models[name] = joblib.load(io.BytesIO(content))
+            self.provenance["models"][name] = item.copy()
+        snapshot = (ROOT / "outputs/label_review/v1.0.1/manifest.json").read_bytes()
+        if (
+            hashlib.sha256(snapshot).hexdigest()
+            != self.manifest["protocol"]["frozen_snapshot_sha256"]
+        ):
+            raise ValueError("Frozen manifest checksum mismatch")
+        cohort = next(c for c in json.loads(snapshot)["cohorts"] if c["cohort"] == "vn_developer")
+        train_meta = cohort["files"]["train"]
+        content = (ROOT / train_meta["path"]).read_bytes()
+        if hashlib.sha256(content).hexdigest() != train_meta["sha256"]:
+            raise ValueError("Train snapshot checksum mismatch")
+        self.provenance["train_snapshot_sha256"] = train_meta["sha256"]
+        self.train = pd.read_csv(io.BytesIO(content))
         self.roles = sorted(self.train.role.dropna().unique().tolist())
         self.locations = set(self.train.location.dropna())
         self.levels = set(self.train.level.dropna())
@@ -40,9 +59,30 @@ class SalaryService:
             .named_steps["vectorizer"]
         )
         self.skill_vocabulary = set(vectorizer.get_feature_names_out())
-        self.associations = pd.read_csv(
-            ROOT / f"outputs/metrics/salary_{EXPERIMENT}/ridge_skill_associations_train.csv"
+        # Recompute evidence from fitted Ridge + verified train. Never trust a mutable report CSV.
+        pipeline = self.models["ridge"]
+        preprocess = pipeline.named_steps["preprocess"]
+        coefficient = dict(
+            zip(
+                preprocess.get_feature_names_out(),
+                np.ravel(pipeline.named_steps["model"].coef_),
+                strict=True,
+            )
         )
+        support = np.asarray(
+            preprocess.named_transformers_["skills"].transform(self.train[["skills"]]).sum(axis=0)
+        ).ravel()
+        self.associations = pd.DataFrame(
+            [
+                dict(
+                    skill=skill,
+                    train_rows=int(count),
+                    coefficient_vnd=coefficient["skills__" + skill],
+                )
+                for skill, count in zip(vectorizer.get_feature_names_out(), support, strict=True)
+                if count >= 5
+            ]
+        ).sort_values("coefficient_vnd", ascending=False)
 
     def warnings(self, row):
         output = []
@@ -90,7 +130,9 @@ class SalaryService:
         if row["role"] not in self.roles:
             raise ValueError("Vai trò chưa được model hỗ trợ")
         base = self.predict([row])
-        candidates = self.associations[self.associations.coefficient_vnd.gt(0)].to_dict("records")
+        candidates = self.associations[
+            self.associations.coefficient_vnd.gt(0) & self.associations.train_rows.ge(5)
+        ].to_dict("records")
         known = {s.casefold() for s in row["skills"]}
         recommendations = []
         for item in candidates:

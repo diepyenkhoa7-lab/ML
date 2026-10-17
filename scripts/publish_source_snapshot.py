@@ -62,6 +62,7 @@ def collect_files():
         "outputs/environment",
         "outputs/notebook_preparation",
         "outputs/app_verification",
+        "outputs/architecture_audit",
         "outputs/eda/20261017T092843Z_e3747c",
         "outputs/metrics/salary_bd9af2fa002caae8",
         "outputs/metrics/gemma_20261017T094853Z_base_valid",

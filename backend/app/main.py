@@ -22,7 +22,7 @@ from backend.app.schemas import (
 from backend.app.services.data import MAX_BYTES, MAX_ROWS, ROOT, normalize_row
 from backend.app.services.gemma import availability
 from backend.app.services.salary import salary_service
-from backend.app.services.store import AppStore
+from backend.app.services.store import AppStore, JobBusyError
 
 
 def create_app(runtime=None):
@@ -44,7 +44,7 @@ def create_app(runtime=None):
                 store.pool.shutdown(wait=True)
                 fcntl.flock(lock, fcntl.LOCK_UN)
 
-    app = FastAPI(title="IT Career Insight", version="0.2.0", lifespan=lifespan)
+    app = FastAPI(title="IT Career Insight", version="0.3.0", lifespan=lifespan)
     app.state.store = store
     app.add_middleware(
         TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"]
@@ -53,7 +53,11 @@ def create_app(runtime=None):
     @app.middleware("http")
     async def local_origin(request: Request, call_next):
         origin = request.headers.get("origin")
-        if origin and urlsplit(origin).hostname not in {"127.0.0.1", "localhost"}:
+        try:
+            allowed = not origin or urlsplit(origin).hostname in {"127.0.0.1", "localhost"}
+        except ValueError:
+            allowed = False
+        if not allowed:
             return JSONResponse({"detail": "Ứng dụng chỉ phục vụ thao tác local"}, status_code=403)
         if (
             request.headers.get("content-length", "").isdigit()
@@ -65,6 +69,10 @@ def create_app(runtime=None):
     @app.exception_handler(FileNotFoundError)
     async def not_found(request, exc):
         return JSONResponse({"detail": "Không tìm thấy dữ liệu hoặc kết quả"}, status_code=404)
+
+    @app.exception_handler(JobBusyError)
+    async def queue_full(request, exc):
+        return JSONResponse({"detail": str(exc)}, status_code=429, headers={"Retry-After": "5"})
 
     @app.exception_handler(ValueError)
     async def invalid(request, exc):
@@ -88,7 +96,7 @@ def create_app(runtime=None):
                 roles=service.roles,
                 levels=sorted(service.levels),
                 locations=sorted(service.locations),
-                train_jobs=123,
+                train_jobs=len(service.train),
                 unit="VND/month",
                 label_quality="silver",
                 test_jobs=28,
@@ -96,7 +104,7 @@ def create_app(runtime=None):
             ),
             gemma=availability(),
             fields=list(FIELDS),
-            limits=dict(max_bytes=MAX_BYTES, max_rows=MAX_ROWS, gemma_rows=20),
+            limits=dict(max_bytes=MAX_BYTES, max_rows=MAX_ROWS, gemma_rows=20, max_active_jobs=2),
         )
 
     @app.post("/api/datasets", response_model=Preview, status_code=201)

@@ -8,7 +8,9 @@ import zipfile
 from pathlib import Path
 
 import pandas as pd
+from openpyxl import load_workbook
 
+from backend.app.services.contracts import strict_json
 from scripts.data_cleaning import (
     classify_role,
     fold,
@@ -66,9 +68,16 @@ def read_table(content: bytes, filename: str):
             with zipfile.ZipFile(io.BytesIO(content)) as archive:
                 if sum(x.file_size for x in archive.infolist()) > 50 * 1024 * 1024:
                     raise ValueError("XLSX giải nén vượt 50 MiB")
+            workbook = load_workbook(io.BytesIO(content), read_only=True, data_only=True)
+            try:
+                header = next(workbook.worksheets[0].iter_rows(max_row=1, values_only=True))
+                if len(header) != len(set(header)):
+                    raise ValueError("Tên cột bị trùng")
+            finally:
+                workbook.close()
             frame = pd.read_excel(io.BytesIO(content), engine="openpyxl", nrows=MAX_ROWS + 1)
         elif suffix == ".json":
-            value = json.loads(content)
+            value = strict_json(content)
             if not isinstance(value, list) or any(not isinstance(row, dict) for row in value):
                 raise ValueError("JSON phải là danh sách object, mỗi object là một dòng")
             if any(isinstance(cell, dict) for row in value for cell in row.values()):

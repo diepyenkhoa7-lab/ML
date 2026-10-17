@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.clean_data import checksum  # noqa: E402
+from scripts.gpu_lock import gpu_lock  # noqa: E402
 from scripts.prepare_gemma_sft import SYSTEM, validate_label  # noqa: E402
 
 os.environ.setdefault("HF_HOME", str(ROOT / ".cache/huggingface"))
@@ -30,6 +31,11 @@ def main():
         ),
     )
     args = parser.parse_args()
+    with gpu_lock():
+        infer(args)
+
+
+def infer(args):
     if not (args.model / "manifest.json").exists():
         raise SystemExit("Chưa có model/manifest. Chạy scripts/download_gemma.py --convert trước.")
     import mlx.core as mx

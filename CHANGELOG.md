@@ -1,3 +1,17 @@
+# Changelog
+
+## 2026-10-18 — ECC architecture audit và tích hợp Gemma rõ trên web
+
+- Sửa 3 finding high và 5 medium: hợp đồng Gemma theo request/dòng/hash, provenance
+  thực chạy, checksum snapshot, queue giới hạn 2, phục hồi state hỏng, evidence kỹ năng
+  từ train đã kiểm chứng, UI chống response cũ, managed GPU lock và parser strict.
+- Web hiển thị adapter Gemma, số mô tả thành công/lỗi, raw JSON và trạng thái từng dòng.
+  API chỉ suy luận, không có endpoint train; không đổi trọng số/nhãn/holdout đã chốt.
+- 55 tests đạt; Ruff 42 file, Prettier/build, frozen CSV/strict JSONL đạt. API và một
+  mẫu Gemma GPU thật → RF đạt; browser kiểm tra phản hồi đến muộn của advice/pagination.
+- Báo cáo trước/sau, JSON schema ECC và screenshot thật ở outputs/architecture_audit/2026-10-18/.
+  Luna 5.6 viết docs/PROJECT_JOURNEY.md từ repo/log/metric có dẫn nguồn.
+
 # Nhật ký thay đổi
 
 ## 2026-10-17 — Ứng dụng từ nhập bảng đến xuất kết quả

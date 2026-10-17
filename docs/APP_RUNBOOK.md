@@ -72,8 +72,22 @@ Giải thích được điền bằng Python từ số liệu kiểm tra đượ
   nhất là dữ liệu mẫu lấy từ train. Test lịch sử RF chỉ 28 tin, MAE khoảng 6,66 triệu/tháng.
 - Nhãn silver; gross/net chưa rõ; không suy số năm từ seniority. Không có khoảng tin
   cậy được hiệu chỉnh nên app không bịa khoảng chắc chắn quanh dự đoán.
-- Không chạy train trong lúc Gemma suy luận. App kiểm tra tiến trình train trước khi
-  bắt đầu trích xuất, nhưng operator vẫn cần tránh khởi chạy train sau thời điểm kiểm tra.
+- Các lệnh train/suy luận/evaluate của dự án dùng khóa GPU chung `.cache/gemma-gpu.lock`;
+  nếu đang có lượt khác, lệnh mới báo bận trước khi nạp model. Lệnh gọi trực tiếp
+  `python -m mlx_lm ...` bên ngoài wrapper không tham gia khóa này; không chạy đồng thời.
+- Chỉ nhận tối đa 2 lượt phân tích (1 đang chạy, 1 chờ); API trả 429 và Retry-After khi đầy.
+- Dữ liệu nhập mới có checksum snapshot và phiên bản. Bảng đã lưu từ bản cũ cần nhập
+  lại trước khi tạo job mới; kết quả lịch sử hoàn tất vẫn đọc được. Trạng thái JSON
+  hỏng được giữ thành `state.corrupt.<id>.json` và đánh dấu lỗi, không chặn app khởi động.
+- Phản hồi Gemma có request_id, index và hash nội dung từng mô tả; thiếu/thừa/đảo
+  dòng đều bị từ chối. Không có lượt LLM thứ hai để sửa JSON. Khi lỗi worker, xem
+  `outputs/app_runtime/<job_id>/gemma_worker.json`; payload sai hợp đồng được giữ
+  trong `gemma_invalid_transport.txt`. Các log này ở local, không đưa vào Git.
+- Tab Chất lượng & sai số hiển thị adapter thực sự đã dùng, số dòng trích thành công/lỗi
+  và link raw JSON. Bảng từng dòng có trạng thái Gemma; chọn Gemma nhưng không có
+  mô tả thì ghi rõ chưa gọi, không gán provenance adapter giả.
+- Khi sửa hồ sơ tư vấn, kết quả cũ được xóa và phản hồi đến muộn bị bỏ qua. Gợi ý
+  kỹ năng tính trực tiếp từ Ridge đã fit và train đã kiểm chứng, không tin CSV báo cáo sửa tay.
 
 ## Kiểm thử và phát triển
 

@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "scope": "Synthetic functional checks, not model quality or training",
+  "checks": [
+    {
+      "format": "csv",
+      "status": "passed",
+      "summary": {
+        "rows": 1,
+        "predicted": 1,
+        "invalid": 0,
+        "duplicates": 0,
+        "labeled": 0,
+        "unique_jobs": 1,
+        "median_prediction_vnd": 32012151.0,
+        "skill_count": 2
+      }
+    },
+    {
+      "format": "xlsx",
+      "status": "passed",
+      "summary": {
+        "rows": 1,
+        "predicted": 1,
+        "invalid": 0,
+        "duplicates": 0,
+        "labeled": 0,
+        "unique_jobs": 1,
+        "median_prediction_vnd": 32012151.0,
+        "skill_count": 2
+      }
+    },
+    {
+      "format": "json",
+      "status": "passed",
+      "summary": {
+        "rows": 1,
+        "predicted": 1,
+        "invalid": 0,
+        "duplicates": 0,
+        "labeled": 0,
+        "unique_jobs": 1,
+        "median_prediction_vnd": 32012151.0,
+        "skill_count": 2
+      }
+    },
+    {
+      "format": "gemma_description",
+      "status": "passed",
+      "row": {
+        "role": "Backend Developer",
+        "level": "Unknown",
+        "location": "Hà Nội",
+        "experience_years": 3.0,
+        "skills": [
+          "FastAPI",
+          "PostgreSQL",
+          "Python"
+        ],
+        "salary_monthly_vnd": null,
+        "salary_status": "missing",
+        "posted_date": null,
+        "warnings": [
+          "Cấp bậc chưa xuất hiện trong train"
+        ],
+        "errors": [],
+        "extraction": {
+          "role": "Backend Developer",
+          "location": "Hà Nội",
+          "experience_years": 3.0,
+          "skills": [
+            "FastAPI",
+            "Python",
+            "PostgreSQL"
+          ],
+          "salary_min": 20000000.0,
+          "salary_max": 30000000.0,
+          "currency": "VND",
+          "salary_period": "month"
+        },
+        "gemma_status": "succeeded",
+        "source_row": 1,
+        "input": {
+          "description": "Phiếu tin tuyển dụng từ dữ liệu đã thu thập:\nChức danh: Backend Developer\nĐịa điểm: Hà Nội\nKinh nghiệm: 3 năm\nKỹ năng: Python, FastAPI, PostgreSQL\nLương: 20–30 triệu VND/tháng"
+        },
+        "duplicate_of": null,
+        "status": "ok",
+        "predicted_salary_vnd": 26618448,
+        "ridge_salary_vnd": 34109564,
+        "error_vnd": null
+      }
+    }
+  ]
+}

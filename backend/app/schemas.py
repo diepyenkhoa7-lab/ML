@@ -48,10 +48,10 @@ class Preview(BaseModel):
 
 
 class JobState(BaseModel):
-    id: str
+    id: str = Field(pattern=r"^[a-f0-9]{32}$")
     status: Literal["queued", "running", "completed", "failed"]
     stage: str
-    progress: int = 0
+    progress: int = Field(default=0, ge=0, le=100)
     error: str | None = None
     result: dict[str, Any] | None = None
 

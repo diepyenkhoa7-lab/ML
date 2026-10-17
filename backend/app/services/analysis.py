@@ -15,7 +15,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from backend.app.services.charts import build_charts
 from backend.app.services.data import ROOT, normalize_row, text
-from backend.app.services.gemma import ADAPTER, extract_cards
+from backend.app.services.gemma import extract_cards
 from backend.app.services.salary import EXPERIMENT, salary_service
 
 
@@ -84,15 +84,12 @@ def export_results(rows, folder, report):
         input_sha256=report["input_sha256"],
         dataset_provenance=report["provenance"],
         request=report["request"],
-        salary_manifest_sha256=hashlib.sha256(
-            (ROOT / f"models/salary/{EXPERIMENT}/manifest.json").read_bytes()
-        ).hexdigest(),
-        adapter=ADAPTER if report["request"]["use_gemma"] else None,
-        adapter_sha256=json.loads((ROOT / ADAPTER / "manifest.json").read_text())["adapter"][
-            "sha256"
-        ]
-        if report["request"]["use_gemma"]
-        else None,
+        dataset_snapshot_sha256=report["dataset_snapshot_sha256"],
+        salary_manifest_sha256=report["salary_provenance"]["salary_manifest_sha256"],
+        salary_provenance=report["salary_provenance"],
+        gemma_execution=report["gemma_execution"],
+        adapter=report["gemma_execution"].get("provenance", {}).get("adapter"),
+        adapter_sha256=report["gemma_execution"].get("provenance", {}).get("adapter_sha256"),
         predictions_do_not_train=True,
         application_source_sha256={
             str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
@@ -125,6 +122,7 @@ def analyze(dataset, options, folder: Path, progress):
         raise ValueError("Cần ghép vai trò, chức danh hoặc mô tả tuyển dụng")
     raw_rows = dataset["rows"]
     extracted = {}
+    gemma_execution = dict(requested=options.use_gemma, used=False, rows=0)
     progress("Chuẩn hóa dữ liệu", 10)
     if options.use_gemma and "description" in mapping:
         indices = [i for i, raw in enumerate(raw_rows) if text(raw.get(mapping["description"]))]
@@ -135,7 +133,17 @@ def analyze(dataset, options, folder: Path, progress):
                 pieces = [f"{key}: {text(raw.get(column))}" for key, column in mapping.items()]
                 cards.append("Phiếu tin tuyển dụng từ dữ liệu đã thu thập:\n" + "\n".join(pieces))
             progress(f"Gemma đang đọc {len(cards)} mô tả", 15)
-            extracted = dict(zip(indices, extract_cards(cards)))
+            batch = extract_cards(cards, audit_folder=folder)
+            extracted = dict(zip(indices, batch["items"], strict=True))
+            gemma_execution = dict(
+                requested=True,
+                used=True,
+                rows=len(cards),
+                request_id=batch["request_id"],
+                succeeded=sum(item["value"] is not None for item in batch["items"]),
+                failed=sum(item["error"] is not None for item in batch["items"]),
+                provenance=batch["provenance"],
+            )
             write_json(
                 folder / "gemma_outputs.json",
                 {str(i + 1): result for i, result in extracted.items()},
@@ -159,8 +167,11 @@ def analyze(dataset, options, folder: Path, progress):
                 errors=[str(exc)],
                 extraction=None,
             )
+        row["gemma_status"] = (
+            "failed" if result.get("error") else "succeeded" if result else "not_used"
+        )
         if result.get("error"):
-            row["warnings"].append("Gemma: " + result["error"])
+            row["warnings"].append("Gemma thất bại; chỉ dùng cột đã cung cấp: " + result["error"])
         if row["role"] and row["role"] not in model.roles:
             row["errors"].append("Vai trò chưa hỗ trợ; model hiện dành cho nhóm lập trình viên")
         if (
@@ -229,6 +240,9 @@ def analyze(dataset, options, folder: Path, progress):
         filename=dataset["filename"],
         provenance=dataset["provenance"],
         input_sha256=dataset["input_sha256"],
+        dataset_snapshot_sha256=dataset["snapshot_sha256"],
+        salary_provenance=model.provenance,
+        gemma_execution=gemma_execution,
         request=options.model_dump(),
         summary=dict(
             rows=len(rows),
@@ -248,7 +262,7 @@ def analyze(dataset, options, folder: Path, progress):
         model=dict(
             experiment_id=EXPERIMENT,
             selected_model="random_forest",
-            train_jobs=123,
+            train_jobs=len(model.train),
             historical_test=dict(samples=28, mae_vnd=6656370, rmse_vnd=10517000, r2=0.444),
         ),
     )

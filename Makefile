@@ -46,7 +46,7 @@ app: frontend-build
 	$(PYTHON) -m uvicorn backend.app.main:app --host 127.0.0.1 --port $(APP_PORT)
 
 app-test:
-	$(PYTHON) -m unittest tests.test_application -v
+	$(PYTHON) -m unittest tests.test_application tests.test_architecture_audit -v
 
 lab:
 	@mkdir -p "$(JUPYTER_RUNTIME_DIR)" "$(IPYTHONDIR)"

@@ -244,6 +244,30 @@ class ApplicationTests(unittest.TestCase):
             self.client.post("/api/career/advice", json=dict(role="Accountant")).status_code, 422
         )
 
+    def test_queue_returns_429_and_retry_hint(self):
+        store = self.app.state.store
+        self.assertTrue(store.slots.acquire(blocking=False))
+        self.assertTrue(store.slots.acquire(blocking=False))
+        try:
+            response = self.client.post("/api/analyses", json={"dataset_id": "0" * 32})
+            self.assertEqual(response.status_code, 429)
+            self.assertEqual(response.headers["retry-after"], "5")
+        finally:
+            store.slots.release()
+            store.slots.release()
+
+    def test_requested_gemma_without_nonempty_description_records_not_used(self):
+        frame = pd.DataFrame([dict(role="Backend Developer", description="", skills="Python")])
+        with patch("backend.app.services.analysis.extract_cards") as extract:
+            identifier, result = self.run_job(frame, use_gemma=True)
+        extract.assert_not_called()
+        self.assertTrue(result["gemma_execution"]["requested"])
+        self.assertFalse(result["gemma_execution"]["used"])
+        manifest = self.client.get(f"/api/analyses/{identifier}/artifacts/manifest.json").json()
+        self.assertIsNone(manifest["adapter"])
+        self.assertIn("train_snapshot_sha256", manifest["salary_provenance"])
+        self.assertEqual(len(manifest["dataset_snapshot_sha256"]), 64)
+
     def test_input_validation_and_local_origin(self):
         self.assertEqual(
             self.client.post("/api/datasets", files={"file": ("x.pkl", b"fake")}).status_code, 422
@@ -251,6 +275,12 @@ class ApplicationTests(unittest.TestCase):
         self.assertEqual(
             self.client.post(
                 "/api/datasets/demo", headers={"Origin": "https://outside.example"}
+            ).status_code,
+            403,
+        )
+        self.assertEqual(
+            self.client.post(
+                "/api/datasets/demo", headers={"Origin": "http://[invalid"}
             ).status_code,
             403,
         )

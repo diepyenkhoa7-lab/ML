@@ -1,0 +1,19 @@
+{
+  "short_worker_response": {
+    "requested": 2,
+    "accepted": 0
+  },
+  "corrupt_state": {
+    "startup_exception": "JSONDecodeError"
+  },
+  "dataset_integrity": {
+    "original_sha_retained": true,
+    "canonical_checksum_present": false
+  },
+  "queue": {
+    "max_workers": 1,
+    "max_pending": 0,
+    "queue_type": "SimpleQueue",
+    "bounded_admission": false
+  }
+}

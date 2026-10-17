@@ -4,8 +4,10 @@ import json
 import subprocess
 import sys
 import tempfile
+import uuid
 from pathlib import Path
 
+from backend.app.services.contracts import GemmaBatch, strict_json
 from backend.app.services.data import ROOT
 
 ADAPTER = "adapters/gemma-jobs/20261017T105728Z"
@@ -32,7 +34,10 @@ def availability():
     )
 
 
-def extract_cards(cards):
+def extract_cards(cards, audit_folder=None):
+    if not cards or any(not isinstance(card, str) for card in cards):
+        raise ValueError("Cần ít nhất một mô tả dạng văn bản")
+    request_id = uuid.uuid4().hex
     status = availability()
     if not status["available"]:
         raise ValueError("Chưa có trọng số Gemma trên máy này; xem hướng dẫn tải model")
@@ -45,7 +50,7 @@ def extract_cards(cards):
     with tempfile.TemporaryDirectory(prefix="career-gemma-") as temporary:
         folder = Path(temporary)
         source, target = folder / "input.json", folder / "output.json"
-        source.write_text(json.dumps(cards, ensure_ascii=False))
+        source.write_text(json.dumps(dict(request_id=request_id, cards=cards), ensure_ascii=False))
         try:
             result = subprocess.run(
                 [
@@ -62,9 +67,40 @@ def extract_cards(cards):
                 timeout=300,
             )
         except subprocess.TimeoutExpired as exc:
+            save_diagnostic(audit_folder, request_id, "timeout", exc.stdout, exc.stderr)
             raise ValueError("Gemma vượt 300 giây; giảm số dòng/mô tả và thử lại") from exc
+        save_diagnostic(audit_folder, request_id, result.returncode, result.stdout, result.stderr)
         if result.returncode or not target.exists():
             raise ValueError(
                 "Gemma không thực hiện được suy luận; kiểm tra trọng số/Metal và thử lại"
             )
-        return json.loads(target.read_text())
+        try:
+            payload = strict_json(target.read_text())
+            batch = GemmaBatch.model_validate(payload).check_request(request_id, cards)
+        except (ValueError, TypeError) as exc:
+            if audit_folder:
+                (Path(audit_folder) / "gemma_invalid_transport.txt").write_text(target.read_text())
+            raise ValueError("Phản hồi Gemma sai hợp đồng; xem log riêng của job") from exc
+        return batch.model_dump()
+
+
+def save_diagnostic(folder, request_id, returncode, stdout, stderr):
+    if folder:
+
+        def safe(value):
+            if isinstance(value, bytes):
+                value = value.decode("utf-8", errors="replace")
+            return (value or "")[-32000:]
+
+        (Path(folder) / "gemma_worker.json").write_text(
+            json.dumps(
+                dict(
+                    request_id=request_id,
+                    returncode=returncode,
+                    stdout=safe(stdout),
+                    stderr=safe(stderr),
+                ),
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
