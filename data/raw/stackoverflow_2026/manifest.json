@@ -1,0 +1,18 @@
+{
+  "source": "StackExchange/Survey",
+  "revision": "6c646551e86ffcafca0ac04f1dfb17a2558ec23d",
+  "retrieved_utc": "2026-10-17T23:56:34Z",
+  "license": "ODbL-1.0; individual contents DbCL-1.0",
+  "files": {
+    "survey_results_schema.csv": {
+      "sha256": "0892967cacdac5cdd1a7668de6f5edd8947bcc0ab204b7ec3e2d81084eb00b63",
+      "bytes": 93937,
+      "url": "https://media.githubusercontent.com/media/StackExchange/Survey/6c646551e86ffcafca0ac04f1dfb17a2558ec23d/packages/archive/2026/survey_results_schema.csv?download=1"
+    },
+    "survey_results_public.csv": {
+      "sha256": "ad520b4d5d71f240141e63f0d6f81a3b1898cbdc69efe9ea985496533b15fc2c",
+      "bytes": 122407316,
+      "url": "https://media.githubusercontent.com/media/StackExchange/Survey/6c646551e86ffcafca0ac04f1dfb17a2558ec23d/packages/archive/2026/survey_results_public.csv?download=1"
+    }
+  }
+}

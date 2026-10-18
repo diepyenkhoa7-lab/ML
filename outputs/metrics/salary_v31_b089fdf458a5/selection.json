@@ -1,0 +1,56 @@
+{
+  "experiment_id": "v31_b089fdf458a5",
+  "selected_model": "random_forest",
+  "selected": {
+    "ridge": {
+      "family": "ridge",
+      "arm": "recent_plus_older_strict",
+      "parameters": {
+        "alpha": 100
+      },
+      "train_rows": 214,
+      "weak_rows": 0,
+      "valid": {
+        "samples": 28,
+        "mae_vnd": 4994033.716875399,
+        "rmse_vnd": 6611375.607596197,
+        "r2": 0.2510642617541915,
+        "median_absolute_error_vnd": 4376721.047210635,
+        "within_5m": 0.5357142857142857
+      },
+      "elapsed_seconds": 0.0011442500035627745
+    },
+    "random_forest": {
+      "family": "random_forest",
+      "arm": "recent_plus_older_strict",
+      "parameters": {
+        "min_samples_leaf": 5
+      },
+      "train_rows": 214,
+      "weak_rows": 0,
+      "valid": {
+        "samples": 28,
+        "mae_vnd": 4846979.166666667,
+        "rmse_vnd": 6706734.449265623,
+        "r2": 0.22930398276089192,
+        "median_absolute_error_vnd": 3522499.999999999,
+        "within_5m": 0.6785714285714286
+      },
+      "elapsed_seconds": 0.3943578339967644
+    }
+  },
+  "artifacts": {
+    "ridge": {
+      "path": "models/salary/v31_b089fdf458a5/ridge.joblib",
+      "sha256": "afdfbaa767ec82ed838fb94c16e50f13339e307965bd78866ef9be486d8dfa67"
+    },
+    "random_forest": {
+      "path": "models/salary/v31_b089fdf458a5/random_forest.joblib",
+      "sha256": "7e476484c95416a55fd601e55d3d0ffe21fef01c41852a81c08a1ba898655a2d"
+    }
+  },
+  "test_opened": false,
+  "selected_at_utc": "2026-10-18T00:08:05.514332+00:00",
+  "data_manifest_sha256": "b089fdf458a5b7fb9aea8f31811c15448e55543fc32c103e3e364d2c95f77e7c",
+  "code_sha256": "4d14636e8170f57625fab640c7361174a3bc79d14673d9ea3cc773c1067b74b6"
+}

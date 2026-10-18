@@ -1,0 +1,10 @@
+{
+  "models/gemma-mlx-4bit/model.safetensors": {
+    "bytes": 4198925877,
+    "sha256": "e105100225815b521c6405c57ea23974530b868ddfea1e3ea9ec7ce1cf9fae38"
+  },
+  "adapters/gemma-jobs/20261017T105728Z/adapters.safetensors": {
+    "bytes": 6953691,
+    "sha256": "fceb60125606c8eb9bc5a89a656b0f7ef5338c2b3e4c78f8426e956c716c7287"
+  }
+}

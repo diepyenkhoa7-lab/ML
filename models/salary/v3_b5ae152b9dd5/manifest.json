@@ -1,0 +1,26 @@
+{
+  "experiment_id": "v3_b5ae152b9dd5",
+  "selected_model": "random_forest",
+  "artifacts": {
+    "ridge": {
+      "path": "models/salary/v3_b5ae152b9dd5/ridge.joblib",
+      "sha256": "9f7d88cc4d7be82315a6f68e05f8fea6f9d48ed295f6948daf7008b69d00a319"
+    },
+    "random_forest": {
+      "path": "models/salary/v3_b5ae152b9dd5/random_forest.joblib",
+      "sha256": "46542b5cd7abe7d70fa6be108b8950aee4db1df84ab8f05baacc84676132b936"
+    }
+  },
+  "dataset_manifest": {
+    "path": "data/splits/v3.0.0/vn_developer/manifest.json",
+    "sha256": "b5ae152b9dd5c0409f002526815168db3162f154b16f3721d5e739481b38f865"
+  },
+  "evaluation": {
+    "path": "outputs/metrics/salary_v3_b5ae152b9dd5/test_metrics.json",
+    "sha256": "6b0f18687c66d3bb8df2870720150d8d9b8b4ab91219157f18da339a2203f299"
+  },
+  "selected_by": "validation MAE, RMSE",
+  "weak_rows": 0,
+  "promotion_eligible": false,
+  "serving_status": "candidate; active config unchanged"
+}

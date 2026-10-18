@@ -1,0 +1,4 @@
+record_id,leakage_group_id,role,salary_monthly_vnd,source_url,ridge,random_forest,v2_ridge
+public:070387ca39fcb4c119a4,c4f3e217d8780c7a3a9a26bb8d8ea5e2c618fbe56de0e3c3a89d9a421ca0254d,Full-stack Developer,22500000.0,https://vn.joboko.com/viec-lam-junior-fullstack-developer-xvi6754828,22607384.608014423,22140833.333333332,37045191.08105101
+public:52a0eaf27096d25c3c0f,61e0ea5d4368a8e0394ed9a5baf6f40148ce13a27908e6b6d5636f538f312c6b,Frontend Developer,38000000.0,https://vn.joboko.com/viec-lam-angular-developer-leader-cong-nghe-moi-xvi6777211,23297610.285812575,23209583.333333332,33788383.98516871
+public:9d87e9a126bf7b540949,f6d94ae94e9e2e0b05b8e9b9214adb64823ba3d13dae215c53ffe258cac48d7e,Mobile Developer,10000000.0,https://vn.joboko.com/viec-lam-junior-mobile-developer-flutter-xvi6757443,18813702.526806787,16843750.0,20386805.817698233

@@ -14,8 +14,8 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 776,
-      "sha256": "787c3b6c604443682defa2bacfd98d98743e5185e05827a6035a5841cdf08546"
+      "bytes": 969,
+      "sha256": "aea8d97b2212b58e31c307655ba3c3a3c10eda1dc4716a9e980d61923ebbdc59"
     },
     {
       "path": ".python-version",
@@ -24,18 +24,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 9875,
-      "sha256": "f91acc60007588659db01f8d64aeb9e0aa0db8aa92755277b043baf5d5c1b8aa"
+      "bytes": 10820,
+      "sha256": "356ccb7faec459a1eed0014760fcd7fb2120a363e563a360efa3306c6cea4004"
     },
     {
       "path": "Makefile",
-      "bytes": 3263,
-      "sha256": "4f20bfce879897872401478a9a0c6e1379891cdbfbfe5a41e4b5e8634a4839ab"
+      "bytes": 3781,
+      "sha256": "445335e4bfade8b73a4fbc113e74c3d3f05018d94cdddb480a4249047b5c8161"
     },
     {
       "path": "README.md",
-      "bytes": 12256,
-      "sha256": "cd1349ab559b9f2c0559f77bdee84fc6b03af105312ffe365baf656b5e9d2f2e"
+      "bytes": 12591,
+      "sha256": "47e2821d2ef26418797bc69f2552167d630b1fe7bb7840b57f3ac9ce3cde69bd"
     },
     {
       "path": "adapters/README.md",
@@ -184,8 +184,8 @@
     },
     {
       "path": "backend/app/services/salary.py",
-      "bytes": 11455,
-      "sha256": "54e8743f8c6bfa6683fb32bcffec7ef675de72520cd59d13e78259c65935ae17"
+      "bytes": 11627,
+      "sha256": "91910c8057c1905dad5d7e21b772a8eff44b67f710b3ea400ed0583e02ecf94d"
     },
     {
       "path": "backend/app/services/store.py",
@@ -268,9 +268,29 @@
       "sha256": "18e96f716fd92bc05452acfdaf9dc9b3a32e844b70f7c6a23d36d5fd71066646"
     },
     {
+      "path": "configs/salary_v31_protocol.json",
+      "bytes": 3498,
+      "sha256": "5a25977cd2152c7bf1109e33b4c0b872144f9f8d6f3b1def6f499b74c5b7ab17"
+    },
+    {
+      "path": "configs/salary_v3_protocol.json",
+      "bytes": 3183,
+      "sha256": "65e052be39e110b0804a89a7148620a0debcd4cfb5d24c5aa0e2462fc98151bb"
+    },
+    {
       "path": "data/DATA_CARD.md",
       "bytes": 7333,
       "sha256": "54886fb185f356349581dd83107a2fb8588d7bb68718a2a3565b6ba81632c224"
+    },
+    {
+      "path": "data/annotation/v3.1.0/manifest.json",
+      "bytes": 405,
+      "sha256": "99b90448f6921aa5886514df0a078de121f57ff92a5cf602cf53a3cf2b538b00"
+    },
+    {
+      "path": "data/annotation/v3.1.0/salary_review_queue.jsonl",
+      "bytes": 405831,
+      "sha256": "a70a579a388f47938a05537407363eda82e40374cf464dcb61bb3c16910c5da4"
     },
     {
       "path": "data/examples/APPLICATION_DEMO.md",
@@ -391,6 +411,51 @@
       "path": "data/processed/cleaned/vietjobs_2025/manifest.json",
       "bytes": 1530,
       "sha256": "46ec531132b269a4532a077fa6e325df7138fdea8f134ca401801e83a9cb5789"
+    },
+    {
+      "path": "data/raw/joboko_20261018/README.md",
+      "bytes": 710,
+      "sha256": "a90a148df190e9b8b135d83b505cea0a2396d0957c6cbe22690a33d488b1c56f"
+    },
+    {
+      "path": "data/raw/joboko_20261018/manifest.json",
+      "bytes": 6997,
+      "sha256": "56c93fe2a7dbe2d7a3459d599133ea2e8477f94611362106186bfa82a13054a2"
+    },
+    {
+      "path": "data/raw/joboko_20261018/vn.joboko.com.robots.txt",
+      "bytes": 1145,
+      "sha256": "b3d2660b4179fa8b71662be25c0c6b4febec860aba5c8ca2c3a259b1e197b963"
+    },
+    {
+      "path": "data/raw/public_jobs_20261018/README.md",
+      "bytes": 710,
+      "sha256": "ab31ae8a5bfe8e39e98ac2a0fd84d621106e82ff5fcca3d2dd05709d7058f29f"
+    },
+    {
+      "path": "data/raw/public_jobs_20261018/manifest.json",
+      "bytes": 13562,
+      "sha256": "53f4e0f34abd54405a4be1f9753cd0d0c8f95278b0bf276300c91acf77a3e4d7"
+    },
+    {
+      "path": "data/raw/public_jobs_20261018/topdev.vn.robots.txt",
+      "bytes": 354,
+      "sha256": "bf14f4638fe59ec59d4092d3745a0024bfad4f56d3b10121decd92686546af5a"
+    },
+    {
+      "path": "data/raw/public_jobs_20261018/www.careerlink.vn.robots.txt",
+      "bytes": 3720,
+      "sha256": "0ccf3f42776b549faad5ecea4590f700424cbe8a0e322c284927f8e8cd918f15"
+    },
+    {
+      "path": "data/raw/stackoverflow_2026/README.md",
+      "bytes": 1222,
+      "sha256": "0bfcc10d8a589391da59f1c27423fecfbd614cc387ba61602f71213147aa333d"
+    },
+    {
+      "path": "data/raw/stackoverflow_2026/manifest.json",
+      "bytes": 868,
+      "sha256": "7677dd4e74914447b8cce913a4d312a3b058c997145d471f63279f4c97969a80"
     },
     {
       "path": "data/raw/tinixai_2026/README.md",
@@ -813,6 +878,56 @@
       "sha256": "3fe2722387dfadc1149b1e75daf3f9561f745f8e562d5872803c7607134704a6"
     },
     {
+      "path": "data/splits/v3.0.0/vn_developer/manifest.json",
+      "bytes": 18240,
+      "sha256": "b5ae152b9dd5c0409f002526815168db3162f154b16f3721d5e739481b38f865"
+    },
+    {
+      "path": "data/splits/v3.0.0/vn_developer/older_train.csv",
+      "bytes": 28605,
+      "sha256": "d4349cf66f6396f6c2321807842bc255f7f286c4b4a83f83a34b1c4663d1d46b"
+    },
+    {
+      "path": "data/splits/v3.0.0/vn_developer/test.csv",
+      "bytes": 964,
+      "sha256": "9f3fd0ee346ec69d8f78c0c9478ffd69246ca64130fe2fd703f88ce6cd0bb4aa"
+    },
+    {
+      "path": "data/splits/v3.0.0/vn_developer/train.csv",
+      "bytes": 26355,
+      "sha256": "f5488378471943f4a565421c2ad1afdf1aad95636d4bc62df2e0a092babe217e"
+    },
+    {
+      "path": "data/splits/v3.0.0/vn_developer/valid.csv",
+      "bytes": 8291,
+      "sha256": "238601a6406e575bd41fcfc4762e7fb1e6450baa1957736d22bf1e5a6f501a7b"
+    },
+    {
+      "path": "data/splits/v3.1.0/vn_developer/manifest.json",
+      "bytes": 11016,
+      "sha256": "b089fdf458a5b7fb9aea8f31811c15448e55543fc32c103e3e364d2c95f77e7c"
+    },
+    {
+      "path": "data/splits/v3.1.0/vn_developer/older_train.csv",
+      "bytes": 57343,
+      "sha256": "9651fc1c40728363d2ef05b3d92bed016112ac40ebb4505ba7c3b8de2ee962ab"
+    },
+    {
+      "path": "data/splits/v3.1.0/vn_developer/test.csv",
+      "bytes": 2577,
+      "sha256": "92658b71de01a5cc76d3096266c0cdc98df5b9c2ca951189fed915b0280a31a5"
+    },
+    {
+      "path": "data/splits/v3.1.0/vn_developer/train.csv",
+      "bytes": 39749,
+      "sha256": "b8b6ee85ac403173b55419642e05504c09eb94f8772a7d0d63fcddfc1af8a3e9"
+    },
+    {
+      "path": "data/splits/v3.1.0/vn_developer/valid.csv",
+      "bytes": 12705,
+      "sha256": "83e388f8ce49b09b1d92f67e151205f751727821dd817447d08766edc7c84419"
+    },
+    {
       "path": "docs/APP_IMPLEMENTATION_PLAN.md",
       "bytes": 4667,
       "sha256": "e7be1528c7b69b62ab49084610967c14511bd921139e46e5bcf174c91c172c66"
@@ -864,13 +979,18 @@
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 19010,
-      "sha256": "55cd7c3e15f9c5a35706f73ac19bbec8124badce496ec97fa02433de2adc6ecd"
+      "bytes": 24567,
+      "sha256": "d7f75587348806a83ded1839353817908e65723d5f9bcf5b54bd55fa10e335a6"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
       "bytes": 6098,
       "sha256": "c63ebee79d54e9073c7b14c7cba33b942c67a996c1315a049f95debd0e3800e8"
+    },
+    {
+      "path": "docs/SALARY_V3_REVIEW.md",
+      "bytes": 7735,
+      "sha256": "819be95e56604bbbb22137403559d57f5ac3934f579f9cbb9a3b973b7da0fd53"
     },
     {
       "path": "docs/TRAINING_RUNBOOK.md",
@@ -981,6 +1101,56 @@
       "path": "models/salary/v2_042e3aa1a886/training_snapshot.csv",
       "bytes": 482324,
       "sha256": "07b29012282178f21c35caccebf8c75c623eefb97431b8d0d1f7695f0b230adc"
+    },
+    {
+      "path": "models/salary/v31_b089fdf458a5/manifest.json",
+      "bytes": 944,
+      "sha256": "d609013999289c8a83a0ef0279f9483c37a765e0ba18d59aefd26515aed0d907"
+    },
+    {
+      "path": "models/salary/v31_b089fdf458a5/random_forest.joblib",
+      "bytes": 929203,
+      "sha256": "7e476484c95416a55fd601e55d3d0ffe21fef01c41852a81c08a1ba898655a2d"
+    },
+    {
+      "path": "models/salary/v31_b089fdf458a5/random_forest_training_snapshot.csv",
+      "bytes": 96900,
+      "sha256": "4f4b3b9b66125c79509e0a78037d190941e976f5d86eea76f564dc42ceeacd4d"
+    },
+    {
+      "path": "models/salary/v31_b089fdf458a5/ridge.joblib",
+      "bytes": 10187,
+      "sha256": "afdfbaa767ec82ed838fb94c16e50f13339e307965bd78866ef9be486d8dfa67"
+    },
+    {
+      "path": "models/salary/v31_b089fdf458a5/ridge_training_snapshot.csv",
+      "bytes": 96900,
+      "sha256": "4f4b3b9b66125c79509e0a78037d190941e976f5d86eea76f564dc42ceeacd4d"
+    },
+    {
+      "path": "models/salary/v3_b5ae152b9dd5/manifest.json",
+      "bytes": 940,
+      "sha256": "58403bdbcc5482ba8ceabe3c87edfa19b7dd2073318cfe03e3505168f66f0603"
+    },
+    {
+      "path": "models/salary/v3_b5ae152b9dd5/random_forest.joblib",
+      "bytes": 736499,
+      "sha256": "46542b5cd7abe7d70fa6be108b8950aee4db1df84ab8f05baacc84676132b936"
+    },
+    {
+      "path": "models/salary/v3_b5ae152b9dd5/random_forest_training_snapshot.csv",
+      "bytes": 26355,
+      "sha256": "f5488378471943f4a565421c2ad1afdf1aad95636d4bc62df2e0a092babe217e"
+    },
+    {
+      "path": "models/salary/v3_b5ae152b9dd5/ridge.joblib",
+      "bytes": 7547,
+      "sha256": "9f7d88cc4d7be82315a6f68e05f8fea6f9d48ed295f6948daf7008b69d00a319"
+    },
+    {
+      "path": "models/salary/v3_b5ae152b9dd5/ridge_training_snapshot.csv",
+      "bytes": 26355,
+      "sha256": "f5488378471943f4a565421c2ad1afdf1aad95636d4bc62df2e0a092babe217e"
     },
     {
       "path": "notebooks/.gitkeep",
@@ -1603,6 +1773,101 @@
       "sha256": "ac5606569507a408041fff345f9861ef48041b5026161410f6d213374d84e787"
     },
     {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/REPORT.md",
+      "bytes": 725,
+      "sha256": "b562f681759a965e238b53daeef4f52af368010dbfb16fe1e9c3fe17382a1eb0"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/acceptance.json",
+      "bytes": 837,
+      "sha256": "f076df09a318dbf8d733330b776f239a2a9b9900657f87e3ce9434510a7a1c05"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/executed_training_source.py",
+      "bytes": 11120,
+      "sha256": "4d14636e8170f57625fab640c7361174a3bc79d14673d9ea3cc773c1067b74b6"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/market_comparison.png",
+      "bytes": 86814,
+      "sha256": "af51e41dde9123f3e0222a1465a1918053e8912dd3caac5a7a0fcdfa7c20460b"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/market_panel_comparison.csv",
+      "bytes": 3196,
+      "sha256": "3311a3b254a07c83ce84ee81befa682e7670b647f0d5d57254d7a5c5290e6f82"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/protocol.json",
+      "bytes": 3498,
+      "sha256": "5a25977cd2152c7bf1109e33b4c0b872144f9f8d6f3b1def6f499b74c5b7ab17"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/selection.json",
+      "bytes": 1731,
+      "sha256": "688efb1d0f396dbf01b020362943707d795cd30918c26c06aa7efb56829ef080"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/test_metrics.json",
+      "bytes": 1708,
+      "sha256": "5fc2dcb94e5c93dc39ccfab99283275848220e213a613eb54c8c212a64587a7e"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/test_predictions.csv",
+      "bytes": 845,
+      "sha256": "e79deb3ba0bd3b3aca43ba89650b2366ca7fb3c1b3694616f56316e1fdf069c8"
+    },
+    {
+      "path": "outputs/metrics/salary_v31_b089fdf458a5/validation_candidates.json",
+      "bytes": 5364,
+      "sha256": "5cd2fa35291312ead211fe25592aabaaa36ec7a8abe2419c3e7d5da5a14f289b"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/REPORT.md",
+      "bytes": 723,
+      "sha256": "893c78f01891b8ee958db63bff2f935088b819d7cffbbf22ff7ddd0d561f2481"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/acceptance.json",
+      "bytes": 839,
+      "sha256": "7f618d97f0f9e60b0abb75a51ef8280ccc0edeb56d8ba4270c6d825a1518605c"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/executed_training_source.py",
+      "bytes": 10859,
+      "sha256": "f5e36cc66fb4c59c5c6c999261a508eef02e31a8e79dc703cc3c15361e608bd1"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/market_panel_comparison.csv",
+      "bytes": 3180,
+      "sha256": "1a82594f318f5623561cea2d17703a5ac4dd399b53ed0b2e400fd4828a45d673"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/protocol.json",
+      "bytes": 3297,
+      "sha256": "a21ea717f57cdd2b382830e9891fe1ca9d6445f040a13964c81d522051148ccf"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/selection.json",
+      "bytes": 1706,
+      "sha256": "64da30e96d3e6593656cd4abef3dc6efe71e0554fcec9bc44c1487e557b90f6a"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/test_metrics.json",
+      "bytes": 1582,
+      "sha256": "6b0f18687c66d3bb8df2870720150d8d9b8b4ab91219157f18da339a2203f299"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/test_predictions.csv",
+      "bytes": 378,
+      "sha256": "7891cfffb3cd749540c20a396c8e17b4b1f353bab548179e2d7925d67cbc4d7e"
+    },
+    {
+      "path": "outputs/metrics/salary_v3_b5ae152b9dd5/validation_candidates.json",
+      "bytes": 5335,
+      "sha256": "8034f179b480b15b7663068d0385b0cd5d4030241eea8631f396f6896965ea39"
+    },
+    {
       "path": "outputs/notebook_preparation/gemma_03_tuning_cells_check.log",
       "bytes": 7049,
       "sha256": "f5d9fe152dcd057dc3c1a12ef32c5eeaf3e33b4d82d4f3e4fc8b1dd5c2df0d33"
@@ -1686,6 +1951,71 @@
       "path": "outputs/research/2026-10-18/vn_it_job_tree.json",
       "bytes": 9150,
       "sha256": "a905ac1aa011507fd6bf09dfdda81950c202cfbe913da4fb1e18371d8a01ae83"
+    },
+    {
+      "path": "outputs/research/v3/access_audit.json",
+      "bytes": 3575,
+      "sha256": "3acd3b219cfc21edcac06191d0efbcab1afd39a9e19872290b4883b6b4768081"
+    },
+    {
+      "path": "outputs/research/v3/api_active_model.json",
+      "bytes": 11658,
+      "sha256": "f1ed5d3b4c5ec8a45fb448be5b791cd417968086fdff6e0fefb3073e5f6feb84"
+    },
+    {
+      "path": "outputs/research/v3/direct_label_candidates.csv",
+      "bytes": 39202,
+      "sha256": "2642ba6e288b6e34aa8075bbafc227346f7f539b563c5961fe0e4410f5e14193"
+    },
+    {
+      "path": "outputs/research/v3/frozen_v1_verification.log",
+      "bytes": 1038,
+      "sha256": "c1c39c62b0b7299b75179d04e9b204bdd68c9f57d2b604359c5da8bda3d2a41a"
+    },
+    {
+      "path": "outputs/research/v3/gemma_unchanged.json",
+      "bytes": 334,
+      "sha256": "530d5c700cdbcdfe54c66e644f405ef02354286420792fc4ec9421e56cc48f61"
+    },
+    {
+      "path": "outputs/research/v3/more_access_checks.json",
+      "bytes": 764,
+      "sha256": "a780f98365b079560111efb2f8288ecd19bedcad87d10b1536f9c503519d6bd0"
+    },
+    {
+      "path": "outputs/research/v3/public_access_checks.json",
+      "bytes": 444,
+      "sha256": "22d7bd19da6b9071bf8ec67c1cae75da7b80a5978eea68a104e962234b3b4bac"
+    },
+    {
+      "path": "outputs/research/v3/sft_verification.log",
+      "bytes": 102,
+      "sha256": "3568a08cb91752bd6d51c063527a1877b793915b548d1b484d69c673cee80407"
+    },
+    {
+      "path": "outputs/research/v3/source_export.json",
+      "bytes": 4722,
+      "sha256": "462e3a91b68fe90ba9a32ed9d294871a4930f83367faf6ba0f9e9534e415cefd"
+    },
+    {
+      "path": "outputs/research/v3/stackoverflow_2026_quality.json",
+      "bytes": 878,
+      "sha256": "7b94809cd172d778cdeb7da35797e374398cbc44b2cd94f183c79682b18d5e7a"
+    },
+    {
+      "path": "outputs/research/v3/stackoverflow_tags.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "outputs/research/v3/stackoverflow_tree.json",
+      "bytes": 961244,
+      "sha256": "8c81749cebd1a7df5fb03e3e92636fd097ac29a239e183fe94f4677fe477f393"
+    },
+    {
+      "path": "outputs/research/v3/tests.log",
+      "bytes": 182,
+      "sha256": "a2b292aa5d59b310a8aca2a9cd6b6a4d88bb70b4d1a80964fc57e61ad7b54332"
     },
     {
       "path": "outputs/training_logs/gemma_20261017T094853Z/REPORT.md",
@@ -1993,6 +2323,26 @@
       "sha256": "934416cad945c043bd3ea1134c8bbec71b719696cf825d5688fd4d8af4ec66a2"
     },
     {
+      "path": "outputs/training_logs/salary_v31_20261018/console.log",
+      "bytes": 6001,
+      "sha256": "b45ac92ddeb29611c49db551b3a5975e84293eb29407b8550c3f262e22756d86"
+    },
+    {
+      "path": "outputs/training_logs/salary_v31_20261018/run.json",
+      "bytes": 577,
+      "sha256": "d0d6d38d95bfd25d9820882f0741139993691548b962c061b60097506c38a057"
+    },
+    {
+      "path": "outputs/training_logs/salary_v3_20261018/console.log",
+      "bytes": 5846,
+      "sha256": "2a74d3f65e2ab2fe867d7f209e0998bbfe55ef4dfcec4f26d5ebeb4af8dd5513"
+    },
+    {
+      "path": "outputs/training_logs/salary_v3_20261018/run.json",
+      "bytes": 576,
+      "sha256": "f86d40df67a234d2e946fab643c72cdcef39c334f0861beaaed2040df4913c14"
+    },
+    {
       "path": "pyproject.toml",
       "bytes": 150,
       "sha256": "7e91adbb8678ca323bfb3131cdca28f4bda0ad08f53d43046992ed3cfe15fb37"
@@ -2019,8 +2369,8 @@
     },
     {
       "path": "requirements.txt",
-      "bytes": 339,
-      "sha256": "cf3a3a8a21d689cff2c1e562de336a5141ce66fa14954b0fe5a8ee92bf3d25d2"
+      "bytes": 363,
+      "sha256": "c1f02e37c457c2cd6596db7d55c95180f096b0f6cd72692e83af55644e67ff7b"
     },
     {
       "path": "scripts/app_gemma_extract.py",
@@ -2041,6 +2391,11 @@
       "path": "scripts/clean_data.py",
       "bytes": 9274,
       "sha256": "7b16987738e3836f154ae3b989120bf358a5fa0ef4244a024bf7798e7903cabe"
+    },
+    {
+      "path": "scripts/collect_salary_v3.py",
+      "bytes": 6581,
+      "sha256": "f0f10666bec235deb50a552180a63940da002a0bff9ff91dbf15fd5a360a3890"
     },
     {
       "path": "scripts/compare_gemma_validation.py",
@@ -2118,14 +2473,24 @@
       "sha256": "2ef1240c45a93aea5bcdb3fef84c58914fa8950209b19cff675e75056df9f558"
     },
     {
+      "path": "scripts/prepare_salary_v3.py",
+      "bytes": 10106,
+      "sha256": "73fbdd2108ba04ea40fb470b0f8b4acb279dec37c79b5eb1773c6457ee8e8309"
+    },
+    {
+      "path": "scripts/prepare_salary_v31.py",
+      "bytes": 10608,
+      "sha256": "bef145c8f811f4973f080fec4645b789311acf555cc0b98c0d52612beca17f0c"
+    },
+    {
       "path": "scripts/profile_salary_sources.py",
       "bytes": 13152,
       "sha256": "0c63951c3297f30b5d3dd3d29dcb129b432a3b00bd2588899ce94babf8795d95"
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 9581,
-      "sha256": "fe785b962a4a19924ead9ff50f0cd7029ce72efe6c769c561133921f7f05f018"
+      "bytes": 10307,
+      "sha256": "93c098d13e93538d9c9ba0457f05b9e9585a365d37ec095ca02dc55526a28e49"
     },
     {
       "path": "scripts/report_gemma_tuning.py",
@@ -2136,6 +2501,16 @@
       "path": "scripts/run_salary_notebooks.py",
       "bytes": 2622,
       "sha256": "dc3d2ca384bf86dc3d5f639b552a70f1f76f7b6d845661876ff1ce55e200cf34"
+    },
+    {
+      "path": "scripts/salary_v31_labels.py",
+      "bytes": 1274,
+      "sha256": "da2ef8d2b1fadd30d9008c79b804d7effdacdb5ff23e059ebd82bec60f56e871"
+    },
+    {
+      "path": "scripts/salary_v3_labels.py",
+      "bytes": 4040,
+      "sha256": "d24817f5cbf8289467431cfac25f22d875c7bb88d3911d5128a6dcaa33082886"
     },
     {
       "path": "scripts/select_gemma_adapter.py",
@@ -2156,6 +2531,16 @@
       "path": "scripts/train_salary_v2.py",
       "bytes": 11969,
       "sha256": "361d06e8ad352cb7bb6ba6743e791dabe2525418062bb280c4ad920a2821310a"
+    },
+    {
+      "path": "scripts/train_salary_v3.py",
+      "bytes": 10859,
+      "sha256": "f5e36cc66fb4c59c5c6c999261a508eef02e31a8e79dc703cc3c15361e608bd1"
+    },
+    {
+      "path": "scripts/train_salary_v31.py",
+      "bytes": 11120,
+      "sha256": "4d14636e8170f57625fab640c7361174a3bc79d14673d9ea3cc773c1067b74b6"
     },
     {
       "path": "scripts/validate_sft.py",
@@ -2206,7 +2591,12 @@
       "path": "tests/test_salary_v2.py",
       "bytes": 5569,
       "sha256": "005ee28d729cc2670066a8dc159b87380f3a92083115858d990d11c9c751446c"
+    },
+    {
+      "path": "tests/test_salary_v3.py",
+      "bytes": 5460,
+      "sha256": "c2b37f3becce283c97adcf327b1c1e5e7369b950396e24082b426e80345c45d6"
     }
   ],
-  "generated_at_utc": "2026-10-17T23:52:50.907419+00:00"
+  "generated_at_utc": "2026-10-18T00:14:22.364014+00:00"
 }

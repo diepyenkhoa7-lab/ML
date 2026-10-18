@@ -56,6 +56,13 @@ def collect_files():
         "notebooks",
         "data/examples",
         "data/references",
+        "data/annotation/v3.1.0",
+        "data/splits/v3.0.0",
+        "data/splits/v3.1.0",
+        "outputs/metrics/salary_v3_b5ae152b9dd5",
+        "outputs/metrics/salary_v31_b089fdf458a5",
+        "models/salary/v3_b5ae152b9dd5",
+        "models/salary/v31_b089fdf458a5",
         "data/splits/v2.1.0",
         "outputs/research/2026-10-18",
         "outputs/metrics/salary_v2_042e3aa1a886",
@@ -87,6 +94,12 @@ def collect_files():
             files.update(p for p in directory.rglob("*") if p.is_file())
     # Mutable manual one-prompt inference is not an evaluated model artifact.
     files.discard(ROOT / "outputs/environment/gemma_adapter.json")
+    # Keep public collection provenance, not full scraped descriptions/HTML or large survey CSVs.
+    for source in ["stackoverflow_2026", "public_jobs_20261018", "joboko_20261018"]:
+        for pattern in ["manifest.json", "README.md", "*.robots.txt"]:
+            files.update((ROOT / "data/raw" / source).glob(pattern))
+    for pattern in ["*.json", "*.csv", "*.png", "*.log"]:
+        files.update((ROOT / "outputs/research/v3").glob(pattern))
     for name in [
         "data/raw/tinixai_2026/manifest.json",
         "data/raw/tinixai_2026/README.md",

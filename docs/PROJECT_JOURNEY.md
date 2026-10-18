@@ -104,13 +104,41 @@ Các số v2 không được so trực tiếp với RF v1 MAE 6,656 triệu trê
 
 ## 12. Sanity check ITviec/TopDev và trạng thái hiện tại
 
-Sanity check bên ngoài dùng các nhóm median VND chính thức từ ITviec 2025–2026 và dữ liệu TopDev 2024–2025 theo USD gross ratio-only. File tham chiếu nằm ở `data/references/`, kết quả ở `outputs/research/2026-10-18/external_sanity/`. Trên 13 nhóm ITviec có thể đối chiếu, median absolute aggregate gap được ghi là 8,18% cho mô hình cũ và 21,09% cho mô hình mới, với mô hình mới phần lớn thấp hơn. Đây không phải cùng population hoặc cùng label: survey là actual salary, còn mục tiêu hiện tại là midpoint của advertised salary range. Vì vậy chưa được kết luận là market alignment đã cải thiện, không fit các median tham chiếu để dự đoán từng cá nhân, và không dùng sanity check này để hiệu chỉnh model.
+Sanity check bên ngoài dùng các nhóm median VND chính thức từ ITviec 2025–2026 và dữ liệu TopDev 2024–2025 theo USD gross ratio-only. File tham chiếu nằm ở `data/references/`, kết quả ở `outputs/metrics/salary_v2_042e3aa1a886/external_sanity/`. Trên 13 nhóm ITviec có thể đối chiếu, median absolute aggregate gap được ghi là 8,18% cho mô hình cũ và 21,09% cho mô hình mới, với mô hình mới phần lớn thấp hơn. Đây không phải cùng population hoặc cùng label: survey là actual salary, còn mục tiêu hiện tại là midpoint của advertised salary range. Vì vậy chưa được kết luận là market alignment đã cải thiện, không fit các median tham chiếu để dự đoán từng cá nhân, và không dùng sanity check này để hiệu chỉnh model.
 
 Ứng dụng hiện có API `market_reference`; web hiển thị nhóm tham chiếu ITviec cùng source URL nhưng không ép calibration. Luồng Gemma extraction → Ridge được chọn + RF comparison → charts/export đã được API real-GPU kiểm chứng trong `outputs/research/2026-10-18/api_smoke_v2.json`. Trạng thái hiện tại ghi nhận 63 tests đã pass và final checks vẫn đang diễn ra; chưa coi publication/push là hoàn tất. Heartbeat monitoring đã được tạo để theo dõi định kỳ, nhưng nhật ký này không suy diễn rằng agent chạy vô hạn khi phiên rảnh.
 
 Mốc nghiệm thu trước publication tiếp tục xác nhận 63 tests sau khi tích hợp serving và `market_reference`, Ruff trên 48 file, Prettier/build và pip check. Bản source copy độc lập cũng chạy 63 tests, `npm ci` offline/build sạch và kiểm tra frozen v1/strict SFT; bằng chứng ở `outputs/research/2026-10-18/source_export.json`. Browser thật trên desktop 1440px và mobile 390px kiểm tra adapter/count, Ridge v2, ITviec và không tràn ngang; bằng chứng ở `outputs/research/2026-10-18/browser_checks.json`, `gemma_mobile.png` và `ridge_market_desktop.png`. Các kiểm tra ghi nhận ITviec 30,1M cho Backend 3–4 years riêng với model 26,5M, recommendations giữ support >=5 cùng role train, và lịch sử RF v1 vẫn hiển thị RF dù current model là Ridge.
 
 Runbook `docs/SALARY_V2_RUNBOOK.md`, metrics report, `run.json` và `executed_training_source.py` đã lưu; README, data source và data card đã đồng bộ. Advisor role-support filter đã được kiểm tra theo đúng ngữ cảnh và không fit lại model mới. Publication/commit/push vẫn do parent thực hiện; heartbeat 15 phút là cơ chế theo dõi, không phải bằng chứng agent chạy liên tục.
+
+## 13. Hoàn tất publication v2 và nghiên cứu vòng tiếp theo
+
+Vòng v2 đã được commit trong feature commit `5211a73`; source gọn đã được push tới `publish/salary-gemma-prep` tại `769dbacaaa6f390fbfc884bde8670b48177d1eb7`. Các bằng chứng nghiệm thu trước đó vẫn giữ nguyên: 63 tests, Ruff 48 file, source export và luồng Gemma → Ridge qua browser/API thật đều đạt. Test v2 đã mở để báo cáo, nên không được dùng lại để tuning vòng sau.
+
+Người dùng đã yêu cầu giảm ảnh hưởng của nhãn yếu, cải thiện đối chiếu thị trường và train/fine-tune tiếp. Vòng v3 hiện **chưa train**. Đang nghiên cứu dữ liệu cá nhân Stack Overflow 2026 từ file chính thức `survey_results_public.csv` tại pinned revision `6c646551e86ffcafca0ac04f1dfb17a2558ec23d`, cùng các nhãn MONTH lấy từ JSON-LD của tin tuyển dụng công khai. Đây là nghiên cứu nguồn và nhãn mới, chưa phải kết quả mô hình.
+
+Hạn chế market sanity của v2 được giữ nguyên khi chuyển sang vòng mới: độ lệch nhóm median v2 khoảng 21,09% so với khoảng 8,18% của v1 không bị che giấu hoặc dùng để tuyên bố cải thiện. Cần tạo split/holdout mới và khóa protocol trước khi train; không dùng test v2 đã mở để điều chỉnh.
+
+## 14. Vòng salary v3 và quyết định không promote
+
+Nguồn Stack Overflow 2026 đã tải xong với 30.903 dòng, trong đó 68 phản hồi Việt Nam và chỉ 13 dòng có total compensation VND/năm hợp lệ cùng kinh nghiệm sau sanity. Nguồn này là khảo sát thu nhập cá nhân, không được trộn vào job salary. Manifest và kiểm tra chất lượng nằm ở `data/raw/stackoverflow_2026/manifest.json` và `outputs/research/v3/stackoverflow_2026_quality.json`.
+
+Run `v3_b5ae152b9dd5` đã train thật 12 cấu hình CPU Ridge/Random Forest, gồm train recent-strict 55 mẫu và ablation older 60 mẫu, validation 18 mẫu, không có weak data. RF `min_leaf=2` trên recent-strict thắng validation với MAE 6,249 triệu và RMSE 10,236 triệu. Tuy nhiên trên cùng panel ITviec frozen của v2, gap v2 là 21,09456% còn v3 là 29,97975%, nên v3 thất bại promotion gate và không được promote; config v2 vẫn là cấu hình hoạt động.
+
+Public Careerlink/TopDev có 45 tin đăng nhưng sau quality và seen-company filters chỉ còn 1 mẫu độc lập. Mẫu đơn này không đủ để xem như test đáng tin, không báo R²; confidence interval suy biến cũng không có ý nghĩa. Vì vậy kết quả này không được dùng để tuyên bố market alignment.
+
+Hiện JobOKO công khai đã hoàn tất thu thập 44 tin; access audit ghi nhận `access_blocked=[]`. Audit access cũng ghi nhận CareerLink có 42 trang HTTP 200 chứa challenge, không có `JobPosting`, nên không dùng làm nhãn; collector đã được sửa để dừng ngay khi phát hiện HTML challenge. Chi tiết nằm ở `outputs/research/v3/access_audit.json`.
+
+Đồng thời v3.1 đang sửa parser đã bỏ sót header rõ `VND MONTH` và loại các bản ghi có metadata experience mâu thuẫn body. Đây là sửa có căn cứ từ dữ liệu, không phải giả định rằng mọi salary đều theo tháng. v3.1 chưa train và các mốc thu thập còn đang chạy chưa được ghi là hoàn thành.
+
+V3.1 sau đó đã train thật với 87 mẫu recent và 127 mẫu older (older trọng số 0,5), validation 28 mẫu và 12 cấu hình. RF `min_leaf=5` thắng validation với MAE 4,846979 triệu và RMSE 6,706734 triệu. JobOKO hoàn tất 44 tin, không bị access block; test mới chỉ có 3 mẫu từ 3 công ty, nên RF MAE 7,331 triệu so với incumbent 9,7145 triệu chỉ là thăm dò, không có CI và không phải benchmark đủ tin. Market gap v3.1 là 31,087866%, kém v2 21,094562%, nên không promote và ứng dụng giữ v2.
+
+Có 214 annotation pending tại `data/annotation/v3.1.0/salary_review_queue.jsonl` với `gold=null`, chỉ dùng cho train data/annotation review. Bằng chứng chính nằm ở `docs/SALARY_V3_REVIEW.md`, `outputs/metrics/salary_v31_b089fdf458a5/` và `outputs/training_logs/salary_v31_20261018/run.json`; 71 tests và Ruff 56 cũng đã đạt. Source export, commit và push cho v3.1 chưa hoàn tất.
+
+Sau đó bộ kiểm thử chốt đạt 72 tests, trong đó có test annotation xác nhận không chứa holdout; Ruff 56 và pip check cũng đạt. Mốc 71 tests ở đoạn trên được giữ nguyên vì đó là trạng thái trước khi bổ sung test. Source copy vẫn đang được kiểm tra và commit/push chưa xong.
+
+Verification cuối trước publication đã đạt: `outputs/research/v3/source_export.json` xác nhận bản source copy 516 files, 72 tests, Ruff56, strict SFT, frozen v1 và clean offline npm ci/build; `outputs/research/v3/api_active_model.json` xác nhận HTTP 200 sau restart server với active model `Ridge v2_042e3aa1a886`. V3.1 không promote vì chỉ có 3 mẫu/3 công ty kiểm tra độc lập và market gap kém v2, không đạt gate đã khóa. Zero-assumed-period là đặc điểm nhãn của thử nghiệm; silver chưa phải gold là giới hạn chất lượng, không phải một điều kiện nghiệm thu được thêm sau khi chấm. Commit/push v3 vẫn chưa xong tại thời điểm ghi nhận này.
 
 ## Tài liệu và bằng chứng chính
 

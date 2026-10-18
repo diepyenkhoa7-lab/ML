@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-18 — Thử nghiệm nhãn rõ kỳ tháng v3/v3.1
+
+- Train thật 24 cấu hình Ridge/RF; v3.1 chọn RF leaf=5, 214 nhãn có bằng chứng kỳ tháng,
+  không dùng nhãn giả định kỳ. Validation 28 mẫu: MAE 4,847M / RMSE 6,707M VND.
+- Lưu câu dẫn chứng, xử lý khung header khác nội dung, giữ `VND MONTH`, loại mâu thuẫn
+  kinh nghiệm và công ty từng gặp khỏi kiểm tra mới. Thêm 89 JobPosting công khai và
+  Stack Overflow 2026 đã kiểm tra SHA; dữ liệu khảo sát khác target, không trộn nhãn.
+- Không promote: chỉ 3 mẫu/3 công ty độc lập trong vòng cuối và market gap 31,09%,
+  kém v2 21,09%. Giữ v2 trên web, chặn nạp checkpoint thất bại gate.
+- Xuất 214 dòng annotation pending chỉ thuộc train, chưa có gold; không fine-tune Gemma
+  lại bằng nhãn chưa duyệt. Giữ toàn bộ test/weights cũ và logs thực nghiệm.
+
 ## 2026-10-18 — Thêm dữ liệu, train salary v2 và đối chiếu thị trường
 
 - Tải nguồn TiniX606878 tin có revision/checksum/CC-BY-NC; raw lớn tải riêng. Frozen

@@ -46,7 +46,7 @@ app: frontend-build
 	$(PYTHON) -m uvicorn backend.app.main:app --host 127.0.0.1 --port $(APP_PORT)
 
 app-test:
-	$(PYTHON) -m unittest tests.test_application tests.test_architecture_audit tests.test_salary_v2 -v
+	$(PYTHON) -m unittest tests.test_application tests.test_architecture_audit tests.test_salary_v2 tests.test_salary_v3 -v
 
 lab:
 	@mkdir -p "$(JUPYTER_RUNTIME_DIR)" "$(IPYTHONDIR)"
@@ -82,6 +82,23 @@ gemma-train: validate-sft
 # Salary training is authorized independently of the Gemma confirmation gate.
 salary-train:
 	$(PYTHON) scripts/run_salary_notebooks.py
+
+# Experimental strict-label salary training; never switches the web model automatically.
+.PHONY: salary-v3-collect salary-v3-prepare salary-v3-train salary-v31-prepare salary-v31-train
+salary-v3-collect:
+	$(PYTHON) scripts/collect_salary_v3.py --source joboko
+
+salary-v3-prepare:
+	$(PYTHON) scripts/prepare_salary_v3.py
+
+salary-v3-train:
+	$(PYTHON) scripts/train_salary_v3.py
+
+salary-v31-prepare:
+	$(PYTHON) scripts/prepare_salary_v31.py
+
+salary-v31-train:
+	$(PYTHON) scripts/train_salary_v31.py
 
 data-fetch:
 	$(PYTHON) scripts/fetch_salary_sources.py

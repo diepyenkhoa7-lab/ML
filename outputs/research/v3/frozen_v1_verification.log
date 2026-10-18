@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "manifest_sha256": "fddc4fa54bf7cd12ad34d39b2e0ca9f1f43d4fa5d64c20e4aaaedf8fe19ac75f",
+  "candidate_rows": 33539,
+  "accepted_rows": 33133,
+  "quarantined_rows": 402,
+  "duplicate_rows": 4,
+  "detected_groups_crossing_partitions": 0,
+  "overlapping_record_ids": 0,
+  "checks": [
+    "Frozen manifest, policy, source and code hashes match",
+    "All raw data unchanged",
+    "Every candidate accepted, quarantined or duplicate",
+    "All exported labels match candidate fields and units",
+    "All Vietnam cohort rows have Vietnam country",
+    "No detected group or record crosses partitions",
+    "Independent split regeneration matches assignments",
+    "Developer subset follows parent split exactly",
+    "Feature whitelist enforced in every exported CSV",
+    "Small cohorts not assigned misleading tiny holdouts",
+    "This verifier does not fit predictors or train models; SFT is validated separately"
+  ],
+  "scope": "Integrity and defined rules; unknown duplicates and source label errors may remain"
+}

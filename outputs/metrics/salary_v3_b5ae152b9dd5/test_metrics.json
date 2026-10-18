@@ -1,0 +1,52 @@
+{
+  "experiment_id": "v3_b5ae152b9dd5",
+  "selected_model": "random_forest",
+  "test": {
+    "ridge": {
+      "samples": 1,
+      "mae_vnd": 4226102.586945735,
+      "rmse_vnd": 4226102.586945735,
+      "r2": null,
+      "median_absolute_error_vnd": 4226102.586945735,
+      "within_5m": 1.0
+    },
+    "random_forest": {
+      "samples": 1,
+      "mae_vnd": 3823333.333333332,
+      "rmse_vnd": 3823333.333333332,
+      "r2": null,
+      "median_absolute_error_vnd": 3823333.333333332,
+      "within_5m": 1.0
+    },
+    "v2_ridge": {
+      "samples": 1,
+      "mae_vnd": 1847664.1848179065,
+      "rmse_vnd": 1847664.1848179065,
+      "r2": null,
+      "median_absolute_error_vnd": 1847664.1848179065,
+      "within_5m": 1.0
+    }
+  },
+  "promotion_gates": {
+    "enough_independent_rows": false,
+    "enough_independent_companies": false,
+    "mae_improves_5pct": false,
+    "rmse_guard": false,
+    "nonnegative_r2": false,
+    "market_gap_not_worse": false,
+    "same_arm_for_serving": true
+  },
+  "promotion_eligible": false,
+  "market_panel_median_absolute_gap_pct": {
+    "v2": 21.09456198469083,
+    "v3": 29.97974537037037
+  },
+  "market_caution": "Known aggregate objective; not independent individual income MAE. Same frozen panel and groups for both models; no report rows used in training.",
+  "paired_mae_improvement_company_bootstrap_95_vnd": [
+    -1975669.1485154256,
+    -1975669.1485154256
+  ],
+  "test_opened_once_after_selection": true,
+  "old_holdouts_not_used": true,
+  "selection_sha256": "64da30e96d3e6593656cd4abef3dc6efe71e0554fcec9bc44c1487e557b90f6a"
+}

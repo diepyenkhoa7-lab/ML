@@ -35,3 +35,9 @@ data/raw/tinixai_2026/*.parquet
 data/raw/tinixai_2026/*.part
 data/splits/v2.0.0/
 data/splits/v2.0.1/
+data/raw/stackoverflow_2026/*.csv
+data/raw/stackoverflow_2026/*.part
+data/raw/public_jobs_20261018/*.jsonl
+data/raw/joboko_20261018/*.jsonl
+outputs/research/v3/*.html
+outputs/research/v3/*.txt

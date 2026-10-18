@@ -1,0 +1,14 @@
+{
+  "status": "training_completed_not_promoted",
+  "experiment": "v3_b5ae152b9dd5",
+  "selected_at_utc": "2026-10-18T00:03:41.465800+00:00",
+  "selected_model": "random_forest",
+  "candidates": 12,
+  "test_samples": 1,
+  "evaluation_status": "insufficient_independent_holdout",
+  "active_experiment_unchanged": "v2_042e3aa1a886",
+  "training_code_sha256": "f5e36cc66fb4c59c5c6c999261a508eef02e31a8e79dc703cc3c15361e608bd1",
+  "weak_period_assumption_rows": 0,
+  "gemma_training": false,
+  "metrics_sha256": "6b0f18687c66d3bb8df2870720150d8d9b8b4ab91219157f18da339a2203f299"
+}

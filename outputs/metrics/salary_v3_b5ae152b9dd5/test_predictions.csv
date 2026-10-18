@@ -1,0 +1,2 @@
+record_id,leakage_group_id,role,salary_monthly_vnd,source_url,ridge,random_forest,v2_ridge
+public:327e69fbc5b900e285fe,b474642b7069c4d967c6572349086e0489a2b2c361cead05917070b66fb566e5,Embedded Engineer,22500000.0,https://www.careerlink.vn/tim-viec-lam/embedded-systems-engineer-team-leader-ems-service-tieng-nhat/2853631,18273897.413054265,18676666.666666668,20652335.815182094

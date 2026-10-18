@@ -1,0 +1,115 @@
+{
+  "status": "passed",
+  "scope": "isolated source copy; actual salary model tests + clean offline frontend install/build, no base weights/GPU/training",
+  "tested_source_manifest_sha256": "acac0accdda92c7f9b78028d6aa82e1d680e6400085a5f964372123d13c88a81",
+  "files_verified": 515,
+  "commands": [
+    {
+      "command": [
+        "/Users/scara2906/Downloads/ML/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "returncode": 0,
+      "stdout": "Cleaning stackoverflow_2025: 4 rows\nstackoverflow_2025: clean=3, review=1, labels=1\n",
+      "stderr": "Matplotlib is building the font cache; this may take a moment.\n----------------------------------------------------------------------\nRan 72 tests in 3.821s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/Users/scara2906/Downloads/ML/.venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "scripts",
+        "backend",
+        "tests"
+      ],
+      "returncode": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/scara2906/Downloads/ML/.venv/bin/python",
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "scripts",
+        "backend",
+        "tests"
+      ],
+      "returncode": 0,
+      "stdout": "56 files already formatted\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/scara2906/Downloads/ML/.venv/bin/python",
+        "scripts/validate_sft.py",
+        "--data",
+        "data/finetune_full/v1.0.0",
+        "--strict-extraction"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"counts\": {\n    \"train\": 364,\n    \"valid\": 72,\n    \"test\": 82\n  },\n  \"ok\": true,\n  \"errors\": []\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/scara2906/Downloads/ML/.venv/bin/python",
+        "scripts/verify_salary_splits.py",
+        "--training-only"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"status\": \"passed\",\n  \"scope\": \"frozen CSV integrity only; raw audit excluded\",\n  \"cohorts\": {\n    \"dataforge_AED_month_unknown\": 1,\n    \"dataforge_AMD_month_unknown\": 1,\n    \"dataforge_AUD_month_unknown\": 18,\n    \"dataforge_BRL_month_unknown\": 12,\n    \"dataforge_CAD_month_unknown\": 283,\n    \"dataforge_CHF_month_unknown\": 8,\n    \"dataforge_CNY_month_unknown\": 3,\n    \"dataforge_COP_month_unknown\": 2,\n    \"dataforge_CRC_month_unknown\": 6,\n    \"dataforge_EUR_month_unknown\": 640,\n    \"dataforge_GBP_month_unknown\": 350,\n    \"dataforge_HUF_month_unknown\": 12,\n    \"dataforge_INR_month_unknown\": 30,\n    \"dataforge_JPY_month_unknown\": 4,\n    \"dataforge_KRW_month_unknown\": 4,\n    \"dataforge_MXN_month_unknown\": 8,\n    \"dataforge_NZD_month_unknown\": 3,\n    \"dataforge_PHP_month_unknown\": 11,\n    \"dataforge_PLN_month_unknown\": 82,\n    \"dataforge_RON_month_unknown\": 1,\n    \"dataforge_SEK_month_unknown\": 12,\n    \"dataforge_SGD_month_unknown\": 20,\n    \"dataforge_TWD_month_unknown\": 2,\n    \"dataforge_USD_month_unknown\": 12583,\n    \"dataforge_ZAR_month_unknown\": 2,\n    \"so_survey\": 18660,\n    \"vn_it\": 375,\n    \"vn_developer\": 176\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "frontend",
+        "ci",
+        "--offline",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund",
+        "--cache",
+        "/Users/scara2906/Downloads/ML/.cache/npm"
+      ],
+      "returncode": 0,
+      "stdout": "\nadded 36 packages in 256ms\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "frontend",
+        "run",
+        "format:check"
+      ],
+      "returncode": 0,
+      "stdout": "\n> it-career-insight@0.2.0 format:check\n> prettier --check src index.html vite.config.js package.json\n\nChecking formatting...\nAll matched files use Prettier code style!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "frontend",
+        "run",
+        "build"
+      ],
+      "returncode": 0,
+      "stdout": "\n> it-career-insight@0.2.0 build\n> vite build\n\nvite v7.3.7 building client environment for production...\ntransforming...\n✓ 10 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                  0.55 kB │ gzip:  0.36 kB\ndist/assets/index-CuO2Lztn.css  18.98 kB │ gzip:  4.94 kB\ndist/assets/index-R3p78clS.js   98.20 kB │ gzip: 37.38 kB\n✓ built in 267ms\n",
+      "stderr": ""
+    }
+  ],
+  "evidence_addition": "This report is added after testing; final manifest regenerated to include evidence only"
+}

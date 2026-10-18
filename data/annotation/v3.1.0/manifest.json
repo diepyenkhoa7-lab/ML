@@ -1,0 +1,9 @@
+{
+  "rows": 214,
+  "scope": "ONLY v3.1 training rows; never validation/test",
+  "purpose": "Human review queue, NOT SFT JSONL; gold=null until reviewed; proposed is evidence-based silver",
+  "files": {
+    "salary_review_queue.jsonl": "a70a579a388f47938a05537407363eda82e40374cf464dcb61bb3c16910c5da4"
+  },
+  "dataset_manifest_sha256": "b089fdf458a5b7fb9aea8f31811c15448e55543fc32c103e3e364d2c95f77e7c"
+}

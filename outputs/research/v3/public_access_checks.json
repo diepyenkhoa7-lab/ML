@@ -1,0 +1,7 @@
+[
+  {
+    "url": "https://www.topcv.vn/robots.txt",
+    "status": 200,
+    "snippet": "User-agent: *\nSitemap: https://www.topcv.vn/sitemap.xml\nDisallow: /cv/get-private-url/\nDisallow: /private/\nDisallow: /xem-cv/\nDisallow: /xem-cv-draft/\nDisallow: /sua-cv/\nDisallow: /viet-cv/\nDisallow: /edit/cv/\nDisallow: /cv-ung-vien/\nDisallow: /cv-ung-tuyen/\nDisallow: /p/\nDisallow: /v4/image/cv-template/cv-sample/toppy-list-mau-cv.png\n"
+  }
+]

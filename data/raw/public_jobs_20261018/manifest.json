@@ -1,0 +1,413 @@
+{
+  "created_utc": "2026-10-18T00:01:57.931104+00:00",
+  "source": "Public CareerLink and TopDev JobPosting JSON-LD",
+  "records": 45,
+  "list_pages": [
+    "https://topdev.vn/jobs/search?keyword=developer",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=2",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=3",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=4",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=5",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=6",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=7",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=8",
+    "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=9"
+  ],
+  "requests": [
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/jobs/search?keyword=developer",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=2",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=3",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=9",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=4",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=5",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=8",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=7",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/viec-lam/cntt-phan-mem/19?page=6",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/ai-developer-junior-middle-cong-ty-co-phan-suntek-2136350",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/backend-developer-mid-level-globaltech-2136294",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/c-c-software-developer-telecom-all-levels-remotepeople-2138248",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/cobol-developer-english-speaking-cong-ty-tnhh-capgemini-viet-nam-2137421",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/full-stack-developer-nodejs-reactjs-cong-ty-tnhh-softflex-llc-2138283",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/fullstack-developer-junior-senior-khoi-cong-nghe-thong-tin-2025td922-mbbank-2134506",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/ha-noi-fullstack-developer-c-net-vuejs-misa-software-2134288",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/it-developer-net-c-mes-erp-ai-robot-modern-system-vn-2137007",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/java-backend-developer-fpt-is-2135787",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/middle-senior-fullstack-developer-khoi-cong-nghe-thong-tin-2025td943-mbbank-2134507",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/playable-ads-mobile-game-developer-supercent-vietnam-2137015",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/rpa-developer-middle-cyberlogitec-vietnam-co-ltd-2133547",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/viet-nam-unity-developer-hyper-casual-cong-ty-tnhh-nstage-viet-nam-2137023",
+      "status": 200
+    },
+    {
+      "url": "https://topdev.vn/detail-jobs/web-developer-backend-fullstack-cong-ty-co-phan-vikoisoft-2134741",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/.-net-c-winforms-developer-fresher-junior/3637661",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ai-developer/3650872",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ai-engineer/3638472",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ai-project-ai-engineer/3628169",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/back-end-developer/3631671",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/back-end-developer/3641118",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/back-end-engineer/3629610",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/back-end-engineer/3632539",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/backend-engineer-nodejs/3641120",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/bi-developer-analytics-enabler/3630039",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/business-development-representative-topik-3-4-5/3644684",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/chuyen-vien-lap-trinh-backend/3632009",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/cocos-developer/3601360",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/data-engineer-ky-su-data/3601756",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/data-engineer/3630077",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/edge-ai-engineer/3634381",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/embedded-systems-engineer-team-leader-ems-service-tieng-nhat/2853631",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/frontend-engineer-jlpt-n2/3652438",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/frontend-engineer/3601357",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/full-stack-ai-developer/3638495",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/full-stack-developer/3622580",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/full-stack-developer/3638542",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/full-stack-developer/3652519",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/fullstack-developer-executive/3626596",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/fullstack-developer-lap-trinh-vien-fullstack-biet-ung-dung-ai/3634448",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/fullstack-developer-python-vue-.-js/3647536",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/golang-developer/3617255",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ha-noi-junior-salesforce-developer/3649679",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/hcm-senior-development-%7C-tech-team-tieng-anh-tieng-trung/3627492",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/hcm-senior-development-tieng-trung/3652680",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ho-chi-minh-fullstack-java-developer-thu-nhap-hap-dan/3606450",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ho-chi-minh-fullstack-java-developer/3632007",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/intern-fresher-software-engineer/3611754",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/java-developer-intern/3623298",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/junior-ai-engineer-da-nang/3616059",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/junior-ai-engineer-hanoi/3616054",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/junior-fullstack-developer/3600360",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-ai-ai-engineer/3646466",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-embedded/3651044",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-lap-trinh-moi-truong-xu-ly-nuoc-thai/3635775",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-phan-mem-c-%E2%80%93-he-thong-tu-dong-hoa-ban-dan-%7C-tieng-nhat-%7C-can-giuoc-long-an/3527277",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-phan-mem-c-di-lam-ngay/3637664",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-phan-mem-c-lap-trinh-vien-co-thuong-tet/3635180",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-phan-mem-software-engineer-sw-team/3647512",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-phan-mem-tieng-anh-trung/3625763",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-phan-mem-tieng-trung/3611585",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/ky-su-t-c-va-software/3650092",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/lap-trinh-vien-full-stack-desktop-web-mobile/3642005",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/lap-trinh-vien-java-next-.-js-fullstack-junior/3637313",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/lap-trinh-vien-lap-trinh-bang-ai/3648774",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/lap-trinh-vien-odoo-chuyen-mang-hrm-ioffice/3645817",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/lap-trinh-vien-pc-control-c/3631846",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/lap-trinh-vien-winform-app/3642757",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/lap-trinh-vien/3640533",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/middle-backend-developer-.-net-core-sql/3640173",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/middle-developer/3614989",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/mobile-developer-react-native/3622661",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/nhan-vien-.-net-developer/3619404",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/nhan-vien-back-end-developer-itsc/3646646",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/nhan-vien-cobol-developer/3629905",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/nhan-vien-lap-trinh-winform-app/3642756",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/php-developer-intern/3600361",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/qc-software-tester-middle-he-thong-quan-ly-benh-vien-his/3640182",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/robotics-software-engineer/3649118",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/senior-ai-engineer/3632542",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/senior-back-end-developer/3652520",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/senior-data-engineer/3632543",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/senior-frontend-engineer/3652521",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/senior-software-engineer/3629609",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/truong-nhom-lap-trinh-web-%E2%80%93-tieng-nhat-n3-%7C-quan-1/3027561",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/tts-ky-su-linux-nhung-embedded-linux-%E2%80%93-yocto-linux-c-c/3636839",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/unity-developer/3604785",
+      "status": 200
+    },
+    {
+      "url": "https://www.careerlink.vn/tim-viec-lam/utility-lap-trinh-web/3632826",
+      "status": 200
+    }
+  ],
+  "file": {
+    "path": "data/raw/public_jobs_20261018/job_postings.jsonl",
+    "sha256": "eda2ee12e6d71b401bb3de13865999ab7e18c1554a5f48332474d93b5d51b121"
+  },
+  "code_sha256": "c4c26658781471b1da4e4925f645036d44a7fdc50e4e925d2905ff284640686f",
+  "license_note": "Public metadata, no explicit open dataset license. Raw descriptions stay local; source links and derived evidence retained for coursework audit."
+}

@@ -22,6 +22,8 @@ class SalaryService:
         self.experiment = experiment
         manifest_bytes = (folder / "manifest.json").read_bytes()
         self.manifest = json.loads(manifest_bytes)
+        if self.manifest.get("promotion_eligible") is False:
+            raise ValueError("Model chưa vượt điều kiện nghiệm thu; giữ model đang phục vụ")
         self.provenance = dict(
             salary_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(), models={}
         )

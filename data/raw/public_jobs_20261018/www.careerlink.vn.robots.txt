@@ -1,0 +1,101 @@
+# See http://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+#
+# To ban all spiders from the entire site uncomment the next two lines:
+# User-agent: *
+# Disallow: /
+
+# Prevent crawling featured-employers filter combinations (combinatorial explosion)
+User-agent: *
+Disallow: /en/featured-employers?
+Disallow: /vi/nha-tuyen-dung-hang-dau?
+Disallow: /featured-employers?
+Disallow: /nha-tuyen-dung-hang-dau?
+# Next.js RSC payloads are not indexable pages.
+Disallow: /*_rsc=
+# Locale-free /jobseeker and /employer are the login-walled account areas
+# (canonical authenticated pages plus auth actions); every request redirects
+# to the login page, so there is nothing indexable beneath them.
+Disallow: /jobseeker
+Disallow: /employer
+# The localized account areas 301 to those locale-free canonicals and then to
+# login, so a crawl there is pure noise. Every line below is a login-walled
+# route prefix from the Next route table (plus the Rails password-reset and
+# OAuth-registration token pages). The bare localized prefixes stay crawlable:
+# login, registration, and the employer landing page live directly under them.
+Disallow: /messenger/vi/job_seeker
+Disallow: /messenger/en/job_seeker
+Disallow: /nguoi-tim-viec$
+Disallow: /nguoi-tim-viec/$
+Disallow: /nguoi-tim-viec/cong-viec-luu
+Disallow: /nguoi-tim-viec/viec-da-ung-tuyen
+Disallow: /nguoi-tim-viec/thong-bao-viec-lam
+Disallow: /nguoi-tim-viec/ho-so
+Disallow: /nguoi-tim-viec/tai-khoan
+Disallow: /nguoi-tim-viec/config
+Disallow: /nguoi-tim-viec/thu-xin-viec
+Disallow: /nguoi-tim-viec/dang-ky-oauth
+Disallow: /nguoi-tim-viec/reset
+Disallow: /en/jobseeker$
+Disallow: /en/jobseeker/$
+Disallow: /en/jobseeker/savedjob
+Disallow: /en/jobseeker/applied-jobs
+Disallow: /en/jobseeker/jobalert
+Disallow: /en/jobseeker/resume
+Disallow: /en/jobseeker/profile
+Disallow: /en/jobseeker/config
+Disallow: /en/jobseeker/coverletter
+Disallow: /en/jobseeker/reset
+Disallow: /messenger/vi/employer
+Disallow: /messenger/en/employer
+Disallow: /nha-tuyen-dung/home
+Disallow: /nha-tuyen-dung/config
+Disallow: /nha-tuyen-dung/tai-khoan
+Disallow: /nha-tuyen-dung/to-chuc
+Disallow: /nha-tuyen-dung/vieclam
+Disallow: /nha-tuyen-dung/thu-xin-viec-da-nhan
+Disallow: /nha-tuyen-dung/tim-ho-so
+Disallow: /nha-tuyen-dung/tim-ho-so-nhanh
+Disallow: /nha-tuyen-dung/ho-so
+Disallow: /nha-tuyen-dung/vcv-profile
+Disallow: /nha-tuyen-dung/luu-ho-so
+Disallow: /nha-tuyen-dung/tai-nang-da-xem
+Disallow: /nha-tuyen-dung/request-resume-access
+Disallow: /nha-tuyen-dung/request-resume-submitted
+Disallow: /nha-tuyen-dung/headhunt
+Disallow: /nha-tuyen-dung/thong-bao-ho-so
+Disallow: /nha-tuyen-dung/talent-match-campaigns
+Disallow: /nha-tuyen-dung/reset
+Disallow: /en/employer/home
+Disallow: /en/employer/config
+Disallow: /en/employer/profile
+Disallow: /en/employer/organization
+Disallow: /en/employer/job
+Disallow: /en/employer/application
+Disallow: /en/employer/quick-resume-search
+Disallow: /en/employer/resume
+Disallow: /en/employer/vcv-profile
+Disallow: /en/employer/savedresume
+Disallow: /en/employer/viewed-talents
+Disallow: /en/employer/request-resume-access
+Disallow: /en/employer/request-resume-submitted
+Disallow: /en/employer/headhunt
+Disallow: /en/employer/resumealert
+Disallow: /en/employer/talent-match-campaigns
+Disallow: /en/employer/reset
+
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Livelapbot
+Disallow: /
+
+User-agent: Yahoo Pipes 1.0
+Disallow: /
+
+# GPTBot, ClaudeBot, Claude-Web and anthropic-ai have no group of their own:
+# these crawlers follow the shared wildcard rules, including the account-area
+# and RSC exclusions.
+
+# Meta's AI / indexing crawler (NOT facebookexternalhit, which renders share previews)
+User-agent: meta-externalagent
+Disallow: /
