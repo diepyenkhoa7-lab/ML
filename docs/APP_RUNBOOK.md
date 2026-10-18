@@ -37,10 +37,15 @@ riêng, không có trong Git. App chỉ nạp artifact tin cậy khớp checksum
    Thiếu/không rõ đơn vị vẫn dự đoán nhưng không dùng lương đó tính metric.
 4. Ngày đăng nhận ISO `YYYY-MM-DD` (kể cả timestamp) hoặc `DD/MM/YYYY`.
    Ngày lỗi có cảnh báo; thiếu ngày không tạo biểu đồ thời gian.
-5. Bật Gemma khi cần đọc mô tả: tối đa 20 mô tả/lượt, kiểm tra context 1.024 token
+5. Bật Gemma khi cần đọc mô tả: tối đa 20 mô tả/lượt, kiểm tra context 2.048 token
    gồm phần dành cho output. Mô tả dài cần rút gọn, không cắt ngầm. Gemma chỉ điền
    trường thiếu; không ghi đè cột đã cung cấp. Lương Gemma đọc được lưu riêng,
-   không dùng làm nhãn tính MAE. Schema lỗi được báo, giữ raw output trong ZIP.
+   không dùng làm nhãn tính MAE. Schema lỗi được model thử lại tối đa một lần nếu đủ context; giữ cả raw attempts trong ZIP. Vẫn lỗi thì báo theo dòng, không sửa JSON để che lỗi.
+   Khi không có cột kỹ năng riêng, pipeline chỉ dùng tên công nghệ có bằng chứng trực tiếp
+   trong mô tả và thuộc danh mục nhận diện; giữ extraction Gemma riêng, có source_skill_evidence.
+   Danh mục có thể thiếu công nghệ mới; nhập cột kỹ năng riêng để chủ động cung cấp.
+   GPU bận train/đánh giá/suy luận được kiểm tra trước khi chạy; dùng “Kiểm tra lại GPU”
+   sau khi tác vụ hoàn tất.
 6. Bấm Phân tích. Xem tiến độ → Tổng quan / Dự đoán từng dòng / Chất lượng & sai số.
    Top công nghệ dùng danh mục v1 (alias chuẩn và công nghệ thông dụng); kỹ năng ngoài
    danh mục vẫn được giữ trong bảng. Chọn nguồn lương cung cấp/dự đoán; chọn trạng thái của từng dòng để đọc cảnh báo.

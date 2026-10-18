@@ -156,6 +156,13 @@ async function demo() {
     busy.value = false;
   }
 }
+async function refreshGpuStatus() {
+  try {
+    meta.value = await api("/api/meta");
+  } catch (e) {
+    error.value = e.message;
+  }
+}
 async function analyze() {
   clearTimeout(timer);
   pollRevision++;
@@ -164,6 +171,19 @@ async function analyze() {
   error.value = "";
   busy.value = true;
   try {
+    if (useGemma.value) {
+      meta.value = await api("/api/meta");
+      if (meta.value.gemma.training_check_error)
+        throw new Error(
+          "Chưa kiểm tra được GPU. Hãy thử lại hoặc bỏ chọn Gemma nếu bảng đã có cột chuẩn.",
+        );
+      if (!meta.value.gemma.available)
+        throw new Error("Chưa có trọng số Gemma trên máy này.");
+      if (meta.value.gemma.training_active || meta.value.gemma.gpu_busy)
+        throw new Error(
+          "GPU đang train, đánh giá hoặc suy luận Gemma. Chờ hoàn tất hoặc bỏ chọn Gemma nếu bảng đã có cột chuẩn.",
+        );
+    }
     job.value = await api("/api/analyses", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -594,18 +614,22 @@ onBeforeUnmount(() => {
                       :disabled="
                         !mapping.description ||
                         !meta?.gemma.available ||
-                        meta?.gemma.training_active
+                        meta?.gemma.training_active ||
+                        meta?.gemma.gpu_busy
                       "
                     />Dùng Gemma đọc cột mô tả</label
                   ><small>{{
                     meta?.gemma.training_check_error
                       ? "Không kiểm tra được GPU; chạy app từ Terminal rồi thử lại."
-                      : meta?.gemma.training_active
-                        ? "GPU đang train; chờ hoàn tất để dùng Gemma."
+                      : meta?.gemma.training_active || meta?.gemma.gpu_busy
+                        ? "GPU đang train/đánh giá/suy luận; chờ hoàn tất để dùng Gemma."
                         : !meta?.gemma.available
                           ? "Chưa có trọng số Gemma trên máy."
                           : "Tối đa 20 mô tả/lượt. Bảng đã có cột chuẩn có thể phân tích trực tiếp."
                   }}</small>
+                  <button class="text-button" @click="refreshGpuStatus">
+                    Kiểm tra lại GPU
+                  </button>
                 </div>
                 <button
                   class="primary"

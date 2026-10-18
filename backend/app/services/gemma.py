@@ -9,8 +9,10 @@ from pathlib import Path
 
 from backend.app.services.contracts import GemmaBatch, strict_json
 from backend.app.services.data import ROOT
+from scripts.gpu_lock import gpu_is_busy
 
 ADAPTER = "adapters/gemma-jobs/20261017T105728Z"
+CONTEXT_LIMIT = 2048
 
 
 def availability():
@@ -24,13 +26,19 @@ def availability():
         busy = process.returncode == 0 or check_error
     except (OSError, subprocess.TimeoutExpired):
         busy = check_error = True
+    try:
+        gpu_busy = gpu_is_busy()
+    except OSError:
+        gpu_busy = check_error = True
     return dict(
         available=ready,
         training_active=busy,
         training_check_error=check_error,
+        gpu_busy=gpu_busy,
         adapter=ADAPTER,
         scope="job_card_extraction; inference only",
         max_rows=20,
+        max_context=CONTEXT_LIMIT,
     )
 
 
@@ -45,6 +53,8 @@ def extract_cards(cards, audit_folder=None):
         raise ValueError("Không kiểm tra được trạng thái GPU; chạy app từ Terminal và thử lại")
     if status["training_active"]:
         raise ValueError("Gemma đang train trên GPU; chờ hoàn tất rồi chạy trích xuất")
+    if status.get("gpu_busy"):
+        raise ValueError("GPU đang đánh giá hoặc suy luận Gemma; chờ lượt hiện tại hoàn tất")
     if len(cards) > 20:
         raise ValueError("Mỗi lượt Gemma tối đa 20 mô tả; tách file hoặc dùng các cột có sẵn")
     with tempfile.TemporaryDirectory(prefix="career-gemma-") as temporary:

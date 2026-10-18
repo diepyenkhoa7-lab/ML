@@ -1,0 +1,34 @@
+{
+  "examples": 72,
+  "json_validity": 1.0,
+  "schema_validity": 0.9166666666666666,
+  "field_exact_accuracy": {
+    "role": 0.9444444444444444,
+    "location": 1.0,
+    "experience_years": 0.9861111111111112,
+    "skills": 0.4583333333333333,
+    "salary_min": 1.0,
+    "salary_max": 1.0,
+    "currency": 1.0,
+    "salary_period": 1.0
+  },
+  "skill_micro_precision": 0.9382716049382716,
+  "skill_micro_recall": 0.9011857707509882,
+  "skill_micro_f1": 0.9193548387096774,
+  "limits": "Silver references; augmented cards are not independent jobs; not advice quality",
+  "split": "valid",
+  "dataset_sha256": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c",
+  "adapter": "adapters/gemma-jobs/20261018T051656Z",
+  "gemma_training_started_by_this_command": false,
+  "independent_source_records": 25,
+  "started_at_utc": "2026-10-18T06:38:41.452160+00:00",
+  "finished_at_utc": "2026-10-18T06:42:14.794467+00:00",
+  "model_manifest_sha256": "785c2fb3754e0bd27859f5cf0fd70d1bf75485ba7d51b8a6a922dec3d35fd8cd",
+  "adapter_sha256": "06719c09647a1208f7e85127ccd54d3ad214339f23bdb636bc984b6fb07eb378",
+  "generation": {
+    "temperature": 0.0,
+    "max_tokens": 256,
+    "seed": 42,
+    "enable_thinking": false
+  }
+}

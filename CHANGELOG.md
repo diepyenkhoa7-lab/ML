@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-10-18 — Kết thúc corrected trial và kiểm chứng nhập mô tả dài
+
+- Run 051656Z hoàn tất 501/501; validation loss 0,343→0,183. New Skill F1
+  80,58%→82,35% nhưng score gain 0,004908 chưa đạt; legacy F1 93,76%→91,94%,
+  score/schema cũng không đạt. Không promote và không chấm test mới/cũ.
+- Web giữ parent và Ridge v2. Worker context2.048, tối đa một model schema retry,
+  giữ raw attempts; reuse mô tả trùng và bổ sung skill_evidence đối chiếu nguồn.
+- Nhận diện GPU đang train/eval/infer bằng lock thật, refresh trước khi gửi job;
+  sửa provenance demo48 theo model train thực tế. Không đổi metric benchmark cũ.
+- Browser thật JSON upload→Gemma GPU→Ridge/RF→biểu đồ→ZIP đạt 3/3 dòng,1trùng;
+  xác minh checksum10 file trong ZIP. Đây là functional smoke trên2tin train,
+  không có nhãn lương độc lập và không chứng minh MAE giảm. 97 tests/Ruff đạt.
+
 ## 2026-10-18 — Chuẩn bị corrected v2.2 và khởi chạy fine-tune thật
 
 - Corpus501/31/33 giữ prompt/company split; sửa 7 train,10 valid và1 test bằng

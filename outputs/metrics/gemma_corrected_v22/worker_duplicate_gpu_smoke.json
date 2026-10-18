@@ -1,0 +1,95 @@
+{
+  "status": "passed",
+  "scope": "real GPU serving parent, three identical training-source cards, one generation",
+  "seconds": 8.27148529200349,
+  "model_improvement_claim": false,
+  "payload": {
+    "schema_version": "career.gemma.batch.v1",
+    "request_id": "e3e45e0d492f432399ff4789861f1b7b",
+    "items": [
+      {
+        "index": 0,
+        "input_sha256": "7350b7141270cfe066c5ff97f4f2e1632662094d99514e2f828b79b0ef3c42dd",
+        "value": {
+          "role": "ML Engineer",
+          "location": "Hà Nội",
+          "experience_years": 2.0,
+          "skills": [
+            "AI",
+            "Git",
+            "LangChain",
+            "Python",
+            "Teamwork"
+          ],
+          "salary_min": 20000000.0,
+          "salary_max": 30000000.0,
+          "currency": "VND",
+          "salary_period": "month"
+        },
+        "raw_output": "{\"role\": \"ML Engineer\", \"location\": \"Hà Nội\", \"experience_years\": 2.0, \"skills\": [\"AI\", \"Git\", \"LangChain\", \"Python\", \"Teamwork\"], \"salary_min\": 20000000.0, \"salary_max\": 30000000.0, \"currency\": \"VND\", \"salary_period\": \"month\"}",
+        "error": null
+      },
+      {
+        "index": 1,
+        "input_sha256": "7350b7141270cfe066c5ff97f4f2e1632662094d99514e2f828b79b0ef3c42dd",
+        "value": {
+          "role": "ML Engineer",
+          "location": "Hà Nội",
+          "experience_years": 2.0,
+          "skills": [
+            "AI",
+            "Git",
+            "LangChain",
+            "Python",
+            "Teamwork"
+          ],
+          "salary_min": 20000000.0,
+          "salary_max": 30000000.0,
+          "currency": "VND",
+          "salary_period": "month"
+        },
+        "raw_output": "{\"role\": \"ML Engineer\", \"location\": \"Hà Nội\", \"experience_years\": 2.0, \"skills\": [\"AI\", \"Git\", \"LangChain\", \"Python\", \"Teamwork\"], \"salary_min\": 20000000.0, \"salary_max\": 30000000.0, \"currency\": \"VND\", \"salary_period\": \"month\"}",
+        "error": null
+      },
+      {
+        "index": 2,
+        "input_sha256": "7350b7141270cfe066c5ff97f4f2e1632662094d99514e2f828b79b0ef3c42dd",
+        "value": {
+          "role": "ML Engineer",
+          "location": "Hà Nội",
+          "experience_years": 2.0,
+          "skills": [
+            "AI",
+            "Git",
+            "LangChain",
+            "Python",
+            "Teamwork"
+          ],
+          "salary_min": 20000000.0,
+          "salary_max": 30000000.0,
+          "currency": "VND",
+          "salary_period": "month"
+        },
+        "raw_output": "{\"role\": \"ML Engineer\", \"location\": \"Hà Nội\", \"experience_years\": 2.0, \"skills\": [\"AI\", \"Git\", \"LangChain\", \"Python\", \"Teamwork\"], \"salary_min\": 20000000.0, \"salary_max\": 30000000.0, \"currency\": \"VND\", \"salary_period\": \"month\"}",
+        "error": null
+      }
+    ],
+    "provenance": {
+      "adapter": "adapters/gemma-jobs/20261017T105728Z",
+      "adapter_sha256": "fceb60125606c8eb9bc5a89a656b0f7ef5338c2b3e4c78f8426e956c716c7287",
+      "base_weight_sha256": "e105100225815b521c6405c57ea23974530b868ddfea1e3ea9ec7ce1cf9fae38",
+      "base_manifest_sha256": "785c2fb3754e0bd27859f5cf0fd70d1bf75485ba7d51b8a6a922dec3d35fd8cd",
+      "system_prompt_sha256": "9d45e087f9ec69e6ad91158193e7ba0e313e7144ddd8726f5393b243ea093926",
+      "generation": "temperature=0; seed=42; max_tokens=256; context=1024; thinking=false",
+      "input_policy": "complete input; no truncation or source-sentence deletion",
+      "config.json_sha256": "3888ffa00a226c6fb8f20603fed45d466afde548565dfe6c936acd043f460ae1",
+      "tokenizer.json_sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+      "tokenizer_config.json_sha256": "8227f6f1d959e2ded8be6351bf863a77b781bfd93b82b01e6f65d5d91d5cecb8",
+      "chat_template.jinja_sha256": "0a2c8073c878ab1da004bee933a998606537bbb62016310352c7285c3f01c5b5",
+      "unique_cards": "1",
+      "reused_rows": "2",
+      "generation_calls": "1",
+      "reuse_policy": "exact input text, within this request only; no persistent input cache"
+    }
+  }
+}

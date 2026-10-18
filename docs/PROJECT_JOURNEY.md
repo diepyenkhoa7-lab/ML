@@ -168,9 +168,19 @@ Protocol `configs/gemma_corrected_protocol.json` đã khóa: 501 mẫu, learning
 
 App worker đã thêm reuse exact duplicate text trong cùng request, đồng thời giữ index/hash/raw/error theo từng dòng; hai CPU tests đạt. GPU chưa kiểm chứng vì máy đang train.
 
+Run corrected `20261018T051656Z` đã hoàn tất 501/501; validation loss giảm 0,343 → 0,183. Selection tại `outputs/metrics/gemma_corrected_v22/selection.json` không đạt: new Skill F1 0,805825 → 0,823529 nhưng score gain 0,004908 thấp hơn ngưỡng 0,005, experience giữ 0,709677; legacy F1 0,937562 → 0,919355, schema 0,958333 → 0,916667 và score 0,941685 → 0,920945. Không promote, không chấm test mới/cũ; đã hết hai candidate trên 31 validation.
+
+Worker GPU duplicate test 3 cards/1 generation đạt 8,27 giây. CLI context 2048 đọc một source dài 1.211 tokens; lần đầu schema fail duplicate, retry tối đa một model call giữ raw attempts và schema đạt. Vẫn còn semantic errors generic functions và hallucinated Express/SQL; `app source_skill_evidence` đã thêm inventory literal từ mô tả để grounding, giữ raw Gemma và ưu tiên skills người dùng. 97 CPU tests đạt; GPU end-to-end grounding đang QA, chưa ghi là đạt. Availability probe dùng actual GPU lock cho eval/infer; frontend refresh metadata trước analyze và button kiểm tra lại GPU.
+
+Demo provenance trước đó dùng v1 dù train v2 đã được sửa theo actual experiment. Server QA hiện ở session 96710 port 8000; source publication vòng này chưa xong.
+
+QA cuối đã kiểm chứng browser JSON upload `data/examples/application_gemma_long_demo.json` → Gemma GPU context 2048 → source-grounded skill features → Ridge/RF → charts → download ZIP. Job `ad41c19476f642ce95b6e25dc7ce8004` có 3/3 dòng dự đoán, 1 trùng, 2 source và 0 nhãn thu nhập; ZIP tải thật qua UI tại `/Users/scara2906/Downloads/analysis.zip`, gồm 10 file đã verify hash. Evidence nằm ở `outputs/metrics/gemma_corrected_v22/serving_qa/`. Raw Gemma có Express implied và SQL từ MySQL nhưng không đưa vào features; literal MySQL được giữ. Unknown technology trong closed inventory có thể bị bỏ sót; chưa có MAE claim. 97 tests và Ruff đạt, docs serving/report đã đồng bộ. Publication final vẫn đang thực hiện; chưa có mẫu hoặc thông tin sinh viên cho báo cáo.
+
 Bản source copy của mốc label audit đã vượt qua 84 tests, Ruff62, kiểm tra frozen/strict SFT và cài/build frontend offline; bằng chứng `data/annotation/gemma_v2.1.1/source_export.json`.
 
 Mốc chuẩn bị corrected v2.2 cũng đã qua 89 tests/Ruff66 và source-copy install/build offline, bằng chứng `outputs/metrics/gemma_corrected_v22/source_export_preparation.json`. Nội dung kỹ thuật báo cáo ở `reports/BAO_CAO_NOI_DUNG.md` đã có; vẫn chưa phải báo cáo cá nhân đúng mẫu. Lượt train còn đang chạy, chưa có kết luận chất lượng.
+
+Nghiệm thu source cuối đạt 97 tests, Ruff check/format70 file, frozen/strict SFT checks, npm ci offline, Prettier và production build từ bản copy tách biệt; bằng chứng `outputs/metrics/gemma_corrected_v22/source_export_final.json`. Commit/push được xác minh qua nhánh `publish/salary-gemma-prep`; báo cáo cá nhân còn chờ mẫu và thông tin sinh viên.
 
 ## Tài liệu và bằng chứng chính
 

@@ -7,12 +7,12 @@
 | Ít nhất 2 mô hình | Ridge và Random Forest, cùng tập chia | Đã train/so sánh cùng salary v2.1.0; Ridge đang dùng, RF đối chiếu và model cũ giữ rollback |
 | Ít nhất 2 metric | MAE, RMSE; thêm R² | Cùng 30 test mới: Ridge MAE 4,433M, RMSE 5,664M, R² 0,540; xem REPORT salary v2 |
 | Giá trị kỹ năng | Thống kê theo vai trò, số mẫu và mức lương | Đã có thống kê và hệ số Ridge trên train; không suy nhân quả |
-| Gemma | google/gemma-4-E4B-it + adapter + so sánh trước/sau | Adapter web 105728Z; reviewed candidate 501 bước không đạt regression guards; corrected run 051656Z đang train, chưa nghiệm thu. Xem GEMMA_LABEL_QUALITY_AUDIT.md |
+| Gemma | google/gemma-4-E4B-it + adapter + so sánh trước/sau | Adapter web 105728Z; reviewed candidate 501 bước không đạt regression guards; corrected run 051656Z đã hoàn tất nhưng không đạt; web giữ parent. Xem GEMMA_LABEL_QUALITY_AUDIT.md |
 | Ứng dụng tư vấn | Hồ sơ → lương → đề xuất kỹ năng → giải thích | Đã có Vue/FastAPI, dự đoán RF/Ridge và gợi ý có hỗ trợ từ train; xem APP_RUNBOOK.md |
 | Báo cáo cá nhân | `STT_Họ và tên_MSSV`, theo mẫu giảng viên | Đã có reports/BAO_CAO_NOI_DUNG.md làm nội dung kỹ thuật; chưa có mẫu hoặc thông tin sinh viên, chưa phải file báo cáo cá nhân hoàn tất |
 | Link dự án | GitHub/GitLab truy cập được, README chạy lại | Remote theihoz/ML; nhánh publish/salary-gemma-prep |
 | Dataset | File dữ liệu thật + nguồn, quyền sử dụng | Đã nhập nguồn; một số xuất xứ/điều khoản còn cần xác minh, xem docs/DATA_SOURCES.md |
-| Demo | Kịch bản, model/adapter, môi trường chạy ổn định | Có app local nhập CSV/XLSX/JSON, ghép cột, dự đoán, biểu đồ, tư vấn và xuất file; có kiểm thử API/browser, còn chuẩn bị thuyết trình |
+| Demo | Kịch bản, model/adapter, môi trường chạy ổn định | App local đã kiểm chứng browser JSON mô tả dài → Gemma GPU → kỹ năng đối chiếu nguồn → Ridge/RF → biểu đồ → ZIP; có bảng mẫu48 dòng, còn chuẩn bị thuyết trình |
 
 API thực tế: upload tại `POST /api/datasets`, job tại `POST /api/analyses`,
 đọc trạng thái/kết quả/biểu đồ/download theo ID; `POST /api/salary/predict` và

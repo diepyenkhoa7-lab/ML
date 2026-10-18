@@ -150,7 +150,25 @@ def normalize_row(raw, mapping, options, extracted=None):
             errors.append("Kinh nghiệm không hợp lệ; nhập số năm hoặc chuỗi có năm/tháng")
     else:
         experience = extracted.get("experience_years")
-    skills = skills_from(get("skills")) or skills_from(extracted.get("skills"))
+    skills = skills_from(get("skills"))
+    skill_evidence = None
+    if not skills and extracted and text(get("description")):
+        from backend.app.services.grounding import description_skills
+
+        skills, evidence = description_skills(text(get("description")))
+        skill_evidence = dict(
+            source="description_literal_inventory",
+            evidence=evidence,
+            model_skills=extracted.get("skills"),
+            limits="Closed technology inventory; raw Gemma extraction retained separately",
+        )
+        if set(skills) != set(skills_from(extracted.get("skills"))):
+            warnings.append(
+                "Kỹ năng dùng dự đoán đã đối chiếu trực tiếp với mô tả; "
+                "xem đầu ra Gemma gốc để kiểm tra khác biệt"
+            )
+    elif not skills:
+        skills = skills_from(extracted.get("skills"))
     location = normalize_location(get("location") or extracted.get("location"))["location"]
     seniority = level(get("level"), title) or "Unknown"
     if not role:
@@ -209,4 +227,5 @@ def normalize_row(raw, mapping, options, extracted=None):
         warnings=warnings,
         errors=errors,
         extraction=extracted or None,
+        skill_evidence=skill_evidence,
     )

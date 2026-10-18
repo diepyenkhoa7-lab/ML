@@ -97,6 +97,9 @@ def export_results(rows, folder, report):
             for path in [
                 *sorted((ROOT / "backend/app").rglob("*.py")),
                 ROOT / "scripts/app_gemma_extract.py",
+                ROOT / "scripts/refine_gemma_references.py",
+                ROOT / "scripts/review_gemma_labels.py",
+                ROOT / "scripts/data_cleaning.py",
             ]
         },
         environment={
@@ -173,6 +176,10 @@ def analyze(dataset, options, folder: Path, progress):
         )
         if result.get("error"):
             row["warnings"].append("Gemma thất bại; chỉ dùng cột đã cung cấp: " + result["error"])
+        elif len(result.get("attempts", [])) > 1:
+            row["warnings"].append(
+                "Gemma đã thử lại sau lỗi JSON/schema; hãy kiểm tra các trường được trích xuất"
+            )
         if row["role"] and row["role"] not in model.roles:
             row["errors"].append("Vai trò chưa hỗ trợ; model hiện dành cho nhóm lập trình viên")
         if (

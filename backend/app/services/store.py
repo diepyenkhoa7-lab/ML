@@ -100,7 +100,8 @@ class AppStore:
     def demo(self):
         from backend.app.services.salary import salary_service
 
-        frame = salary_service().train.head(48)[
+        service = salary_service()
+        frame = service.train.head(48)[
             [
                 "record_id",
                 "role",
@@ -114,8 +115,9 @@ class AppStore:
         content = frame.to_csv(index=False).encode()
         return self.ingest(
             content,
-            "vn_developer_demo_48.csv",
-            "48 tin thật từ train v1.0.1, nhãn silver; minh họa, không phải holdout độc lập",
+            f"vn_developer_demo_{len(frame)}.csv",
+            f"{len(frame)} tin từ snapshot train model {service.experiment}, "
+            "nhãn silver; minh họa, không phải holdout độc lập",
         )
 
     def load_dataset(self, identifier):

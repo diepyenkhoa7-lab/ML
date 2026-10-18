@@ -24,8 +24,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 13272,
-      "sha256": "b26745665201a7e47b8ea0c80c03d8e8feee2e1aa925435833e2e2602681277f"
+      "bytes": 14264,
+      "sha256": "203c6913b83c1db28e12a829b1025fcd953e193ac9ee62fa30f35d25f8a2b9fc"
     },
     {
       "path": "Makefile",
@@ -34,8 +34,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 13632,
-      "sha256": "86bf00a41233a68a3cdd4adda0025b847768d1bd43cfd38ea79e83399c2ef6ef"
+      "bytes": 13870,
+      "sha256": "6a4de0eca643baecef513c57ba7afa9ab553202f90de4bec1e41212675cb598e"
     },
     {
       "path": "adapters/README.md",
@@ -148,6 +148,21 @@
       "sha256": "10b220a02af90e905cb7a66d8b4584b4cf55517a697702999161da8937340e7e"
     },
     {
+      "path": "adapters/gemma-jobs/20261018T051656Z/adapter_config.json",
+      "bytes": 1274,
+      "sha256": "bde6a183157784cee852c1f08fa371170b59d506e7ad0f8a1a65f6b5f959ca70"
+    },
+    {
+      "path": "adapters/gemma-jobs/20261018T051656Z/adapters.safetensors",
+      "bytes": 6953691,
+      "sha256": "06719c09647a1208f7e85127ccd54d3ad214339f23bdb636bc984b6fb07eb378"
+    },
+    {
+      "path": "adapters/gemma-jobs/20261018T051656Z/manifest.json",
+      "bytes": 1740,
+      "sha256": "252541a769a7715fd76de5e64dd939b3896c68b9386449b34f4f0b4d35a1cec8"
+    },
+    {
       "path": "backend/__init__.py",
       "bytes": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
@@ -169,8 +184,8 @@
     },
     {
       "path": "backend/app/services/analysis.py",
-      "bytes": 12676,
-      "sha256": "35683a28df48b32d8cbdca5d6d0286d882e450afe4c380cad7e1bb9b5ddce1ec"
+      "bytes": 13063,
+      "sha256": "95c560b8474d7041b5d41b6580d6e1e47cb9d8af9348214185177246aa4fcdbf"
     },
     {
       "path": "backend/app/services/charts.py",
@@ -179,18 +194,23 @@
     },
     {
       "path": "backend/app/services/contracts.py",
-      "bytes": 3552,
-      "sha256": "ac72abbf675a51875704b37f5a04c58af3832c63ff93ba4c7facce4e55ce2383"
+      "bytes": 3773,
+      "sha256": "7daeb8e8ef0d8eb876e98bcd196979e6e73d1e0063f505484d32036feb333a36"
     },
     {
       "path": "backend/app/services/data.py",
-      "bytes": 9193,
-      "sha256": "751441eccfee222e886feceb6ee46a7e65404705fea7ea68b5feb1c4cc1323a0"
+      "bytes": 10048,
+      "sha256": "7e9b05f8e036fcff071725b7941c27dc79f7bb85f08eec680f57fba1b00a7477"
     },
     {
       "path": "backend/app/services/gemma.py",
-      "bytes": 4301,
-      "sha256": "817d387a3808fdf3d322ffaf7a4d93197d1e6cf7ad16c322e482505e633fbdcc"
+      "bytes": 4670,
+      "sha256": "2414e0115257568b228d5f3b34ee18927296a8b061c76a18dbd30be9677946c5"
+    },
+    {
+      "path": "backend/app/services/grounding.py",
+      "bytes": 392,
+      "sha256": "a644ee884f76274e9ac7c148ff5fb583cfcd8badffd4d8ab8e6604915ea6d1e7"
     },
     {
       "path": "backend/app/services/market.py",
@@ -204,8 +224,8 @@
     },
     {
       "path": "backend/app/services/store.py",
-      "bytes": 7710,
-      "sha256": "adca4e6207c596c93d550f8c49392a45092521f18b6e056b9a646d3606bea846"
+      "bytes": 7795,
+      "sha256": "1175bab30e4a130a83b8d0bba38547ea1b1a9679876da7dc3d9fd0abb7a08051"
     },
     {
       "path": "configs/application.json",
@@ -406,6 +426,16 @@
       "path": "data/examples/application_demo.xlsx",
       "bytes": 8434,
       "sha256": "0907b48074e9b4b8ca74366cd3fc2666509b0665a3da0446592a6159e1b4ef09"
+    },
+    {
+      "path": "data/examples/application_gemma_long_demo.README.md",
+      "bytes": 1162,
+      "sha256": "12b5f945ad453a8d685f667a5ebae583c5ebdf86955221d0270bcc5068485b0f"
+    },
+    {
+      "path": "data/examples/application_gemma_long_demo.json",
+      "bytes": 7500,
+      "sha256": "aa27852200221cdb17af2031180248289d2526e548681542bd8699c047d15f87"
     },
     {
       "path": "data/examples/finetune/test.jsonl",
@@ -1069,8 +1099,8 @@
     },
     {
       "path": "docs/APP_RUNBOOK.md",
-      "bytes": 7817,
-      "sha256": "a39e564fbd690c699244ba23a9d65a5636ffc39218313a4e46ea50b720aaad77"
+      "bytes": 8442,
+      "sha256": "065cbc83139c90be55979b2b93d5c91bd059c6d73b2e65a09176f7112e0ceaac"
     },
     {
       "path": "docs/DATASET.md",
@@ -1089,8 +1119,8 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 3124,
-      "sha256": "ba8e2256419012fd7c07a9f51c1094737d0402ef4fbf115af9ca8c1a3b7081f7"
+      "bytes": 3189,
+      "sha256": "aa6f1472a2d95d958d836ff8170a2d56e7fd4f52f7ad821f8f1c9a142b24d984"
     },
     {
       "path": "docs/ENVIRONMENT_STATUS.md",
@@ -1099,8 +1129,8 @@
     },
     {
       "path": "docs/GEMMA_CORRECTED_FINETUNE.md",
-      "bytes": 4194,
-      "sha256": "f9f035bbe45f36e70d4069ffab7e64adb0aba4d038614fafe51155a96e024608"
+      "bytes": 4684,
+      "sha256": "f973bd5813f4e7a953a2ed4a15172beea68a1b4e6d8f694fc62bad56d4a66c6e"
     },
     {
       "path": "docs/GEMMA_FULL_TRAINING.md",
@@ -1129,8 +1159,8 @@
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 31034,
-      "sha256": "66f1a2eafa6c6c8e2cf41adf9600205f494ee4a241914e46aea49c40339892e8"
+      "bytes": 33613,
+      "sha256": "c54819e755bf8fd10925fa5b4165ee1f612f1f3c185fb92d5bcee3e499789442"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
@@ -1141,6 +1171,11 @@
       "path": "docs/SALARY_V3_REVIEW.md",
       "bytes": 7735,
       "sha256": "819be95e56604bbbb22137403559d57f5ac3934f579f9cbb9a3b973b7da0fd53"
+    },
+    {
+      "path": "docs/SERVING_IMPROVEMENTS.md",
+      "bytes": 3247,
+      "sha256": "ec7db68c82bb068fb7e8be326574251808a9f729297f373eb23d59300ac276b1"
     },
     {
       "path": "docs/TRAINING_RUNBOOK.md",
@@ -1174,8 +1209,8 @@
     },
     {
       "path": "frontend/src/App.vue",
-      "bytes": 44691,
-      "sha256": "e3c84c70f349e44b300092d749a5df8ae429d31afb8a5272b77f89ec62b9f6de"
+      "bytes": 45716,
+      "sha256": "a8dae0381d6c0596d5c792cc6dbeb55f1e64a02a5537005d294acca72ef5cb07"
     },
     {
       "path": "frontend/src/main.js",
@@ -1604,8 +1639,8 @@
     },
     {
       "path": "outputs/gemma_preparation/training_status.json",
-      "bytes": 1311,
-      "sha256": "3e918ea108812f1d006e7ee4ddff78fd76abdba391460f7f0791e32df1ff19fb"
+      "bytes": 1313,
+      "sha256": "d32a42bd9cee1fb2ab3dee6113965a3eec6869d3cbbc6db34c810a415e4c50b0"
     },
     {
       "path": "outputs/gemma_preparation/weights.json",
@@ -1758,6 +1793,11 @@
       "sha256": "18bce10d05670781c06df08c3fe4cf4355c2433a711df4f7c1da262f59df52ba"
     },
     {
+      "path": "outputs/metrics/gemma_corrected_v22/REPORT.md",
+      "bytes": 3796,
+      "sha256": "3fc333d063dbd6ffb2d26c958cf66cdf87eb7e1fbc52e676fac202c182d203ad"
+    },
+    {
       "path": "outputs/metrics/gemma_corrected_v22/baseline_new_valid/metrics.json",
       "bytes": 1693,
       "sha256": "814a8918de7f1bbd444cc40e3669f9ebba55a9fd4046d95956bdb620dc87a91d"
@@ -1768,14 +1808,94 @@
       "sha256": "ce4cfe4207e668e13c96622b6bc0ce0974c948347660175b229f76afff8cd751"
     },
     {
+      "path": "outputs/metrics/gemma_corrected_v22/candidate_legacy_valid/metrics.json",
+      "bytes": 1227,
+      "sha256": "81e620fb22e561c8d3607b50e4b0333310e0f02ffe58807c2399233abcdda7be"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/candidate_legacy_valid/predictions.jsonl",
+      "bytes": 26580,
+      "sha256": "089cf643c2a90eed821e4f3a3205b35cd19b7a9f1bc71f228ee23f15bb3ab997"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/candidate_new_valid/metrics.json",
+      "bytes": 1227,
+      "sha256": "6ccce086fc8079dc757c565efeddd7fc0c654c3729c9f32ac6578f1ff7797e59"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/candidate_new_valid/predictions.jsonl",
+      "bytes": 10990,
+      "sha256": "35a2366d2d5c48a6dfebffe88f7bb4ac40e0059b85b7ead99c708d28b024be25"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/evaluation_monitor.json",
+      "bytes": 175,
+      "sha256": "75fc81fea0d2aba80da7b45a611b523a261ad4af0a483dae524235525d4265ac"
+    },
+    {
       "path": "outputs/metrics/gemma_corrected_v22/launch_record.json",
       "bytes": 3329,
       "sha256": "4564c2b545bd61323b997c2feb1cf238f0ca4c799bbc4b70022efb068d311627"
     },
     {
+      "path": "outputs/metrics/gemma_corrected_v22/selection.json",
+      "bytes": 1648,
+      "sha256": "86b8dff41bd343075d509303bc337d9d7b5415980fd41c96e61b9b235374fbaf"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/browser_upload_export.json",
+      "bytes": 1770,
+      "sha256": "4c929ed6ea44e6a2618d05e283575437a324d6b821145a65c87e283c6d89dff6"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/context_2048_with_retry.json",
+      "bytes": 7077,
+      "sha256": "59048c564bf21c0c53c1ab6b56cb3c81bc2245cbb512c156b211bcf5f970adc6"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/context_2048_without_retry.json",
+      "bytes": 3976,
+      "sha256": "6636cc9284c1894b2254da534b014817109e95b4a1913bc21a78434fdec6b4ce"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/context_smoke.json",
+      "bytes": 684,
+      "sha256": "923471c1c32bc732e97bf8e479440c740ddb22087c88badbf325c0645b00d017"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/demo_analysis.zip",
+      "bytes": 116825,
+      "sha256": "6763c6d3d5b950a5d1fc64708a75166a5fdbfb07eaaf1684a2f0a41bd8f693c3"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/grounded_overview.png",
+      "bytes": 72061,
+      "sha256": "8fb64d85f250875b1e2c004f88d988f7b6224147a1b2e9480bb9af5caeabf661"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/grounded_rows.png",
+      "bytes": 66722,
+      "sha256": "7196144790065d20207f2dc40613937261191e2ae31d1780ae8554dd4b0c4338"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/serving_qa/long_input_overview.png",
+      "bytes": 72071,
+      "sha256": "6d5b265c6aae5f90d34a9d9f77e223d5a998f84e5ef4694416ef802ee6790b5c"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/source_export_final.json",
+      "bytes": 5130,
+      "sha256": "989860631ef5c63af61eb284efddfced55c2775aac1c01415022be73e4ab78bb"
+    },
+    {
       "path": "outputs/metrics/gemma_corrected_v22/source_export_preparation.json",
       "bytes": 5130,
       "sha256": "2317b2e4451491f97eea49e2ee133de1ed0f48e4d103d93c1cbc58170bda6d80"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/worker_duplicate_gpu_smoke.json",
+      "bytes": 4108,
+      "sha256": "72d933a3d6dccc03fbe8338250fcebcaf6e00677f57c5a77a0b124a2b8603c5c"
     },
     {
       "path": "outputs/metrics/gemma_reviewed_v2/REPORT.md",
@@ -2528,6 +2648,41 @@
       "sha256": "3e918ea108812f1d006e7ee4ddff78fd76abdba391460f7f0791e32df1ff19fb"
     },
     {
+      "path": "outputs/training_logs/gemma_20261018T051656Z/REPORT.md",
+      "bytes": 657,
+      "sha256": "629ed8cfdaae1dcd4df5892db025500b316d51ee334f4741aed172d4f6844fb1"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261018T051656Z/config.yaml",
+      "bytes": 615,
+      "sha256": "b62fc220e87884511f8d7ca9af45917d6d708921bedc38568751888a63783c8a"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261018T051656Z/console.log",
+      "bytes": 5150,
+      "sha256": "663862daeb0a5946f3ba33e8afe7c1b8f8c4fb34ee627ad201dd739dbcd97265"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261018T051656Z/loss_curve.png",
+      "bytes": 81194,
+      "sha256": "e915314b987b326e373461a0c822d4adab60926eb9955f94e260a147168a4e76"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261018T051656Z/loss_history.csv",
+      "bytes": 918,
+      "sha256": "a420a7bcb8f3160d9b29780ad698db579d5d305e97421effa64726784fd04fce"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261018T051656Z/run.json",
+      "bytes": 3189,
+      "sha256": "e7123396eebc29c87b4a920d6fb383c8e1d8d3d46b9b3d98211bc8476c1a56b9"
+    },
+    {
+      "path": "outputs/training_logs/gemma_20261018T051656Z/summary.json",
+      "bytes": 1313,
+      "sha256": "d32a42bd9cee1fb2ab3dee6113965a3eec6869d3cbbc6db34c810a415e4c50b0"
+    },
+    {
       "path": "outputs/training_logs/publication_snapshot/verification.json",
       "bytes": 2729,
       "sha256": "6b50005825255d606f0c4e600cfcbe62c02f56b05119ef9ad55cb0b0991b5c54"
@@ -2629,8 +2784,8 @@
     },
     {
       "path": "reports/BAO_CAO_NOI_DUNG.md",
-      "bytes": 12318,
-      "sha256": "de208625e1d3228809d24ced2d98f8d644e6e090c6775d7e443cd86584b5e5c1"
+      "bytes": 12635,
+      "sha256": "b1539a3f8a6d21c7c185ecf285e2d2020a77a74b10314515b3f648fd41051d08"
     },
     {
       "path": "requirements-dev.txt",
@@ -2659,8 +2814,8 @@
     },
     {
       "path": "scripts/app_gemma_extract.py",
-      "bytes": 4541,
-      "sha256": "18f948123f08e90fe6983bea5d70b73b3e3d7d0187a1208554bbc9ef0e04dee9"
+      "bytes": 6691,
+      "sha256": "4c146426bfcf4e7ee970aad521a4c41a829240a96a12fc8ed89e98c7e872ce37"
     },
     {
       "path": "scripts/check_env.py",
@@ -2739,8 +2894,8 @@
     },
     {
       "path": "scripts/gpu_lock.py",
-      "bytes": 710,
-      "sha256": "d671657e6a264429cc438377f8065622dfa87f96ea08d26e5f1a85973eea65c1"
+      "bytes": 1162,
+      "sha256": "b0aec33529c38d534c518a0b94cf7cbb34504c9fbbf6a045b000205811e7ea6f"
     },
     {
       "path": "scripts/label_review.py",
@@ -2888,9 +3043,14 @@
       "sha256": "dcd6507bd89c4e21145dc001867e627d12b03ed758ff59ec86f381af2b96a123"
     },
     {
+      "path": "tests/test_demo_provenance.py",
+      "bytes": 773,
+      "sha256": "62a3abef13376f614f215ec39db00c1141147981b057ad4231b9554f040ee9e4"
+    },
+    {
       "path": "tests/test_gemma_batch_reuse.py",
-      "bytes": 1963,
-      "sha256": "cdfb7074acbe53dc123881f7ccdb9818442428afd9b1179cea475519f79af58c"
+      "bytes": 3746,
+      "sha256": "2e5b0916e05a34c4aed93195295c5f93da73729fd5d60ad31f7d68c4452525e6"
     },
     {
       "path": "tests/test_gemma_reference_corrections.py",
@@ -2906,6 +3066,11 @@
       "path": "tests/test_gemma_sft.py",
       "bytes": 9641,
       "sha256": "daa20cf66e1cc3abf21d3d638e9cdcff6df1656f9017db2aa0a50ab0b3c27504"
+    },
+    {
+      "path": "tests/test_gpu_availability.py",
+      "bytes": 1835,
+      "sha256": "1df65e66e869502636cc9e719b26eec94a0f0e28a89e58e8c5d95fd5b6329d2a"
     },
     {
       "path": "tests/test_label_review.py",
@@ -2926,7 +3091,12 @@
       "path": "tests/test_salary_v3.py",
       "bytes": 5460,
       "sha256": "c2b37f3becce283c97adcf327b1c1e5e7369b950396e24082b426e80345c45d6"
+    },
+    {
+      "path": "tests/test_source_grounding.py",
+      "bytes": 1524,
+      "sha256": "3b9400fa06345f1b8a32622cd6d9eb11ebfffa80f8bfcc5190f9e68032a777e3"
     }
   ],
-  "generated_at_utc": "2026-10-18T05:23:03.871337+00:00"
+  "generated_at_utc": "2026-10-18T07:04:19.971383+00:00"
 }

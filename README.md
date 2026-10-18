@@ -30,7 +30,9 @@ không đạt guard validation cũ, nên giữ adapter web cũ và chưa chấm 
 Kết quả: [báo cáo reviewed v2](outputs/metrics/gemma_reviewed_v2/REPORT.md).
 [Audit nhãn tiếp theo](docs/GEMMA_LABEL_QUALITY_AUDIT.md) xác nhận reference còn thiếu;
 đã lưu 17 quyết định sửa có dẫn chứng. [Lượt corrected v2.2.0](docs/GEMMA_CORRECTED_FINETUNE.md)
-đang train thật 501 bước, LR2e-6; chưa có kết quả nghiệm thu, adapter web chưa đổi.
+đã hoàn tất501 bước, LR2e-6 nhưng không đạt regression guards; giữ adapter web cũ.
+Web hỗ trợ mô tả2048token, schema retry có lưu raw attempts và kỹ năng có bằng chứng nguồn;
+đây là [cải tiến luồng phục vụ đã kiểm chứng](docs/SERVING_IMPROVEMENTS.md), chưa phải giảm MAE lương.
 Corpus mới gồm 137 tin train mới + 364 replay, 31 validation và 33 test mới theo công ty.
 Lượt dữ liệu này dùng `make gemma-reviewed-plan` (không train) và
 `make gemma-reviewed-train` (**train thật 501 bước**, một candidate theo protocol).

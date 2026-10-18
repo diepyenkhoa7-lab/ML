@@ -64,6 +64,7 @@ class GemmaItem(BaseModel):
     value: GemmaLabel | None
     raw_output: str | None
     error: str | None
+    attempts: list[str] = Field(default_factory=list, max_length=2)
 
     @model_validator(mode="after")
     def check_outcome(self):
@@ -71,6 +72,8 @@ class GemmaItem(BaseModel):
             raise ValueError("Mỗi dòng phải có kết quả hoặc lỗi, không được thiếu/có cả hai")
         if self.value is not None and self.raw_output is None:
             raise ValueError("Thiếu đầu ra gốc của model")
+        if self.attempts and self.raw_output != self.attempts[-1]:
+            raise ValueError("Đầu ra cuối không khớp lịch sử suy luận")
         return self
 
 

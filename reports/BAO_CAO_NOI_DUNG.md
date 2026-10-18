@@ -2,7 +2,7 @@
 
 **Bản nội dung kỹ thuật để đưa vào mẫu giảng viên — chưa phải báo cáo cá nhân hoàn chỉnh.**
 
-STT, họ tên, MSSV, lớp, giảng viên và mẫu trình bày: chờ thông tin. Không tự tạo thông tin sinh viên. Các kết quả dưới đây dựa trên artifact đã lưu; lượt fine-tune đang chạy không được tính là kết quả hoàn tất.
+STT, họ tên, MSSV, lớp, giảng viên và mẫu trình bày: chờ thông tin. Không tự tạo thông tin sinh viên. Các kết quả dưới đây dựa trên artifact đã lưu; thử nghiệm không đạt được ghi rõ và không tự đưa vào ứng dụng.
 
 ## 1. Bài toán và phạm vi
 
@@ -53,7 +53,7 @@ Adapter đang dùng là `20261017T105728Z`, được chọn bằng validation tr
 
 Run `20261018T002705Z` hoàn tất 501 bước. Validation loss giảm 0,392→0,110 nhưng ba regression guard cũ không đạt nên không đưa lên web. Audit sau đó xác nhận reference còn thiếu kỹ năng và kinh nghiệm viết bằng chữ/dấu cộng; đã có quyết định sửa có dẫn chứng riêng. Không tính thay đổi điểm do sửa nhãn là model cải thiện.
 
-Corpus corrected v2.2.0 giữ prompt/company split, áp dụng policy nhãn sửa trước khi train. Run `20261018T051656Z` đang fine-tune 501 bước, LR 2e-6 từ adapter đang dùng. Chưa có kết quả nghiệm thu của lượt này. Chỉ thay adapter nếu validation mới/cũ và test mới đạt ngưỡng đã khóa. Test cũ không mở lại để tuning.
+Corpus corrected v2.2.0 giữ prompt/company split, áp dụng policy nhãn sửa trước khi train. Run `20261018T051656Z` đã fine-tune đủ 501 bước, LR 2e-6 từ adapter đang dùng. New validation F1 tăng 80,58%→82,35% nhưng legacy giảm 93,76%→91,94%, không đạt nghiệm thu nên giữ parent. Chỉ thay adapter nếu validation mới/cũ và test mới đạt ngưỡng đã khóa. Test cũ không mở lại để tuning.
 
 Metric Gemma gồm JSON validity, schema validity, exact accuracy từng trường và Skill micro F1. Loss chỉ theo dõi huấn luyện, không thay thế metric trích xuất hoặc MAE lương. Chính sách giữ checkpoint cũ và artifact riêng cho phép rollback.
 
@@ -75,9 +75,9 @@ Báo cáo thu nhập khảo sát và lương chào tuyển khác population/targ
 
 Đã có kiểm thử unit/integration cho chuẩn hóa, leakage/split, lineage/checksum, train/serve parity, contract Gemma, lựa chọn model, metric/export, API và frontend build. Bằng chứng API/browser của bản v2 đã lưu trong `outputs/research/2026-10-18/`; không coi kiểm thử phần mềm là chứng minh sai số dự đoán thấp.
 
-Các khó khăn chính là nhãn thiếu kỳ lương/gross-net, từ khóa kỹ năng không đầy đủ, tin tuyển nhiều vai trò, số năm mâu thuẫn, source thiếu provenance, ít công ty trong holdout mới, context Gemma 1024 token và thời gian chạy GPU. Cách xử lý là phân tầng chất lượng nhãn, giữ missing/null, audit câu nguồn, chia theo công ty, khóa protocol, giữ raw predictions, so model trên cùng tập và giữ bản cũ khi candidate giảm chất lượng. Worker đã có kiểm thử tái sử dụng mô tả trùng trong cùng request; kiểm chứng GPU của thay đổi này còn chờ lượt train kết thúc.
+Các khó khăn chính là nhãn thiếu kỳ lương/gross-net, từ khóa kỹ năng không đầy đủ, tin tuyển nhiều vai trò, số năm mâu thuẫn, source thiếu provenance, ít công ty trong holdout mới, context train Gemma 1.024 token, context web 2.048 token và thời gian chạy GPU. Cách xử lý là phân tầng chất lượng nhãn, giữ missing/null, audit câu nguồn, chia theo công ty, khóa protocol, giữ raw predictions, so model trên cùng tập và giữ bản cũ khi candidate giảm chất lượng. Worker đã có kiểm thử tái sử dụng mô tả trùng trong cùng request; GPU thật đã xác minh3 mô tả trùng dùng 1 lần sinh. Web có schema retry giới hạn, giữ raw attempts; kỹ năng dùng dự đoán từ mô tả cần literal evidence trong danh mục, raw Gemma giữ riêng.
 
-Phần còn cần hoàn thiện gồm nghiệm thu fine-tune corrected, hỗ trợ mô tả dài thuận tiện hơn, kiểm tra lại luồng app trên dữ liệu nhập đại diện, nguồn dữ liệu/nhãn độc lập tốt hơn và đóng gói báo cáo cá nhân đúng mẫu. Không cam kết sai số bằng 0 hoặc tối ưu toàn cục.
+Phần còn cần hoàn thiện gồm dữ liệu/validation mới cho một vòng model tiếp theo sau khi corrected không đạt, mở rộng danh mục kỹ năng và kiểm tra độ đúng nội dung trên dữ liệu nhập đại diện, nguồn dữ liệu/nhãn độc lập tốt hơn và đóng gói báo cáo cá nhân đúng mẫu. Không cam kết sai số bằng 0 hoặc tối ưu toàn cục.
 
 ## 9. Sản phẩm và tái lập
 
