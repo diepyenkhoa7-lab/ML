@@ -51,11 +51,19 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--candidate", type=Path, required=True)
     parser.add_argument("--with-new-test", action="store_true")
+    parser.add_argument("--data", type=Path, default=Path("data/finetune_reviewed/v2.0.0"))
+    parser.add_argument(
+        "--protocol", type=Path, default=Path("configs/gemma_reviewed_protocol.json")
+    )
+    parser.add_argument("--output", type=Path, default=Path("outputs/metrics/gemma_reviewed_v2"))
     args = parser.parse_args()
-    directory = ROOT / "outputs/metrics/gemma_reviewed_v2"
-    protocol_path = ROOT / "configs/gemma_reviewed_protocol.json"
+    directory = ROOT / args.output
+    protocol_path = ROOT / args.protocol
     protocol = json.loads(protocol_path.read_text())
-    dataset = Path("data/finetune_reviewed/v2.0.0")
+    dataset = args.data
+    if "dataset" in protocol:
+        assert str(dataset) == protocol["dataset"]
+        assert str(args.output) == protocol["evaluation_directory"]
     assert checksum(ROOT / dataset / "manifest.json") == protocol["new_sft_manifest_sha256"]
     new_base, bn = checked_metrics(directory / "baseline_new_valid", dataset, "valid")
     new_candidate, cn = checked_metrics(directory / "candidate_new_valid", dataset, "valid")
@@ -85,6 +93,11 @@ def main():
     assert manifest["sft_manifest_sha256"] == protocol["new_sft_manifest_sha256"]
     assert manifest["resume"]["data_transition"]["sha256"] == checksum(protocol_path)
     gates = validation_gates(bn, cn, bo, co, protocol["selection"])
+    if protocol["selection"].get("new_experience_must_not_decrease"):
+        gates["new_experience_guard"] = (
+            new_candidate["field_exact_accuracy"]["experience_years"]
+            >= new_base["field_exact_accuracy"]["experience_years"]
+        )
     result = dict(
         status="validation_completed",
         candidate=str(args.candidate),

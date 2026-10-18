@@ -1,0 +1,50 @@
+{
+  "version": "2.2.0",
+  "quality": "ai_reviewed_silver_not_human_gold",
+  "task": "job_card_extraction",
+  "max_seq_length": 1024,
+  "splits": {
+    "train": {
+      "examples": 501,
+      "source_records": 259,
+      "groups": 230,
+      "max_tokens": 891,
+      "sha256": "c4d99a0e4034ef899292772ebbd12afb3719a070c080d1c0f7ac48baa633fc75",
+      "corrected_records": 7
+    },
+    "valid": {
+      "examples": 31,
+      "source_records": 31,
+      "groups": 24,
+      "max_tokens": 849,
+      "sha256": "8b185881b613fbb13eda2ca714ff92066a64faea31e734a3dbbfa4c7e29268be",
+      "corrected_records": 10
+    },
+    "test": {
+      "examples": 33,
+      "source_records": 33,
+      "groups": 24,
+      "max_tokens": 709,
+      "sha256": "d1e561149a7a0125990056e407967abd66a28b9e177fd4284460cfbc19215a67",
+      "corrected_records": 1
+    }
+  },
+  "system_prompt": "Đọc phiếu tin tuyển dụng, trả đúng một JSON, không giải thích. Các khóa: role, location, experience_years, skills, salary_min, salary_max, currency, salary_period. Chuẩn hóa role về một trong: Software Developer, Backend Developer, Frontend Developer, Full-stack Developer, Mobile Developer, Embedded Engineer, ML Engineer, Data Engineer. Chuẩn địa điểm Hà Nội, TP.HCM, Đà Nẵng khi tương đương; giữ tên khác. Kỹ năng là danh sách tên công nghệ được nêu, chuẩn hóa alias thông dụng. Không suy số năm từ seniority. Không yêu cầu kinh nghiệm là 0. Thiếu thông tin trả null. Lương là số tiền hai cận theo tiền tệ/kỳ gốc, không lấy trung điểm, không đổi ngoại tệ. Không có số tiền lương thì salary_min, salary_max, currency, salary_period đều null. Kỳ lương: month hoặc year. Đọc đơn vị nguồn được ghi rõ trong phiếu, không đoán.",
+  "review_manifest_sha256": "da52c7404fbd0a27c27acbb9bdc9e51aac30162e0ab82a074cff90dc2f79ae14",
+  "parent_corpus_manifest_sha256": "8965e4f7ed264148e38ea91b23fcc8b2ad99ee072e8aaa0ff91d7e6d550cd846",
+  "replay_train_examples": 364,
+  "new_examples": 201,
+  "split_policy": "company-group seed20261018; new valid/test exclude parent training companies; old test never reused",
+  "builder_sha256": "3daaa6af87683841824f22b79d4b469e91b31db75af3c0832bab8c7d5422f7d7",
+  "limits": [
+    "AI-reviewed silver, not human gold",
+    "Extracted source sentences, not entire long ads",
+    "Experience metadata intentionally not input",
+    "Salary extraction, not salary regression"
+  ],
+  "correction_policy_sha256": "083cb25ab2ae9cade549ba91a9907f9abd2eeb0821a8cb350a636e282fe635f5",
+  "corrections_adjudicated_sha256": "9216b97bd8280f899275507a8016fdbeee6c0d77c8833f9e2d5706f9d7b9e0bd",
+  "test_reference_policy": "Blind deterministic label rebuild with policy fixed from train/validation; no test predictions, test-driven alias additions or training decisions. AI silver, not independent human gold.",
+  "prompts_and_company_assignments_unchanged": true,
+  "label_decisions_sha256": "66b71da8696beaefc427666ef65ad159948636a931c87afef585f5061ed57c81"
+}

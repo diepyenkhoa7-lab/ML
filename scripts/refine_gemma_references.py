@@ -83,10 +83,10 @@ def experience_with_words(content):
     return explicit_experience(normalized)
 
 
-def literal_skills(content):
+def literal_skills(content, aliases=None):
     """Closed alias inventory, literal evidence, longest span wins."""
     matches = []
-    for alias, canonical in (CANONICAL | ADDITIONS).items():
+    for alias, canonical in (CANONICAL | ADDITIONS | (aliases or {})).items():
         flags = 0 if alias in {"c", "r", "go"} else re.I
         literal = {"c": "C", "r": "R", "go": "Go"}.get(alias, alias)
         pattern = r"(?<![\w])" + re.escape(literal) + r"(?![\w+#&])"

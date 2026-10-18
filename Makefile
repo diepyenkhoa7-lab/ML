@@ -17,6 +17,7 @@ help:
 	@echo "validate-example | validate-sft | gemma-download | gemma-base | gemma-smoke | gemma-adapter | gemma-train"
 	@echo "gemma-adapter: TRAIN all train JSONL, EPOCHS=1 by default | gemma-plan-full | gemma-infer-adapter"
 	@echo "gemma-reviewed-plan: no training | gemma-reviewed-train: real frozen 501-step reviewed-data trial"
+	@echo "gemma-corrected-plan: no training | gemma-corrected-train: real 501-step corrected-label trial"
 	@echo "salary-train | data-fetch | data-profile | data-clean | test-data | data-split | data-verify"
 
 setup:
@@ -47,7 +48,7 @@ app: frontend-build
 	$(PYTHON) -m uvicorn backend.app.main:app --host 127.0.0.1 --port $(APP_PORT)
 
 app-test:
-	$(PYTHON) -m unittest tests.test_application tests.test_architecture_audit tests.test_salary_v2 tests.test_salary_v3 -v
+	$(PYTHON) -m unittest discover -s tests -v
 
 lab:
 	@mkdir -p "$(JUPYTER_RUNTIME_DIR)" "$(IPYTHONDIR)"
@@ -84,6 +85,13 @@ gemma-reviewed-plan:
 # Real training on the frozen reviewed corpus; one candidate under its locked protocol.
 gemma-reviewed-train:
 	$(PYTHON) scripts/gemma_train.py --config configs/gemma_reviewed.yaml --confirm-training --summarize
+
+.PHONY: gemma-corrected-plan gemma-corrected-train
+gemma-corrected-plan:
+	$(PYTHON) scripts/gemma_train.py --config configs/gemma_corrected.yaml
+
+gemma-corrected-train:
+	$(PYTHON) scripts/gemma_train.py --config configs/gemma_corrected.yaml --confirm-training --summarize
 
 gemma-train: validate-sft
 	$(PYTHON) scripts/gemma_train.py --config configs/gemma_train.yaml

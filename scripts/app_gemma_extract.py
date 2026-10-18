@@ -14,6 +14,41 @@ from scripts.gpu_lock import gpu_lock  # noqa: E402
 from scripts.prepare_gemma_sft import SYSTEM  # noqa: E402
 
 
+def extract_card_items(cards, tokenizer, model, generate, sampler):
+    """Reuse exact duplicate inputs within one request, preserving every row's identity."""
+    output, cache = [], {}
+    generation_calls = 0
+    for index, card in enumerate(cards):
+        if card in cache:
+            output.append(dict(cache[card], index=index))
+            continue
+        messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": card}]
+        prompt = tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
+        )
+        item = dict(index=index, input_sha256=digest(card), value=None, raw_output=None, error=None)
+        if len(tokenizer.encode(prompt)) + 256 > 1024:
+            item["error"] = "Mô tả vượt context 1.024 token; cần rút gọn, chưa cắt tự động"
+        else:
+            raw = generate(
+                model, tokenizer, prompt=prompt, max_tokens=256, sampler=sampler, verbose=False
+            )
+            generation_calls += 1
+            item["raw_output"] = raw
+            try:
+                item["value"] = GemmaLabel.model_validate(strict_json(raw.strip())).model_dump()
+            except (ValueError, TypeError) as exc:
+                item["error"] = f"JSON/schema không hợp lệ: {exc}"
+        cache[card] = item
+        output.append(item)
+    return output, dict(
+        unique_cards=str(len(cache)),
+        reused_rows=str(len(cards) - len(cache)),
+        generation_calls=str(generation_calls),
+        reuse_policy="exact input text, within this request only; no persistent input cache",
+    )
+
+
 def run(args):
     request = strict_json(args.input.read_text())
     cards = request["cards"]
@@ -50,30 +85,8 @@ def run(args):
 
     mx.random.seed(42)
     model, tokenizer = load(str(base), adapter_path=str(adapter))
-    output = []
-    for index, card in enumerate(cards):
-        messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content": card}]
-        prompt = tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True, enable_thinking=False
-        )
-        item = dict(index=index, input_sha256=digest(card), value=None, raw_output=None, error=None)
-        if len(tokenizer.encode(prompt)) + 256 > 1024:
-            item["error"] = "Mô tả vượt context 1.024 token; cần rút gọn, chưa cắt tự động"
-        else:
-            raw = generate(
-                model,
-                tokenizer,
-                prompt=prompt,
-                max_tokens=256,
-                sampler=make_sampler(temp=0.0),
-                verbose=False,
-            )
-            item["raw_output"] = raw
-            try:
-                item["value"] = GemmaLabel.model_validate(strict_json(raw.strip())).model_dump()
-            except (ValueError, TypeError) as exc:
-                item["error"] = f"JSON/schema không hợp lệ: {exc}"
-        output.append(item)
+    output, reuse = extract_card_items(cards, tokenizer, model, generate, make_sampler(temp=0.0))
+    provenance.update(reuse)
     batch = GemmaBatch(
         schema_version="career.gemma.batch.v1",
         request_id=request["request_id"],

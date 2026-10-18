@@ -29,7 +29,8 @@ Fine-tune reviewed đã hoàn tất 501 bước; F1 validation mới tăng 72,73
 không đạt guard validation cũ, nên giữ adapter web cũ và chưa chấm test mới.
 Kết quả: [báo cáo reviewed v2](outputs/metrics/gemma_reviewed_v2/REPORT.md).
 [Audit nhãn tiếp theo](docs/GEMMA_LABEL_QUALITY_AUDIT.md) xác nhận reference còn thiếu;
-đã lưu 17 quyết định sửa có dẫn chứng, chưa train vòng kế tiếp.
+đã lưu 17 quyết định sửa có dẫn chứng. [Lượt corrected v2.2.0](docs/GEMMA_CORRECTED_FINETUNE.md)
+đang train thật 501 bước, LR2e-6; chưa có kết quả nghiệm thu, adapter web chưa đổi.
 Corpus mới gồm 137 tin train mới + 364 replay, 31 validation và 33 test mới theo công ty.
 Lượt dữ liệu này dùng `make gemma-reviewed-plan` (không train) và
 `make gemma-reviewed-train` (**train thật 501 bước**, một candidate theo protocol).

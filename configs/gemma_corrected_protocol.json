@@ -1,0 +1,56 @@
+{
+  "version": "2.2.0",
+  "user_authorization": "2026-10-18: bắt đầu duyệt và fine tune",
+  "parent_adapter_file": "adapters/gemma-jobs/20261017T105728Z/adapters.safetensors",
+  "parent_adapter_sha256": "fceb60125606c8eb9bc5a89a656b0f7ef5338c2b3e4c78f8426e956c716c7287",
+  "parent_sft_manifest_sha256": "1fd675dfe8171ea0f0c2d306969f718bd4a219cbaaed6065f4042a36423776dd",
+  "new_sft_manifest_sha256": "0571312318f75992d7b5e8e35958225ba5dcd6d3f3d6017666359bb24023fe56",
+  "candidate_learning_rate": 2e-06,
+  "candidate_iterations": 501,
+  "candidate_epochs": 1,
+  "max_candidates": 1,
+  "old_test_policy": "never_reopen",
+  "quality": "AI reviewed silver, not human gold",
+  "selection": {
+    "primary": "new valid weighted score: 0.5 mean field exact + 0.3 Skill F1 + 0.2 schema validity",
+    "minimum_new_validation_score_gain": 0.005,
+    "minimum_new_validation_schema": 0.9,
+    "old_validation_max_score_drop": 0.01,
+    "old_validation_max_skill_f1_drop": 0.015,
+    "old_validation_max_schema_drop": 0.01,
+    "json_validity_must_not_decrease": true,
+    "new_experience_must_not_decrease": true
+  },
+  "test_policy": "If validation gates pass, once-only paired generation on 33 new sources with blind fixed-policy rebuilt silver labels; never reopen old Gemma test. No tuning after test.",
+  "test_guardrails": {
+    "minimum_independent_test_sources": 20,
+    "score_must_not_decrease": true,
+    "skill_f1_must_not_drop_more_than": 0.02,
+    "schema_must_not_drop_more_than": 0.03
+  },
+  "limitations": [
+    "No human gold reference",
+    "Old validation reused only as regression guard",
+    "New source sentences selected within 1024-token serving context",
+    "Extraction F1 does not measure salary-regression MAE",
+    "Label policy corrected using train/validation observations; not fresh unseen validation.",
+    "New test labels rebuilt blindly before training with a fixed rule policy; still silver, no human gold."
+  ],
+  "split_hashes": {
+    "train": "c4d99a0e4034ef899292772ebbd12afb3719a070c080d1c0f7ac48baa633fc75",
+    "valid": "8b185881b613fbb13eda2ca714ff92066a64faea31e734a3dbbfa4c7e29268be",
+    "test": "d1e561149a7a0125990056e407967abd66a28b9e177fd4284460cfbc19215a67"
+  },
+  "legacy_validation": {
+    "path": "data/finetune/valid.jsonl",
+    "sha256": "c6f0cefd41cda7b64894fdf59c9ea05d8432d28701756ea661ccef1775974f3c"
+  },
+  "dataset": "data/finetune_reviewed/v2.2.0",
+  "evaluation_directory": "outputs/metrics/gemma_corrected_v22",
+  "prior_experiment_selection_sha256": "d6b0d377a225ccf8e44383decc1561f032fcbf1e370384c91453f445d3e649e9",
+  "prior_protocol_sha256": "35f2629f485950d681acd0709c1f8f6ddefea24e217d1a24de2c9fbf73ddc4d7",
+  "experiment_limit": "Second and final candidate on these 31 validation sources; a further training experiment requires fresh validation sources.",
+  "hypothesis": "Correct literal skill/experience labels and reduce LR fivefold, starting from selected serving parent, to gain source-text extraction without legacy regression.",
+  "prior_protocol_file": "configs/gemma_reviewed_protocol.json",
+  "max_combined_candidates": 2
+}

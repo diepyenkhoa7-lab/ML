@@ -114,11 +114,19 @@ def check_transition_budget(plan, root=ROOT):
     protocol = json.loads((root / transition["path"]).read_text())
     assert checksum(root / transition["path"]) == transition["sha256"]
     previous = []
+    prior_hash = protocol.get("prior_protocol_sha256")
+    combined = 0
+    if protocol.get("max_combined_candidates"):
+        assert checksum(root / protocol["prior_protocol_file"]) == prior_hash
     for path in (root / "outputs/training_logs").glob("gemma_*/run.json"):
         record = json.loads(path.read_text())
         existing = (record.get("resume") or {}).get("data_transition")
         if existing and existing["sha256"] == transition["sha256"]:
             previous.append(path)
+        if existing and existing["sha256"] in {transition["sha256"], prior_hash}:
+            combined += 1
+    if protocol.get("max_combined_candidates") and combined >= protocol["max_combined_candidates"]:
+        raise ValueError("Combined trial budget exhausted; obtain fresh validation sources")
     if len(previous) >= protocol["max_candidates"]:
         raise ValueError(
             "Frozen reviewed-data trial budget exhausted; preserve run and use a new protocol"

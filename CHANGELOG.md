@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-18 — Chuẩn bị corrected v2.2 và khởi chạy fine-tune thật
+
+- Corpus501/31/33 giữ prompt/company split; sửa 7 train,10 valid và1 test bằng
+  policy cố định có bằng chứng. Test là blind rule-based silver, chưa chấm model.
+- Run `20261018T051656Z` đang train501 bước, LR2e-6 từ parent105728Z, optimizer
+  reset; guard cũ giữ nguyên và thêm experience valid mới không được giảm.
+  Ngân sách gộp hai lượt trên cùng31valid được kiểm tra; chưa có kết quả nghiệm thu.
+- Worker app tái sử dụng mô tả trùng trong cùng request, giữ đủ row/index/hash/raw/error;
+  2 CPU tests đạt, GPU smoke còn chờ training. Không giải quyết context dài ở mốc này.
+- 89 tests và Ruff66 đạt; app-test chạy full suite. Chuẩn bị nội dung kỹ thuật báo cáo,
+  chưa thay cho mẫu cá nhân và chưa tự điền thông tin sinh viên.
+
 ## 2026-10-18 — Sửa cơ sở đánh giá nhãn Gemma
 
 - Xác minh bỏ sót công nghệ và số năm dạng chữ/dấu cộng trong silver reference.

@@ -160,7 +160,17 @@ Audit các mẫu mới xác nhận một trường experience bị null và các
 
 `data/annotation/gemma_v2.1.1/` lưu manifest, adjudicated changes và cached diagnostic. v2.1.0 chỉ là draft audit đầu; builder snapshot/hash và old references/protocol/model/web/test được giữ. Cached prediction theo corrected reference cho F1 parent 0,805825 và candidate 0,857143. Đây là label-sensitivity diagnostic, không phải model improvement hay promotion; chưa tạo corpus/train mới và chưa mở test.
 
+## 17. Corpus corrected v2.2.0 và run Gemma đang thực hiện
+
+`scripts/prepare_gemma_corrected.py` đã tạo corpus `data/finetune_reviewed/v2.2.0` với 501/31/33 mẫu, giữ prompt và company split. Có 7 train và 10 validation label thay đổi; 33 test được rebuild bằng policy cố định suy ra từ train/validation, không dùng prediction/test để thêm alias, và chỉ 1 test label thay đổi. Đây là silver rule-based mù, chưa phải human review độc lập; test mới chưa được chấm model.
+
+Protocol `configs/gemma_corrected_protocol.json` đã khóa: 501 mẫu, learning rate 2e-6, parent `105728Z`, một candidate trong vòng này, tối đa hai candidate tính cả vòng cũ trên 31 validation; old guards giữ nguyên và thêm guard experience không giảm. Run thật `20261018T051656Z` đang chạy ở session 54040; log tại `/private/tmp/gemma_corrected_training.log`, artifact tại `outputs/training_logs/gemma_20261018T051656Z/run.json`, validation loss ban đầu 0,343. Run chưa hoàn tất và chưa có metric mới; không ghi đây là hiệu quả hay promotion.
+
+App worker đã thêm reuse exact duplicate text trong cùng request, đồng thời giữ index/hash/raw/error theo từng dòng; hai CPU tests đạt. GPU chưa kiểm chứng vì máy đang train.
+
 Bản source copy của mốc label audit đã vượt qua 84 tests, Ruff62, kiểm tra frozen/strict SFT và cài/build frontend offline; bằng chứng `data/annotation/gemma_v2.1.1/source_export.json`.
+
+Mốc chuẩn bị corrected v2.2 cũng đã qua 89 tests/Ruff66 và source-copy install/build offline, bằng chứng `outputs/metrics/gemma_corrected_v22/source_export_preparation.json`. Nội dung kỹ thuật báo cáo ở `reports/BAO_CAO_NOI_DUNG.md` đã có; vẫn chưa phải báo cáo cá nhân đúng mẫu. Lượt train còn đang chạy, chưa có kết luận chất lượng.
 
 ## Tài liệu và bằng chứng chính
 

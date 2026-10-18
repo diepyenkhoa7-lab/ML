@@ -24,18 +24,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 12329,
-      "sha256": "3b246482f07ce1419d06b960e2a2cf1dcd6882d5963c032407a9eb3aebb47243"
+      "bytes": 13272,
+      "sha256": "b26745665201a7e47b8ea0c80c03d8e8feee2e1aa925435833e2e2602681277f"
     },
     {
       "path": "Makefile",
-      "bytes": 4243,
-      "sha256": "6404bd3f04dc36857c6886b52d478f191ee0b1b99086a61a272d83edbde36f58"
+      "bytes": 4543,
+      "sha256": "3fc8950ee0a9563381f63bdbe4b6e25420c4beb478c88a8a3474a619aaccf1bd"
     },
     {
       "path": "README.md",
-      "bytes": 13500,
-      "sha256": "eae50fea8e4406348b6350ed949d63ce6fefc1eeada4a792d371782acff4b81b"
+      "bytes": 13632,
+      "sha256": "86bf00a41233a68a3cdd4adda0025b847768d1bd43cfd38ea79e83399c2ef6ef"
     },
     {
       "path": "adapters/README.md",
@@ -226,6 +226,16 @@
       "path": "configs/gemma_continue_100.yaml",
       "bytes": 535,
       "sha256": "f04cb0dd66abd557c81c4663663d679487ccf408d0bc33123353a31868991060"
+    },
+    {
+      "path": "configs/gemma_corrected.yaml",
+      "bytes": 542,
+      "sha256": "b66b2506699f96b5f23951f48c2b42900762610ecef4c3da2e23fb25d8ad6273"
+    },
+    {
+      "path": "configs/gemma_corrected_protocol.json",
+      "bytes": 3108,
+      "sha256": "a32d69da8a6c9bc81a3456ef12f9d00f1a5168243edd683a903906b9010c6248"
     },
     {
       "path": "configs/gemma_full.yaml",
@@ -491,6 +501,31 @@
       "path": "data/finetune_reviewed/v2.0.0/valid.jsonl",
       "bytes": 81986,
       "sha256": "cd902ede4b2f91e9805a842e539955836c72360ae5f973156cf596f4123cda06"
+    },
+    {
+      "path": "data/finetune_reviewed/v2.2.0/label_decisions.jsonl",
+      "bytes": 60088,
+      "sha256": "66b71da8696beaefc427666ef65ad159948636a931c87afef585f5061ed57c81"
+    },
+    {
+      "path": "data/finetune_reviewed/v2.2.0/manifest.json",
+      "bytes": 3094,
+      "sha256": "0571312318f75992d7b5e8e35958225ba5dcd6d3f3d6017666359bb24023fe56"
+    },
+    {
+      "path": "data/finetune_reviewed/v2.2.0/test.jsonl",
+      "bytes": 86054,
+      "sha256": "d1e561149a7a0125990056e407967abd66a28b9e177fd4284460cfbc19215a67"
+    },
+    {
+      "path": "data/finetune_reviewed/v2.2.0/train.jsonl",
+      "bytes": 1126878,
+      "sha256": "c4d99a0e4034ef899292772ebbd12afb3719a070c080d1c0f7ac48baa633fc75"
+    },
+    {
+      "path": "data/finetune_reviewed/v2.2.0/valid.jsonl",
+      "bytes": 82341,
+      "sha256": "8b185881b613fbb13eda2ca714ff92066a64faea31e734a3dbbfa4c7e29268be"
     },
     {
       "path": "data/processed/cleaned/user_vietnam_it_jobs/clean.csv",
@@ -1054,13 +1089,18 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 2884,
-      "sha256": "549b01afa25cd955f8c9f073b3f442f5108c87d76f95846cfa370fefcd6e9681"
+      "bytes": 3124,
+      "sha256": "ba8e2256419012fd7c07a9f51c1094737d0402ef4fbf115af9ca8c1a3b7081f7"
     },
     {
       "path": "docs/ENVIRONMENT_STATUS.md",
       "bytes": 2927,
       "sha256": "7a0d64cface6e650efa74ce23e27ac5a04072f4081407fdabaf91731437a23e0"
+    },
+    {
+      "path": "docs/GEMMA_CORRECTED_FINETUNE.md",
+      "bytes": 4194,
+      "sha256": "f9f035bbe45f36e70d4069ffab7e64adb0aba4d038614fafe51155a96e024608"
     },
     {
       "path": "docs/GEMMA_FULL_TRAINING.md",
@@ -1089,8 +1129,8 @@
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 29302,
-      "sha256": "909609a921388dd5ef3fd9771ef402daf636f3d04bd1a1fd65e912af51c8dce8"
+      "bytes": 31034,
+      "sha256": "66f1a2eafa6c6c8e2cf41adf9600205f494ee4a241914e46aea49c40339892e8"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
@@ -1503,6 +1543,11 @@
       "sha256": "9282f707d1104c5db4f6082304eb6e5a5a351538b5be5d8b24be51d928a34d3e"
     },
     {
+      "path": "outputs/gemma_preparation/gemma_corrected_plan.json",
+      "bytes": 2590,
+      "sha256": "6962c0404db86751f5db9f4215087815e2039fbbfd6c270886b302007e701bb8"
+    },
+    {
       "path": "outputs/gemma_preparation/gemma_full_1epochs.yaml",
       "bytes": 388,
       "sha256": "13f0d61d3e37dc8dfd51bf25aa3ed2a16adc63b4dd0c4c1a49eef293f2023d5a"
@@ -1711,6 +1756,26 @@
       "path": "outputs/metrics/gemma_20261017T111205Z_adapter_valid/predictions.jsonl",
       "bytes": 27019,
       "sha256": "18bce10d05670781c06df08c3fe4cf4355c2433a711df4f7c1da262f59df52ba"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/baseline_new_valid/metrics.json",
+      "bytes": 1693,
+      "sha256": "814a8918de7f1bbd444cc40e3669f9ebba55a9fd4046d95956bdb620dc87a91d"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/baseline_new_valid/predictions.jsonl",
+      "bytes": 11485,
+      "sha256": "ce4cfe4207e668e13c96622b6bc0ce0974c948347660175b229f76afff8cd751"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/launch_record.json",
+      "bytes": 3329,
+      "sha256": "4564c2b545bd61323b997c2feb1cf238f0ca4c799bbc4b70022efb068d311627"
+    },
+    {
+      "path": "outputs/metrics/gemma_corrected_v22/source_export_preparation.json",
+      "bytes": 5130,
+      "sha256": "2317b2e4451491f97eea49e2ee133de1ed0f48e4d103d93c1cbc58170bda6d80"
     },
     {
       "path": "outputs/metrics/gemma_reviewed_v2/REPORT.md",
@@ -2563,6 +2628,11 @@
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
+      "path": "reports/BAO_CAO_NOI_DUNG.md",
+      "bytes": 12318,
+      "sha256": "de208625e1d3228809d24ced2d98f8d644e6e090c6775d7e443cd86584b5e5c1"
+    },
+    {
       "path": "requirements-dev.txt",
       "bytes": 82,
       "sha256": "0d84190787440797bb0e5fdf8b4949f0c366a8dab36b8bcc9237fcc2996d2710"
@@ -2589,8 +2659,8 @@
     },
     {
       "path": "scripts/app_gemma_extract.py",
-      "bytes": 3885,
-      "sha256": "dcdf2f64236da2eff3721b21a67c026ee0176fcf0789d8270cf5ead936425f1e"
+      "bytes": 4541,
+      "sha256": "18f948123f08e90fe6983bea5d70b73b3e3d7d0187a1208554bbc9ef0e04dee9"
     },
     {
       "path": "scripts/check_env.py",
@@ -2619,8 +2689,8 @@
     },
     {
       "path": "scripts/compare_reviewed_gemma.py",
-      "bytes": 6524,
-      "sha256": "849eaad0953a6cee46b78f6983865a0c5a0f8f031b240c6679b5df6ea2286639"
+      "bytes": 7163,
+      "sha256": "15b2756aa8e139e7dad42e7fa55fbf0808b62098686cd7a8ae725ace9276853c"
     },
     {
       "path": "scripts/compare_salary_reports.py",
@@ -2664,8 +2734,8 @@
     },
     {
       "path": "scripts/gemma_train.py",
-      "bytes": 9796,
-      "sha256": "cf88bd3bcac2e8cba7e29e38bd80f4d34e3d6d651a0e24b4ecb37fb2fa951ac8"
+      "bytes": 10295,
+      "sha256": "38df4cfcb79c080b842aa157d3e84aba0fde3a545fdd01879ec7fe5d74cbb4ec"
     },
     {
       "path": "scripts/gpu_lock.py",
@@ -2676,6 +2746,11 @@
       "path": "scripts/label_review.py",
       "bytes": 11072,
       "sha256": "7a7c0723a5fa56cae7863e0415982f92fecc51de79b97ef141044c438efb568c"
+    },
+    {
+      "path": "scripts/prepare_gemma_corrected.py",
+      "bytes": 5063,
+      "sha256": "3daaa6af87683841824f22b79d4b469e91b31db75af3c0832bab8c7d5422f7d7"
     },
     {
       "path": "scripts/prepare_gemma_sft.py",
@@ -2709,18 +2784,23 @@
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 10906,
-      "sha256": "22ed7d7081083114cbf1989701958c8e398312b9da848e5d4851163595e5f9e5"
+      "bytes": 10986,
+      "sha256": "7f6fbc1aff0b3eca70660acd11649e8388f0a91fc72412ebe9de0e9c6d4f80a3"
     },
     {
       "path": "scripts/refine_gemma_references.py",
-      "bytes": 6353,
-      "sha256": "28936dcbf46871e47d45c5334061ec841f76b6d81a8ca438d18d4dfa01454ffb"
+      "bytes": 6385,
+      "sha256": "083cb25ab2ae9cade549ba91a9907f9abd2eeb0821a8cb350a636e282fe635f5"
     },
     {
       "path": "scripts/report_gemma_tuning.py",
       "bytes": 5850,
       "sha256": "c6a4c0de4006197c3030f4ffb8629e6bb09ee0e7b3a8b6d2b5baddd2955bdba8"
+    },
+    {
+      "path": "scripts/rescore_gemma_references.py",
+      "bytes": 2862,
+      "sha256": "fd00357279e2e118366f3114e465af86c5da81d2635d14302d30a1f646b56528"
     },
     {
       "path": "scripts/review_gemma_labels.py",
@@ -2798,9 +2878,19 @@
       "sha256": "a1e09e9f54c80f5fb614a2edd5e14cc27c0b329720a66943204050a8d1873b82"
     },
     {
+      "path": "tests/test_corrected_gemma_corpus.py",
+      "bytes": 3237,
+      "sha256": "2a2134700d71a9d5a173e7a8bb2960ef29680accf482913436101fb73fe2852b"
+    },
+    {
       "path": "tests/test_data_cleaning.py",
       "bytes": 14811,
       "sha256": "dcd6507bd89c4e21145dc001867e627d12b03ed758ff59ec86f381af2b96a123"
+    },
+    {
+      "path": "tests/test_gemma_batch_reuse.py",
+      "bytes": 1963,
+      "sha256": "cdfb7074acbe53dc123881f7ccdb9818442428afd9b1179cea475519f79af58c"
     },
     {
       "path": "tests/test_gemma_reference_corrections.py",
@@ -2838,5 +2928,5 @@
       "sha256": "c2b37f3becce283c97adcf327b1c1e5e7369b950396e24082b426e80345c45d6"
     }
   ],
-  "generated_at_utc": "2026-10-18T05:13:22.869568+00:00"
+  "generated_at_utc": "2026-10-18T05:23:03.871337+00:00"
 }
