@@ -1,0 +1,171 @@
+{
+  "status": "passed",
+  "scope": "Invented functional profiles, not salary quality evaluation",
+  "job_id": "5f57b51f901c4be9a3c8f1e444d8d48d",
+  "profiles": [
+    {
+      "role": "Backend Developer",
+      "level": "Junior",
+      "experience_years": 3,
+      "location": "Hà Nội",
+      "skills": [
+        "Python",
+        "SQL"
+      ]
+    },
+    {
+      "role": "ML Engineer",
+      "level": "Junior",
+      "experience_years": 0,
+      "location": "Hà Nội",
+      "skills": [
+        "Python",
+        "scikit-learn",
+        "TensorFlow",
+        "Spark",
+        "Machine Learning"
+      ]
+    }
+  ],
+  "summary": {
+    "rows": 2,
+    "predicted": 1,
+    "invalid": 1,
+    "duplicates": 0,
+    "labeled": 0,
+    "unique_jobs": 1,
+    "median_prediction_vnd": 26508883.0,
+    "skill_count": 2
+  },
+  "rows": [
+    {
+      "role": "Backend Developer",
+      "level": "Junior",
+      "location": "Hà Nội",
+      "experience_years": 3.0,
+      "skills": [
+        "Python",
+        "SQL"
+      ],
+      "salary_monthly_vnd": null,
+      "salary_status": "missing",
+      "posted_date": null,
+      "warnings": [],
+      "errors": [],
+      "extraction": null,
+      "skill_evidence": null,
+      "gemma_status": "not_used",
+      "source_row": 1,
+      "input": {
+        "role": "Backend Developer",
+        "level": "Junior",
+        "experience_years": 3,
+        "location": "Hà Nội",
+        "skills": [
+          "Python",
+          "SQL"
+        ]
+      },
+      "duplicate_of": null,
+      "status": "ok",
+      "predicted_salary_vnd": 26508883,
+      "ridge_salary_vnd": 26508883,
+      "random_forest_salary_vnd": 23869167,
+      "comparison_salary_vnd": 23869167,
+      "error_vnd": null
+    },
+    {
+      "role": "ML Engineer",
+      "level": "Junior",
+      "location": "Hà Nội",
+      "experience_years": 0.0,
+      "skills": [
+        "Machine Learning",
+        "Python",
+        "scikit-learn",
+        "Spark",
+        "TensorFlow"
+      ],
+      "salary_monthly_vnd": null,
+      "salary_status": "missing",
+      "posted_date": null,
+      "warnings": [
+        "Kinh nghiệm ngoài khoảng quan sát trong train"
+      ],
+      "errors": [
+        "Hồ sơ ngoài phạm vi dự đoán lương dương, hữu hạn của Ridge; kiểm tra thông tin hoặc bổ sung dữ liệu phù hợp."
+      ],
+      "extraction": null,
+      "skill_evidence": null,
+      "gemma_status": "not_used",
+      "source_row": 2,
+      "input": {
+        "role": "ML Engineer",
+        "level": "Junior",
+        "experience_years": 0,
+        "location": "Hà Nội",
+        "skills": [
+          "Python",
+          "scikit-learn",
+          "TensorFlow",
+          "Spark",
+          "Machine Learning"
+        ]
+      },
+      "duplicate_of": null,
+      "status": "invalid",
+      "predicted_salary_vnd": null,
+      "ridge_salary_vnd": null,
+      "random_forest_salary_vnd": null,
+      "comparison_salary_vnd": null,
+      "error_vnd": null,
+      "prediction_diagnostic": {
+        "ridge": -210012.27317333594,
+        "random_forest": 21450416.666666668
+      }
+    }
+  ],
+  "warnings": [
+    "Metric trên bảng nhập chỉ là độ khớp tại đây, không thay thế test độc lập.",
+    "Lương dự đoán: VND/tháng; gross/net chưa xác định. Không phải cam kết thu nhập.",
+    "Có 1 dòng ngoài phạm vi dự đoán lương dương/hữu hạn; đã loại khỏi biểu đồ và metric, giữ nguyên trong bảng lỗi. Metric chỉ mô tả các dòng được chấp nhận, không chứng minh sai số model giảm.",
+    "Không có nhãn lương VND/tháng hợp lệ; không tính MAE/RMSE/R².",
+    "Không có ngày đăng hợp lệ; chỉ thể hiện thống kê tại bảng, không có xu hướng thời gian."
+  ],
+  "zip_file_hashes_verified": 9,
+  "model": {
+    "experiment_id": "v2_042e3aa1a886",
+    "selected_model": "ridge",
+    "train_jobs": 1157,
+    "historical_test": {
+      "samples": 30,
+      "mae_vnd": 4433433.415141519,
+      "rmse_vnd": 5663783.210040249,
+      "r2": 0.5403544391868733,
+      "median_absolute_error_vnd": 3492286.613104712,
+      "within_5m": 0.6
+    },
+    "label_quality": "silver explicit + optional weak-period TRAIN ONLY",
+    "train_label_counts": {
+      "assumed_month_train_only": 1078,
+      "explicit_month": 79
+    }
+  },
+  "limits": "No training, test reevaluation or MAE improvement claim; rejected profile preserved and excluded from charts/metrics",
+  "final_export_check": {
+    "job_id": "e3be9a39b5594cec86d84380193d9ecc",
+    "summary": {
+      "rows": 2,
+      "predicted": 1,
+      "invalid": 1,
+      "duplicates": 0,
+      "labeled": 0,
+      "unique_jobs": 1,
+      "median_prediction_vnd": 26508883.0,
+      "skill_count": 2
+    },
+    "coverage_warning_in_export": true,
+    "source_hash_matches_current": true,
+    "zip_hashes_verified": 9
+  }
+}

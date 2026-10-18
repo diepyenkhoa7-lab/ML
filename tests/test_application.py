@@ -246,6 +246,72 @@ class ApplicationTests(unittest.TestCase):
             self.client.post("/api/career/advice", json=dict(role="Accountant")).status_code, 422
         )
 
+    def test_real_negative_ridge_profile_isolated_from_batch_metrics_and_exports(self):
+        frame = pd.DataFrame(
+            [
+                dict(
+                    role="Backend Developer",
+                    level="Junior",
+                    experience_years=3,
+                    location="Hà Nội",
+                    skills="Python;SQL",
+                    salary_monthly_vnd=20e6,
+                ),
+                dict(
+                    role="ML Engineer",
+                    level="Junior",
+                    experience_years=0,
+                    location="Hà Nội",
+                    skills="Python;scikit-learn;TensorFlow;Spark;Machine Learning",
+                    salary_monthly_vnd=20e6,
+                ),
+            ]
+        )
+        identifier, result = self.run_job(frame)
+        rows = self.client.get(f"/api/analyses/{identifier}/rows").json()["rows"]
+        self.assertEqual(result["summary"]["predicted"], 1)
+        self.assertEqual(result["summary"]["invalid"], 1)
+        self.assertEqual(result["summary"]["labeled"], 1)
+        self.assertEqual(rows[0]["status"], "ok")
+        self.assertEqual(rows[1]["status"], "invalid")
+        self.assertLess(rows[1]["prediction_diagnostic"]["ridge"], 0)
+        self.assertIsNone(rows[1]["predicted_salary_vnd"])
+        self.assertIsNone(rows[1]["error_vnd"])
+        self.assertTrue(any("Ridge" in e for e in rows[1]["errors"]))
+        self.assertTrue(all(m["samples"] == 1 for m in result["metrics"].values()))
+        archive = zipfile.ZipFile(
+            io.BytesIO(
+                self.client.get(f"/api/analyses/{identifier}/artifacts/analysis.zip").content
+            )
+        )
+        self.assertIsNone(archive.testzip())
+        exported = json.loads(archive.read("results.json"))
+        self.assertEqual(len(exported), 2)
+        self.assertIsNone(exported[1]["ridge_salary_vnd"])
+        self.assertIn("không chứng minh sai số model giảm", archive.read("report.md").decode())
+
+    def test_nonfinite_or_zero_prediction_does_not_fail_other_rows(self):
+        for bad in [float("nan"), float("inf"), 0.0]:
+            with (
+                self.subTest(bad=bad),
+                patch(
+                    "backend.app.services.salary.SalaryService.predict",
+                    return_value={"ridge": [20e6, bad], "random_forest": [21e6, 22e6]},
+                ),
+            ):
+                identifier, result = self.run_job(
+                    pd.DataFrame(
+                        [
+                            dict(role="Backend Developer", skills="Python", experience_years=2),
+                            dict(role="Backend Developer", skills="Python", experience_years=3),
+                        ]
+                    )
+                )
+                rows = self.client.get(f"/api/analyses/{identifier}/rows").json()["rows"]
+                self.assertEqual(result["summary"]["predicted"], 1)
+                self.assertEqual(rows[1]["status"], "invalid")
+                self.assertIsNone(rows[1]["predicted_salary_vnd"])
+
     def test_ridge_selected_in_api_exports_and_per_model_metrics(self):
         profile = dict(
             role="Backend Developer",

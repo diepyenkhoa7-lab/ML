@@ -9,7 +9,7 @@
 | Giá trị kỹ năng | Thống kê theo vai trò, số mẫu và mức lương | Đã có thống kê và hệ số Ridge trên train; không suy nhân quả |
 | Gemma | google/gemma-4-E4B-it + adapter + so sánh trước/sau | Adapter web 105728Z; reviewed candidate 501 bước không đạt regression guards; corrected run 051656Z đã hoàn tất nhưng không đạt; web giữ parent. Xem GEMMA_LABEL_QUALITY_AUDIT.md |
 | Ứng dụng tư vấn | Hồ sơ → lương → đề xuất kỹ năng → giải thích | Đã có Vue/FastAPI, dự đoán RF/Ridge và gợi ý có hỗ trợ từ train; xem APP_RUNBOOK.md |
-| Báo cáo cá nhân | `STT_Họ và tên_MSSV`, theo mẫu giảng viên | Đã có reports/BAO_CAO_NOI_DUNG.md làm nội dung kỹ thuật; chưa có mẫu hoặc thông tin sinh viên, chưa phải file báo cáo cá nhân hoàn tất |
+| Báo cáo cá nhân | `STT_Họ và tên_MSSV`, theo mẫu giảng viên | Người dùng đã loại khỏi phạm vi công việc ngày 18/10/2026; không dùng mẫu/thông tin sinh viên làm điều kiện chặn. Giữ nội dung kỹ thuật hiện có làm tài liệu tham khảo |
 | Link dự án | GitHub/GitLab truy cập được, README chạy lại | Remote theihoz/ML; nhánh publish/salary-gemma-prep |
 | Dataset | File dữ liệu thật + nguồn, quyền sử dụng | Đã có `make submission-data`: ZIP gồm 42 file dữ liệu/nguồn/lineage + manifest, kiểm tra CRC/SHA/số dòng; xem DATASET_HANDOFF.md. Một số xuất xứ/điều khoản còn chưa xác định |
 | Demo | Kịch bản, model/adapter, môi trường chạy ổn định | Có DEMO_SCRIPT.md; browser đã kiểm chứng bảng/mô tả → Gemma → Ridge/RF → biểu đồ → ZIP và hồ sơ → dự đoán/gợi ý; có ảnh thật và API tám vai trò. Chưa xác nhận buổi báo cáo trước giảng viên |

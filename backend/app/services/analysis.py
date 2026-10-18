@@ -73,6 +73,7 @@ def export_results(rows, folder, report):
         "Nhãn nguồn silver, gross/net có thể chưa rõ; gợi ý kỹ năng không phải tác động nhân quả.",
         "",
     ]
+    lines.extend(["## Lưu ý của lượt phân tích", "", *["- " + w for w in report["warnings"]]])
     (folder / "report.md").write_text("\n".join(lines))
     files = ["results.csv", "results.xlsx", "results.json", "report.md"] + [
         c["file"] for c in report["charts"]
@@ -215,8 +216,23 @@ def analyze(dataset, options, folder: Path, progress):
         predictions = model.predict(valid)
         for i, row in enumerate(valid):
             rf, ridge = predictions["random_forest"][i], predictions["ridge"][i]
-            if not math.isfinite(rf) or not math.isfinite(ridge):
-                raise ValueError("Model trả kết quả không hữu hạn")
+            unsupported = [
+                name
+                for name, value in [("Random Forest", rf), ("Ridge", ridge)]
+                if not math.isfinite(value) or value <= 0
+            ]
+            if unsupported:
+                row["status"] = "invalid"
+                row["errors"].append(
+                    "Hồ sơ ngoài phạm vi dự đoán lương dương, hữu hạn của "
+                    + ", ".join(unsupported)
+                    + "; kiểm tra thông tin hoặc bổ sung dữ liệu phù hợp."
+                )
+                row["prediction_diagnostic"] = {
+                    name: float(value) if math.isfinite(value) else None
+                    for name, value in [("ridge", ridge), ("random_forest", rf)]
+                }
+                continue
             chosen = predictions[model.selected_model][i]
             other = ridge if model.selected_model == "random_forest" else rf
             row.update(
@@ -227,6 +243,7 @@ def analyze(dataset, options, folder: Path, progress):
             )
             if row["salary_monthly_vnd"] is not None:
                 row["error_vnd"] = round(chosen - row["salary_monthly_vnd"])
+    valid = [r for r in valid if r["status"] == "ok"]
     unique = [r for r in valid if r["duplicate_of"] is None]
     labeled = [r for r in unique if r["salary_monthly_vnd"] is not None]
     metrics = {}
@@ -249,6 +266,13 @@ def analyze(dataset, options, folder: Path, progress):
         "Metric trên bảng nhập chỉ là độ khớp tại đây, không thay thế test độc lập.",
         "Lương dự đoán: VND/tháng; gross/net chưa xác định. Không phải cam kết thu nhập.",
     ]
+    rejected_predictions = sum("prediction_diagnostic" in row for row in rows)
+    if rejected_predictions:
+        warnings.append(
+            f"Có {rejected_predictions} dòng ngoài phạm vi dự đoán lương dương/hữu hạn; "
+            "đã loại khỏi biểu đồ và metric, giữ nguyên trong bảng lỗi. "
+            "Metric chỉ mô tả các dòng được chấp nhận, không chứng minh sai số model giảm."
+        )
     if not labeled:
         warnings.append("Không có nhãn lương VND/tháng hợp lệ; không tính MAE/RMSE/R².")
     if not any(r["posted_date"] for r in unique):

@@ -56,6 +56,11 @@ Mỗi dòng giữ source_row và các cột gốc dưới tiền tố input_. D�
 không đi vào model. Trùng hoàn toàn giữ dự đoán nhưng loại khỏi metric/biểu đồ.
 CSV/XLSX escape chuỗi giống công thức; JSON giữ giá trị gốc.
 
+Nếu Ridge hoặc RF trả lương không dương/không hữu hạn, dòng đó được đánh dấu lỗi
+ngoài phạm vi và giữ trong bảng xuất, không đưa vào biểu đồ hay metric. Không
+ép lương về 0 hoặc tự đổi sang model khác. Các dòng còn lại vẫn xử lý; metric
+chỉ phản ánh các dòng được chấp nhận, không phải bằng chứng sai số model giảm.
+
 ## Tư vấn nghề nghiệp
 
 Chọn vai trò, cấp bậc, kinh nghiệm, khu vực, kỹ năng → Dự đoán & xem gợi ý.

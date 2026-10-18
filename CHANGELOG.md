@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-18 — Chặn dự đoán lương âm và cô lập lỗi theo dòng
+
+- Tái hiện bằng model thật: hồ sơ ML Engineer/Junior/0 năm/Python-scikit-learn-
+  TensorFlow-Spark-Machine Learning cho Ridge âm; tư vấn đã từ chối nhưng batch chưa chặn.
+- Batch nay đánh dấu ngoài phạm vi nếu một model trả số không dương/không hữu hạn,
+  giữ diagnostic và dòng lỗi trong export, loại khỏi chart/metric, tiếp tục dòng khác.
+  Không clamp hoặc ngầm thay model; cảnh báo metric chỉ trên các dòng được chấp nhận.
+- Hai regression tests mới gồm model thật và NaN/Inf/0; full suite 99 tests và Ruff đạt.
+- Người dùng bỏ báo cáo cá nhân khỏi phạm vi mục tiêu; không còn chờ mẫu/STT/MSSV.
+
 ## 2026-10-18 — Bổ sung EDA đúng phiên bản salary v2 vào báo cáo
 
 - Notebook 04 phân tích 79 strict train/69 công ty, không trộn 1.078 weak train

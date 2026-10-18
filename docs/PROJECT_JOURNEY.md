@@ -204,6 +204,14 @@ Notebook `notebooks/04_salary_v2_eda.ipynb` đã chạy 5 cell code và tạo 5 
 
 Source copy đã chạy lại toàn notebook; summary, bảng và hash 5 PNG giống nhau, 6 liên kết ảnh trong báo cáo resolve thành công (`outputs/eda/salary_v2_strict_train_042e3aa1a886/source_copy_verification.json`). Đây là EDA mô tả, không train, không đổi weights hay mở test; nhãn strict vẫn là silver. Báo cáo kỹ thuật có thêm các biểu đồ này và ảnh UI, nhưng báo cáo cá nhân vẫn thiếu mẫu và identity sinh viên.
 
+## 21. Kiểm soát prediction ngoài miền giá trị
+
+Người dùng đã loại báo cáo cá nhân khỏi phạm vi hiện tại. Khi kiểm tra hồ sơ ML Engineer Junior, 0 năm, Hà Nội, Python/scikit-learn/TensorFlow/Spark/Machine Learning, model Ridge thật trả `-210012.273` VND. Backend được sửa để coi prediction `<=0` hoặc nonfinite là invalid riêng dòng, giữ diagnostic riêng, không clamp/fallback, loại dòng đó khỏi charts/metrics, tiếp tục xử lý các dòng khác và cảnh báo coverage.
+
+Hai test mới và full 99 tests cùng Ruff 71 đạt. Live API server mới trong `outputs/app_verification/prediction_domain/live_api.json` kiểm chứng 2 dòng: 1 predicted, 1 invalid, 0 labels; ZIP 9 file đã verify hash, job `5f57b51f901c4be9a3c8f1e444d8d48d`. Đây là sửa xử lý miền giá trị và bằng chứng serving, không train, không đổi weights/frozen metrics và không phải claim giảm MAE.
+
+Bản xuất cuối của lượt sửa cũng giữ cảnh báo coverage trong report.md; job `e3be9a39b5594cec86d84380193d9ecc` xác minh checksum code đang chạy và 9 file trong ZIP. Source copy vượt 99 tests và tạo lại dataset ZIP giống từng byte; bằng chứng `outputs/app_verification/prediction_domain/source_copy_verification.json`.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "scope": "Source-whitelist full unit suite and identical dataset ZIP regeneration",
+  "tests": 99,
+  "unit_test_returncode": 0,
+  "output_tail": "Matplotlib is building the font cache; this may take a moment.\n...................................................................................................\n----------------------------------------------------------------------\nRan 99 tests in 5.122s\n\nOK\n",
+  "dataset_zip_identical": true,
+  "analysis_source_sha256": "4ccd4c3fc5d5ab4b177948b6aec5bf99a6f9d64a2cd1eb16de88b11ed81b7a31",
+  "limits": "No model training or accuracy benchmark; existing local Python dependencies"
+}

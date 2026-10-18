@@ -24,8 +24,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 16225,
-      "sha256": "83657c0411850c7d26729315eaec079f1d8ff2ede89163f735267ede9683bd40"
+      "bytes": 17025,
+      "sha256": "f7335dc24b7ba8726471d641ba724472655b4951014579d72f36bfe8cefaa687"
     },
     {
       "path": "Makefile",
@@ -184,8 +184,8 @@
     },
     {
       "path": "backend/app/services/analysis.py",
-      "bytes": 13063,
-      "sha256": "95c560b8474d7041b5d41b6580d6e1e47cb9d8af9348214185177246aa4fcdbf"
+      "bytes": 14333,
+      "sha256": "4ccd4c3fc5d5ab4b177948b6aec5bf99a6f9d64a2cd1eb16de88b11ed81b7a31"
     },
     {
       "path": "backend/app/services/charts.py",
@@ -1119,8 +1119,8 @@
     },
     {
       "path": "docs/APP_RUNBOOK.md",
-      "bytes": 8645,
-      "sha256": "1a52b1eb92d5a4bee114ac59b2cbce6b247eef7bc10407e876815102d96c4a97"
+      "bytes": 9060,
+      "sha256": "c147d30ada9b9955443482e6c5665340edeae06a92a771adecfe1286a55b9000"
     },
     {
       "path": "docs/DATASET.md",
@@ -1144,8 +1144,8 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 3720,
-      "sha256": "e3633754936d6d9db20c10aac20ba123681905883f9568cff5f2be9bddc50737"
+      "bytes": 3771,
+      "sha256": "fa93ce8f0ce607940d28a753f9b43b309b311b84a590b46765c20df09c2979b3"
     },
     {
       "path": "docs/DEMO_SCRIPT.md",
@@ -1189,8 +1189,8 @@
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 37169,
-      "sha256": "fa0172cf582c43363cbec07fb7675db8d6aa6ac4a70eae6f56a0ef32632eee05"
+      "bytes": 38500,
+      "sha256": "d9342470113b350c41f685a5b3b4855ce41dddff37c063f3e3ac312ccded9ebd"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
@@ -1456,6 +1456,16 @@
       "path": "outputs/app_verification/gemma_smoke.json",
       "bytes": 4482,
       "sha256": "097c0120dc289dae0323aea1d5cea911fd4943a841beac87f2263a045e5cfd59"
+    },
+    {
+      "path": "outputs/app_verification/prediction_domain/live_api.json",
+      "bytes": 4906,
+      "sha256": "5762ce5b8e7cd7ff77c4ba5e67fa33df8c782d7e7d301f08a640b3b4070c5007"
+    },
+    {
+      "path": "outputs/app_verification/prediction_domain/source_copy_verification.json",
+      "bytes": 663,
+      "sha256": "0fb31dedb4d343970156bc84666bc988e95fa789838b88cb9415774b730f7c19"
     },
     {
       "path": "outputs/app_verification/source_export.json",
@@ -3159,8 +3169,8 @@
     },
     {
       "path": "tests/test_application.py",
-      "bytes": 13567,
-      "sha256": "1b249e656bec0e2cc3baf40c849dc9b03707de18527338f8063058b5f773f7d3"
+      "bytes": 16637,
+      "sha256": "c5790fd168bc0c47e71be66e34678301080687ed3c8f3ded42e3fcb139a4c9a7"
     },
     {
       "path": "tests/test_architecture_audit.py",
@@ -3233,5 +3243,5 @@
       "sha256": "3b9400fa06345f1b8a32622cd6d9eb11ebfffa80f8bfcc5190f9e68032a777e3"
     }
   ],
-  "generated_at_utc": "2026-10-18T10:33:48.717979+00:00"
+  "generated_at_utc": "2026-10-18T10:41:41.334384+00:00"
 }
