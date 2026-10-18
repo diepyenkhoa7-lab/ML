@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "quality": "ai_reviewed_silver_not_human_gold",
+  "total_reviewed": 214,
+  "status_counts": {
+    "accepted": 201,
+    "rejected": 13
+  },
+  "source_queue_sha256": "a70a579a388f47938a05537407363eda82e40374cf464dcb61bb3c16910c5da4",
+  "review_sha256": "c5bae3983c3ad8a420b8df7c5f5ea0a4503c9748326e7c24f1f529e149561534",
+  "code_sha256": "d57325d36448b4a8e036e1eeb7cd64a0c001efb2d79d0814e4183c8a6fe77b21",
+  "human_gold_rows": 0
+}

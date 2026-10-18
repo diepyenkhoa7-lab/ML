@@ -16,6 +16,7 @@ help:
 	@echo "setup | check | check-mlx | lint | api | lab"
 	@echo "validate-example | validate-sft | gemma-download | gemma-base | gemma-smoke | gemma-adapter | gemma-train"
 	@echo "gemma-adapter: TRAIN all train JSONL, EPOCHS=1 by default | gemma-plan-full | gemma-infer-adapter"
+	@echo "gemma-reviewed-plan: no training | gemma-reviewed-train: real frozen 501-step reviewed-data trial"
 	@echo "salary-train | data-fetch | data-profile | data-clean | test-data | data-split | data-verify"
 
 setup:
@@ -75,6 +76,14 @@ gemma-plan-full:
 
 gemma-infer-adapter:
 	$(PYTHON) scripts/gemma_infer.py --adapter $(GEMMA_ADAPTER) --output outputs/environment/gemma_adapter.json
+
+.PHONY: gemma-reviewed-plan gemma-reviewed-train
+gemma-reviewed-plan:
+	$(PYTHON) scripts/gemma_train.py --config configs/gemma_reviewed.yaml
+
+# Real training on the frozen reviewed corpus; one candidate under its locked protocol.
+gemma-reviewed-train:
+	$(PYTHON) scripts/gemma_train.py --config configs/gemma_reviewed.yaml --confirm-training --summarize
 
 gemma-train: validate-sft
 	$(PYTHON) scripts/gemma_train.py --config configs/gemma_train.yaml

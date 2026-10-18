@@ -78,13 +78,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--split", choices=["valid", "test"], default="valid")
     parser.add_argument("--adapter", type=Path)
+    parser.add_argument("--data", type=Path, default=Path("data/finetune"))
     parser.add_argument("--predictions", type=Path, help="Score an existing predictions JSONL")
     parser.add_argument("--generate", action="store_true", help="Run inference, without training")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     if not args.generate and not args.predictions:
         parser.error("Choose --generate or --predictions")
-    source = ROOT / "data/finetune" / f"{args.split}.jsonl"
+    source = ROOT / args.data / f"{args.split}.jsonl"
     manifest = json.loads((source.parent / "manifest.json").read_text())
     assert checksum(source) == manifest["splits"][args.split]["sha256"]
     rows = [json.loads(line) for line in source.read_text().splitlines()]

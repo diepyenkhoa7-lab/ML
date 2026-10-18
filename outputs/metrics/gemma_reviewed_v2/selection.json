@@ -1,0 +1,47 @@
+{
+  "status": "validation_completed",
+  "candidate": "adapters/gemma-jobs/20261018T002705Z",
+  "protocol_sha256": "35f2629f485950d681acd0709c1f8f6ddefea24e217d1a24de2c9fbf73ddc4d7",
+  "candidate_sha256": "debea9f79ba25dd8d9398c072acd36d48ac8767bc5d888038fa01c790e117e2f",
+  "baseline_new": {
+    "mean_field_exact_accuracy": 0.8508064516129032,
+    "json_validity": 1.0,
+    "schema_validity": 1.0,
+    "skill_micro_f1": 0.7272727272727273,
+    "selection_score": 0.8435850439882697
+  },
+  "candidate_new": {
+    "mean_field_exact_accuracy": 0.8588709677419355,
+    "json_validity": 1.0,
+    "schema_validity": 0.9354838709677419,
+    "skill_micro_f1": 0.7849462365591398,
+    "selection_score": 0.8520161290322581
+  },
+  "baseline_legacy": {
+    "mean_field_exact_accuracy": 0.9375,
+    "json_validity": 1.0,
+    "schema_validity": 0.9583333333333334,
+    "skill_micro_f1": 0.9375619425173439,
+    "selection_score": 0.9416852494218698
+  },
+  "candidate_legacy": {
+    "mean_field_exact_accuracy": 0.9305555555555556,
+    "json_validity": 1.0,
+    "schema_validity": 0.9305555555555556,
+    "skill_micro_f1": 0.9021956087824351,
+    "selection_score": 0.9220475715236194
+  },
+  "validation_gates": {
+    "new_score_gain": true,
+    "new_schema_floor": true,
+    "new_json_not_worse": true,
+    "legacy_json_not_worse": true,
+    "legacy_score_guard": false,
+    "legacy_skill_guard": false,
+    "legacy_schema_guard": false
+  },
+  "validation_passed": false,
+  "old_test_used": false,
+  "active_adapter_changed": false,
+  "limits": "AI-reviewed silver references; extraction quality, not salary-regression MAE"
+}

@@ -27,9 +27,27 @@ def resume_metadata(config, root=ROOT):
     assert checksum(path) == manifest["adapter"]["sha256"], "Parent adapter checksum mismatch"
     for key in ["num_layers", "fine_tune_type", "lora_parameters"]:
         assert config[key] == previous[key], f"Incompatible resumed adapter: {key}"
-    assert manifest["sft_manifest_sha256"] == checksum(
-        root / config.get("data", "data/finetune") / "manifest.json"
-    )
+    corpus_sha = checksum(root / config.get("data", "data/finetune") / "manifest.json")
+    transition = None
+    if manifest["sft_manifest_sha256"] != corpus_sha:
+        protocol_path = config.get("data_transition_protocol")
+        assert protocol_path, "Changed corpus requires an explicit frozen transition protocol"
+        protocol_file = (root / protocol_path).resolve()
+        protocol_file.relative_to(root)
+        protocol = json.loads(protocol_file.read_text())
+        assert protocol["parent_adapter_file"] == str(path.relative_to(root))
+        assert protocol["parent_adapter_sha256"] == checksum(path)
+        assert protocol["parent_sft_manifest_sha256"] == manifest["sft_manifest_sha256"]
+        assert protocol["new_sft_manifest_sha256"] == corpus_sha
+        assert protocol["candidate_learning_rate"] == config["learning_rate"]
+        assert protocol["candidate_iterations"] == config["iters"]
+        assert protocol["old_test_policy"] == "never_reopen"
+        transition = dict(
+            path=str(protocol_file.relative_to(root)),
+            sha256=checksum(protocol_file),
+            parent_sft_manifest_sha256=manifest["sft_manifest_sha256"],
+            new_sft_manifest_sha256=corpus_sha,
+        )
     evidence = json.loads((root / "outputs/gemma_preparation/weights.json").read_text())
     assert manifest["base_revision"] == evidence["revision"]
     return {
@@ -39,6 +57,7 @@ def resume_metadata(config, root=ROOT):
             "total_optimizer_steps", manifest["completed_iterations"]
         ),
         "mode": "adapter_weights_only_optimizer_reinitialized",
+        "data_transition": transition,
     }
 
 
@@ -88,6 +107,24 @@ def build_plan(config_path):
     }
 
 
+def check_transition_budget(plan, root=ROOT):
+    transition = (plan.get("resume") or {}).get("data_transition")
+    if not transition:
+        return
+    protocol = json.loads((root / transition["path"]).read_text())
+    assert checksum(root / transition["path"]) == transition["sha256"]
+    previous = []
+    for path in (root / "outputs/training_logs").glob("gemma_*/run.json"):
+        record = json.loads(path.read_text())
+        existing = (record.get("resume") or {}).get("data_transition")
+        if existing and existing["sha256"] == transition["sha256"]:
+            previous.append(path)
+    if len(previous) >= protocol["max_candidates"]:
+        raise ValueError(
+            "Frozen reviewed-data trial budget exhausted; preserve run and use a new protocol"
+        )
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", type=Path, default=Path("configs/gemma_train.yaml"))
@@ -115,6 +152,7 @@ def main(argv=None):
 
 
 def train(plan, args):
+    check_transition_budget(plan)
     weight = ROOT / plan["config"]["model"] / "model.safetensors"
     evidence = json.loads((ROOT / plan["weight_evidence"]).read_text())
     assert checksum(weight) == evidence["weights"][weight.parent.name]["sha256"]
@@ -122,6 +160,8 @@ def train(plan, args):
     log_dir = ROOT / "outputs/training_logs" / f"gemma_{stamp}"
     log_dir.mkdir(parents=True, exist_ok=False)
     config = dict(plan["config"])
+    # Workspace lineage control is not an MLX hyperparameter.
+    config.pop("data_transition_protocol", None)
     config["adapter_path"] = str(ROOT / "adapters/gemma-jobs" / stamp)
     config["model"], config["data"] = str(ROOT / config["model"]), str(ROOT / config["data"])
     if config.get("resume_adapter_file"):

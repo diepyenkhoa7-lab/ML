@@ -1,5 +1,17 @@
 # Changelog
 
+## 2026-10-18 — Rà soát nhãn và fine-tune Gemma reviewed v2
+
+- Rà soát đủ 214 dòng: 201 chấp nhận AI-reviewed silver, 13 loại; không có human gold.
+  Tách corpus theo công ty: train501 (137 mới +364 replay), valid31/test33 mới.
+- Run `20261018T002705Z` hoàn tất 501 bước, LR1e-5; validation loss 0,392→0,110.
+  Giữ config, xác nhận, lineage, checksum, loss CSV/đồ thị và trọng số candidate riêng.
+- F1 validation mới 72,73%→78,49%, nhưng legacy 93,76%→90,22% và không đạt
+  score/schema guards: không promote, giữ adapter web cũ, không chấm test mới/cũ.
+  Không diễn giải loss/extraction F1 thành cải thiện MAE lương.
+- Raw predictions, paired selection và chẩn đoán lỗi được lưu; 79 tests, Ruff59 và
+  strict corpus đạt. Train thật và suy luận tách rõ; protocol một candidate chặn chạy trùng.
+
 ## 2026-10-18 — Thử nghiệm nhãn rõ kỳ tháng v3/v3.1
 
 - Train thật 24 cấu hình Ridge/RF; v3.1 chọn RF leaf=5, 214 nhãn có bằng chứng kỳ tháng,

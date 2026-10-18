@@ -24,6 +24,15 @@ Lệnh này chỉ chạy ứng dụng/suy luận; không train. Dữ liệu nh�
 
 ## Lệnh train và lệnh suy luận
 
+Bộ 214 dòng đã có bản rà soát AI riêng: 201 chấp nhận, 13 loại; chưa phải human gold.
+Fine-tune reviewed đã hoàn tất 501 bước; F1 validation mới tăng 72,73% → 78,49% nhưng
+không đạt guard validation cũ, nên giữ adapter web cũ và chưa chấm test mới.
+Kết quả: [báo cáo reviewed v2](outputs/metrics/gemma_reviewed_v2/REPORT.md).
+Corpus mới gồm 137 tin train mới + 364 replay, 31 validation và 33 test mới theo công ty.
+Lượt dữ liệu này dùng `make gemma-reviewed-plan` (không train) và
+`make gemma-reviewed-train` (**train thật 501 bước**, một candidate theo protocol).
+Xem [nhãn, lineage và cách đánh giá](docs/GEMMA_REVIEWED_FINETUNE.md).
+
 | Lệnh | Tác dụng |
 |---|---|
 | `make gemma-adapter` | **Train thật** toàn bộ 364 mẫu train, mặc định 1 epoch = 364 bước |

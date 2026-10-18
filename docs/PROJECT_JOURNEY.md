@@ -142,6 +142,18 @@ Verification cuối trước publication đã đạt: `outputs/research/v3/sourc
 
 Release v3 source gọn sau đó đã push thành công lên `publish/salary-gemma-prep` tại commit `3b138e336745d5f9013e6c65ee8524df8090dd03` (feature commit `b8bc10dcc20d4604a3e36b734426583302c3577d`). Bản release gồm 519 files, khoảng 93 MB; source copy kiểm tra trước đó gồm 516 files/72 tests, ba file bổ sung là `source_export.json`, `api_active_model.json`, `gemma_unchanged.json`; nhật ký được cập nhật trong file đã có. Đây là mốc publication đã hoàn tất cho release v3.
 
+## 15. Rà soát nhãn, fine-tune Gemma và nghiệm thu
+
+Người dùng đã yêu cầu bắt đầu duyệt 214 nhãn pending và fine-tune Gemma. Khi bắt đầu, công việc mới ở bước kiểm tra corpus, schema và provenance; lúc đó chưa có run training mới hoặc metric mới. Các kết quả hoàn tất được ghi bên dưới; vẫn chưa có nhãn human gold được duyệt thêm. Nhãn AI rà soát vẫn được phân biệt với nhãn gold của con người. Test cũ tiếp tục được giữ nguyên, không mở lại để tuning. Các kết quả sau này chỉ được ghi khi có artifact, log hoặc report xác nhận.
+
+Manifest `data/annotation/gemma_v2.0.0/manifest.json` hiện ghi 214 dòng đã review, gồm 201 accepted AI-reviewed silver và 13 rejected; `human_gold_rows=0`. Queue và split salary v3 cũ không bị sửa. Corpus Gemma reviewed v2.0.0 có 501 train (364 legacy replay + 137 mẫu mới), validation 31 mẫu mới và test 33 mẫu mới theo company-group, loại các company đã xuất hiện trong train cha.
+
+Baseline trên validation mới được lưu tại `outputs/metrics/gemma_reviewed_v2/baseline_new_valid/metrics.json`: Skill F1 0,7272727, mean field accuracy 0,850806, JSON/schema 1,0. Đây là tập mới nên không so trực tiếp với 0,937 cũ như cùng validation. Protocol `configs/gemma_reviewed_protocol.json` đã khóa trước train, giới hạn tối đa một candidate và giữ test cũ không mở. Run thực `20261018T002705Z` đã hoàn tất 501/501 với learning rate 1e-5, LoRA 4 layers/rank 8/context 1024; `summary.json` ghi train loss cuối 0,006 và validation loss giảm từ 0,392 xuống 0,110 trên 31 mẫu validation mới; đây là loss, không phải accuracy hay extraction quality.
+
+Đánh giá raw extraction đã hoàn tất trong `outputs/metrics/gemma_reviewed_v2/selection.json`. Trên validation mới, Skill F1 tăng 0,7272727 → 0,7849462, mean field 0,850806 → 0,858871, schema 1,0 → 0,935484 và score 0,843585 → 0,852016 (+0,008431). Trên legacy validation, F1 giảm 0,937562 → 0,902196, schema 0,958333 → 0,930556 và score 0,941685 → 0,922048; candidate fail cả ba legacy guards. JSON validity của cả hai tập là 1,0. Vì vậy `validation_passed=false`, giữ adapter web `20261017T105728Z`, không mở test 33 mẫu mới hay test cũ, và không train run trùng. Không suy diễn kết quả này thành cải thiện MAE lương.
+
+Strict corpus 501/31/33 đạt; 79 tests và Ruff 59 file cũng đạt. Bản source copy tách biệt đã chạy lại 79 tests, kiểm tra frozen data, strict SFT mới/cũ, npm ci offline, Prettier và build frontend, tất cả exit 0; bằng chứng ở `outputs/metrics/gemma_reviewed_v2/source_export.json`. Báo cáo của vòng này ở `outputs/metrics/gemma_reviewed_v2/REPORT.md`; commit/push được xác nhận bằng lịch sử Git của nhánh source gọn.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`

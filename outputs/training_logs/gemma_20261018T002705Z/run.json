@@ -1,0 +1,81 @@
+{
+  "status": "completed",
+  "gemma_training_started": true,
+  "config": {
+    "model": "models/gemma-mlx-4bit",
+    "train": true,
+    "fine_tune_type": "lora",
+    "data": "data/finetune_reviewed/v2.0.0",
+    "adapter_path": "adapters/gemma-jobs",
+    "seed": 20261018,
+    "num_layers": 4,
+    "batch_size": 1,
+    "iters": 501,
+    "val_batches": -1,
+    "learning_rate": 1e-05,
+    "steps_per_report": 10,
+    "steps_per_eval": 501,
+    "save_every": 100,
+    "max_seq_length": 1024,
+    "grad_checkpoint": true,
+    "mask_prompt": true,
+    "lora_parameters": {
+      "rank": 8,
+      "dropout": 0.0,
+      "scale": 20.0
+    },
+    "resume_adapter_file": "adapters/gemma-jobs/20261017T105728Z/adapters.safetensors",
+    "data_transition_protocol": "configs/gemma_reviewed_protocol.json"
+  },
+  "config_sha256": "947992cd7a663553d3fae9cd99926c9c4e8b0e3fb76aaff573117c5a7e880d26",
+  "resume": {
+    "path": "adapters/gemma-jobs/20261017T105728Z/adapters.safetensors",
+    "sha256": "fceb60125606c8eb9bc5a89a656b0f7ef5338c2b3e4c78f8426e956c716c7287",
+    "parent_total_optimizer_steps": 1092,
+    "mode": "adapter_weights_only_optimizer_reinitialized",
+    "data_transition": {
+      "path": "configs/gemma_reviewed_protocol.json",
+      "sha256": "35f2629f485950d681acd0709c1f8f6ddefea24e217d1a24de2c9fbf73ddc4d7",
+      "parent_sft_manifest_sha256": "1fd675dfe8171ea0f0c2d306969f718bd4a219cbaaed6065f4042a36423776dd",
+      "new_sft_manifest_sha256": "8965e4f7ed264148e38ea91b23fcc8b2ad99ee072e8aaa0ff91d7e6d550cd846"
+    }
+  },
+  "corpus_validation": {
+    "counts": {
+      "train": 501,
+      "valid": 31,
+      "test": 33
+    },
+    "ok": true,
+    "errors": []
+  },
+  "weight_evidence": "outputs/gemma_preparation/weights.json",
+  "weight_check": "recorded official SHA256 verified; current size checked; rehash on launch",
+  "expected_outputs": [
+    "adapters/gemma-jobs/<run_id>/adapters.safetensors",
+    "adapters/gemma-jobs/<run_id>/adapter_config.json",
+    "outputs/training_logs/gemma_<run_id>/console.log",
+    "outputs/training_logs/gemma_<run_id>/run.json"
+  ],
+  "limits": [
+    "Silver job-card labels, not human gold or full original ads",
+    "Training compatibility, throughput and adapter quality not yet verified",
+    "Loss is not extraction accuracy; evaluate JSON validity, field accuracy and Skill F1",
+    "Do not tune using test; compare base and fixed adapter on test after validation"
+  ],
+  "launch_after_user_confirmation_only": ".venv/bin/python scripts/gemma_train.py --config configs/gemma_reviewed.yaml --confirm-training",
+  "command": [
+    "/Users/scara2906/Downloads/ML/.venv/bin/python",
+    "-u",
+    "-m",
+    "mlx_lm",
+    "lora",
+    "--config",
+    "/Users/scara2906/Downloads/ML/outputs/training_logs/gemma_20261018T002705Z/config.yaml"
+  ],
+  "human_confirmation_received": true,
+  "human_confirmation_text": "User explicitly requested: bắt đầu duyệt và fine tune, 2026-10-18; one frozen reviewed-data candidate, preserve old test and current web adapter.",
+  "started_at_utc": "2026-10-18T00:27:05.974086+00:00",
+  "returncode": 0,
+  "finished_at_utc": "2026-10-18T01:28:33.913917+00:00"
+}

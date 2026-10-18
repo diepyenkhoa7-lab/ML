@@ -1,0 +1,18 @@
+{
+  "reviewed": 214,
+  "accepted_ai_silver": 201,
+  "rejected": 13,
+  "human_gold": 0,
+  "new_train_sources": 137,
+  "new_validation_sources": 31,
+  "new_test_sources": 33,
+  "legacy_replay_examples": 364,
+  "total_train_examples": 501,
+  "review_manifest_sha256": "da52c7404fbd0a27c27acbb9bdc9e51aac30162e0ab82a074cff90dc2f79ae14",
+  "corpus_manifest_sha256": "8965e4f7ed264148e38ea91b23fcc8b2ad99ee072e8aaa0ff91d7e6d550cd846",
+  "notes": [
+    "137 new source extracts plus 364 legacy silver replay cards; not 501 newly human-reviewed jobs",
+    "Existing frozen queue remains pending; completed review is a new versioned ledger",
+    "Legacy test not used for tuning; new test remains sealed until validation passes"
+  ]
+}

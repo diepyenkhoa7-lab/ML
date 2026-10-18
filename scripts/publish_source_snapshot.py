@@ -32,6 +32,13 @@ def collect_files():
                 reviewed_runs.add(parts[2])
     for metrics in (ROOT / "outputs/metrics").glob("gemma_*_adapter_valid/metrics.json"):
         reviewed_runs.add(Path(json.loads(metrics.read_text())["adapter"]).name)
+    reviewed_selection = ROOT / "outputs/metrics/gemma_reviewed_v2/selection.json"
+    if reviewed_selection.exists():
+        selection = json.loads(reviewed_selection.read_text())
+        candidate = Path(selection["candidate"])
+        assert candidate.parts[:2] == ("adapters", "gemma-jobs")
+        assert checksum(ROOT / candidate / "adapters.safetensors") == selection["candidate_sha256"]
+        reviewed_runs.add(candidate.name)
     files = set()
     for name in [
         "README.md",
@@ -57,6 +64,8 @@ def collect_files():
         "data/examples",
         "data/references",
         "data/annotation/v3.1.0",
+        "data/annotation/gemma_v2.0.0",
+        "data/finetune_reviewed/v2.0.0",
         "data/splits/v3.0.0",
         "data/splits/v3.1.0",
         "outputs/metrics/salary_v3_b5ae152b9dd5",
