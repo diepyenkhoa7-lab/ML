@@ -91,6 +91,13 @@ def collect_files():
         "outputs/architecture_audit",
         "outputs/eda/20261017T092843Z_e3747c",
         "outputs/eda/salary_v2_strict_train_042e3aa1a886",
+        "outputs/eda/global_survey_v1_7f2c2dbf6989",
+        "data/splits/global_survey_v1_7f2c2dbf6989",
+        "data/splits/open_aijobs_v1_ceea75a58f85",
+        "outputs/metrics/global_survey_v1_7f2c2dbf6989",
+        "outputs/metrics/open_aijobs_v1_ceea75a58f85",
+        "models/salary/global_survey_v1_7f2c2dbf6989",
+        "models/salary/open_aijobs_v1_ceea75a58f85",
         "outputs/metrics/salary_bd9af2fa002caae8",
         "outputs/metrics/gemma_20261017T094853Z_base_valid",
         "outputs/metrics/gemma_20261017T094853Z_adapter_valid",
@@ -111,9 +118,17 @@ def collect_files():
     files.discard(ROOT / "outputs/environment/gemma_adapter.json")
     # Rebuild this archive from committed datasets; avoid publishing duplicate payloads.
     files.discard(ROOT / "outputs/submission/datasets.zip")
+    files.discard(ROOT / "outputs/submission/open_datasets.zip")
     # Keep public collection provenance, not full scraped descriptions/HTML or large survey CSVs.
-    for source in ["stackoverflow_2026", "public_jobs_20261018", "joboko_20261018"]:
-        for pattern in ["manifest.json", "README.md", "*.robots.txt"]:
+    for source in [
+        "stackoverflow_2026",
+        "public_jobs_20261018",
+        "joboko_20261018",
+        "stackoverflow_2024",
+        "aijobs_20261018",
+        "level_20261018",
+    ]:
+        for pattern in ["manifest.json", "README.md", "USAGE.md", "LICENSE", "*.robots.txt"]:
             files.update((ROOT / "data/raw" / source).glob(pattern))
     for pattern in ["*.json", "*.csv", "*.png", "*.log"]:
         files.update((ROOT / "outputs/research/v3").glob(pattern))
@@ -127,6 +142,7 @@ def collect_files():
         "models/gemma-source/manifest.json",
         "models/gemma-mlx-4bit/manifest.json",
         "outputs/data_quality/cleaning/all_sources.json",
+        "outputs/data_quality/open_sources_20261018.json",
         "models/README.md",
         "adapters/README.md",
     ]:
@@ -187,6 +203,7 @@ def main():
         "preserved_history_branch": "feat/salary-training-gemma-prep",
         "includes": (
             "source, executed notebooks, frozen splits, two VN clean CSVs, "
+            "international survey splits/models/train charts and source metadata, "
             "silver JSONL, salary pipelines, small final Gemma adapter and logs"
         ),
         "excludes": (

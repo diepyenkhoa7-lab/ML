@@ -1,0 +1,21 @@
+{
+  "experiment_id": "open_aijobs_v1_ceea75a58f85",
+  "artifacts": {
+    "ridge": {
+      "path": "models/salary/open_aijobs_v1_ceea75a58f85/ridge.joblib",
+      "sha256": "ba141f7065b22d3926b5185e6658657292c7708b693b02dff5b8c0714ab5069a"
+    },
+    "random_forest": {
+      "path": "models/salary/open_aijobs_v1_ceea75a58f85/random_forest.joblib",
+      "sha256": "ff2300ecb67a18615f0049364dcfb29ec20a888dc76403223c3d95f806118763"
+    }
+  },
+  "selected_model": "ridge",
+  "promotion_eligible": false,
+  "serving_scope": "research-only international annual USD; incompatible with VN offer contract",
+  "dataset_manifest": "data/splits/open_aijobs_v1_ceea75a58f85/manifest.json",
+  "evaluation": {
+    "path": "outputs/metrics/open_aijobs_v1_ceea75a58f85/test_metrics.json",
+    "sha256": "87fa2b23e9c97ad5aafda2cf1050251b92eb5e0654760e707539de4d7ef4dbe3"
+  }
+}

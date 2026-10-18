@@ -1,0 +1,20 @@
+{
+  "experiments": [
+    {
+      "id": "global_survey",
+      "title": "Khảo sát lập trình viên quốc tế · USD/năm",
+      "manifest": "models/salary/global_survey_v1_7f2c2dbf6989/manifest.json",
+      "sha256": "00c1d58212b309b32de115944ba0902f27912fd4194a868fba35002b6ead1c1f",
+      "scope": "Test theo nhóm hồ sơ · Stack Overflow 2024",
+      "unit": "USD/year"
+    },
+    {
+      "id": "aijobs_global",
+      "title": "AI/Data quốc tế · USD/năm",
+      "manifest": "models/salary/open_aijobs_v1_ceea75a58f85/manifest.json",
+      "sha256": "bf31314fb4a03880f92bc7e270b4b75480b7ed4ca21bdbc90b28980b8370a0c2",
+      "scope": "Test theo nhóm hồ sơ · dữ liệu AIJobs 2020–2025",
+      "unit": "USD/year"
+    }
+  ]
+}

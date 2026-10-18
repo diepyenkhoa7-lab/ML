@@ -27,13 +27,35 @@ from scripts.data_cleaning import (
 ROOT = Path(__file__).resolve().parents[3]
 MAX_BYTES, MAX_ROWS, MAX_COLUMNS = 10 * 1024 * 1024, 2000, 100
 ALIASES = {
-    "role": ["role", "vai tro", "vi tri", "job_role"],
+    "role": ["role", "vai tro", "vi tri", "job_role", "devtype"],
+    "country": ["country", "quoc gia"],
     "title": ["title", "job_title", "chuc danh", "ten cong viec", "position"],
     "level": ["level", "seniority", "cap bac", "job_level"],
-    "experience_years": ["experience_years", "experience", "kinh nghiem", "years_experience"],
+    "experience_years": [
+        "experience_years",
+        "experience",
+        "kinh nghiem",
+        "years_experience",
+        "workexp",
+    ],
     "location": ["location", "location_raw", "city", "khu vuc", "dia diem"],
-    "skills": ["skills", "skills_json", "skills_raw", "ky nang", "technologies"],
-    "salary": ["salary_monthly_vnd", "salary", "salary_raw", "luong", "muc luong"],
+    "skills": [
+        "skills",
+        "skills_json",
+        "skills_raw",
+        "ky nang",
+        "technologies",
+        "languagehaveworkedwith",
+    ],
+    "salary": [
+        "salary_monthly_vnd",
+        "salary",
+        "salary_raw",
+        "luong",
+        "muc luong",
+        "salary_annual_usd",
+        "convertedcompyearly",
+    ],
     "description": ["description", "job_description", "mo ta", "noi dung"],
     "posted_date": ["posted_date", "posting_date", "date_posted", "ngay dang"],
 }
@@ -182,7 +204,10 @@ def normalize_row(raw, mapping, options, extracted=None):
     actual, salary_status = None, "missing"
     salary_raw = get("salary")
     if text(salary_raw):
-        if isinstance(salary_raw, bool):
+        if mapping.get("salary", "").casefold() in {"salary_annual_usd", "convertedcompyearly"}:
+            parsed = native_salary(None, None, None, None)
+            warnings.append("Cột thu nhập USD/năm không phải nhãn lương chào tuyển VND/tháng")
+        elif isinstance(salary_raw, bool):
             parsed = native_salary(None, None, None, None)
         elif mapping.get("salary") == "salary_monthly_vnd":
             amount = numeric(salary_raw)

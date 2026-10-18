@@ -218,8 +218,8 @@ Các nguồn có giới hạn xuất xứ/điều khoản ghi rõ tại DATA_SOU
 
 ## Sản phẩm còn lại
 
-Bổ sung nhãn gold và holdout mới khi mở vòng nghiên cứu khác; báo cáo cá nhân theo
-mẫu giảng viên, đặt tên `STT_Họ và tên_MSSV`; chuẩn bị kịch bản thuyết trình.
+Bổ sung nhãn gold và holdout mới khi mở vòng nghiên cứu khác; chuẩn bị thuyết trình.
+Báo cáo cá nhân đã được người dùng loại khỏi phạm vi công việc.
 Ứng dụng local đã có luồng demo nhập bảng, dự đoán, biểu đồ, tư vấn và tải kết quả.
 Đối chiếu [bảng bàn giao](docs/DELIVERABLES.md).
 
@@ -233,4 +233,12 @@ Hành trình, khái niệm và khó khăn có bằng chứng: [PROJECT_JOURNEY](
 
 Ứng dụng hiện chọn Ridge `v2_042e3aa1a886`, Random Forest đối chiếu, Gemma trích mô tả. Trên **cùng30 test mới**, MAE RFv1 8,246 → Ridgev2 4,433 triệu VND/tháng, RMSE10,508→5,664; không so trực tiếp với test cũ28tin. Train1157 gồm79 nhãn tháng +1078 nhãn yếu(weight0,3); valid25/test30 chỉ nhãn có bằng chứng tháng, company-disjoint.
 
-Đối chiếu ITviec theo nhóm vẫn lệch khoảng21,1% và tệ hơn v1 ở phép sanity check này; đó là thu nhập khảo sát, khác lương chào tuyển. Web hiển thị số tham chiếu riêng, không ép dự đoán khớp báo cáo. [Kết quả và giới hạn](outputs/metrics/salary_v2_042e3aa1a886/REPORT.md), [lệnh chạy/train/rollback](docs/SALARY_V2_RUNBOOK.md).
+Phép đối chiếu ITviec trong báo cáo v2 là lịch sử thử nghiệm; đã bỏ tham chiếu này khỏi tư vấn web theo yêu cầu người dùng. Không dùng ITviec làm dữ liệu/gate của hai vòng train quốc tế mới. [Kết quả và giới hạn lịch sử](outputs/metrics/salary_v2_042e3aa1a886/REPORT.md), [lệnh chạy/train/rollback](docs/SALARY_V2_RUNBOOK.md).
+
+## Dashboard và mô hình quốc tế
+
+Trang đầu hiện là phân tích kỹ năng/thu nhập, có 5 biểu đồ train thật và chọn SO2024 quốc tế hoặc tin Việt Nam. Trang so sánh hiển thị Ridge/RF/baseline cùng MAE, RMSE, R² đúng đơn vị. Tư vấn và nhập CSV/XLSX/JSON hỗ trợ quốc tế **USD/năm** riêng với Việt Nam **VND/tháng**; xuất bảng, PNG và ZIP có checksum. Gemma vẫn đọc mô tả trong nhánh tin Việt Nam.
+
+Đã tải thêm SO2024 (65.437 dòng), AIJobs (151.445) và Level (52.296), với revision/giấy phép/hash. Đã train hai bộ quốc tế riêng: SO2024 RF được chọn bằng validation, test 3.158 mẫu đạt MAE 29.606,92 USD/năm, RMSE 51.699,84, R² 0,487; sai số vẫn đáng kể, dữ liệu là thu nhập tự khai năm 2024. AIJobs chỉ là benchmark vì thiếu kỹ năng và số năm kinh nghiệm. Level chưa train vì thiếu kỳ lương. Không fine-tune thêm Gemma trên ba nguồn mới.
+
+Xem [nguồn, metric, giới hạn và demo quốc tế](docs/INTERNATIONAL_DATA.md). `make open-data-fetch` khôi phục raw pinned; `make submission-open-data` tạo ZIP dữ liệu quốc tế. `make salary-global-train` và `make salary-aijobs-train` là **train thật**, từ chối ghi đè run đã có; `make app` chỉ build và chạy suy luận.

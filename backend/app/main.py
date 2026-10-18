@@ -3,6 +3,7 @@
 import fcntl
 import json
 from contextlib import asynccontextmanager
+from typing import Literal
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI, HTTPException, Query, Request, UploadFile
@@ -21,6 +22,8 @@ from backend.app.schemas import (
 )
 from backend.app.services.data import MAX_BYTES, MAX_ROWS, ROOT, normalize_row
 from backend.app.services.gemma import availability
+from backend.app.services.international import international_service
+from backend.app.services.research import chart_path, overview
 from backend.app.services.salary import salary_service
 from backend.app.services.store import AppStore, JobBusyError
 
@@ -107,6 +110,18 @@ def create_app(runtime=None):
             limits=dict(max_bytes=MAX_BYTES, max_rows=MAX_ROWS, gemma_rows=20, max_active_jobs=2),
         )
 
+    @app.get("/api/research")
+    def research_overview():
+        return overview()
+
+    @app.get("/api/international/meta")
+    def international_meta():
+        return international_service().metadata()
+
+    @app.get("/api/research/charts/{key}")
+    def research_chart(key: str):
+        return FileResponse(chart_path(key), media_type="image/png")
+
     @app.post("/api/datasets", response_model=Preview, status_code=201)
     async def upload(file: UploadFile):
         try:
@@ -118,12 +133,19 @@ def create_app(runtime=None):
             await file.close()
 
     @app.post("/api/datasets/demo", response_model=Preview, status_code=201)
-    def demo():
-        return store.demo()
+    def demo(market: Literal["vietnam_offers", "international_survey"] = "vietnam_offers"):
+        return store.demo(market)
 
     @app.get("/api/templates/{name}")
     def template(name: str):
-        if name not in {"application_demo.csv", "application_demo.xlsx", "application_demo.json"}:
+        if name not in {
+            "application_demo.csv",
+            "application_demo.xlsx",
+            "application_demo.json",
+            "international_demo.csv",
+            "international_demo.xlsx",
+            "international_demo.json",
+        }:
             raise HTTPException(404, "Không tìm thấy bảng mẫu")
         return FileResponse(ROOT / "data/examples" / name, filename=name)
 
@@ -161,6 +183,8 @@ def create_app(runtime=None):
     @app.post("/api/salary/predict", response_model=ProfileResult)
     def advise(profile: Profile):
         raw = profile.model_dump()
+        if profile.market == "international_survey":
+            return international_service().advise(raw)
         options = AnalysisRequest(dataset_id="0" * 32)
         mapping = {k: k for k in ["role", "level", "experience_years", "location", "skills"]}
         row = normalize_row(raw, mapping, options)

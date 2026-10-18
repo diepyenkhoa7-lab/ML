@@ -97,7 +97,20 @@ class AppStore:
             provenance=provenance,
         )
 
-    def demo(self):
+    def demo(self, market="vietnam_offers"):
+        if market == "international_survey":
+            from backend.app.services.international import international_service
+
+            service = international_service()
+            frame = service.train.head(48)[
+                ["role", "country", "experience_years", "skills", "salary_annual_usd"]
+            ]
+            return self.ingest(
+                frame.to_csv(index=False).encode(),
+                f"international_survey_demo_{len(frame)}.csv",
+                f"{len(frame)} phản hồi từ train {service.experiment}; USD/năm, "
+                "minh họa chức năng, không phải holdout độc lập",
+            )
         from backend.app.services.salary import salary_service
 
         service = salary_service()

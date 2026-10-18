@@ -3,6 +3,17 @@
 Kịch bản khoảng 7–10 phút cho bản local hiện tại. Đây là hướng dẫn trình bày đã có
 bằng chứng chạy ứng dụng, không xác nhận buổi báo cáo trước giảng viên đã diễn ra.
 
+## Luồng quốc tế và dashboard mới
+
+1. Trang đầu **Xu hướng & kỹ năng**: SO2024, 10.261 phản hồi train; đọc giới hạn năm dữ liệu, xem 5 biểu đồ và chuyển sang mẫu tin Việt Nam nếu cần nói về nhu cầu tuyển dụng. Không gọi công nghệ đã sử dụng trong khảo sát là nhu cầu tuyển dụng.
+2. **So sánh mô hình**: chọn SO2024, so Ridge/RF/baseline trên cùng 3.158 test; MAE/RMSE hiển thị nghìn USD/năm. RF được chọn bằng validation. Chuyển Việt Nam/AIJobs để thấy rõ từng bài toán riêng.
+3. **Dự đoán & tư vấn**: chọn quốc tế; Developer, back-end, United States of America, 3 năm, Python/SQL. Xem Ridge/RF cạnh nhau, MAE test lịch sử và số mẫu cho gợi ý; không gọi mức chênh lệch là tăng lương chắc chắn.
+4. **Phân tích file**: nhập `data/examples/international_demo.csv` (hoặc XLSX/JSON), ghép role/country/experience/skills/salary_annual_usd. Đây là 12 mẫu train dùng thử chức năng, không là test mới.
+5. Chạy → biểu đồ / từng dòng / chất lượng. Metric của bảng không thay test độc lập; tải ZIP, CSV, Excel hoặc PNG. Bằng chứng: `outputs/app_verification/international_20261018/`.
+6. Bàn giao thêm `outputs/submission/open_datasets.zip` qua `make submission-open-data`. Nguồn, giấy phép và metric: [INTERNATIONAL_DATA.md](INTERNATIONAL_DATA.md).
+
+Phần bên dưới dành cho demo nhánh **tin Việt Nam và Gemma**, vẫn được giữ để trình bày khả năng đọc mô tả tuyển dụng.
+
 ## Chuẩn bị trước buổi báo cáo
 
 1. Mở app tại `http://127.0.0.1:8000/`. Nếu chưa chạy: `make app` từ thư mục dự án.

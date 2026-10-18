@@ -1,9 +1,18 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
-const page = ref("upload"),
+import ResearchDashboard from "./ResearchDashboard.vue";
+import ModelComparison from "./ModelComparison.vue";
+const page = ref("research"),
   meta = ref(null),
   dataset = ref(null),
   mapping = ref({});
+const research = ref(null),
+  researchError = ref(""),
+  benchmarkId = ref("global_survey"),
+  internationalMeta = ref(null);
+const uploadMarket = ref("international_survey"),
+  profileMarket = ref("international_survey"),
+  researchMarket = ref("international_survey");
 const error = ref(""),
   busy = ref(false),
   job = ref(null),
@@ -23,6 +32,7 @@ const profile = ref({
   experience_years: 3,
   location: "Hà Nội",
   skills: "Python, SQL",
+  country: "United States of America",
 });
 let timer = null;
 let pollRevision = 0;
@@ -39,6 +49,7 @@ watch(
   { deep: true, flush: "sync" },
 );
 const labels = {
+  country: "Quốc gia",
   title: "Chức danh",
   role: "Vai trò",
   level: "Cấp bậc",
@@ -50,6 +61,8 @@ const labels = {
   description: "Mô tả tuyển dụng",
 };
 const icons = {
+  research: "M3 20V9h4v11m3 0V3h4v17m3 0v-8h4v8",
+  models: "M4 4h16v16H4zM8 16v-4m4 4V8m4 8v-6",
   upload: "M12 16V4m-4 4 4-4 4 4M4 16v4h16v-4",
   results: "M4 20V10h4v10m4 0V4h4v16m4 0v-7h3",
   advice: "M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0l-1 2H9z",
@@ -65,6 +78,7 @@ const canAnalyze = computed(
     dataset.value &&
     !busy.value &&
     !running.value &&
+    (uploadMarket.value !== "international_survey" || mapping.value.country) &&
     (mapping.value.role ||
       mapping.value.title ||
       (mapping.value.description && useGemma.value)),
@@ -85,17 +99,137 @@ const modelLabel = (name) =>
       : "Đang tải";
 const comparisonFamily = (name) =>
   name === "ridge" ? "random_forest" : "ridge";
+const benchmarks = computed(() =>
+  research.value
+    ? [
+        research.value.benchmark,
+        ...(research.value.additional_benchmarks || []),
+      ]
+    : [],
+);
+const selectedBenchmark = computed(
+  () =>
+    benchmarks.value.find((b) => b.id === benchmarkId.value) ||
+    benchmarks.value[0],
+);
+const selectedResearch = computed(() =>
+  researchMarket.value === "international_survey" &&
+  research.value?.international
+    ? research.value.international
+    : research.value,
+);
 const visibleModel = computed(() =>
   page.value === "results" && result.value
     ? result.value.model.selected_model
-    : advice.value?.selected_model || meta.value?.salary_model.selected_model,
+    : page.value === "advice"
+      ? advice.value?.selected_model ||
+        (profileMarket.value === "international_survey"
+          ? internationalMeta.value?.selected_model
+          : meta.value?.salary_model.selected_model)
+      : (page.value === "upload" || page.value === "results") &&
+          uploadMarket.value === "international_survey"
+        ? internationalMeta.value?.selected_model
+        : meta.value?.salary_model.selected_model,
+);
+const currentUnit = computed(() =>
+  page.value === "results" && result.value
+    ? result.value.unit || "VND/month"
+    : (page.value === "advice" &&
+          profileMarket.value === "international_survey") ||
+        (page.value === "results" &&
+          uploadMarket.value === "international_survey")
+      ? "USD/year"
+      : "VND/month",
+);
+const unitLabel = computed(() =>
+  currentUnit.value === "USD/year" ? "nghìn USD/năm" : "triệu VND/tháng",
+);
+const shortUnit = computed(() =>
+  currentUnit.value === "USD/year" ? "nghìn USD" : "triệu VND",
 );
 const money = (n) =>
-  n === null || n === undefined
+  n == null
     ? "—"
     : new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 1 }).format(
-        n / 1e6,
+        n / (currentUnit.value === "USD/year" ? 1000 : 1e6),
       );
+const prediction = (row, kind = "selected") => {
+  const suffix = result.value?.unit === "USD/year" ? "usd_year" : "vnd";
+  return row[
+    (kind === "selected"
+      ? "predicted"
+      : kind === "comparison"
+        ? "comparison"
+        : kind) +
+      "_salary_" +
+      suffix
+  ];
+};
+const observedSalary = (row) =>
+  result.value?.unit === "USD/year"
+    ? row.salary_annual_usd
+    : row.salary_monthly_vnd;
+const profileRoles = computed(() =>
+  profileMarket.value === "international_survey"
+    ? internationalMeta.value?.roles || []
+    : meta.value?.salary_model.roles || [],
+);
+const pageInfo = computed(
+  () =>
+    ({
+      research: [
+        "Xu hướng & kỹ năng",
+        "Phân tích thị trường việc làm CNTT",
+        "Nhu cầu công nghệ, mức lương, kinh nghiệm, vai trò và khu vực từ dữ liệu có nguồn.",
+      ],
+      models: [
+        "So sánh mô hình",
+        "Đánh giá Ridge và Random Forest",
+        "So sánh MAE, RMSE và R² trên cùng tập test; chọn đúng nhánh dữ liệu và đơn vị.",
+      ],
+      upload: [
+        "Phân tích file",
+        "Nhập và chuẩn hóa dữ liệu",
+        "CSV, Excel hoặc JSON → ghép cột → dự đoán từng dòng → biểu đồ và xuất kết quả.",
+      ],
+      results: [
+        "Kết quả của file",
+        "Kết quả phân tích dữ liệu đã nhập",
+        "Phân biệt lương cung cấp, dự đoán và sai số trên bảng nhập với test đã lưu.",
+      ],
+      advice: [
+        "Dự đoán & tư vấn",
+        "Dự đoán lương và gợi ý kỹ năng",
+        "Chọn thị trường, nhập hồ sơ và xem gợi ý có số mẫu hỗ trợ từ train.",
+      ],
+    })[page.value],
+);
+async function loadResearch() {
+  researchError.value = "";
+  try {
+    research.value = await api("/api/research");
+  } catch (e) {
+    researchError.value = e.message;
+  }
+}
+function changeProfileMarket() {
+  profileRevision++;
+  advice.value = null;
+  profileBusy.value = false;
+  const roles = profileRoles.value;
+  profile.value.role =
+    roles.find((r) => r.toLowerCase().includes("back-end")) ||
+    roles.find((r) => r === "Backend Developer") ||
+    roles[0] ||
+    "";
+}
+watch(uploadMarket, () => {
+  useGemma.value = false;
+  currency.value = uploadMarket.value === "international_survey" ? "USD" : "";
+  period.value = uploadMarket.value === "international_survey" ? "year" : "";
+  scale.value = 1;
+});
+watch(profileMarket, changeProfileMarket);
 const integer = (n) => new Intl.NumberFormat("vi-VN").format(n ?? 0);
 const artifact = (name) =>
   `/api/analyses/${job.value.id}/artifacts/${encodeURIComponent(name)}`;
@@ -124,8 +258,11 @@ function acceptDataset(data) {
     ...data.suggested_mapping,
   };
   page.value = "upload";
-  currency.value = "";
-  period.value = "";
+  uploadMarket.value = data.suggested_mapping.country
+    ? "international_survey"
+    : "vietnam_offers";
+  currency.value = uploadMarket.value === "international_survey" ? "USD" : "";
+  period.value = uploadMarket.value === "international_survey" ? "year" : "";
   scale.value = 1;
   useGemma.value = false;
 }
@@ -149,7 +286,11 @@ async function demo() {
   error.value = "";
   busy.value = true;
   try {
-    acceptDataset(await api("/api/datasets/demo", { method: "POST" }));
+    acceptDataset(
+      await api(`/api/datasets/demo?market=${uploadMarket.value}`, {
+        method: "POST",
+      }),
+    );
   } catch (e) {
     error.value = e.message;
   } finally {
@@ -194,6 +335,7 @@ async function analyze() {
         period: period.value || null,
         salary_scale: Number(scale.value),
         use_gemma: useGemma.value,
+        market: uploadMarket.value,
       }),
     });
     localStorage.setItem("career-last-job", job.value.id);
@@ -260,6 +402,7 @@ async function getAdvice() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...profile.value,
+        market: profileMarket.value,
         experience_years:
           profile.value.experience_years === ""
             ? null
@@ -278,6 +421,13 @@ async function getAdvice() {
   }
 }
 onMounted(async () => {
+  loadResearch();
+  try {
+    internationalMeta.value = await api("/api/international/meta");
+    changeProfileMarket();
+  } catch (e) {
+    researchError.value = e.message;
+  }
   try {
     meta.value = await api("/api/meta");
     const previous = localStorage.getItem("career-last-job");
@@ -307,8 +457,8 @@ onBeforeUnmount(() => {
       <a
         class="brand"
         href="#"
-        @click.prevent="page = 'upload'"
-        aria-label="IT Career Insight, trang nhập dữ liệu"
+        @click.prevent="page = 'research'"
+        aria-label="IT Career Insight, trang phân tích thị trường"
       >
         <span class="brand-mark"><i></i><i></i><i></i></span
         ><span
@@ -320,9 +470,11 @@ onBeforeUnmount(() => {
       <nav aria-label="Điều hướng chính">
         <button
           v-for="[id, title] in [
-            ['upload', 'Nhập dữ liệu'],
-            ['results', 'Kết quả phân tích'],
-            ['advice', 'Tư vấn nghề nghiệp'],
+            ['research', 'Xu hướng & kỹ năng'],
+            ['models', 'So sánh mô hình'],
+            ['advice', 'Dự đoán & tư vấn'],
+            ['upload', 'Phân tích file'],
+            ['results', 'Kết quả của file'],
           ]"
           :key="id"
           :class="{ selected: page === id }"
@@ -358,43 +510,32 @@ onBeforeUnmount(() => {
       <header class="topbar">
         <div class="breadcrumb">
           IT Career Insight <span>/</span>
-          {{
-            page === "upload"
-              ? "Nhập dữ liệu"
-              : page === "results"
-                ? "Kết quả phân tích"
-                : "Tư vấn nghề nghiệp"
-          }}
+          {{ pageInfo[0] }}
         </div>
         <span class="local-badge"><i></i>Local workspace</span>
       </header>
       <div class="content">
         <div class="page-heading">
           <div>
-            <div class="eyebrow">DỮ LIỆU THẬT. GÓC NHÌN RÕ HƠN.</div>
-            <h1>
-              {{
-                page === "upload"
-                  ? "Từ bảng dữ liệu đến bức tranh thị trường."
-                  : page === "results"
-                    ? "Thị trường CNTT trong dữ liệu của bạn."
-                    : "Bước tiếp theo trong sự nghiệp."
-              }}
-            </h1>
-            <p>
-              {{
-                page === "upload"
-                  ? "Nhập dữ liệu tuyển dụng, dự đoán mức lương và khám phá những kỹ năng được tìm kiếm."
-                  : page === "results"
-                    ? "Đọc nhu cầu kỹ năng, phân bố thu nhập và kết quả dự đoán theo từng tin tuyển dụng."
-                    : "Ước tính mức lương và xem những kỹ năng đáng cân nhắc cho hồ sơ của bạn."
-              }}
-            </p>
+            <div class="eyebrow">
+              ĐỀ TÀI 04 · PHÂN TÍCH DỮ LIỆU & MACHINE LEARNING
+            </div>
+            <h1>{{ pageInfo[1] }}</h1>
+            <p>{{ pageInfo[2] }}</p>
           </div>
-          <div class="model-badge">
-            <span>MODEL DỰ ĐOÁN</span
+          <div
+            v-if="!['research', 'models'].includes(page)"
+            class="model-badge"
+          >
+            <span>MÔ HÌNH DỰ ĐOÁN</span
             ><strong>{{ modelLabel(visibleModel) }}</strong
-            ><small>Đơn vị: VND / tháng</small>
+            ><small>{{
+              page === "upload"
+                ? uploadMarket === "international_survey"
+                  ? "USD / năm"
+                  : "VND / tháng"
+                : unitLabel
+            }}</small>
           </div>
         </div>
         <div v-if="error" class="alert error" role="alert">
@@ -407,7 +548,93 @@ onBeforeUnmount(() => {
             ×
           </button>
         </div>
-        <template v-if="page === 'upload'">
+        <template v-if="page === 'research' || page === 'models'">
+          <div v-if="researchError" class="info-note" role="alert">
+            {{ researchError }}
+            <button class="text-button" @click="loadResearch">
+              Tải lại dữ liệu
+            </button>
+          </div>
+          <template v-if="research">
+            <template v-if="page === 'research'">
+              <label class="context-picker"
+                >Tập dữ liệu phân tích<select v-model="researchMarket">
+                  <option
+                    value="international_survey"
+                    :disabled="!research.international"
+                  >
+                    Khảo sát lập trình viên quốc tế · USD/năm
+                  </option>
+                  <option value="vietnam_offers">
+                    Tin tuyển dụng Việt Nam · VND/tháng
+                  </option>
+                </select></label
+              >
+              <ResearchDashboard
+                :data="selectedResearch"
+                @upload="page = 'upload'"
+                @advice="page = 'advice'"
+                @models="page = 'models'"
+              />
+            </template>
+            <template v-else>
+              <label class="context-picker"
+                >Bài toán / tập đánh giá<select v-model="benchmarkId">
+                  <option v-for="b in benchmarks" :key="b.id" :value="b.id">
+                    {{ b.title }}
+                  </option>
+                </select></label
+              >
+              <ModelComparison
+                v-if="selectedBenchmark"
+                :metrics="selectedBenchmark.metrics"
+                :selected="selectedBenchmark.selected_model"
+                :unit="selectedBenchmark.unit"
+                :scope="selectedBenchmark.scope"
+              />
+              <div class="research-notice" v-if="selectedBenchmark">
+                <strong>Chọn bằng validation.</strong>
+                {{ selectedBenchmark.selection_note }}
+                {{ selectedBenchmark.limits }}
+              </div>
+              <div class="analysis-next">
+                <p>
+                  <strong>Áp dụng vào hồ sơ</strong><br />Sai số test là kết quả
+                  của tập đánh giá, không phải cam kết sai số cho mọi người
+                  dùng.
+                </p>
+                <button class="primary" @click="page = 'advice'">
+                  Dự đoán & tư vấn →
+                </button>
+              </div>
+            </template>
+          </template>
+          <section
+            v-else-if="!researchError"
+            class="panel loading-research"
+            role="status"
+          >
+            Đang đọc dữ liệu phân tích và kết quả đánh giá đã lưu…
+          </section>
+        </template>
+        <template v-else-if="page === 'upload'">
+          <label class="context-picker"
+            >Nhánh mô hình cho file<select v-model="uploadMarket">
+              <option value="international_survey">
+                Khảo sát quốc tế · tổng thu nhập USD/năm
+              </option>
+              <option value="vietnam_offers">
+                Tin tuyển dụng Việt Nam · lương chào tuyển VND/tháng
+              </option>
+            </select></label
+          >
+          <p
+            v-if="uploadMarket === 'international_survey'"
+            class="context-help"
+          >
+            Cần vai trò và quốc gia; nhận số năm kinh nghiệm và kỹ năng. Nhánh
+            này dùng các cột có sẵn, không dùng adapter Gemma tin Việt Nam.
+          </p>
           <div class="steps">
             <span class="active"><b>01</b> Nhập bảng</span><i></i
             ><span :class="{ active: dataset }"
@@ -478,7 +705,11 @@ onBeforeUnmount(() => {
                   <li>
                     <b>02</b>
                     <div>
-                      Bức tranh nhu cầu tuyển dụng<small
+                      {{
+                        uploadMarket === "international_survey"
+                          ? "Kỹ năng và thu nhập khảo sát"
+                          : "Bức tranh nhu cầu tuyển dụng"
+                      }}<small
                         >Biểu đồ kỹ năng, thu nhập và phân bố công việc</small
                       >
                     </div>
@@ -497,7 +728,7 @@ onBeforeUnmount(() => {
                   @click="demo"
                   :disabled="busy || running"
                 >
-                  Thử với 48 tin có sẵn <span>↗</span>
+                  Thử với 48 mẫu có sẵn <span>↗</span>
                 </button>
               </div>
             </div>
@@ -606,13 +837,14 @@ onBeforeUnmount(() => {
                 >
               </div>
               <div class="run-controls">
-                <div>
+                <div v-if="uploadMarket === 'vietnam_offers'">
                   <label class="checkbox"
                     ><input
                       type="checkbox"
                       v-model="useGemma"
                       :disabled="
                         !mapping.description ||
+                        uploadMarket === 'international_survey' ||
                         !meta?.gemma.available ||
                         meta?.gemma.training_active ||
                         meta?.gemma.gpu_busy
@@ -644,16 +876,26 @@ onBeforeUnmount(() => {
           </template>
           <div class="template-downloads">
             Tải bảng mẫu:
-            <a href="/api/templates/application_demo.csv" download>CSV ↓</a
-            ><a href="/api/templates/application_demo.xlsx" download>Excel ↓</a
-            ><a href="/api/templates/application_demo.json" download>JSON ↓</a
+            <a
+              :href="`/api/templates/${uploadMarket === 'international_survey' ? 'international_demo' : 'application_demo'}.csv`"
+              download
+              >CSV ↓</a
+            ><a
+              :href="`/api/templates/${uploadMarket === 'international_survey' ? 'international_demo' : 'application_demo'}.xlsx`"
+              download
+              >Excel ↓</a
+            ><a
+              :href="`/api/templates/${uploadMarket === 'international_survey' ? 'international_demo' : 'application_demo'}.json`"
+              download
+              >JSON ↓</a
             ><small
-              >48 tin train thật, nhãn silver; dùng minh họa chức năng.</small
+              >48 mẫu từ train; dùng minh họa chức năng, không phải test độc
+              lập.</small
             >
           </div>
           <div class="bottom-note">
             <span>Không có cột lương?</span> Bạn vẫn có thể dự đoán. Chỉ tính
-            sai số khi bảng có lương VND cùng kỳ hợp lệ.
+            sai số khi bảng có nhãn đúng đơn vị của nhánh đã chọn.
           </div>
         </template>
         <template v-else-if="page === 'results'">
@@ -706,7 +948,7 @@ onBeforeUnmount(() => {
             </div>
             <div class="stat-grid">
               <div>
-                <span>TIN ĐÃ PHÂN TÍCH</span
+                <span>DÒNG ĐÃ PHÂN TÍCH</span
                 ><strong
                   >{{ integer(result.summary.predicted)
                   }}<small> / {{ integer(result.summary.rows) }}</small></strong
@@ -719,30 +961,37 @@ onBeforeUnmount(() => {
               <div>
                 <span>TRUNG VỊ LƯƠNG DỰ ĐOÁN</span
                 ><strong
-                  >{{ money(result.summary.median_prediction_vnd) }}
-                  <small>triệu</small></strong
+                  >{{
+                    money(
+                      result.summary.median_prediction_usd_year ??
+                        result.summary.median_prediction_vnd,
+                    )
+                  }}
+                  <small>{{ shortUnit }}</small></strong
                 >
                 <p>
-                  {{ modelLabel(result.model.selected_model) }} · VND / tháng
+                  {{ modelLabel(result.model.selected_model) }} ·
+                  {{ unitLabel }}
                 </p>
               </div>
               <div>
                 <span>KỸ NĂNG ĐƯỢC GHI NHẬN</span
                 ><strong>{{ integer(result.summary.skill_count) }}</strong>
                 <p>
-                  Từ {{ integer(result.summary.unique_jobs) }} tin không trùng
+                  Từ {{ integer(result.summary.unique_jobs) }}
+                  {{ result.unit === "USD/year" ? "hồ sơ" : "tin" }} không trùng
                 </p>
               </div>
               <div>
                 <span>DÒNG CÓ LƯƠNG ĐỐI CHIẾU</span
                 ><strong>{{ integer(result.summary.labeled) }}</strong>
-                <p>Cùng tiền tệ và kỳ lương</p>
+                <p>Đúng đơn vị của nhánh đã chọn</p>
               </div>
             </div>
             <div class="result-tabs" role="tablist" aria-label="Phần kết quả">
               <button
                 v-for="[id, title] in [
-                  ['overview', 'Tổng quan thị trường'],
+                  ['overview', 'Tổng quan dữ liệu'],
                   ['rows', 'Dự đoán từng dòng'],
                   ['quality', 'Chất lượng & sai số'],
                 ]"
@@ -758,7 +1007,13 @@ onBeforeUnmount(() => {
             <template v-if="resultTab === 'overview'"
               ><div class="section-heading">
                 <div>
-                  <h2>Nhu cầu kỹ năng & thu nhập</h2>
+                  <h2>
+                    {{
+                      result.unit === "USD/year"
+                        ? "Kỹ năng & thu nhập khảo sát"
+                        : "Nhu cầu kỹ năng & thu nhập"
+                    }}
+                  </h2>
                   <p>
                     Các biểu đồ được tính từ bảng nhập, đã loại bản trùng hoàn
                     toàn.
@@ -826,11 +1081,11 @@ onBeforeUnmount(() => {
                       <th>Dòng</th>
                       <th>Vai trò</th>
                       <th>Kinh nghiệm</th>
-                      <th>Khu vực</th>
+                      <th>Quốc gia / khu vực</th>
                       <th>Kỹ năng</th>
                       <th>
                         {{ modelLabel(result.model.selected_model) }} ·
-                        triệu/tháng
+                        {{ unitLabel }}
                       </th>
                       <th>
                         {{
@@ -838,7 +1093,7 @@ onBeforeUnmount(() => {
                             comparisonFamily(result.model.selected_model),
                           )
                         }}
-                        · triệu/tháng
+                        · {{ unitLabel }}
                       </th>
                       <th>Cung cấp</th>
                       <th>Chênh lệch</th>
@@ -853,22 +1108,18 @@ onBeforeUnmount(() => {
                         {{ row.role || "—" }}<small>{{ row.level }}</small>
                       </td>
                       <td>{{ row.experience_years ?? "—" }}</td>
-                      <td>{{ row.location || "—" }}</td>
+                      <td>{{ row.country || row.location || "—" }}</td>
                       <td class="skills-cell">
                         {{ row.skills.join(", ") || "—" }}
                       </td>
                       <td class="number">
-                        {{ money(row.predicted_salary_vnd) }}
+                        {{ money(prediction(row)) }}
                       </td>
                       <td>
-                        {{
-                          money(
-                            row.comparison_salary_vnd ?? row.ridge_salary_vnd,
-                          )
-                        }}
+                        {{ money(prediction(row, "comparison")) }}
                       </td>
-                      <td>{{ money(row.salary_monthly_vnd) }}</td>
-                      <td>{{ money(row.error_vnd) }}</td>
+                      <td>{{ money(observedSalary(row)) }}</td>
+                      <td>{{ money(row.error_usd_year ?? row.error_vnd) }}</td>
                       <td v-if="result.gemma_execution?.used">
                         <span
                           class="pill"
@@ -937,7 +1188,7 @@ onBeforeUnmount(() => {
             </section>
             <template v-else
               ><section
-                v-if="result.gemma_execution"
+                v-if="result.gemma_execution && result.unit !== 'USD/year'"
                 class="panel quality-panel"
               >
                 <h2>Gemma đọc tin tuyển dụng</h2>
@@ -970,50 +1221,22 @@ onBeforeUnmount(() => {
                   }}
                 </p>
               </section>
-              <section class="panel quality-panel">
+              <section class="quality-panel metrics-section">
                 <h2>Độ khớp trên bảng đang nhập</h2>
                 <p class="muted">
                   Số đo dưới đây có thể bao gồm dữ liệu model từng thấy. Không
                   thay thế đánh giá trên tập test độc lập.
                 </p>
-                <div
-                  class="table-scroll"
+                <ModelComparison
                   v-if="Object.keys(result.metrics).length"
-                >
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Model</th>
-                        <th>Số mẫu</th>
-                        <th>MAE · triệu/tháng</th>
-                        <th>RMSE · triệu/tháng</th>
-                        <th>R²</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(metric, name) in result.metrics" :key="name">
-                        <td>
-                          {{
-                            name === "random_forest" ? "Random Forest" : "Ridge"
-                          }}
-                        </td>
-                        <td>{{ metric.samples }}</td>
-                        <td>{{ money(metric.mae_vnd) }}</td>
-                        <td>{{ money(metric.rmse_vnd) }}</td>
-                        <td>
-                          {{
-                            metric.r2 === null
-                              ? "Không đủ biến thiên"
-                              : metric.r2.toFixed(3)
-                          }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                  :metrics="result.metrics"
+                  :selected="result.model.selected_model"
+                  :unit="result.unit || 'VND/month'"
+                  scope="Bảng vừa nhập · không phải test độc lập"
+                />
                 <div v-else class="info-note">
-                  Không có nhãn lương phù hợp để tính MAE, RMSE hoặc R². Các dự
-                  đoán vẫn có trong bảng kết quả.
+                  Không có nhãn đúng đơn vị để tính MAE/RMSE/R²; vẫn có dự đoán
+                  trong bảng kết quả.
                 </div>
                 <ul class="quality-notes">
                   <li v-for="note in result.warnings" :key="note">
@@ -1024,11 +1247,15 @@ onBeforeUnmount(() => {
                   <summary>Thông tin model & khả năng tái hiện</summary>
                   <p>
                     Model {{ result.model.experiment_id }},
-                    {{ result.model.train_jobs }} tin train, nhãn silver. MAE
-                    test lịch sử:
-                    {{ money(result.model.historical_test.mae_vnd) }} triệu
-                    VND/tháng trên
-                    {{ result.model.historical_test.samples }} tin.
+                    {{ result.model.train_jobs }} mẫu train. MAE test lịch sử:
+                    {{
+                      money(
+                        result.model.historical_test.mae_usd_year ??
+                          result.model.historical_test.mae_vnd,
+                      )
+                    }}
+                    {{ unitLabel }} trên
+                    {{ result.model.historical_test.samples }} mẫu.
                   </p>
                   <p
                     v-if="
@@ -1056,23 +1283,33 @@ onBeforeUnmount(() => {
         <template v-else>
           <div class="advice-layout">
             <section class="panel profile-panel">
-              <h2>Hồ sơ của bạn</h2>
+              <h2>Thông tin hồ sơ</h2>
+              <label class="profile-market"
+                >Dữ liệu / đơn vị<select v-model="profileMarket">
+                  <option
+                    value="international_survey"
+                    :disabled="!internationalMeta"
+                  >
+                    Khảo sát quốc tế · USD/năm
+                  </option>
+                  <option value="vietnam_offers">
+                    Tin Việt Nam · VND/tháng
+                  </option>
+                </select></label
+              >
               <p class="muted">
                 Dùng cùng các thông tin đầu vào của mô hình lương.
               </p>
               <form @submit.prevent="getAdvice">
                 <label
                   >Vai trò<select v-model="profile.role">
-                    <option
-                      v-for="role in meta?.salary_model.roles"
-                      :key="role"
-                    >
+                    <option v-for="role in profileRoles" :key="role">
                       {{ role }}
                     </option>
                   </select></label
                 >
                 <div class="form-two">
-                  <label
+                  <label v-if="profileMarket === 'vietnam_offers'"
                     >Cấp bậc<select v-model="profile.level">
                       <option
                         v-for="level in [
@@ -1096,7 +1333,17 @@ onBeforeUnmount(() => {
                       placeholder="Chưa có thông tin"
                   /></label>
                 </div>
-                <label
+                <label v-if="profileMarket === 'international_survey'"
+                  >Quốc gia<select v-model="profile.country">
+                    <option
+                      v-for="country in internationalMeta?.countries"
+                      :key="country"
+                    >
+                      {{ country }}
+                    </option>
+                  </select></label
+                >
+                <label v-else
                   >Khu vực<input
                     v-model="profile.location"
                     placeholder="Ví dụ: Hà Nội" /></label
@@ -1116,80 +1363,84 @@ onBeforeUnmount(() => {
             </section>
             <div v-if="advice" class="advice-result">
               <section class="salary-spotlight">
-                <span>ƯỚC TÍNH LƯƠNG CHÀO TUYỂN</span
-                ><strong
-                  >{{ money(advice.predictions[advice.selected_model]) }}
-                  <small>triệu VND/tháng</small></strong
-                >
-                <p>
-                  {{ modelLabel(advice.selected_model) }} ·
-                  {{ modelLabel(comparisonFamily(advice.selected_model)) }} đối
-                  chiếu:
+                <span>{{ advice.target_label }}</span>
+                <div class="prediction-pair">
+                  <div>
+                    <span
+                      >{{ modelLabel(advice.selected_model) }} · được chọn</span
+                    ><strong
+                      >{{ money(advice.predictions[advice.selected_model])
+                      }}<small>{{ unitLabel }}</small></strong
+                    >
+                  </div>
+                  <div>
+                    <span
+                      >{{
+                        modelLabel(comparisonFamily(advice.selected_model))
+                      }}
+                      · đối chiếu</span
+                    ><strong
+                      >{{
+                        money(
+                          advice.predictions[
+                            comparisonFamily(advice.selected_model)
+                          ],
+                        )
+                      }}<small>{{ unitLabel }}</small></strong
+                    >
+                  </div>
+                </div>
+                <small
+                  >MAE test đã lưu:
                   {{
                     money(
-                      advice.predictions[
-                        comparisonFamily(advice.selected_model)
-                      ],
+                      advice.evidence.historical_test_mae_usd_year ??
+                        advice.evidence.historical_test_mae_vnd,
                     )
                   }}
-                  triệu/tháng
-                </p>
-                <small
-                  >Ước tính tham khảo, chưa xác định gross/net. MAE test lịch sử
-                  khoảng
-                  {{ money(advice.evidence.historical_test_mae_vnd) }}
-                  triệu/tháng.</small
-                >
-              </section>
-              <section
-                class="panel market-reference"
-                v-if="advice.market_reference"
-              >
-                <h2>Đối chiếu mặt bằng thị trường</h2>
-                <p v-if="advice.market_reference.available">
-                  {{ advice.market_reference.source }} ·
-                  {{ advice.market_reference.experience_band }} năm kinh nghiệm:
-                  <strong
-                    >{{ money(advice.market_reference.median_vnd_month) }} triệu
-                    VND/tháng</strong
-                  >
-                  (trung vị).
-                </p>
-                <p v-else>
-                  Chưa có ô tham chiếu được công bố cho cặp vai trò/kinh nghiệm
-                  này trong bảng đã thu thập.
-                </p>
-                <p class="muted">{{ advice.market_reference.caution }}</p>
-                <a
-                  :href="advice.market_reference.source_url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >Xem báo cáo nguồn ↗</a
+                  {{ unitLabel }} trên
+                  {{ advice.evidence.historical_test_samples }} mẫu. Đây không
+                  phải khoảng chắc chắn cho hồ sơ này.</small
                 >
               </section>
               <h2>Kỹ năng để cân nhắc tiếp theo</h2>
               <p class="muted">{{ advice.explanation }}</p>
-              <div class="recommendations">
-                <article
-                  v-for="item in advice.recommendations"
-                  :key="item.skill"
-                  class="panel"
-                >
-                  <span class="pill neutral"
-                    >{{ item.role_support ?? item.train_support }} mẫu train
-                    cùng vai trò</span
-                  >
-                  <h3>{{ item.skill }}</h3>
-                  <strong
-                    >{{ item.predicted_delta_vnd > 0 ? "+" : ""
-                    }}{{ money(item.predicted_delta_vnd) }} triệu</strong
-                  ><small
-                    >Thay đổi dự đoán
-                    {{ modelLabel(advice.selected_model) }} khi thêm kỹ
-                    năng</small
-                  >
-                </article>
-              </div>
+              <section
+                v-if="advice.recommendations.length"
+                class="panel recommendation-table"
+              >
+                <div class="table-scroll">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Kỹ năng nên cân nhắc</th>
+                        <th>Mẫu train cùng vai trò</th>
+                        <th>Thay đổi dự đoán khi thêm kỹ năng</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="item in advice.recommendations"
+                        :key="item.skill"
+                      >
+                        <td>
+                          <strong>{{ item.skill }}</strong>
+                        </td>
+                        <td>{{ item.role_support ?? item.train_support }}</td>
+                        <td class="number">
+                          +{{
+                            money(
+                              item.predicted_delta_usd_year ??
+                                item.predicted_delta_vnd,
+                            )
+                          }}
+                          {{ unitLabel }}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
               <div v-if="!advice.recommendations.length" class="info-note">
                 Chưa đủ bằng chứng trong train để gợi ý thêm kỹ năng.
               </div>
@@ -1204,10 +1455,11 @@ onBeforeUnmount(() => {
             </div>
             <section v-else class="panel empty-state advice-empty">
               <div class="empty-icon">↗</div>
-              <h2>Một góc nhìn cho bước tiếp theo</h2>
+              <h2>Kết quả dự đoán và kỹ năng đề xuất</h2>
               <p>
-                Điền hồ sơ để xem mức lương ước tính và gợi ý có số mẫu hỗ trợ
-                từ dữ liệu train.
+                Nhập vai trò, kinh nghiệm, quốc gia hoặc khu vực và kỹ năng. Kết
+                quả sẽ đặt hai mô hình cạnh nhau, kèm số mẫu hỗ trợ cho từng gợi
+                ý.
               </p>
               <span class="pill neutral"
                 >Gợi ý dựa trên dữ liệu · Không cam kết tăng lương</span
@@ -1216,7 +1468,9 @@ onBeforeUnmount(() => {
           </div>
         </template>
         <footer class="footer">
-          <span>IT Career Insight <b>·</b> Phân tích việc làm CNTT</span
+          <span
+            >Đề tài 04 <b>·</b> Phân tích thị trường việc làm CNTT & dự đoán
+            lương</span
           ><span
             >Gemma đọc tin <b>·</b> Ridge / RF dự đoán <b>·</b> Python vẽ biểu
             đồ</span

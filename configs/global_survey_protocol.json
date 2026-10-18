@@ -1,0 +1,56 @@
+{
+  "version": "global_survey_v1",
+  "source_csv": {
+    "path": "data/raw/stackoverflow_2024/survey_results_public.csv",
+    "url": "https://media.githubusercontent.com/media/StackExchange/Survey/6c646551e86ffcafca0ac04f1dfb17a2558ec23d/packages/archive/2024/results.csv",
+    "bytes": 159525875,
+    "sha256": "7f2c2dbf6989d00b80a7351de4bb3af4b52b21cc52d5c947891bbc4f4e5cbe49",
+    "seconds": 6.86
+  },
+  "target": "salary_annual_usd",
+  "unit": "USD/year",
+  "features": [
+    "experience_years",
+    "role",
+    "country",
+    "skills"
+  ],
+  "experience": "WorkExp only, not YearsCode or assumed seniority",
+  "skills_columns": [
+    "LanguageHaveWorkedWith",
+    "DatabaseHaveWorkedWith",
+    "PlatformHaveWorkedWith",
+    "WebframeHaveWorkedWith",
+    "MiscTechHaveWorkedWith"
+  ],
+  "cleaning": "Finite ConvertedCompYearly 1000..1000000 USD/year and WorkExp 0..80; nonempty DevType/Country; deduplicate identical feature+salary records. Bounds fixed before fitting.",
+  "split": "Profile group is country+role+WorkExp+sorted technology set. GroupShuffleSplit seed20261018,20% test,18.75% remaining valid. Cannot establish respondent/company independence without identity; not a temporal holdout.",
+  "candidates": {
+    "ridge_alpha": [
+      10,
+      100
+    ],
+    "rf_min_leaf": [
+      5,
+      15
+    ],
+    "rf_trees": 120,
+    "rf_max_depth": 14,
+    "seed": 20261018,
+    "target_transform": "log1p / expm1"
+  },
+  "selection": "Per-family validation MAE then RMSE; test selected families and train median once after persisted selection.",
+  "profile_serving_gates": {
+    "min_test_rows": 200,
+    "min_test_groups": 200,
+    "mae_ratio_to_median_max": 0.95,
+    "rmse_ratio_to_median_max": 1.05
+  },
+  "limits": [
+    "Self-reported total compensation converted to USD/year by Stack Overflow",
+    "Not advertised salary, not numeric experience inferred from titles",
+    "Sample selection and country coverage bias; no causal skill premium",
+    "No new Gemma fine-tune; existing extraction adapter supports Vietnam card contract only",
+    "No ITviec source, target or alignment gate"
+  ]
+}

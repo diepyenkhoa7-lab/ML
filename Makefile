@@ -55,6 +55,26 @@ app-test:
 submission-data:
 	$(PYTHON) scripts/package_submission_data.py
 
+.PHONY: open-data-fetch open-data-verify salary-global-train salary-aijobs-train global-research submission-open-data
+open-data-fetch:
+	$(PYTHON) scripts/fetch_open_salary_round.py
+
+open-data-verify:
+	$(PYTHON) scripts/fetch_open_salary_round.py --verify-only
+
+# Real CPU training; immutable run directories refuse an accidental second fit.
+salary-global-train:
+	$(PYTHON) scripts/train_global_survey.py
+
+salary-aijobs-train:
+	$(PYTHON) scripts/train_open_aijobs.py
+
+global-research:
+	$(PYTHON) scripts/build_international_research.py
+
+submission-open-data:
+	$(PYTHON) scripts/package_open_datasets.py
+
 lab:
 	@mkdir -p "$(JUPYTER_RUNTIME_DIR)" "$(IPYTHONDIR)"
 	$(PYTHON) -m jupyterlab --notebook-dir=notebooks --no-browser

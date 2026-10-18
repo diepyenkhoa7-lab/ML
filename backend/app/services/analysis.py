@@ -59,14 +59,18 @@ def export_results(rows, folder, report):
         "",
         f"Nguồn: {report['filename']}",
         f"Model: {report['model']['experiment_id']}; "
-        f"selected={report['model']['selected_model']}; unit=VND/month.",
+        f"selected={report['model']['selected_model']}; unit={report.get('unit', 'VND/month')}.",
         f"Dòng nhập: {report['summary']['rows']}; "
         f"thành công: {report['summary']['predicted']}; lỗi: {report['summary']['invalid']}.",
         "",
         "Độ khớp trên bảng nhập, không phải holdout độc lập:",
         json.dumps(report["metrics"], ensure_ascii=False, indent=2),
         "",
-        "Lương VND/năm được chia 12; nhãn là trung điểm khoảng nếu đủ hai cận.",
+        (
+            "Nhánh quốc tế: thu nhập USD/năm từ khảo sát, không quy đổi sang VND."
+            if report.get("unit") == "USD/year"
+            else "Lương VND/năm được chia 12; nhãn là trung điểm khoảng nếu đủ hai cận."
+        ),
         "Không đổi ngoại tệ tự động. Lương trích bằng Gemma không dùng làm nhãn đánh giá.",
         "Dòng trùng hoàn toàn vẫn có kết quả nhưng loại khỏi biểu đồ/metric.",
         "Không có ngày đăng hợp lệ thì không tạo xu hướng theo thời gian.",
@@ -92,6 +96,8 @@ def export_results(rows, folder, report):
         gemma_execution=report["gemma_execution"],
         adapter=report["gemma_execution"].get("provenance", {}).get("adapter"),
         adapter_sha256=report["gemma_execution"].get("provenance", {}).get("adapter_sha256"),
+        unit=report.get("unit", "VND/month"),
+        market=report.get("market", "vietnam_offers"),
         predictions_do_not_train=True,
         application_source_sha256={
             str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
@@ -119,6 +125,10 @@ def export_results(rows, folder, report):
 
 
 def analyze(dataset, options, folder: Path, progress):
+    if options.market == "international_survey":
+        from backend.app.services.international_analysis import analyze_international
+
+        return analyze_international(dataset, options, folder, progress)
     model = salary_service()
     mapping = options.mapping
     if set(mapping.values()) - set(dataset["columns"]):

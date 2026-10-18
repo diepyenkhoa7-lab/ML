@@ -1,0 +1,162 @@
+{
+  "schema_version": "career.open.datasets.v1",
+  "unit": "USD/year",
+  "scope": "Frozen derived tables; full raw snapshots fetched by pinned URLs/checksums",
+  "attribution": "Stack Overflow 2024: ODbL-1.0/DbCL-1.0; AIJobs: CC0-1.0; Level: metadata only, CC-BY-4.0 compilation",
+  "files": [
+    {
+      "path": "configs/global_survey_protocol.json",
+      "purpose": "reproduction_protocol",
+      "bytes": 2112,
+      "sha256": "5a0947334bea3406e6c843001276b7c4b80f6cb8bf984c0834f64c997f7619d5",
+      "rows": null
+    },
+    {
+      "path": "configs/open_aijobs_protocol.json",
+      "purpose": "reproduction_protocol",
+      "bytes": 2383,
+      "sha256": "4804e23858eba080c6554a2535779990e439814fed5ec092df819ceaf1b0307c",
+      "rows": null
+    },
+    {
+      "path": "configs/open_salary_sources_20261018.json",
+      "purpose": "reproduction_protocol",
+      "bytes": 4266,
+      "sha256": "3202e65f66b438ca618e5eb40912148e7f04a111ea6dd0424273746faf9162d0",
+      "rows": null
+    },
+    {
+      "path": "data/raw/aijobs_20261018/LICENSE",
+      "purpose": "upstream_attribution_and_license",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "rows": null
+    },
+    {
+      "path": "data/raw/aijobs_20261018/README.md",
+      "purpose": "upstream_attribution_and_license",
+      "bytes": 1199,
+      "sha256": "ae4e3065b11f79038dc88f5efbecb121b43678f768736429b594d1f6a5ed3ca1",
+      "rows": null
+    },
+    {
+      "path": "data/raw/aijobs_20261018/USAGE.md",
+      "purpose": "raw_download_provenance",
+      "bytes": 383,
+      "sha256": "85cdc5cf77099e6ddfcd0c463da45e9d3a1c217b94733844122c000994e7170b",
+      "rows": null
+    },
+    {
+      "path": "data/raw/aijobs_20261018/manifest.json",
+      "purpose": "raw_download_provenance",
+      "bytes": 1303,
+      "sha256": "e9ba9f9ff92fb56118753eea09ca6ebfc2f8aab4824ed5fc912df1ee917a4b0c",
+      "rows": null
+    },
+    {
+      "path": "data/raw/level_20261018/README.md",
+      "purpose": "upstream_attribution_and_license",
+      "bytes": 6863,
+      "sha256": "fee7a4c4432d650763a8da88f202eeb093d2345e53e3013162c6ae028c182ce0",
+      "rows": null
+    },
+    {
+      "path": "data/raw/level_20261018/USAGE.md",
+      "purpose": "raw_download_provenance",
+      "bytes": 463,
+      "sha256": "0c0814067d490ec110537edc2ce9f839e1a25ab84e441455999eb5984f192731",
+      "rows": null
+    },
+    {
+      "path": "data/raw/level_20261018/manifest.json",
+      "purpose": "raw_download_provenance",
+      "bytes": 1059,
+      "sha256": "58a5b63e2ffaf200839d4ba22470ff348c936a1885d4ebfc93689ac16dfdd88e",
+      "rows": null
+    },
+    {
+      "path": "data/raw/stackoverflow_2024/README.md",
+      "purpose": "upstream_attribution_and_license",
+      "bytes": 9557,
+      "sha256": "70cc504bf54ec127aa08e074922efd5a360a0b1f3da6299893b939673b298a4c",
+      "rows": null
+    },
+    {
+      "path": "data/raw/stackoverflow_2024/USAGE.md",
+      "purpose": "raw_download_provenance",
+      "bytes": 469,
+      "sha256": "909a5eab39ad4fbe9ab79b319b8bef0ba49ffa6c384d37076210f89c84959abc",
+      "rows": null
+    },
+    {
+      "path": "data/raw/stackoverflow_2024/manifest.json",
+      "purpose": "raw_download_provenance",
+      "bytes": 1430,
+      "sha256": "5aeb74a686ccbb9e9bb16746baf8c11e49ceef78f33b5c19014e73085bc666b3",
+      "rows": null
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/manifest.json",
+      "purpose": "frozen_split_lineage",
+      "bytes": 1666,
+      "sha256": "ac125fb38cd1703008fa79e83615439637d792d0d6a4cc6db9f4ae8eaac9b114",
+      "rows": null
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/test.csv",
+      "purpose": "global_survey_v1_7f2c2dbf6989_test",
+      "bytes": 678804,
+      "sha256": "79334d9e3c6b87027f5bce5caeaf51ae3ca84db102fd1ab2ac9284f59ebb2b38",
+      "rows": 3158
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/train.csv",
+      "purpose": "global_survey_v1_7f2c2dbf6989_train",
+      "bytes": 2237996,
+      "sha256": "b99e9c702345cabd21e9b3fac799248febcfbba9ee3b8a9ce8b544136500232e",
+      "rows": 10261
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/valid.csv",
+      "purpose": "global_survey_v1_7f2c2dbf6989_valid",
+      "bytes": 514857,
+      "sha256": "07b99ad6996683ff3e98b9f9713d450e3771ed6e348a217992f22ab805e4c23c",
+      "rows": 2368
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/manifest.json",
+      "purpose": "frozen_split_lineage",
+      "bytes": 1603,
+      "sha256": "c254e8fdc916a2ba16149830c57612874e936f9c99698453cb8f7c69e30334dd",
+      "rows": null
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/test.csv",
+      "purpose": "open_aijobs_v1_ceea75a58f85_test",
+      "bytes": 1664411,
+      "sha256": "791e7bd0768a9a5a722ef4f1f2f9051a81ec1006e6749e6a7ca9af7c87a88af3",
+      "rows": 15363
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/train.csv",
+      "purpose": "open_aijobs_v1_ceea75a58f85_train",
+      "bytes": 5266775,
+      "sha256": "b0aa96ccdabc3bd4f56e76c6644fa34815500b7c2b12cfba55b468118e6bbd94",
+      "rows": 48321
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/valid.csv",
+      "purpose": "open_aijobs_v1_ceea75a58f85_valid",
+      "bytes": 906426,
+      "sha256": "d943405435e295d9993e7b7713b257242b3b3091e0d5cf5516b6f60072489cb0",
+      "rows": 8206
+    },
+    {
+      "path": "docs/INTERNATIONAL_DATA.md",
+      "purpose": "reproduction_protocol",
+      "bytes": 6801,
+      "sha256": "8e788855bd68c16ad276a383b613cf75979a67e45b4273d66c5b4a3831eeb5dd",
+      "rows": null
+    }
+  ]
+}

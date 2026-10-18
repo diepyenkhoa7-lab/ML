@@ -10,7 +10,6 @@ import numpy as np
 import pandas as pd
 
 from backend.app.services.data import ROOT
-from backend.app.services.market import market_reference
 
 EXPERIMENT = "bd9af2fa002caae8"
 FEATURES = ["experience_years", "role", "level", "location", "skills"]
@@ -211,9 +210,7 @@ class SalaryService:
         recommendations.sort(key=lambda r: r["predicted_delta_vnd"], reverse=True)
         selected_label = "Ridge" if self.selected_model == "ridge" else "Random Forest"
         return dict(
-            market_reference=market_reference(
-                row["role"], row["experience_years"], base[self.selected_model][0]
-            ),
+            market_reference=None,
             profile={k: row[k] for k in FEATURES},
             predictions={k: round(v[0]) for k, v in base.items()},
             selected_model=self.selected_model,

@@ -30,6 +30,13 @@ adapters/**
 # Dữ liệu người dùng nhập và kết quả app local
 outputs/app_runtime/
 outputs/submission/datasets.zip
+outputs/submission/open_datasets.zip
+data/raw/level_20261018/*.csv
+data/raw/aijobs_20261018/*.csv
+data/raw/stackoverflow_2024/*.csv
+data/raw/level_20261018/*.part
+data/raw/aijobs_20261018/*.part
+data/raw/stackoverflow_2024/*.part
 
 # New salary source is pinned/downloadable; keep metadata, exclude bulky originals/drafts.
 data/raw/tinixai_2026/*.parquet

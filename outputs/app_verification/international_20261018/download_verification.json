@@ -1,0 +1,9 @@
+{
+  "rows": 12,
+  "unit": "USD/year",
+  "files": 15,
+  "zip_sha256": "b70e03e4a1f1cf30227420b750eddbfdecfe53706336c5dd593ebf7ff8dbab6f",
+  "job_id": "4c985e9fe77d4cb0a2accf56a10c0bcc",
+  "crc_sha256_verified": true,
+  "fixture_is_train": true
+}

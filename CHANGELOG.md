@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-18 — Dashboard đúng đề và thu nhập quốc tế
+
+- Trang đầu phân tích dữ liệu thật: kỹ năng, kinh nghiệm, vai trò, quốc gia/khu vực; tách khảo sát công nghệ đã dùng khỏi nhu cầu tuyển dụng.
+- So sánh Ridge/RF/baseline với MAE, RMSE, R² theo từng tập test và đúng USD/năm hoặc VND/tháng.
+- Tải nguồn pinned SO2024, AIJobs và Level; train thật hai benchmark quốc tế, chọn bằng validation. RF SO2024 phục vụ profile/batch; AIJobs chỉ nghiên cứu; Level chưa train vì thiếu kỳ lương.
+- Bổ sung nhập bảng quốc tế, gợi ý kỹ năng có số mẫu train, xuất CSV/XLSX/JSON/PNG/ZIP và chặn trộn nhãn khác đơn vị. Bỏ ITviec khỏi tư vấn live.
+- Giữ adapter Gemma cho mô tả tin Việt Nam; chưa fine-tune thêm Gemma bằng dữ liệu quốc tế. Lệnh train, suy luận và dựng biểu đồ được tách rõ trong docs/INTERNATIONAL_DATA.md.
+
 ## 2026-10-18 — Chặn dự đoán lương âm và cô lập lỗi theo dòng
 
 - Tái hiện bằng model thật: hồ sơ ML Engineer/Junior/0 năm/Python-scikit-learn-

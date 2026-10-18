@@ -1,0 +1,32 @@
+{
+  "id": "aijobs_20261018",
+  "kind": "international_ai_data_annual_salary_survey",
+  "repo": "foorilla/ai-jobs-net-salaries",
+  "revision": "29a9fb9f5929ac1e1641547aa6cf902a890a8c6e",
+  "license": "CC0-1.0 per publisher",
+  "retrieved_at_utc": "2026-10-18T10:50:53.216281+00:00",
+  "files": [
+    {
+      "path": "data/raw/aijobs_20261018/README.md",
+      "url": "https://raw.githubusercontent.com/foorilla/ai-jobs-net-salaries/29a9fb9f5929ac1e1641547aa6cf902a890a8c6e/README.md",
+      "bytes": 1199,
+      "sha256": "ae4e3065b11f79038dc88f5efbecb121b43678f768736429b594d1f6a5ed3ca1",
+      "seconds": 0.55
+    },
+    {
+      "path": "data/raw/aijobs_20261018/LICENSE",
+      "url": "https://raw.githubusercontent.com/foorilla/ai-jobs-net-salaries/29a9fb9f5929ac1e1641547aa6cf902a890a8c6e/LICENSE",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "seconds": 0.54
+    },
+    {
+      "path": "data/raw/aijobs_20261018/salaries.csv",
+      "url": "https://raw.githubusercontent.com/foorilla/ai-jobs-net-salaries/29a9fb9f5929ac1e1641547aa6cf902a890a8c6e/salaries.csv",
+      "bytes": 8428290,
+      "sha256": "ceea75a58f85f2a8ecb805648b693c9fc541a80a6c3bf7121b53f9ecf6198f03",
+      "seconds": 2.01
+    }
+  ],
+  "training_started": false
+}

@@ -1,5 +1,7 @@
 # Các nguồn lương IT — kiểm tra ngày 17/10/2026
 
+**Bổ sung ngày 18/10/2026:** SO2024, AIJobs và Level đã tải với revision/bytes/SHA trong `configs/open_salary_sources_20261018.json`. Xem [INTERNATIONAL_DATA.md](INTERNATIONAL_DATA.md) về vai trò từng nguồn, train thật, đơn vị và giấy phép. Không gộp thu nhập USD/năm với lương chào tuyển VND/tháng; ITviec đã bỏ khỏi tư vấn web và không dùng trong hai vòng train quốc tế mới.
+
 Danh mục và phiên bản cố định ở `configs/data_sources.json`. File gốc được giữ
 trong `data/raw/`, mỗi nguồn có `manifest.json` ghi URL hoặc đường dẫn đầu vào,
 ngày nhận, số byte và SHA-256. Thống kê **đọc trực tiếp từ file** nằm trong

@@ -1,0 +1,86 @@
+[
+  {
+    "role":"Data scientist or machine learning specialist",
+    "country":"Pakistan",
+    "experience_years":3.0,
+    "skills":"angular;angularjs;apache kafka;apache spark;assembly;bash\/shell (all shells);c;c++;cuda;express;fastapi;flask;hadoop;html\/css;hugging face transformers;java;javascript;jquery;keras;microsoft azure;mongodb;mysql;node.js;numpy;opencl;opencv;pandas;python;r;scikit-learn;sql;sqlite;tensorflow;torch\/pytorch;typescript;vmware",
+    "salary_annual_usd":7322.0
+  },
+  {
+    "role":"Engineering manager",
+    "country":"United Kingdom of Great Britain and Northern Ireland",
+    "experience_years":18.0,
+    "skills":"amazon web services (aws);bigquery;c#;html\/css;java;javascript;micropython;oracle;postgresql;python;react;typescript",
+    "salary_annual_usd":161044.0
+  },
+  {
+    "role":"Developer, full-stack",
+    "country":"United States of America",
+    "experience_years":30.0,
+    "skills":".net (5+);angular;asp.net core;bash\/shell (all shells);c#;html\/css;javascript;microsoft azure;microsoft sql server;postgresql;powershell;rabbitmq;react;react native;snowflake;sql;typescript",
+    "salary_annual_usd":195000.0
+  },
+  {
+    "role":"Developer, full-stack",
+    "country":"Greece",
+    "experience_years":16.0,
+    "skills":"java;javascript;jax;mongodb;node.js;python;react",
+    "salary_annual_usd":79481.0
+  },
+  {
+    "role":"Developer, back-end",
+    "country":"Brazil",
+    "experience_years":17.0,
+    "skills":"amazon web services (aws);bash\/shell (all shells);elasticsearch;elixir;express;fly.io;javascript;node.js;phoenix;postgresql;typescript",
+    "salary_annual_usd":170000.0
+  },
+  {
+    "role":"Academic researcher",
+    "country":"Germany",
+    "experience_years":1.0,
+    "skills":"c++;opencl;opengl;rust",
+    "salary_annual_usd":29000.0
+  },
+  {
+    "role":"Developer, full-stack",
+    "country":"Italy",
+    "experience_years":4.0,
+    "skills":"amazon web services (aws);bash\/shell (all shells);c#;cloud firestore;dart;dynamodb;express;flutter;google cloud;javascript;nestjs;netlify;next.js;node.js;postgresql;python;react;react native;redis;rust;sqlite;typescript",
+    "salary_annual_usd":66592.0
+  },
+  {
+    "role":"Developer, full-stack",
+    "country":"Germany",
+    "experience_years":30.0,
+    "skills":"delphi",
+    "salary_annual_usd":85925.0
+  },
+  {
+    "role":"Developer, front-end",
+    "country":"United Kingdom of Great Britain and Northern Ireland",
+    "experience_years":15.0,
+    "skills":"astro;express;html\/css;javascript;netlify;react;typescript",
+    "salary_annual_usd":124840.0
+  },
+  {
+    "role":"Engineer, site reliability",
+    "country":"United States of America",
+    "experience_years":15.0,
+    "skills":"amazon web services (aws);bash\/shell (all shells);bigquery;digital ocean;django;elasticsearch;go;google cloud;mariadb;microsoft azure;mongodb;numpy;pandas;python;redis;rust;sqlite",
+    "salary_annual_usd":230000.0
+  },
+  {
+    "role":"Developer, full-stack",
+    "country":"United States of America",
+    "experience_years":25.0,
+    "skills":".net framework (1.0 - 4.8);amazon web services (aws);asp.net;bash\/shell (all shells);c#;c++;cloudflare;firebase;go;google cloud;html\/css;javascript;microsoft sql server;node.js;powershell;sql;vmware",
+    "salary_annual_usd":85000.0
+  },
+  {
+    "role":"Developer, full-stack",
+    "country":"United States of America",
+    "experience_years":20.0,
+    "skills":"amazon web services (aws);angular;asp.net core;c#;flutter;go;google cloud;html\/css;javascript;mariadb;microsoft azure;microsoft sql server;postgresql;sql;typescript",
+    "salary_annual_usd":160000.0
+  }
+]

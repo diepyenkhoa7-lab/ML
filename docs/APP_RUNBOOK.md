@@ -1,5 +1,7 @@
 # Chạy ứng dụng IT Career Insight
 
+**Cập nhật quốc tế:** trang đầu là dashboard train SO2024; trang so sánh có ba bài toán riêng. Chọn khảo sát quốc tế USD/năm hoặc tin Việt Nam VND/tháng khi tư vấn/nhập file. Xem [INTERNATIONAL_DATA.md](INTERNATIONAL_DATA.md) cho sơ đồ thao tác, nguồn, metric và lệnh train thật. Các bước xử lý lương VND và Gemma bên dưới áp dụng cho ngữ cảnh tin Việt Nam. Tham chiếu ITviec đã bỏ khỏi tư vấn web.
+
 ## Mở trên máy hiện tại
 
 ```bash

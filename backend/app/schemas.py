@@ -14,6 +14,7 @@ FIELDS = (
     "salary",
     "posted_date",
     "description",
+    "country",
 )
 
 
@@ -25,6 +26,7 @@ class AnalysisRequest(BaseModel):
     period: Literal["month", "year"] | None = None
     salary_scale: Literal[1, 1000000] = 1
     use_gemma: bool = False
+    market: Literal["vietnam_offers", "international_survey"] = "vietnam_offers"
 
     @field_validator("mapping")
     @classmethod
@@ -63,6 +65,8 @@ class Profile(BaseModel):
     experience_years: float | None = Field(default=None, ge=0, le=80)
     location: str = Field(default="", max_length=200)
     skills: list[str] = Field(default_factory=list, max_length=100)
+    market: Literal["vietnam_offers", "international_survey"] = "vietnam_offers"
+    country: str = Field(default="", max_length=200)
 
     @field_validator("skills")
     @classmethod
@@ -84,7 +88,9 @@ class MarketReference(BaseModel):
 
 
 class ProfileResult(BaseModel):
-    market_reference: MarketReference
+    unit: Literal["VND/month", "USD/year"] = "VND/month"
+    target_label: str = "Lương chào tuyển theo tháng"
+    market_reference: MarketReference | None = None
     profile: dict[str, Any]
     predictions: dict[str, float]
     selected_model: str

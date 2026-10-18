@@ -1,5 +1,12 @@
 # Bàn giao dữ liệu đề tài
 
+Gói bên dưới dành cho mô hình tin Việt Nam và Gemma. Gói quốc tế riêng:
+`make submission-open-data` → `outputs/submission/open_datasets.zip` (22 file
+kèm manifest), gồm các bảng train/valid/test của SO2024 và AIJobs, nguồn/giấy phép.
+SO2024: 10.261/2.368/3.158 dòng; AIJobs: 48.321/8.206/15.363 dòng, mục tiêu USD/năm.
+Chi tiết tại [INTERNATIONAL_DATA.md](INTERNATIONAL_DATA.md). Hai gói không trộn
+USD/năm với VND/tháng. ITviec trong gói cũ là tham chiếu lịch sử, đã bỏ khỏi tư vấn live.
+
 Tạo gói bằng `make submission-data`. File kết quả là
 `outputs/submission/datasets.zip`; giải nén giữ nguyên đường dẫn từ gốc dự án.
 Không chạy huấn luyện khi tạo hoặc kiểm tra gói.

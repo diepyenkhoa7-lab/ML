@@ -1,0 +1,179 @@
+{
+  "dataset": {
+    "name": "Stack Overflow Developer Survey 2024 · quốc tế",
+    "tag": "TRAIN · KHẢO SÁT QUỐC TẾ",
+    "unit": "USD/year",
+    "unit_label": "nghìn USD/năm",
+    "entity_label": "phản hồi",
+    "group_label": "Nhóm hồ sơ",
+    "rows": 10261,
+    "groups": 10260,
+    "role_counts": {
+      "Developer, full-stack": 3706,
+      "Developer, back-end": 2203,
+      "Developer, front-end": 586,
+      "Developer, desktop or enterprise applications": 445,
+      "Developer, mobile": 351,
+      "Developer, embedded applications or devices": 332,
+      "Engineering manager": 281,
+      "Other (please specify):": 274,
+      "Data engineer": 233,
+      "DevOps specialist": 229,
+      "Data scientist or machine learning specialist": 184,
+      "Research & Development role": 159,
+      "Academic researcher": 146,
+      "Senior Executive (C-Suite, VP, etc.)": 132,
+      "Cloud infrastructure engineer": 122,
+      "Developer, QA or test": 99,
+      "Developer, AI": 92,
+      "Developer, game or graphics": 90,
+      "Data or business analyst": 73,
+      "Engineer, site reliability": 64,
+      "System administrator": 49,
+      "Security professional": 49,
+      "Scientist": 47,
+      "Developer Experience": 42,
+      "Student": 39,
+      "Project manager": 39,
+      "Educator": 38,
+      "Product manager": 33,
+      "Hardware Engineer": 31,
+      "Blockchain": 30,
+      "Developer Advocate": 23,
+      "Database administrator": 21,
+      "Designer": 13,
+      "Marketing or sales professional": 6
+    },
+    "source_url": "https://survey.stackoverflow.co/2024/",
+    "scope": "Phản hồi train có WorkExp và thu nhập USD/năm; không đại diện toàn bộ lập trình viên",
+    "target": "Tổng thu nhập tự khai · USD/năm, được nhà công bố quy đổi",
+    "temporal_note": "Khảo sát năm 2024; không suy diễn xu hướng theo tháng hoặc lương thị trường 2026.",
+    "weak_rows_excluded_from_charts": 0,
+    "input_sha256": "b99e9c702345cabd21e9b3fac799248febcfbba9ee3b8a9ce8b544136500232e"
+  },
+  "charts": [
+    {
+      "id": "global_skill_demand",
+      "title": "Công nghệ phổ biến trong khảo sát",
+      "caption": "Công nghệ trong khảo sát; 10261 mẫu hợp lệ, loại bản trùng. Kỹ năng ngoài danh mục vẫn được giữ trong bảng kết quả.",
+      "file": "skill_demand.png",
+      "url": "/api/research/charts/global_skill_demand"
+    },
+    {
+      "id": "global_skill_salary_observed",
+      "title": "Thu nhập theo công nghệ",
+      "caption": "Chỉ hiển thị kỹ năng có ít nhất 3 mẫu; liên hệ quan sát, không suy nhân quả",
+      "file": "skill_salary_observed.png",
+      "url": "/api/research/charts/global_skill_salary_observed"
+    },
+    {
+      "id": "global_experience_observed",
+      "title": "Kinh nghiệm và thu nhập",
+      "caption": "10261 mẫu đủ kinh nghiệm/lương",
+      "file": "experience_observed.png",
+      "url": "/api/research/charts/global_experience_observed"
+    },
+    {
+      "id": "global_role_observed",
+      "title": "Thu nhập theo vai trò",
+      "caption": "10261 mẫu; tối đa 8 nhóm phổ biến",
+      "file": "role_observed.png",
+      "url": "/api/research/charts/global_role_observed"
+    },
+    {
+      "id": "global_location_observed",
+      "title": "Thu nhập theo quốc gia",
+      "caption": "10261 mẫu; tối đa 8 nhóm phổ biến",
+      "file": "location_observed.png",
+      "url": "/api/research/charts/global_location_observed"
+    }
+  ],
+  "top_demand": [
+    {
+      "skill": "javascript",
+      "jobs": 6532,
+      "groups": 6531,
+      "median_salary": 64444.0,
+      "median_salary_display": 64.444
+    },
+    {
+      "skill": "sql",
+      "jobs": 5787,
+      "groups": 5786,
+      "median_salary": 66592.0,
+      "median_salary_display": 66.592
+    },
+    {
+      "skill": "html/css",
+      "jobs": 5400,
+      "groups": 5399,
+      "median_salary": 63694.0,
+      "median_salary_display": 63.694
+    },
+    {
+      "skill": "python",
+      "jobs": 5043,
+      "groups": 5043,
+      "median_salary": 70008.0,
+      "median_salary_display": 70.008
+    },
+    {
+      "skill": "postgresql",
+      "jobs": 4972,
+      "groups": 4972,
+      "median_salary": 68034.0,
+      "median_salary_display": 68.034
+    }
+  ],
+  "top_salary_skills": [
+    {
+      "skill": "presto",
+      "jobs": 67,
+      "groups": 67,
+      "median_salary": 115000.0,
+      "median_salary_display": 115.0
+    },
+    {
+      "skill": "snowflake",
+      "jobs": 281,
+      "groups": 281,
+      "median_salary": 114559.0,
+      "median_salary_display": 114.559
+    },
+    {
+      "skill": "datomic",
+      "jobs": 27,
+      "groups": 27,
+      "median_salary": 107617.0,
+      "median_salary_display": 107.617
+    },
+    {
+      "skill": "clojure",
+      "jobs": 156,
+      "groups": 156,
+      "median_salary": 103307.5,
+      "median_salary_display": 103.3075
+    },
+    {
+      "skill": "colocation",
+      "jobs": 51,
+      "groups": 51,
+      "median_salary": 102036.0,
+      "median_salary_display": 102.036
+    }
+  ],
+  "experience_salary_pearson": 0.33993130553687095,
+  "training": {
+    "note": "Chỉ dùng train trong phân tích; kỹ năng, quốc gia và thu nhập là dữ liệu tự khai. Không dùng ITviec hoặc trộn nhãn VND/tháng."
+  },
+  "files": {
+    "country_statistics.csv": "37a8e644c9671fd5e689dcf7c3b01fe4ae242f360bafdaf527b8df5d28e0a513",
+    "location_observed.png": "60efa7857bcd730a7c927b397f613a700322cf99e0bbba4ff3db932ef385d8f3",
+    "role_statistics.csv": "1baea503d86db85aa4a033a21210efe5fdc51de00cd394196537b060cd748468",
+    "skill_demand.png": "8bf752d075c9db1a59577ddd1bca0aa447152ed14e90d822ab9e1b163812c485",
+    "skill_statistics.csv": "fdca76561df9c3bcb4cfcfc51c5acd9826d1246566df4670d66b976945fe2f53",
+    "role_observed.png": "fd3ee6e90c6f4778a24abfb82de279002b092d5125583b95f563454f0bb9ed0e",
+    "experience_observed.png": "41ea1b52f5cf105ea3eb90e2d0cf8bc916387921be08703a72de33eee184abf2",
+    "skill_salary_observed.png": "b5ec8d658ec2fbee546b3860dacfae2515d3ff7165e71aefbb41e236b29af1bf"
+  }
+}

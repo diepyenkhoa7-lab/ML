@@ -1,0 +1,145 @@
+country,rows,median_salary_usd_year
+Afghanistan,2,12970.0
+Albania,1,64257.0
+Algeria,4,5963.0
+Angola,1,2339.0
+Argentina,54,35519.0
+Armenia,9,27865.0
+Australia,190,92492.0
+Austria,140,64659.0
+Azerbaijan,5,21200.0
+Bahrain,2,37213.0
+Bangladesh,48,8285.5
+Belarus,13,28647.0
+Belgium,93,64444.0
+Benin,1,2617.0
+Bhutan,2,2751.0
+Bolivia,9,20664.0
+Bosnia and Herzegovina,9,13161.0
+Botswana,1,27973.0
+Brazil,318,24243.0
+Bulgaria,49,47234.0
+Burkina Faso,2,2181.5
+Cambodia,3,22800.0
+Cameroon,3,9811.0
+Canada,384,87231.0
+Cape Verde,1,10473.0
+Chile,17,38994.0
+China,39,36315.0
+Colombia,33,39364.0
+"Congo, Republic of the...",1,1500.0
+Costa Rica,13,75304.0
+Croatia,35,50481.0
+Cuba,5,18600.0
+Cyprus,16,71425.0
+Czech Republic,134,52122.0
+Côte d'Ivoire,1,34896.0
+Democratic People's Republic of Korea,1,32640.0
+Denmark,88,86401.0
+Dominican Republic,7,46080.0
+Ecuador,9,13200.0
+Egypt,24,10725.0
+El Salvador,2,41100.0
+Estonia,23,69277.0
+Ethiopia,6,25484.0
+Finland,79,64444.0
+France,378,53703.0
+Georgia,26,57966.5
+Germany,930,73036.0
+Ghana,8,5374.5
+Greece,79,37592.0
+Guatemala,11,38561.0
+Haiti,1,90000.0
+Honduras,4,13791.5
+Hong Kong (S.A.R.),22,49597.5
+Hungary,79,40763.0
+Iceland,6,64875.5
+India,508,16749.0
+Indonesia,46,9150.5
+"Iran, Islamic Republic of...",54,30412.5
+Iraq,2,38900.0
+Ireland,54,96666.0
+Isle of Man,7,82802.0
+Israel,102,114548.0
+Italy,252,42962.0
+Jamaica,2,44561.5
+Japan,52,62053.0
+Jordan,9,39503.0
+Kazakhstan,14,35079.5
+Kenya,18,15426.5
+Kosovo,1,19333.0
+Kyrgyzstan,7,16669.0
+Lao People's Democratic Republic,1,2760.0
+Latvia,17,45798.0
+Lebanon,6,15300.0
+Lesotho,1,15600.0
+Lithuania,36,61221.5
+Luxembourg,10,80554.5
+Madagascar,1,5906.0
+Malawi,1,5694.0
+Malaysia,33,18222.0
+Maldives,4,21037.5
+Malta,11,59073.0
+Mauritius,3,64273.0
+Mexico,84,32345.0
+Montenegro,3,3544.0
+Morocco,9,5025.0
+Mozambique,1,36612.0
+Myanmar,3,3974.0
+Namibia,2,36953.5
+Nepal,12,8515.0
+Netherlands,247,68740.0
+New Zealand,63,86039.0
+Nicaragua,2,30000.0
+Nigeria,30,8305.5
+Nomadic,2,112776.5
+Norway,97,84232.0
+Oman,1,12989.0
+Pakistan,55,8614.0
+Palestine,1,30000.0
+Panama,2,61500.0
+Paraguay,6,41074.5
+Peru,11,23765.0
+Philippines,27,20834.0
+Poland,299,56422.0
+Portugal,106,53703.0
+Qatar,2,53553.0
+Republic of Korea,4,30101.0
+Republic of Moldova,7,53703.0
+Republic of North Macedonia,3,44000.0
+Romania,82,51341.5
+Russian Federation,109,29132.0
+Rwanda,5,22693.0
+Saudi Arabia,13,53328.0
+Senegal,1,36179.0
+Serbia,33,38666.0
+Singapore,32,88699.0
+Slovakia,40,41458.5
+Slovenia,29,53703.0
+South Africa,72,52301.5
+South Korea,19,56575.0
+Spain,263,47259.0
+Sri Lanka,28,12181.0
+Sudan,1,18665.0
+Suriname,1,26000.0
+Sweden,200,59615.0
+Switzerland,185,112531.0
+Syrian Arab Republic,4,8776.0
+Taiwan,39,30884.0
+Thailand,23,44000.0
+Trinidad and Tobago,1,38000.0
+Tunisia,11,7994.0
+Turkey,85,27822.0
+Turkmenistan,2,40712.5
+Uganda,4,9019.0
+Ukraine,454,33435.0
+United Arab Emirates,23,68066.0
+United Kingdom of Great Britain and Northern Ireland,621,82802.0
+United Republic of Tanzania,4,15296.0
+United States of America,2059,145000.0
+Uruguay,14,84000.0
+Uzbekistan,6,19564.5
+"Venezuela, Bolivarian Republic of...",16,9600.0
+Viet Nam,23,14150.0
+Yemen,1,5333.0
+Zimbabwe,6,21500.0

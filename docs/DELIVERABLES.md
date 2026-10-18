@@ -1,5 +1,7 @@
 # Đối chiếu đề bài và sản phẩm bàn giao
 
+Cập nhật quốc tế: [INTERNATIONAL_DATA.md](INTERNATIONAL_DATA.md). Dashboard có 5 biểu đồ train SO2024 hoặc 5 biểu đồ tin VN; bảng Ridge/RF/baseline với MAE, RMSE, R² cho từng bài toán. Profile và batch hỗ trợ USD/năm riêng với VND/tháng. Đã train thật SO2024 (15.787 dòng sau lọc) và AIJobs (71.890 dòng unique hợp lệ); Level lưu raw, chưa train. Gói quốc tế: `make submission-open-data` → `outputs/submission/open_datasets.zip`; không trộn mục tiêu hai thị trường và không dùng ITviec live.
+
 | Yêu cầu | Đầu ra cần hoàn thành | Trạng thái hiện tại |
 |---|---|---|
 | Xử lý dữ liệu | CSV/JSON/XLSX sạch + data card, quy tắc lương/kỹ năng | Đã có v1, salary v2.1.0 và thử nghiệm strict v3/v3.1; corpus Gemma corrected v2.2.0; còn silver labels/nguồn yếu, xem data card và các runbook |
@@ -23,7 +25,7 @@ Giải thích/tư vấn điền từ số liệu Python; không gọi Gemma đ�
 tư vấn hiện lấy số liệu từ Python/model, không có kết quả chấm rubric ngôn ngữ để báo cáo.
 
 Phân công theo context: dữ liệu; EDA; Gemma trên Mac; mô hình lương + API;
-frontend + tích hợp. Cả năm người tự viết phần báo cáo cá nhân.
+frontend + tích hợp. Báo cáo cá nhân nằm ngoài phạm vi theo yêu cầu người dùng.
 
 Trạng thái thực nghiệm và giới hạn: [TRAINING_RUNBOOK.md](TRAINING_RUNBOOK.md).
 

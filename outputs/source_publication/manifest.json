@@ -2,7 +2,7 @@
   "branch": "publish/salary-gemma-prep",
   "mode": "separate_history_source_snapshot",
   "preserved_history_branch": "feat/salary-training-gemma-prep",
-  "includes": "source, executed notebooks, frozen splits, two VN clean CSVs, silver JSONL, salary pipelines, small final Gemma adapter and logs",
+  "includes": "source, executed notebooks, frozen splits, two VN clean CSVs, international survey splits/models/train charts and source metadata, silver JSONL, salary pipelines, small final Gemma adapter and logs",
   "excludes": "raw/bulky audit CSVs, old failed splits, Gemma base weights, intermediate adapter checkpoints, unreviewed Gemma runs, user upload/runtime, caches, credentials",
   "reproduction": "docs/TRAINING_RUNBOOK.md",
   "self_excluded_from_hashes": true,
@@ -14,8 +14,8 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 1001,
-      "sha256": "79d5166d7f369d9362392ae38c90538d13fa2b8f71cb4b3191b0bfa61a4b658b"
+      "bytes": 1231,
+      "sha256": "0d893955ccd6fd30db75fff7525d11f9f47117c361d7d9fd39c68b1bbf37847a"
     },
     {
       "path": ".python-version",
@@ -24,18 +24,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 17025,
-      "sha256": "f7335dc24b7ba8726471d641ba724472655b4951014579d72f36bfe8cefaa687"
+      "bytes": 18012,
+      "sha256": "595b4168474f1ee5e451fea3d5743b95ef6de8476146c0f1a935d1af71d2c106"
     },
     {
       "path": "Makefile",
-      "bytes": 4725,
-      "sha256": "882bce2a82565d2ef272c5f9b9be73cf052e8b234f275f0d80c1a32670b64d06"
+      "bytes": 5328,
+      "sha256": "5bc54415b545279b2e957a1fe896370d5fac851c8866b09ad26cd5ce4c84a8b0"
     },
     {
       "path": "README.md",
-      "bytes": 14613,
-      "sha256": "d1023c8cab3cf3f3b5940af2fc5dbc403af29468abd6921f5f8d62fbc2f5495d"
+      "bytes": 15969,
+      "sha256": "c843431b3d7f92c0bfbb75ba824cfbb0608587a00bfbbf9c55344dbce839849a"
     },
     {
       "path": "adapters/README.md",
@@ -174,23 +174,23 @@
     },
     {
       "path": "backend/app/main.py",
-      "bytes": 7238,
-      "sha256": "645bbd01c8a56b90be3f0bc923064fa657f5fd17d916d0d6e8a5074a9370966e"
+      "bytes": 8104,
+      "sha256": "c81a0fed7f688b6bd98ac535764a958a9dece5f3c339678d8918b9f0274fe7e8"
     },
     {
       "path": "backend/app/schemas.py",
-      "bytes": 2856,
-      "sha256": "9297687c7466cec536ee816500ac44223be84736f522fb21604ea4e75c62a6b9"
+      "bytes": 3217,
+      "sha256": "0bc97f60630a93d5f9cfe0f21e920e92deeaa8f8c3df2b55ef07d218620f2b7e"
     },
     {
       "path": "backend/app/services/analysis.py",
-      "bytes": 14333,
-      "sha256": "4ccd4c3fc5d5ab4b177948b6aec5bf99a6f9d64a2cd1eb16de88b11ed81b7a31"
+      "bytes": 14844,
+      "sha256": "a1baac9715e4d4ac691176f5ce190c40e5e2b84e7f391b1c6b2936b873664b9e"
     },
     {
       "path": "backend/app/services/charts.py",
-      "bytes": 8598,
-      "sha256": "d660e5e165e3c9946a1aa81a8d8e32fe36aa8e293fa7d0da74c3779360e04345"
+      "bytes": 10235,
+      "sha256": "08f893ccc1cc190ec78f236bc047b6cef9412fff14f6d69ef24586599c26bd55"
     },
     {
       "path": "backend/app/services/contracts.py",
@@ -199,8 +199,8 @@
     },
     {
       "path": "backend/app/services/data.py",
-      "bytes": 10048,
-      "sha256": "7e9b05f8e036fcff071725b7941c27dc79f7bb85f08eec680f57fba1b00a7477"
+      "bytes": 10613,
+      "sha256": "fa499ad4397c9698a8774be02c705971888174f63b539b639a35aa2fc810de67"
     },
     {
       "path": "backend/app/services/gemma.py",
@@ -213,19 +213,34 @@
       "sha256": "a644ee884f76274e9ac7c148ff5fb583cfcd8badffd4d8ab8e6604915ea6d1e7"
     },
     {
+      "path": "backend/app/services/international.py",
+      "bytes": 8506,
+      "sha256": "cd2e4428f37850d059a1a2b9041d98acee2e7e1609367440ec8af2fe3765239d"
+    },
+    {
+      "path": "backend/app/services/international_analysis.py",
+      "bytes": 7678,
+      "sha256": "ae2505ac32a06c5a75dffdca15f000f8e48bd53d21ec3f3fc18a33a75f185a7d"
+    },
+    {
       "path": "backend/app/services/market.py",
       "bytes": 1385,
       "sha256": "41dd6abae1fd21305404ed1616ddf38e5d0ac02d2eb9f08065b681588d5dbfbc"
     },
     {
+      "path": "backend/app/services/research.py",
+      "bytes": 6980,
+      "sha256": "b6760df24a1e59052a62807d6bae793585f30f7c50042a8b58fda235f95e444d"
+    },
+    {
       "path": "backend/app/services/salary.py",
-      "bytes": 11627,
-      "sha256": "91910c8057c1905dad5d7e21b772a8eff44b67f710b3ea400ed0583e02ecf94d"
+      "bytes": 11460,
+      "sha256": "37957b90b374eacfd5c084d4c7b65fa03d6d4880589373e90753e95e72a3a749"
     },
     {
       "path": "backend/app/services/store.py",
-      "bytes": 7795,
-      "sha256": "1175bab30e4a130a83b8d0bba38547ea1b1a9679876da7dc3d9fd0abb7a08051"
+      "bytes": 8467,
+      "sha256": "8849a606b8d7c04ca426ed22bf5f24fd3355ffee20f0bb79c2ad0e3e232bb7fb"
     },
     {
       "path": "configs/application.json",
@@ -303,6 +318,21 @@
       "sha256": "b1342dfe320b06673afbafe019742e25024f7e80ccdb5af4de99f15fa1c0e0b6"
     },
     {
+      "path": "configs/global_survey_protocol.json",
+      "bytes": 2112,
+      "sha256": "5a0947334bea3406e6c843001276b7c4b80f6cb8bf984c0834f64c997f7619d5"
+    },
+    {
+      "path": "configs/international_application.json",
+      "bytes": 304,
+      "sha256": "068895db08b4d5e7637c3c9cdbd1fe03072ac6df4079c0153dfb375e9709cef5"
+    },
+    {
+      "path": "configs/international_research.json",
+      "bytes": 205,
+      "sha256": "35d636cce675592f6923487e20ec10466e3dca731dcc9bfd0f807497ae684532"
+    },
+    {
       "path": "configs/label_inspections.csv",
       "bytes": 15267,
       "sha256": "614dc32869d95a0ebb65d17fff7ab82cc076590032e22c4769cd54e30195906b"
@@ -311,6 +341,21 @@
       "path": "configs/label_review.json",
       "bytes": 545,
       "sha256": "e91e0429ede083fdf468d60a30b8e7ed5702e3a90b18181ca8cec2a6cb010db6"
+    },
+    {
+      "path": "configs/open_aijobs_protocol.json",
+      "bytes": 2383,
+      "sha256": "4804e23858eba080c6554a2535779990e439814fed5ec092df819ceaf1b0307c"
+    },
+    {
+      "path": "configs/open_salary_sources_20261018.json",
+      "bytes": 4266,
+      "sha256": "3202e65f66b438ca618e5eb40912148e7f04a111ea6dd0424273746faf9162d0"
+    },
+    {
+      "path": "configs/research_benchmarks.json",
+      "bytes": 750,
+      "sha256": "b4101ec55ea07c01f415a0344ab6ee0dc0041f4519bcb04720cd3bf29d105cc9"
     },
     {
       "path": "configs/salary.yaml",
@@ -409,8 +454,8 @@
     },
     {
       "path": "data/examples/README.md",
-      "bytes": 637,
-      "sha256": "def847ca8f4005fa136e0a5a408db22ea70d5b0f42c1c28925474ef4cf447c3d"
+      "bytes": 1089,
+      "sha256": "94bbc184717d3647f9e974271d58b79be345f9cb4fc413ae06ce2250fb435d91"
     },
     {
       "path": "data/examples/application_demo.csv",
@@ -451,6 +496,21 @@
       "path": "data/examples/finetune/valid.jsonl",
       "bytes": 1087,
       "sha256": "e5bc7c7946c569900062e62341fba1652e4ce200f983013ac0c1eb0fb7c0a9e1"
+    },
+    {
+      "path": "data/examples/international_demo.csv",
+      "bytes": 2434,
+      "sha256": "9cd5ef2f92bce973cb4ad7880abca98bf1c355782a4cd6131f38c3c74fa15fd6"
+    },
+    {
+      "path": "data/examples/international_demo.json",
+      "bytes": 3625,
+      "sha256": "af23d965e430cd8b55b3b85576f88cbd71e670531f8a8aeec28b73b83bc96873"
+    },
+    {
+      "path": "data/examples/international_demo.xlsx",
+      "bytes": 6020,
+      "sha256": "c2b3e9f0f25e9b41d51f3219590ac0f7367b07679c232b9a6eab483089f61286"
     },
     {
       "path": "data/examples/jobs_template.csv",
@@ -578,6 +638,26 @@
       "sha256": "46ec531132b269a4532a077fa6e325df7138fdea8f134ca401801e83a9cb5789"
     },
     {
+      "path": "data/raw/aijobs_20261018/LICENSE",
+      "bytes": 7048,
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "path": "data/raw/aijobs_20261018/README.md",
+      "bytes": 1199,
+      "sha256": "ae4e3065b11f79038dc88f5efbecb121b43678f768736429b594d1f6a5ed3ca1"
+    },
+    {
+      "path": "data/raw/aijobs_20261018/USAGE.md",
+      "bytes": 383,
+      "sha256": "85cdc5cf77099e6ddfcd0c463da45e9d3a1c217b94733844122c000994e7170b"
+    },
+    {
+      "path": "data/raw/aijobs_20261018/manifest.json",
+      "bytes": 1303,
+      "sha256": "e9ba9f9ff92fb56118753eea09ca6ebfc2f8aab4824ed5fc912df1ee917a4b0c"
+    },
+    {
       "path": "data/raw/joboko_20261018/README.md",
       "bytes": 710,
       "sha256": "a90a148df190e9b8b135d83b505cea0a2396d0957c6cbe22690a33d488b1c56f"
@@ -591,6 +671,21 @@
       "path": "data/raw/joboko_20261018/vn.joboko.com.robots.txt",
       "bytes": 1145,
       "sha256": "b3d2660b4179fa8b71662be25c0c6b4febec860aba5c8ca2c3a259b1e197b963"
+    },
+    {
+      "path": "data/raw/level_20261018/README.md",
+      "bytes": 6863,
+      "sha256": "fee7a4c4432d650763a8da88f202eeb093d2345e53e3013162c6ae028c182ce0"
+    },
+    {
+      "path": "data/raw/level_20261018/USAGE.md",
+      "bytes": 463,
+      "sha256": "0c0814067d490ec110537edc2ce9f839e1a25ab84e441455999eb5984f192731"
+    },
+    {
+      "path": "data/raw/level_20261018/manifest.json",
+      "bytes": 1059,
+      "sha256": "58a5b63e2ffaf200839d4ba22470ff348c936a1885d4ebfc93689ac16dfdd88e"
     },
     {
       "path": "data/raw/public_jobs_20261018/README.md",
@@ -611,6 +706,21 @@
       "path": "data/raw/public_jobs_20261018/www.careerlink.vn.robots.txt",
       "bytes": 3720,
       "sha256": "0ccf3f42776b549faad5ecea4590f700424cbe8a0e322c284927f8e8cd918f15"
+    },
+    {
+      "path": "data/raw/stackoverflow_2024/README.md",
+      "bytes": 9557,
+      "sha256": "70cc504bf54ec127aa08e074922efd5a360a0b1f3da6299893b939673b298a4c"
+    },
+    {
+      "path": "data/raw/stackoverflow_2024/USAGE.md",
+      "bytes": 469,
+      "sha256": "909a5eab39ad4fbe9ab79b319b8bef0ba49ffa6c384d37076210f89c84959abc"
+    },
+    {
+      "path": "data/raw/stackoverflow_2024/manifest.json",
+      "bytes": 1430,
+      "sha256": "5aeb74a686ccbb9e9bb16746baf8c11e49ceef78f33b5c19014e73085bc666b3"
     },
     {
       "path": "data/raw/stackoverflow_2026/README.md",
@@ -666,6 +776,46 @@
       "path": "data/references/topdev_2024_2025.csv",
       "bytes": 841,
       "sha256": "c9516fbdd92d0802c600a3b417710ec58f9c4a30254c5af2523425b6506ece74"
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/manifest.json",
+      "bytes": 1666,
+      "sha256": "ac125fb38cd1703008fa79e83615439637d792d0d6a4cc6db9f4ae8eaac9b114"
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/test.csv",
+      "bytes": 678804,
+      "sha256": "79334d9e3c6b87027f5bce5caeaf51ae3ca84db102fd1ab2ac9284f59ebb2b38"
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/train.csv",
+      "bytes": 2237996,
+      "sha256": "b99e9c702345cabd21e9b3fac799248febcfbba9ee3b8a9ce8b544136500232e"
+    },
+    {
+      "path": "data/splits/global_survey_v1_7f2c2dbf6989/valid.csv",
+      "bytes": 514857,
+      "sha256": "07b99ad6996683ff3e98b9f9713d450e3771ed6e348a217992f22ab805e4c23c"
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/manifest.json",
+      "bytes": 1603,
+      "sha256": "c254e8fdc916a2ba16149830c57612874e936f9c99698453cb8f7c69e30334dd"
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/test.csv",
+      "bytes": 1664411,
+      "sha256": "791e7bd0768a9a5a722ef4f1f2f9051a81ec1006e6749e6a7ca9af7c87a88af3"
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/train.csv",
+      "bytes": 5266775,
+      "sha256": "b0aa96ccdabc3bd4f56e76c6644fa34815500b7c2b12cfba55b468118e6bbd94"
+    },
+    {
+      "path": "data/splits/open_aijobs_v1_ceea75a58f85/valid.csv",
+      "bytes": 906426,
+      "sha256": "d943405435e295d9993e7b7713b257242b3b3091e0d5cf5516b6f60072489cb0"
     },
     {
       "path": "data/splits/v1.0.1/FROZEN.json",
@@ -1119,8 +1269,8 @@
     },
     {
       "path": "docs/APP_RUNBOOK.md",
-      "bytes": 9060,
-      "sha256": "c147d30ada9b9955443482e6c5665340edeae06a92a771adecfe1286a55b9000"
+      "bytes": 9543,
+      "sha256": "a806038e4ef5c94ffb147fde8d1697c0ffe17e293709a7dba8c7b33208d2442a"
     },
     {
       "path": "docs/DATASET.md",
@@ -1129,8 +1279,8 @@
     },
     {
       "path": "docs/DATASET_HANDOFF.md",
-      "bytes": 4773,
-      "sha256": "20e82c91a88c1a286bdcf8084941f226eb7938baaf3f87a873b4aeb781c5e2e5"
+      "bytes": 5332,
+      "sha256": "072ebe73592dabd16c0e6bcafbc4ab1045b5705c27c03e5574c2461cfb9d121a"
     },
     {
       "path": "docs/DATA_CLEANING.md",
@@ -1139,18 +1289,18 @@
     },
     {
       "path": "docs/DATA_SOURCES.md",
-      "bytes": 11042,
-      "sha256": "d386cb9ed565e5cf0858e61ea987affdb16f6ce90e8e81e1151c97d98648fd78"
+      "bytes": 11480,
+      "sha256": "63243dacf1b0e46f71653d3a27901e14066bff07fa74a57f775d9482a23bb019"
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 3771,
-      "sha256": "fa93ce8f0ce607940d28a753f9b43b309b311b84a590b46765c20df09c2979b3"
+      "bytes": 4356,
+      "sha256": "4f4e71c7e23371176b582d64346754a31d0adb6137e280a2afa3b86c394ba467"
     },
     {
       "path": "docs/DEMO_SCRIPT.md",
-      "bytes": 6674,
-      "sha256": "3148bc69102476073f9eb90a0efcbde2f2c3abecc34c6f15d4197df619b94fe8"
+      "bytes": 8294,
+      "sha256": "246ab46cf8368f527c55c84d4a69c3fb4d104f1bdf634f01fb07b0262314b76c"
     },
     {
       "path": "docs/ENVIRONMENT_STATUS.md",
@@ -1183,14 +1333,19 @@
       "sha256": "3d5a89d053bf120b96126748f81f8dbfd3613aabdad54f1142fbcaf457c4aa33"
     },
     {
+      "path": "docs/INTERNATIONAL_DATA.md",
+      "bytes": 6801,
+      "sha256": "8e788855bd68c16ad276a383b613cf75979a67e45b4273d66c5b4a3831eeb5dd"
+    },
+    {
       "path": "docs/LABEL_REVIEW_AND_SPLITS.md",
       "bytes": 8240,
       "sha256": "00dfb864671f7f8635ee1e2b9f914b68d5c6a7cbcc2ae7544e8f376f1dfc0f69"
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 38500,
-      "sha256": "d9342470113b350c41f685a5b3b4855ce41dddff37c063f3e3ac312ccded9ebd"
+      "bytes": 41419,
+      "sha256": "9c0cdf04d9ba5cf70c18a22f0e55bbd68a700923d23a2945af85283775598b4e"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
@@ -1239,8 +1394,18 @@
     },
     {
       "path": "frontend/src/App.vue",
-      "bytes": 45716,
-      "sha256": "a8dae0381d6c0596d5c792cc6dbeb55f1e64a02a5537005d294acca72ef5cb07"
+      "bytes": 55132,
+      "sha256": "3102825934b02f661cb8c19e3a9d00b92df115906a173cc77c6b5b64ff0a181c"
+    },
+    {
+      "path": "frontend/src/ModelComparison.vue",
+      "bytes": 4204,
+      "sha256": "b437315d16b159277415eee3eeef895b0206a69b490da87f8c31c677ab63c772"
+    },
+    {
+      "path": "frontend/src/ResearchDashboard.vue",
+      "bytes": 6659,
+      "sha256": "42d981f3214995493b95dc1d67ec0e7df2b8de6d1235b0b9a0e658ee3e592641"
     },
     {
       "path": "frontend/src/main.js",
@@ -1249,8 +1414,8 @@
     },
     {
       "path": "frontend/src/style.css",
-      "bytes": 24396,
-      "sha256": "26992381bd716334d7fc8e721aa244fb3a8dc895e948b004c41bf418b07ed319"
+      "bytes": 33009,
+      "sha256": "4d61fa437f6c71b7a5ce04e3091639f43902b65114dcbf45f1e957f8d1a8c5c0"
     },
     {
       "path": "frontend/vite.config.js",
@@ -1296,6 +1461,41 @@
       "path": "models/salary/bd9af2fa002caae8/ridge.joblib",
       "bytes": 9078,
       "sha256": "e5cc4fbeb8d6d9b65aa4abab0a9ab3dbfd869f965c00eabfaf08fb09965fc809"
+    },
+    {
+      "path": "models/salary/global_survey_v1_7f2c2dbf6989/manifest.json",
+      "bytes": 1298,
+      "sha256": "00c1d58212b309b32de115944ba0902f27912fd4194a868fba35002b6ead1c1f"
+    },
+    {
+      "path": "models/salary/global_survey_v1_7f2c2dbf6989/random_forest.joblib",
+      "bytes": 2560542,
+      "sha256": "32ae9326726e7491a781569249e151737d8b8c5b3db953e90c95a2862870643c"
+    },
+    {
+      "path": "models/salary/global_survey_v1_7f2c2dbf6989/ridge.joblib",
+      "bytes": 8439,
+      "sha256": "59d010ca1e784b24251418c5fbfce6f22f2b692e2ea06cf31908d08956f3d90f"
+    },
+    {
+      "path": "models/salary/global_survey_v1_7f2c2dbf6989/training_snapshot.csv",
+      "bytes": 2237996,
+      "sha256": "b99e9c702345cabd21e9b3fac799248febcfbba9ee3b8a9ce8b544136500232e"
+    },
+    {
+      "path": "models/salary/open_aijobs_v1_ceea75a58f85/manifest.json",
+      "bytes": 862,
+      "sha256": "bf31314fb4a03880f92bc7e270b4b75480b7ed4ca21bdbc90b28980b8370a0c2"
+    },
+    {
+      "path": "models/salary/open_aijobs_v1_ceea75a58f85/random_forest.joblib",
+      "bytes": 1083017,
+      "sha256": "ff2300ecb67a18615f0049364dcfb29ec20a888dc76403223c3d95f806118763"
+    },
+    {
+      "path": "models/salary/open_aijobs_v1_ceea75a58f85/ridge.joblib",
+      "bytes": 9499,
+      "sha256": "ba141f7065b22d3926b5185e6658657292c7708b693b02dff5b8c0714ab5069a"
     },
     {
       "path": "models/salary/v2_042e3aa1a886/manifest.json",
@@ -1458,6 +1658,61 @@
       "sha256": "097c0120dc289dae0323aea1d5cea911fd4943a841beac87f2263a045e5cfd59"
     },
     {
+      "path": "outputs/app_verification/international_20261018/REPORT.md",
+      "bytes": 2950,
+      "sha256": "3a62d8f4197b842209d3fbf7c0e263412d29b817a5745093c17477daeb6cdcea"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/batch_results.jpg",
+      "bytes": 105167,
+      "sha256": "5f70cf1bd410fcbad127d9c6afe5edae01f322d004652ed4254f8898a6aab18a"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/career_advice.jpg",
+      "bytes": 76575,
+      "sha256": "95a39e104a5e67c189290abcf8b1ba0eeabebdcb06e0aae060cc0fb8e3aa2a67"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/career_mobile.jpg",
+      "bytes": 75646,
+      "sha256": "34845dd1654ebfb7ee7377d4c5e8719818dc17ef931711b09828c0dcf728b09a"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/dashboard_desktop.jpg",
+      "bytes": 111693,
+      "sha256": "810cb98243428a4d3fda8e0730c73ebdd2cb5aa70ffc4d9150062466d1f84663"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/dashboard_mobile.jpg",
+      "bytes": 41850,
+      "sha256": "07547ccbedce6e34570444b93476bca45208ac0297ba04a8269943f43c903be6"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/download_verification.json",
+      "bytes": 245,
+      "sha256": "44c91acc241c4cc68ba7fa1937624912039c4cf7e7a32de12376d0134fb87458"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/final_server.json",
+      "bytes": 236,
+      "sha256": "d8514fb40d8c390a31b0227768b3d9275347e97d3031b9ee9fc4406eda857e17"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/model_comparison.jpg",
+      "bytes": 83693,
+      "sha256": "62d9990de977d9fb968e45946312d4eafd086547f822c1888f67401f54eb407b"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/source_copy_tests.log",
+      "bytes": 17156,
+      "sha256": "bcc0d6a1c9d5b977129be0acccebc3ce2fba78b639308378639eaaa9e7d420aa"
+    },
+    {
+      "path": "outputs/app_verification/international_20261018/tests.log",
+      "bytes": 17156,
+      "sha256": "d492a7d4f6c457f44fb7e6f4bf4e51c61b8b2fc4560b25c7c855c30cf655307b"
+    },
+    {
       "path": "outputs/app_verification/prediction_domain/live_api.json",
       "bytes": 4906,
       "sha256": "5762ce5b8e7cd7ff77c4ba5e67fa33df8c782d7e7d301f08a640b3b4070c5007"
@@ -1521,6 +1776,11 @@
       "path": "outputs/data_quality/cleaning/all_sources.json",
       "bytes": 14721,
       "sha256": "a88cf756ade2abd37c6dc4efbd1ac9063bfd742c0c24625a9622cc5401185a17"
+    },
+    {
+      "path": "outputs/data_quality/open_sources_20261018.json",
+      "bytes": 1398,
+      "sha256": "5a9b951fc2e7f964bdc1f1ca0432c4cc770279a3b49619ccb90225d456b76062"
     },
     {
       "path": "outputs/eda/20261017T092843Z_e3747c/dated_train_groups_by_month.csv",
@@ -1591,6 +1851,51 @@
       "path": "outputs/eda/20261017T092843Z_e3747c/top_skills_salary_train.png",
       "bytes": 95342,
       "sha256": "66dcaf981ad8444e7b2ef70ee0697a0026f21191f382bc78aa92aa70c774afc2"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/country_statistics.csv",
+      "bytes": 3115,
+      "sha256": "37a8e644c9671fd5e689dcf7c3b01fe4ae242f360bafdaf527b8df5d28e0a513"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/experience_observed.png",
+      "bytes": 75737,
+      "sha256": "41ea1b52f5cf105ea3eb90e2d0cf8bc916387921be08703a72de33eee184abf2"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/location_observed.png",
+      "bytes": 40824,
+      "sha256": "60efa7857bcd730a7c927b397f613a700322cf99e0bbba4ff3db932ef385d8f3"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/role_observed.png",
+      "bytes": 46678,
+      "sha256": "fd3ee6e90c6f4778a24abfb82de279002b092d5125583b95f563454f0bb9ed0e"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/role_statistics.csv",
+      "bytes": 1210,
+      "sha256": "1baea503d86db85aa4a033a21210efe5fdc51de00cd394196537b060cd748468"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/skill_demand.png",
+      "bytes": 39468,
+      "sha256": "8bf752d075c9db1a59577ddd1bca0aa447152ed14e90d822ab9e1b163812c485"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/skill_salary_observed.png",
+      "bytes": 45223,
+      "sha256": "b5ec8d658ec2fbee546b3860dacfae2515d3ff7165e71aefbb41e236b29af1bf"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/skill_statistics.csv",
+      "bytes": 6001,
+      "sha256": "fdca76561df9c3bcb4cfcfc51c5acd9826d1246566df4670d66b976945fe2f53"
+    },
+    {
+      "path": "outputs/eda/global_survey_v1_7f2c2dbf6989/view.json",
+      "bytes": 6172,
+      "sha256": "792137a533aa07b658e1728dface480fff7fb84067362897fd9e3a2af1cd8ab4"
     },
     {
       "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/experience_salary.png",
@@ -2118,6 +2423,46 @@
       "sha256": "384a2a10cc3b52c1efd7fc53fb4c979f594bb1aa0d7db469a6a37ca9f68a3e0d"
     },
     {
+      "path": "outputs/metrics/global_survey_v1_7f2c2dbf6989/selection.json",
+      "bytes": 642,
+      "sha256": "4eb7c2ed5aa41cf2df6b908b280274b2cc122a32eed49258703139983ecdfcc0"
+    },
+    {
+      "path": "outputs/metrics/global_survey_v1_7f2c2dbf6989/test_metrics.json",
+      "bytes": 1255,
+      "sha256": "bf4f5e516400f2bbbf337df3fdba4c740eb3acc176e2776edf981d209516cd15"
+    },
+    {
+      "path": "outputs/metrics/global_survey_v1_7f2c2dbf6989/test_predictions.csv",
+      "bytes": 206291,
+      "sha256": "62e83491c216b53620d198de76ec717e59887910e417f8ad771cec1d25403e38"
+    },
+    {
+      "path": "outputs/metrics/global_survey_v1_7f2c2dbf6989/validation_candidates.json",
+      "bytes": 864,
+      "sha256": "3e0bbca267b57317f84322b61265ddad931a47292b76a0206eb50c8f8cd7ae25"
+    },
+    {
+      "path": "outputs/metrics/open_aijobs_v1_ceea75a58f85/selection.json",
+      "bytes": 634,
+      "sha256": "08d5a6784dcec8326d850b432c3fdb94978fa78acf5f9140cca230b9dd490ba5"
+    },
+    {
+      "path": "outputs/metrics/open_aijobs_v1_ceea75a58f85/test_metrics.json",
+      "bytes": 1289,
+      "sha256": "87fa2b23e9c97ad5aafda2cf1050251b92eb5e0654760e707539de4d7ef4dbe3"
+    },
+    {
+      "path": "outputs/metrics/open_aijobs_v1_ceea75a58f85/test_predictions.csv",
+      "bytes": 1672621,
+      "sha256": "a02e7078380fefee3d8559cc957cd3509ec8ac0233e09082d42678db5a701e06"
+    },
+    {
+      "path": "outputs/metrics/open_aijobs_v1_ceea75a58f85/validation_candidates.json",
+      "bytes": 864,
+      "sha256": "5cb3aef5d1a7032c1fee19504db5d35b8736c7a991d3f6809718c8dbc4117cae"
+    },
+    {
       "path": "outputs/metrics/salary_bd9af2fa002caae8/REPORT.md",
       "bytes": 1054,
       "sha256": "217374d7b1fa5772876fa60dbfacbda21a0d7629b0187401ccc9b3fe4ce1575a"
@@ -2505,7 +2850,17 @@
     {
       "path": "outputs/submission/MANIFEST.json",
       "bytes": 10856,
-      "sha256": "23e000e47db9780b59a6a5994d663f67b5186208b670f31ef83a5265d4582dd7"
+      "sha256": "74af240fd020e87a5d93ba6171c2cce6869bbdcc2bf422aa0a4f2b0e83a6740b"
+    },
+    {
+      "path": "outputs/submission/OPEN_MANIFEST.json",
+      "bytes": 5672,
+      "sha256": "c228eb910d3bddb66c3a049fa0997bbc870f022b5d46fd8896d03041e8ac7164"
+    },
+    {
+      "path": "outputs/submission/open_verification.json",
+      "bytes": 168,
+      "sha256": "6b1dc2ddebc5b8a59298c57a4f46e3de491196947679fdc178cd7530dd9fd0e6"
     },
     {
       "path": "outputs/submission/source_copy_verification.json",
@@ -2515,7 +2870,7 @@
     {
       "path": "outputs/submission/verification.json",
       "bytes": 163,
-      "sha256": "0b6ab20db6171dc6781be60fd58a137fac9d12d21bacea6632b3e36e75c99d46"
+      "sha256": "0b9c6d3a07a14d8bb625208be4f2f00b9f801fd2a83e2defce0dbd599ccbbdbd"
     },
     {
       "path": "outputs/training_logs/gemma_20261017T094853Z/REPORT.md",
@@ -2823,6 +3178,16 @@
       "sha256": "d32a42bd9cee1fb2ab3dee6113965a3eec6869d3cbbc6db34c810a415e4c50b0"
     },
     {
+      "path": "outputs/training_logs/open_salary_20261018/aijobs.log",
+      "bytes": 2071,
+      "sha256": "b5238ff3f4ece86bf429c0a5c8899c5a542b5f8c3d7d7aa6a1a5d9553d9a25fc"
+    },
+    {
+      "path": "outputs/training_logs/open_salary_20261018/global_survey.log",
+      "bytes": 1978,
+      "sha256": "9114177bfc21304987eb72a0f99e0c13f1a9acfc9322e797753e4278d4bc9714"
+    },
+    {
       "path": "outputs/training_logs/publication_snapshot/verification.json",
       "bytes": 2729,
       "sha256": "6b50005825255d606f0c4e600cfcbe62c02f56b05119ef9ad55cb0b0991b5c54"
@@ -2958,6 +3323,11 @@
       "sha256": "4c146426bfcf4e7ee970aad521a4c41a829240a96a12fc8ed89e98c7e872ce37"
     },
     {
+      "path": "scripts/build_international_research.py",
+      "bytes": 4608,
+      "sha256": "edfe211cb30ac5e1a85086059be9fc1106dbbaa34bdb16aeaf4ac92c4b58d4c4"
+    },
+    {
       "path": "scripts/check_env.py",
       "bytes": 5050,
       "sha256": "bbaece0e9f3b54a6b5a0cfd67e1870fb4f1b2b47f7e0257ca1628c8c59d1c63d"
@@ -3013,6 +3383,11 @@
       "sha256": "0af2a221210efb7e14b1fc5011b73e93e7c9b1efc37ce96823b7ba5ae2f1ec2b"
     },
     {
+      "path": "scripts/fetch_open_salary_round.py",
+      "bytes": 1967,
+      "sha256": "7f2781ba3491179bad8f8788ab298dab766576075b5576ffb3428fec2b64566d"
+    },
+    {
       "path": "scripts/fetch_salary_sources.py",
       "bytes": 9427,
       "sha256": "90d32b468a2b18d5b21f35610b8eac8c779e141758e413d5b93f1f1040e28961"
@@ -3041,6 +3416,11 @@
       "path": "scripts/label_review.py",
       "bytes": 11072,
       "sha256": "7a7c0723a5fa56cae7863e0415982f92fecc51de79b97ef141044c438efb568c"
+    },
+    {
+      "path": "scripts/package_open_datasets.py",
+      "bytes": 3614,
+      "sha256": "36a2048f0e48c51058c3bfb911ac541eb96547e62b7728e14ff5c2aba499f0fe"
     },
     {
       "path": "scripts/package_submission_data.py",
@@ -3084,8 +3464,8 @@
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 11435,
-      "sha256": "ca859c4348aee144c960d63ae7e2fb01cb3b77c08671e39954a0eab504faf3d1"
+      "bytes": 12157,
+      "sha256": "bbb0a61607cf9402727907fffd66b87d02f00681c413fd45099d65b5c7ab7d90"
     },
     {
       "path": "scripts/refine_gemma_references.py",
@@ -3136,6 +3516,16 @@
       "path": "scripts/summarize_gemma_run.py",
       "bytes": 6817,
       "sha256": "a618d003d2b73ac99fa8619790539d4440e2baed4eb76dcafbfe4f51679cbe81"
+    },
+    {
+      "path": "scripts/train_global_survey.py",
+      "bytes": 9633,
+      "sha256": "9e2389ac414a02bc6f145d6ceacc278f80b6f035e1c39ab9d192154e853970ae"
+    },
+    {
+      "path": "scripts/train_open_aijobs.py",
+      "bytes": 9034,
+      "sha256": "8f02e7ecc6bde45edbd7f816530a491cf36225381e1ef7e8229c813b769ef0c4"
     },
     {
       "path": "scripts/train_salary_v2.py",
@@ -3218,6 +3608,11 @@
       "sha256": "1df65e66e869502636cc9e719b26eec94a0f0e28a89e58e8c5d95fd5b6329d2a"
     },
     {
+      "path": "tests/test_international_application.py",
+      "bytes": 10280,
+      "sha256": "4547e4c01a704dc23cc62782bb6b2368fa2895430d3a2e22d875245331c0b26b"
+    },
+    {
       "path": "tests/test_label_review.py",
       "bytes": 5380,
       "sha256": "861ef4bf2c5dcd0d2ca05258564d2bda195d6db254e043daa7b6e8ffcb663bc2"
@@ -3243,5 +3638,5 @@
       "sha256": "3b9400fa06345f1b8a32622cd6d9eb11ebfffa80f8bfcc5190f9e68032a777e3"
     }
   ],
-  "generated_at_utc": "2026-10-18T10:41:41.334384+00:00"
+  "generated_at_utc": "2026-10-18T11:45:31.455597+00:00"
 }

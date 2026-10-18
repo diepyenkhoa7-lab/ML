@@ -210,6 +210,22 @@ Người dùng đã loại báo cáo cá nhân khỏi phạm vi hiện tại. Kh
 
 Hai test mới và full 99 tests cùng Ruff 71 đạt. Live API server mới trong `outputs/app_verification/prediction_domain/live_api.json` kiểm chứng 2 dòng: 1 predicted, 1 invalid, 0 labels; ZIP 9 file đã verify hash, job `5f57b51f901c4be9a3c8f1e444d8d48d`. Đây là sửa xử lý miền giá trị và bằng chứng serving, không train, không đổi weights/frozen metrics và không phải claim giảm MAE.
 
+## 22. Bổ sung nguồn quốc tế và hai thí nghiệm USD/năm
+
+Ba snapshot quốc tế được pin trong `configs/open_salary_sources_20261018.json` và kiểm tra chất lượng tại `outputs/data_quality/open_sources_20261018.json`: Level Tech Jobs, AIJobs Global Salaries và Stack Overflow Developer Survey 2024. Level có native currency nhưng thiếu period và numeric experience nên chỉ dùng phân tích, không giả định tháng/năm. AIJobs và Stack Overflow dùng USD/năm; khảo sát Stack Overflow là total compensation tự khai, khác lương chào tuyển VND/tháng và không trộn với bộ ITviec.
+
+Hai vòng train đã hoàn tất thật: `global_survey_v1_7f2c2dbf6989` và `open_aijobs_v1_ceea75a58f85`, với split/model/metrics tương ứng trong `data/splits/`, `models/salary/` và `outputs/metrics/`. Ở global survey, RF được chọn bằng validation dù Ridge có test MAE thấp hơn; test ghi Ridge 29.274 USD/năm và RF 29.607 USD/năm, nên không đảo quyết định sau khi mở test. Ở AIJobs, Ridge được chọn và cũng có test MAE thấp hơn RF (44.896 so với 46.867 USD/năm). Level không train vì thiếu period/numeric experience. Không fine-tune Gemma bằng dữ liệu mới và không dùng ITviec live.
+
+Các vòng UI/tích hợp cho nguồn quốc tế đang được kiểm thử, chưa ghi là hoàn thành. Những kết quả USD/năm này phục vụ profile/serving riêng; không phải bằng chứng market alignment cho mục tiêu salary quảng cáo VND/tháng của ứng dụng.
+
+## 23. Nghiệm thu dashboard quốc tế
+
+Browser thật đã upload 12 mẫu CSV train, ghép 5 cột, chạy 12/12 dự đoán, biểu đồ, metric và tải ZIP. ZIP có CRC/SHA hợp lệ, đúng `USD/year`, 15 file, hash `b70e03e4a1f1cf30227420b750eddbfdecfe53706336c5dd593ebf7ff8dbab6f`; các mẫu là fixture từ train nên chỉ kiểm tra chức năng. Profile Backend/USA/3 năm/Python+SQL hiển thị RF khoảng 86,9 nghìn USD/năm và Ridge 102,4 nghìn; đây là ví dụ, không phải metric hay lương thị trường thực.
+
+Dashboard model comparison/profile/batch/export đã kiểm thử local ở desktop/mobile; browser chuyển đúng dataset/unit giữa SO2024 USD/năm và Việt Nam VND/tháng. 105 tests, Ruff, Prettier/Vite build và source copy 105 tests/build/package đạt. Nhánh này chưa public deployment và chưa có Gemma GPU mới; danh sách kỹ năng sai kiểu được cô lập thành lỗi theo dòng, quốc gia chưa có trong train bị loại theo dòng. Báo cáo cá nhân đã nằm ngoài phạm vi.
+
+Nhật ký mốc này do subagent hiện có cập nhật và agent chính kiểm tra lại; phiên này không có model Luna 5.6 low trong danh sách khả dụng nên không ghi đây là kết quả chạy đúng model Luna được yêu cầu trước đó.
+
 Bản xuất cuối của lượt sửa cũng giữ cảnh báo coverage trong report.md; job `e3be9a39b5594cec86d84380193d9ecc` xác minh checksum code đang chạy và 9 file trong ZIP. Source copy vượt 99 tests và tạo lại dataset ZIP giống từng byte; bằng chứng `outputs/app_verification/prediction_domain/source_copy_verification.json`.
 
 ## Tài liệu và bằng chứng chính
