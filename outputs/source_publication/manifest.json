@@ -14,8 +14,8 @@
     },
     {
       "path": ".gitignore",
-      "bytes": 969,
-      "sha256": "aea8d97b2212b58e31c307655ba3c3a3c10eda1dc4716a9e980d61923ebbdc59"
+      "bytes": 1001,
+      "sha256": "79d5166d7f369d9362392ae38c90538d13fa2b8f71cb4b3191b0bfa61a4b658b"
     },
     {
       "path": ".python-version",
@@ -24,18 +24,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 14264,
-      "sha256": "203c6913b83c1db28e12a829b1025fcd953e193ac9ee62fa30f35d25f8a2b9fc"
+      "bytes": 14955,
+      "sha256": "cdba8767bf75594572e9cd5a131f0bdc4cf19ef9acc70a3aed173af46b0f90a3"
     },
     {
       "path": "Makefile",
-      "bytes": 4543,
-      "sha256": "3fc8950ee0a9563381f63bdbe4b6e25420c4beb478c88a8a3474a619aaccf1bd"
+      "bytes": 4725,
+      "sha256": "882bce2a82565d2ef272c5f9b9be73cf052e8b234f275f0d80c1a32670b64d06"
     },
     {
       "path": "README.md",
-      "bytes": 13870,
-      "sha256": "6a4de0eca643baecef513c57ba7afa9ab553202f90de4bec1e41212675cb598e"
+      "bytes": 14164,
+      "sha256": "093d4fa5bc1d7d30c37cdf39a751fcdb55ff7e7cf233f4d14c8e4ea4781c72cb"
     },
     {
       "path": "adapters/README.md",
@@ -633,6 +633,26 @@
       "sha256": "fd9890232770930b94dec0940d6a204b68ba2fa48f347c7e4aee2d6058ad168a"
     },
     {
+      "path": "data/raw/user_vietnam_it_jobs/manifest.json",
+      "bytes": 1035,
+      "sha256": "2c4f8c20ad3ffd8dff75b70e4371537f6b72efeb89b81ee85414559b25d9d139"
+    },
+    {
+      "path": "data/raw/vietjobs_2025/REPOSITORY_LICENSE.txt",
+      "bytes": 1063,
+      "sha256": "cba34d05e9684d44839d95d154abef3a85b82b3c4766f4a31e2468961bb84bfa"
+    },
+    {
+      "path": "data/raw/vietjobs_2025/SOURCE_README.md",
+      "bytes": 4378,
+      "sha256": "42b6f70c7433e9aab2c53ea650e23df4764aab8abcf1cc18095fd44c174eac14"
+    },
+    {
+      "path": "data/raw/vietjobs_2025/manifest.json",
+      "bytes": 1889,
+      "sha256": "c4023aa698b5a24b996988c4e78b1ac954dbc2d4856ed21b17542d5e454dc916"
+    },
+    {
       "path": "data/references/README.md",
       "bytes": 1108,
       "sha256": "ff692770fa9a85ed2f4b392f8102aa3b9bf8f36bf3b6ecee13d4feab6ba1c0d7"
@@ -1108,6 +1128,11 @@
       "sha256": "37eeac281e19bcfa0af7aeb88c5367599781d4ecc0aa8eb7e85b45e5dbe5391e"
     },
     {
+      "path": "docs/DATASET_HANDOFF.md",
+      "bytes": 4773,
+      "sha256": "20e82c91a88c1a286bdcf8084941f226eb7938baaf3f87a873b4aeb781c5e2e5"
+    },
+    {
       "path": "docs/DATA_CLEANING.md",
       "bytes": 8998,
       "sha256": "4b010965c461d5f3192e037d55374c30a1d7557707d5db360ceb01b4c8ba2768"
@@ -1119,8 +1144,8 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 3189,
-      "sha256": "aa6f1472a2d95d958d836ff8170a2d56e7fd4f52f7ad821f8f1c9a142b24d984"
+      "bytes": 3556,
+      "sha256": "6f1a48fde6080959f3bcd11337043203fb048f07b09f9e86b9695c5fac801514"
     },
     {
       "path": "docs/ENVIRONMENT_STATUS.md",
@@ -1159,8 +1184,8 @@
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 33613,
-      "sha256": "c54819e755bf8fd10925fa5b4165ee1f612f1f3c185fb92d5bcee3e499789442"
+      "bytes": 34853,
+      "sha256": "c1ec93c95de5954bb5282662cdf351c0dd28c7b7383596193fd62d1330b94b6f"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
@@ -2378,6 +2403,21 @@
       "sha256": "a2b292aa5d59b310a8aca2a9cd6b6a4d88bb70b4d1a80964fc57e61ad7b54332"
     },
     {
+      "path": "outputs/submission/MANIFEST.json",
+      "bytes": 10856,
+      "sha256": "23e000e47db9780b59a6a5994d663f67b5186208b670f31ef83a5265d4582dd7"
+    },
+    {
+      "path": "outputs/submission/source_copy_verification.json",
+      "bytes": 710,
+      "sha256": "922c31788022ec2f3857345c70292044019259b22da3d26759a91c885ecfd227"
+    },
+    {
+      "path": "outputs/submission/verification.json",
+      "bytes": 163,
+      "sha256": "0b6ab20db6171dc6781be60fd58a137fac9d12d21bacea6632b3e36e75c99d46"
+    },
+    {
       "path": "outputs/training_logs/gemma_20261017T094853Z/REPORT.md",
       "bytes": 1594,
       "sha256": "affc7ae5257cfe31ce3473b8a43b5a99c409a76d037afd1df6a962528b492352"
@@ -2903,6 +2943,11 @@
       "sha256": "7a7c0723a5fa56cae7863e0415982f92fecc51de79b97ef141044c438efb568c"
     },
     {
+      "path": "scripts/package_submission_data.py",
+      "bytes": 7804,
+      "sha256": "47b7e46341c85c476c69afffbb6a6141b09122eb0bafb3b8d2ca8a183d139bab"
+    },
+    {
       "path": "scripts/prepare_gemma_corrected.py",
       "bytes": 5063,
       "sha256": "3daaa6af87683841824f22b79d4b469e91b31db75af3c0832bab8c7d5422f7d7"
@@ -2939,8 +2984,8 @@
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 10986,
-      "sha256": "7f6fbc1aff0b3eca70660acd11649e8388f0a91fc72412ebe9de0e9c6d4f80a3"
+      "bytes": 11376,
+      "sha256": "ea39e38b0b7a3fecbaec90826f82957c88891306603787aa671f23d1469529b9"
     },
     {
       "path": "scripts/refine_gemma_references.py",
@@ -3098,5 +3143,5 @@
       "sha256": "3b9400fa06345f1b8a32622cd6d9eb11ebfffa80f8bfcc5190f9e68032a777e3"
     }
   ],
-  "generated_at_utc": "2026-10-18T07:04:19.971383+00:00"
+  "generated_at_utc": "2026-10-18T10:21:22.566128+00:00"
 }

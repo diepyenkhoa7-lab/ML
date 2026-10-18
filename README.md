@@ -5,6 +5,10 @@ Model trích xuất đã chốt: [google/gemma-4-E4B-it](https://huggingface.co/
 Ứng dụng Vue 3 + FastAPI đã nối nhập bảng → dự đoán → biểu đồ → xuất kết quả,
 cùng trang tư vấn nghề nghiệp và Gemma đọc mô tả khi bật.
 
+Dữ liệu bàn giao: `make submission-data` tạo `outputs/submission/datasets.zip`
+cùng manifest SHA-256/số dòng. Gồm dữ liệu của model đang chạy và bộ 214 dòng đã
+duyệt, tách rõ trial Gemma không đạt. Xem [hướng dẫn và nguồn](docs/DATASET_HANDOFF.md).
+
 Vòng nhãn rõ kỳ tháng **v3/v3.1 đã train 24 cấu hình**, chưa đạt điều kiện triển khai:
 v3.1 không còn giả định kỳ tháng nhưng kiểm tra độc lập chỉ có 3 mẫu và độ lệch nhóm
 ITviec còn kém v2. Web giữ Ridge v2. Xem [kết quả và nhãn cần duyệt](docs/SALARY_V3_REVIEW.md).

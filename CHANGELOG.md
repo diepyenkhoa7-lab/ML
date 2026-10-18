@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-18 — Đóng gói dữ liệu bàn giao
+
+- Thêm `make submission-data`: ZIP tái lập từ dữ liệu cố định, kiểm tra lineage
+  model đang phục vụ, checksum/số dòng, CRC và hash mọi thành viên sau đóng gói.
+- Gói 42 file và một manifest riêng: salary splits/snapshot, serving SFT,
+  corrected trial không đạt, review 214 dòng, nguồn và tham chiếu thị trường.
+  Không chứa base weights, raw lớn hay dữ liệu người dùng upload vào app.
+- Ghi rõ silver/weak train, nguồn chưa rõ giấy phép và test không dùng để tuning;
+  ZIP tạo local từ source, không nhân đôi dữ liệu trong nhánh công bố.
+
 ## 2026-10-18 — Kết thúc corrected trial và kiểm chứng nhập mô tả dài
 
 - Run 051656Z hoàn tất 501/501; validation loss 0,343→0,183. New Skill F1

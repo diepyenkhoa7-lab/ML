@@ -87,6 +87,7 @@ def collect_files():
         "outputs/environment",
         "outputs/notebook_preparation",
         "outputs/app_verification",
+        "outputs/submission",
         "outputs/architecture_audit",
         "outputs/eda/20261017T092843Z_e3747c",
         "outputs/metrics/salary_bd9af2fa002caae8",
@@ -107,6 +108,8 @@ def collect_files():
             files.update(p for p in directory.rglob("*") if p.is_file())
     # Mutable manual one-prompt inference is not an evaluated model artifact.
     files.discard(ROOT / "outputs/environment/gemma_adapter.json")
+    # Rebuild this archive from committed datasets; avoid publishing duplicate payloads.
+    files.discard(ROOT / "outputs/submission/datasets.zip")
     # Keep public collection provenance, not full scraped descriptions/HTML or large survey CSVs.
     for source in ["stackoverflow_2026", "public_jobs_20261018", "joboko_20261018"]:
         for pattern in ["manifest.json", "README.md", "*.robots.txt"]:
@@ -116,6 +119,10 @@ def collect_files():
     for name in [
         "data/raw/tinixai_2026/manifest.json",
         "data/raw/tinixai_2026/README.md",
+        "data/raw/user_vietnam_it_jobs/manifest.json",
+        "data/raw/vietjobs_2025/manifest.json",
+        "data/raw/vietjobs_2025/SOURCE_README.md",
+        "data/raw/vietjobs_2025/REPOSITORY_LICENSE.txt",
         "models/gemma-source/manifest.json",
         "models/gemma-mlx-4bit/manifest.json",
         "outputs/data_quality/cleaning/all_sources.json",

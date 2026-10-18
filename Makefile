@@ -13,6 +13,7 @@ export IPYTHONDIR := $(CURDIR)/.cache/ipython
 
 help:
 	@echo "app: build Vue + serve local app | frontend-setup | frontend-build | app-test"
+	@echo "submission-data: package frozen serving/trial datasets with provenance and checksums"
 	@echo "setup | check | check-mlx | lint | api | lab"
 	@echo "validate-example | validate-sft | gemma-download | gemma-base | gemma-smoke | gemma-adapter | gemma-train"
 	@echo "gemma-adapter: TRAIN all train JSONL, EPOCHS=1 by default | gemma-plan-full | gemma-infer-adapter"
@@ -49,6 +50,10 @@ app: frontend-build
 
 app-test:
 	$(PYTHON) -m unittest discover -s tests -v
+
+.PHONY: submission-data
+submission-data:
+	$(PYTHON) scripts/package_submission_data.py
 
 lab:
 	@mkdir -p "$(JUPYTER_RUNTIME_DIR)" "$(IPYTHONDIR)"

@@ -29,6 +29,7 @@ adapters/**
 
 # Dữ liệu người dùng nhập và kết quả app local
 outputs/app_runtime/
+outputs/submission/datasets.zip
 
 # New salary source is pinned/downloadable; keep metadata, exclude bulky originals/drafts.
 data/raw/tinixai_2026/*.parquet

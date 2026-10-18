@@ -11,7 +11,7 @@
 | Ứng dụng tư vấn | Hồ sơ → lương → đề xuất kỹ năng → giải thích | Đã có Vue/FastAPI, dự đoán RF/Ridge và gợi ý có hỗ trợ từ train; xem APP_RUNBOOK.md |
 | Báo cáo cá nhân | `STT_Họ và tên_MSSV`, theo mẫu giảng viên | Đã có reports/BAO_CAO_NOI_DUNG.md làm nội dung kỹ thuật; chưa có mẫu hoặc thông tin sinh viên, chưa phải file báo cáo cá nhân hoàn tất |
 | Link dự án | GitHub/GitLab truy cập được, README chạy lại | Remote theihoz/ML; nhánh publish/salary-gemma-prep |
-| Dataset | File dữ liệu thật + nguồn, quyền sử dụng | Đã nhập nguồn; một số xuất xứ/điều khoản còn cần xác minh, xem docs/DATA_SOURCES.md |
+| Dataset | File dữ liệu thật + nguồn, quyền sử dụng | Đã có `make submission-data`: ZIP gồm 42 file dữ liệu/nguồn/lineage + manifest, kiểm tra CRC/SHA/số dòng; xem DATASET_HANDOFF.md. Một số xuất xứ/điều khoản còn chưa xác định |
 | Demo | Kịch bản, model/adapter, môi trường chạy ổn định | App local đã kiểm chứng browser JSON mô tả dài → Gemma GPU → kỹ năng đối chiếu nguồn → Ridge/RF → biểu đồ → ZIP; có bảng mẫu48 dòng, còn chuẩn bị thuyết trình |
 
 API thực tế: upload tại `POST /api/datasets`, job tại `POST /api/analyses`,
@@ -26,3 +26,7 @@ Phân công theo context: dữ liệu; EDA; Gemma trên Mac; mô hình lương +
 frontend + tích hợp. Cả năm người tự viết phần báo cáo cá nhân.
 
 Trạng thái thực nghiệm và giới hạn: [TRAINING_RUNBOOK.md](TRAINING_RUNBOOK.md).
+
+Gói dữ liệu: [DATASET_HANDOFF.md](DATASET_HANDOFF.md). File ZIP tạo tại
+`outputs/submission/datasets.zip`; dữ liệu thành phần và lệnh tạo gói có trong nhánh
+source công bố, không đưa thêm một bản ZIP trùng dữ liệu vào Git.

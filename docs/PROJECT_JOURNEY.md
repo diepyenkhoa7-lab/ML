@@ -182,6 +182,14 @@ Mốc chuẩn bị corrected v2.2 cũng đã qua 89 tests/Ruff66 và source-copy
 
 Nghiệm thu source cuối đạt 97 tests, Ruff check/format70 file, frozen/strict SFT checks, npm ci offline, Prettier và production build từ bản copy tách biệt; bằng chứng `outputs/metrics/gemma_corrected_v22/source_export_final.json`. Commit/push được xác minh qua nhánh `publish/salary-gemma-prep`; báo cáo cá nhân còn chờ mẫu và thông tin sinh viên.
 
+## 18. Bàn giao gói dữ liệu
+
+Lệnh `make submission-data` đã tạo `outputs/submission/datasets.zip` gồm 42 file dữ liệu/provenance và MANIFEST, dung lượng 1.098.896 byte, SHA-256 `1726e1f2a0515f32ed30b48ffaca1d1456daada4d0fbad14ed71d0bd4e6dd6e3`. Gói đã được verify CRC, hash và số dòng theo `scripts/package_submission_data.py`; chi tiết trong `docs/DATASET_HANDOFF.md`, `outputs/submission/MANIFEST.json` và `outputs/submission/verification.json`.
+
+Phạm vi gồm salary serving, Gemma SFT serving, corrected trial không đạt, review 214 dòng và provenance nguồn. Gói không bao gồm raw lớn, cache, trọng số model hoặc dữ liệu upload runtime. Việc tạo/kiểm tra gói không train mới và không cải thiện accuracy. Báo cáo cá nhân vẫn thiếu mẫu và thông tin sinh viên cần điền.
+
+Bản copy tách biệt từ whitelist source đã tạo lại ZIP giống từng byte và vượt qua 97 unit tests; bằng chứng `outputs/submission/source_copy_verification.json`. Tạo lại local cho cùng SHA-256; thử sửa một thành viên ZIP bị bộ kiểm tra từ chối. Đây là kiểm chứng đóng gói, không phải đánh giá lại mô hình.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`
