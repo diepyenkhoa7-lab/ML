@@ -25,6 +25,8 @@ kiểm tra ghép cột rồi bấm Phân tích. Tải CSV, Excel, PNG hoặc to�
 Lệnh này chỉ chạy ứng dụng/suy luận; không train. Dữ liệu nhập nằm tại
 `outputs/app_runtime/`, giữ ngoài Git. [Hướng dẫn chi tiết](docs/APP_RUNBOOK.md),
 [kế hoạch & tiêu chí](docs/APP_IMPLEMENTATION_PLAN.md).
+Kịch bản báo cáo 7–10 phút: [DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md), có kết quả
+tư vấn đã đối chiếu trên browser/API và giới hạn cần trình bày.
 
 ## Lệnh train và lệnh suy luận
 

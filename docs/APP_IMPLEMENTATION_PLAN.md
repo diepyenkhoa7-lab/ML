@@ -10,7 +10,8 @@ phân tích Matplotlib/Seaborn, tư vấn dựa trên số liệu, tải kết q
 Thiết kế workspace gọn: sidebar xanh đậm, nền sáng ấm, màu xanh lá cho thao tác,
 bảng và biểu đồ là nội dung chính; sử dụng được trên desktop/mobile và bàn phím.
 
-- Nạp RF/Ridge bd9af2fa002caae8, xác minh checksum; chỉ predict, không fit lại.
+- Nạp Ridge/RF theo `configs/application.json`, xác minh checksum; chỉ predict,
+  không fit lại. Hiện phục vụ v2_042e3aa1a886, giữ bd9af2fa002caae8 để rollback.
 - Gemma mặc định 105728Z đã chọn bằng validation; không thay theo run mới nhất.
 - Dữ liệu nhập giữ trong outputs/app_runtime (local, không đưa lên Git).
 - Giới hạn demo local: 10 MiB/file, 2.000 dòng, 100 cột; Gemma tối đa 20 mô tả/lượt.

@@ -190,6 +190,14 @@ Phạm vi gồm salary serving, Gemma SFT serving, corrected trial không đạt
 
 Bản copy tách biệt từ whitelist source đã tạo lại ZIP giống từng byte và vượt qua 97 unit tests; bằng chứng `outputs/submission/source_copy_verification.json`. Tạo lại local cho cùng SHA-256; thử sửa một thành viên ZIP bị bộ kiểm tra từ chối. Đây là kiểm chứng đóng gói, không phải đánh giá lại mô hình.
 
+## 19. Demo nghề nghiệp và kịch bản báo cáo
+
+Browser/API thật tại `localhost:8000` đã kiểm chứng hồ sơ Backend Junior, 3 năm, Hà Nội, Python/SQL: Ridge dự đoán 26.508.883 VND và RF 23.869.167 VND; median ITviec 30,1 triệu được hiển thị riêng. Gợi ý Rust ban đầu có chênh lệch +7.052.129 VND với 7 mẫu cùng role. Khi sửa kỹ năng, kết quả cũ được xóa; khi thêm Rust, dự đoán cập nhật 33,6 triệu/RF 26,1 triệu và Rust không còn được đề xuất lại.
+
+Live API kiểm tra 8 roles đều phản hồi 200 với hai prediction dương; hồ sơ ML Engineer thử không có gợi ý vì thiếu bằng chứng đủ support. Accountant trả 422 và khu vực/kỹ năng chưa biết như Zig tạo warning. Bằng chứng nằm ở `outputs/app_verification/career_demo/live_api.json` và 4 ảnh JPEG thật. `docs/DEMO_SCRIPT.md` đã bổ sung kịch bản 7–10 phút; hai mô tả cũ trong app runbook/plan đã đồng bộ.
+
+Đây là kiểm chứng UI/API và hành vi tư vấn, không phải train, thay model/nhãn hoặc claim MAE. Buổi báo cáo chưa được xác nhận; báo cáo cá nhân vẫn chờ mẫu và STT/tên/MSSV.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`

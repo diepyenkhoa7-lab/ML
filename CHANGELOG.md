@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-18 — Kiểm chứng tư vấn nghề nghiệp và chuẩn bị demo
+
+- Browser thật xác nhận hồ sơ Backend/Junior/3 năm/Python SQL có Ridge/RF,
+  tham chiếu ITviec riêng và gợi ý kèm số mẫu. Đổi kỹ năng xóa kết quả cũ;
+  thêm Rust cho chênh lệch dự đoán khớp thẻ gợi ý trong sai số làm tròn.
+- API live thử tám vai trò, vai trò ngoài phạm vi và khu vực/kỹ năng chưa thấy;
+  lưu JSON/ảnh bằng chứng trong outputs/app_verification/career_demo.
+- Thêm kịch bản demo 7–10 phút; sửa mô tả cũ về model serving và schema retry.
+  Không đổi code ứng dụng/model/nhãn hoặc tuyên bố cải thiện accuracy.
+
 ## 2026-10-18 — Đóng gói dữ liệu bàn giao
 
 - Thêm `make submission-data`: ZIP tái lập từ dữ liệu cố định, kiểm tra lineage

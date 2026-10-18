@@ -85,7 +85,8 @@ Giải thích được điền bằng Python từ số liệu kiểm tra đượ
   lại trước khi tạo job mới; kết quả lịch sử hoàn tất vẫn đọc được. Trạng thái JSON
   hỏng được giữ thành `state.corrupt.<id>.json` và đánh dấu lỗi, không chặn app khởi động.
 - Phản hồi Gemma có request_id, index và hash nội dung từng mô tả; thiếu/thừa/đảo
-  dòng đều bị từ chối. Không có lượt LLM thứ hai để sửa JSON. Khi lỗi worker, xem
+  dòng đều bị từ chối. Web có tối đa một lượt model thử lại khi lỗi schema và đủ
+  context, giữ cả raw attempts; benchmark đánh giá vẫn dùng một lượt. Khi lỗi worker, xem
   `outputs/app_runtime/<job_id>/gemma_worker.json`; payload sai hợp đồng được giữ
   trong `gemma_invalid_transport.txt`. Các log này ở local, không đưa vào Git.
 - Tab Chất lượng & sai số hiển thị adapter thực sự đã dùng, số dòng trích thành công/lỗi
@@ -115,3 +116,5 @@ Bản v2: xem [SALARY_V2_RUNBOOK](SALARY_V2_RUNBOOK.md). Badge, bảng và biể
 của chính job, nên kết quả lịch sử không bị gán nhãn model mới. Mục tư vấn hiển thị riêng
 trung vị khảo sát ITviec, không dùng nó thay lương chào tuyển dự đoán. Train có1078 nhãn
 thiếu kỳ lương với giả định tháng/trọng số0,3; không coi toàn bộ dữ liệu là gold.
+
+Kịch bản trình bày đã có bằng chứng chạy: [DEMO_SCRIPT.md](DEMO_SCRIPT.md).

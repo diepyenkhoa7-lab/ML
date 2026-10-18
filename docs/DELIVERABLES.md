@@ -12,7 +12,7 @@
 | Báo cáo cá nhân | `STT_Họ và tên_MSSV`, theo mẫu giảng viên | Đã có reports/BAO_CAO_NOI_DUNG.md làm nội dung kỹ thuật; chưa có mẫu hoặc thông tin sinh viên, chưa phải file báo cáo cá nhân hoàn tất |
 | Link dự án | GitHub/GitLab truy cập được, README chạy lại | Remote theihoz/ML; nhánh publish/salary-gemma-prep |
 | Dataset | File dữ liệu thật + nguồn, quyền sử dụng | Đã có `make submission-data`: ZIP gồm 42 file dữ liệu/nguồn/lineage + manifest, kiểm tra CRC/SHA/số dòng; xem DATASET_HANDOFF.md. Một số xuất xứ/điều khoản còn chưa xác định |
-| Demo | Kịch bản, model/adapter, môi trường chạy ổn định | App local đã kiểm chứng browser JSON mô tả dài → Gemma GPU → kỹ năng đối chiếu nguồn → Ridge/RF → biểu đồ → ZIP; có bảng mẫu48 dòng, còn chuẩn bị thuyết trình |
+| Demo | Kịch bản, model/adapter, môi trường chạy ổn định | Có DEMO_SCRIPT.md; browser đã kiểm chứng bảng/mô tả → Gemma → Ridge/RF → biểu đồ → ZIP và hồ sơ → dự đoán/gợi ý; có ảnh thật và API tám vai trò. Chưa xác nhận buổi báo cáo trước giảng viên |
 
 API thực tế: upload tại `POST /api/datasets`, job tại `POST /api/analyses`,
 đọc trạng thái/kết quả/biểu đồ/download theo ID; `POST /api/salary/predict` và

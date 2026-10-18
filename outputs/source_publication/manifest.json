@@ -24,8 +24,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 14955,
-      "sha256": "cdba8767bf75594572e9cd5a131f0bdc4cf19ef9acc70a3aed173af46b0f90a3"
+      "bytes": 15673,
+      "sha256": "05b4f1327118c69b5be9caf8d021e4e82f301ad978281f2a72132f6e441d05c9"
     },
     {
       "path": "Makefile",
@@ -34,8 +34,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 14164,
-      "sha256": "093d4fa5bc1d7d30c37cdf39a751fcdb55ff7e7cf233f4d14c8e4ea4781c72cb"
+      "bytes": 14340,
+      "sha256": "2c17c8da679c13e935349d242a0b2397a6f5cac46276e137fb9d2a9a35cc3eb5"
     },
     {
       "path": "adapters/README.md",
@@ -1114,13 +1114,13 @@
     },
     {
       "path": "docs/APP_IMPLEMENTATION_PLAN.md",
-      "bytes": 4667,
-      "sha256": "e7be1528c7b69b62ab49084610967c14511bd921139e46e5bcf174c91c172c66"
+      "bytes": 4759,
+      "sha256": "fd3be0a72120bacd7ed6b153c1a310e5145dfc522d6714a48797b404c44aa91f"
     },
     {
       "path": "docs/APP_RUNBOOK.md",
-      "bytes": 8442,
-      "sha256": "065cbc83139c90be55979b2b93d5c91bd059c6d73b2e65a09176f7112e0ceaac"
+      "bytes": 8645,
+      "sha256": "1a52b1eb92d5a4bee114ac59b2cbce6b247eef7bc10407e876815102d96c4a97"
     },
     {
       "path": "docs/DATASET.md",
@@ -1144,8 +1144,13 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 3556,
-      "sha256": "6f1a48fde6080959f3bcd11337043203fb048f07b09f9e86b9695c5fac801514"
+      "bytes": 3597,
+      "sha256": "efe82ebb3bb0b89d62114da91fef0ca6be63cea37b2b47f58402a2edad287d8d"
+    },
+    {
+      "path": "docs/DEMO_SCRIPT.md",
+      "bytes": 6674,
+      "sha256": "3148bc69102476073f9eb90a0efcbde2f2c3abecc34c6f15d4197df619b94fe8"
     },
     {
       "path": "docs/ENVIRONMENT_STATUS.md",
@@ -1184,8 +1189,8 @@
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 34853,
-      "sha256": "c1ec93c95de5954bb5282662cdf351c0dd28c7b7383596193fd62d1330b94b6f"
+      "bytes": 36094,
+      "sha256": "4636682ce717558bf6096aef8e708f406e7e96865fb883eb02f09863ae89a3e6"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
@@ -1401,6 +1406,31 @@
       "path": "outputs/app_verification/browser.json",
       "bytes": 1927,
       "sha256": "4cc337ccb73602f5ae446235af47ebf462f9837c03bf6b4f7ce2aa2960577963"
+    },
+    {
+      "path": "outputs/app_verification/career_demo/added_skill_prediction.jpg",
+      "bytes": 77066,
+      "sha256": "94839ccfda0c28295b6075ad153237187b7c810be64274145335cbf3d2e91e5f"
+    },
+    {
+      "path": "outputs/app_verification/career_demo/edited_profile_clears_result.jpg",
+      "bytes": 51666,
+      "sha256": "aae6441dc3a6b7e20bf3594fa0fb7638b686432cbc48ded48a71987be9394a5b"
+    },
+    {
+      "path": "outputs/app_verification/career_demo/live_api.json",
+      "bytes": 39028,
+      "sha256": "cc22905f030df3fc02526e6ebb58ef950eae0a963c7f8c0d219bc656ba15cade"
+    },
+    {
+      "path": "outputs/app_verification/career_demo/profile_prediction.jpg",
+      "bytes": 75543,
+      "sha256": "7441504228962e3f9f2caf03357a8928e33e4d06c64d27ebc0a5b2bd7244e0d6"
+    },
+    {
+      "path": "outputs/app_verification/career_demo/skill_recommendations.jpg",
+      "bytes": 72357,
+      "sha256": "e7eb8fc31932d23bc09f9bd9820ff1312d6d8a6d166d86e7735995a1c477ed42"
     },
     {
       "path": "outputs/app_verification/dashboard-desktop.png",
@@ -3143,5 +3173,5 @@
       "sha256": "3b9400fa06345f1b8a32622cd6d9eb11ebfffa80f8bfcc5190f9e68032a777e3"
     }
   ],
-  "generated_at_utc": "2026-10-18T10:21:22.566128+00:00"
+  "generated_at_utc": "2026-10-18T10:27:14.287253+00:00"
 }
