@@ -154,6 +154,14 @@ Baseline trên validation mới được lưu tại `outputs/metrics/gemma_revie
 
 Strict corpus 501/31/33 đạt; 79 tests và Ruff 59 file cũng đạt. Bản source copy tách biệt đã chạy lại 79 tests, kiểm tra frozen data, strict SFT mới/cũ, npm ci offline, Prettier và build frontend, tất cả exit 0; bằng chứng ở `outputs/metrics/gemma_reviewed_v2/source_export.json`. Báo cáo của vòng này ở `outputs/metrics/gemma_reviewed_v2/REPORT.md`; commit/push được xác nhận bằng lịch sử Git của nhánh source gọn.
 
+## 16. Audit sửa tham chiếu nhãn Gemma v2.1.1
+
+Audit các mẫu mới xác nhận một trường experience bị null và các skill ONNX/TensorRT/OpenVINO/BERT/DeepLearning bị bỏ sót. Scripts `refine_gemma_references.py` và `adjudicate_gemma_corrections.py` tạo diagnostic memory cho 137 train + 31 validation, không đụng test. Có 18 đề xuất, 17 được AI review chấp nhận (7 train, 10 validation), 1 bị parser bác bỏ; các quyết định đáng chú ý giữ 2 năm kinh nghiệm của TinixAI và giữ `AntDesignMobile` cụ thể.
+
+`data/annotation/gemma_v2.1.1/` lưu manifest, adjudicated changes và cached diagnostic. v2.1.0 chỉ là draft audit đầu; builder snapshot/hash và old references/protocol/model/web/test được giữ. Cached prediction theo corrected reference cho F1 parent 0,805825 và candidate 0,857143. Đây là label-sensitivity diagnostic, không phải model improvement hay promotion; chưa tạo corpus/train mới và chưa mở test.
+
+Bản source copy của mốc label audit đã vượt qua 84 tests, Ruff62, kiểm tra frozen/strict SFT và cài/build frontend offline; bằng chứng `data/annotation/gemma_v2.1.1/source_export.json`.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`

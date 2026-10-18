@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-18 — Sửa cơ sở đánh giá nhãn Gemma
+
+- Xác minh bỏ sót công nghệ và số năm dạng chữ/dấu cộng trong silver reference.
+- Audit 137 train +31 validation, không đọc ví dụ test; 18 đề xuất, 17 chấp nhận
+  AI source review, 1 bác bỏ để giữ 2 năm kinh nghiệm tổng thể.
+- Lưu quyết định/hash/builder snapshot và diagnostic từ raw predictions đã có.
+  Metric đổi do nhãn tham chiếu, không phải model improvement/promotion.
+- 84 tests và Ruff62 đạt; chưa tạo corpus/train mới, giữ model đang phục vụ.
+
 ## 2026-10-18 — Rà soát nhãn và fine-tune Gemma reviewed v2
 
 - Rà soát đủ 214 dòng: 201 chấp nhận AI-reviewed silver, 13 loại; không có human gold.

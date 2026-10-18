@@ -1,0 +1,58 @@
+{
+  "status": "label_sensitivity_diagnostic_only_not_promotion",
+  "decisions_sha256": "9216b97bd8280f899275507a8016fdbeee6c0d77c8833f9e2d5706f9d7b9e0bd",
+  "source_validation_sha256": "cd902ede4b2f91e9805a842e539955836c72360ae5f973156cf596f4123cda06",
+  "accepted_train": 7,
+  "accepted_validation": 10,
+  "rejected_corrections": 1,
+  "old_references_unchanged": true,
+  "test_examples_read": false,
+  "training_started": false,
+  "warning": "Changed reference labels, unchanged raw predictions/weights. Metric changes are NOT model improvements. Legacy regression still fails; retain serving adapter.",
+  "results": {
+    "baseline_new_valid": {
+      "predictions_sha256": "ce4cfe4207e668e13c96622b6bc0ce0974c948347660175b229f76afff8cd751",
+      "corrected_reference_metrics": {
+        "examples": 31,
+        "json_validity": 1.0,
+        "schema_validity": 1.0,
+        "field_exact_accuracy": {
+          "role": 0.967741935483871,
+          "location": 0.9354838709677419,
+          "experience_years": 0.7096774193548387,
+          "skills": 0.2903225806451613,
+          "salary_min": 0.967741935483871,
+          "salary_max": 0.967741935483871,
+          "currency": 1.0,
+          "salary_period": 1.0
+        },
+        "skill_micro_precision": 0.7830188679245284,
+        "skill_micro_recall": 0.83,
+        "skill_micro_f1": 0.8058252427184466,
+        "limits": "Silver references; augmented cards are not independent jobs; not advice quality"
+      }
+    },
+    "candidate_new_valid": {
+      "predictions_sha256": "1c43cf32daca9c47ea78d00d63e9bacaad378f25f9758359145baf9a148cbe35",
+      "corrected_reference_metrics": {
+        "examples": 31,
+        "json_validity": 1.0,
+        "schema_validity": 0.9354838709677419,
+        "field_exact_accuracy": {
+          "role": 0.967741935483871,
+          "location": 0.9354838709677419,
+          "experience_years": 0.6129032258064516,
+          "skills": 0.45161290322580644,
+          "salary_min": 1.0,
+          "salary_max": 1.0,
+          "currency": 1.0,
+          "salary_period": 1.0
+        },
+        "skill_micro_precision": 0.8592964824120602,
+        "skill_micro_recall": 0.855,
+        "skill_micro_f1": 0.8571428571428571,
+        "limits": "Silver references; augmented cards are not independent jobs; not advice quality"
+      }
+    }
+  }
+}

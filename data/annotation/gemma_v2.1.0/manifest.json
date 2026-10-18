@@ -1,0 +1,26 @@
+{
+  "status": "proposals_only_not_a_training_corpus",
+  "source": "data/finetune_reviewed/v2.0.0",
+  "sources_scanned": {
+    "train": 137,
+    "valid": 31
+  },
+  "changed_records": {
+    "train": 2,
+    "valid": 10
+  },
+  "source_hashes": {
+    "train": "c0f3f73e0417c7733430b8e51b2455f9df2c66cd0fe97aa32c27f89b71f01023",
+    "valid": "cd902ede4b2f91e9805a842e539955836c72360ae5f973156cf596f4123cda06"
+  },
+  "audit_sha256": "35e8a159377f7f585211a94e4c52f7c216eebbe2f2d77293ada986aae52ae6be",
+  "builder_sha256": "71cb4a7cce05364016149095dc72b2977f1e70e8d9263e4408c7820c25508d90",
+  "test_read": false,
+  "training_started": false,
+  "limitations": [
+    "Closed vocabulary remains incomplete; proposals require adjudication",
+    "Existing manually adjudicated experience may override a generic parser",
+    "Do not report rescored corrected references as model improvement",
+    "Do not copy validation rows into training"
+  ]
+}

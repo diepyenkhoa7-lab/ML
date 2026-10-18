@@ -65,6 +65,8 @@ def collect_files():
         "data/references",
         "data/annotation/v3.1.0",
         "data/annotation/gemma_v2.0.0",
+        "data/annotation/gemma_v2.1.0",
+        "data/annotation/gemma_v2.1.1",
         "data/finetune_reviewed/v2.0.0",
         "data/splits/v3.0.0",
         "data/splits/v3.1.0",

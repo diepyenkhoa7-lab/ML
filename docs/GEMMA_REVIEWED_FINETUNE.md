@@ -62,3 +62,7 @@ Run `20261018T002705Z` đã hoàn tất **501/501 bước**, exit code 0. Train 
 Đã train xong và chấm raw extraction. Trên 31 validation mới: Skill F1 **72,73% → 78,49%**, schema **100% → 93,55%**, score **0,843585 → 0,852016**. Trên 72 validation cũ: Skill F1 **93,76% → 90,22%**, schema **95,83% → 93,06%**, score **0,941685 → 0,922048**. Cả ba regression guard cũ không đạt.
 
 Vì vậy **không promote**, giữ adapter web `20261017T105728Z`, test mới 33 tin chưa được chấm và test cũ không mở lại. Không train trùng cùng protocol. Báo cáo đầy đủ, raw predictions và từng gate ở `outputs/metrics/gemma_reviewed_v2/REPORT.md` và `selection.json`. 79 unit tests, Ruff và strict corpus đều đạt; kiểm thử phần mềm không thay thế chất lượng extraction.
+
+## Phát hiện về chất lượng reference sau nghiệm thu
+
+Đối chiếu nguồn sau vòng này xác nhận nhãn silver còn bỏ sót công nghệ và kinh nghiệm viết bằng chữ/dấu cộng. Có 17 quyết định sửa được chấp nhận trong artifact riêng; không ghi đè kết quả cũ hoặc tính chúng thành cải thiện model. Xem [audit chất lượng nhãn](GEMMA_LABEL_QUALITY_AUDIT.md). Chưa fine-tune vòng tiếp bằng các reference mới.

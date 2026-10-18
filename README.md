@@ -28,6 +28,8 @@ Bộ 214 dòng đã có bản rà soát AI riêng: 201 chấp nhận, 13 loại;
 Fine-tune reviewed đã hoàn tất 501 bước; F1 validation mới tăng 72,73% → 78,49% nhưng
 không đạt guard validation cũ, nên giữ adapter web cũ và chưa chấm test mới.
 Kết quả: [báo cáo reviewed v2](outputs/metrics/gemma_reviewed_v2/REPORT.md).
+[Audit nhãn tiếp theo](docs/GEMMA_LABEL_QUALITY_AUDIT.md) xác nhận reference còn thiếu;
+đã lưu 17 quyết định sửa có dẫn chứng, chưa train vòng kế tiếp.
 Corpus mới gồm 137 tin train mới + 364 replay, 31 validation và 33 test mới theo công ty.
 Lượt dữ liệu này dùng `make gemma-reviewed-plan` (không train) và
 `make gemma-reviewed-train` (**train thật 501 bước**, một candidate theo protocol).
