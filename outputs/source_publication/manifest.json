@@ -24,8 +24,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 15673,
-      "sha256": "05b4f1327118c69b5be9caf8d021e4e82f301ad978281f2a72132f6e441d05c9"
+      "bytes": 16225,
+      "sha256": "83657c0411850c7d26729315eaec079f1d8ff2ede89163f735267ede9683bd40"
     },
     {
       "path": "Makefile",
@@ -34,8 +34,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 14340,
-      "sha256": "2c17c8da679c13e935349d242a0b2397a6f5cac46276e137fb9d2a9a35cc3eb5"
+      "bytes": 14613,
+      "sha256": "d1023c8cab3cf3f3b5940af2fc5dbc403af29468abd6921f5f8d62fbc2f5495d"
     },
     {
       "path": "adapters/README.md",
@@ -1144,8 +1144,8 @@
     },
     {
       "path": "docs/DELIVERABLES.md",
-      "bytes": 3597,
-      "sha256": "efe82ebb3bb0b89d62114da91fef0ca6be63cea37b2b47f58402a2edad287d8d"
+      "bytes": 3720,
+      "sha256": "e3633754936d6d9db20c10aac20ba123681905883f9568cff5f2be9bddc50737"
     },
     {
       "path": "docs/DEMO_SCRIPT.md",
@@ -1189,8 +1189,8 @@
     },
     {
       "path": "docs/PROJECT_JOURNEY.md",
-      "bytes": 36094,
-      "sha256": "4636682ce717558bf6096aef8e708f406e7e96865fb883eb02f09863ae89a3e6"
+      "bytes": 37169,
+      "sha256": "fa0172cf582c43363cbec07fb7675db8d6aa6ac4a70eae6f56a0ef32632eee05"
     },
     {
       "path": "docs/SALARY_V2_RUNBOOK.md",
@@ -1388,6 +1388,11 @@
       "sha256": "441e2a333eee56fa3df6979bde35808106d30facb3bffcbfb6ed6136108bc215"
     },
     {
+      "path": "notebooks/04_salary_v2_eda.ipynb",
+      "bytes": 336593,
+      "sha256": "feb2febb6f19e49749354b5994c6d5d1c75d556f14f03b16950631f892e16891"
+    },
+    {
       "path": "outputs/app_verification/REPORT.md",
       "bytes": 1759,
       "sha256": "8f24166d3e1defc398e37781115d97e19d66b3679d6d4723eb0b3e1c4d65375e"
@@ -1576,6 +1581,61 @@
       "path": "outputs/eda/20261017T092843Z_e3747c/top_skills_salary_train.png",
       "bytes": 95342,
       "sha256": "66dcaf981ad8444e7b2ef70ee0697a0026f21191f382bc78aa92aa70c774afc2"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/experience_salary.png",
+      "bytes": 65818,
+      "sha256": "085a4d4aafac4184a7e6fc49b4eb26be34a268432cdb963d3801fca4b60454da"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/location_statistics.csv",
+      "bytes": 824,
+      "sha256": "1ea9622fee5e71939b2ca00581556b8b68ec0783746565d1acfee200f9475d5b"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/ridge_skill_associations_train.csv",
+      "bytes": 2411,
+      "sha256": "ae4ec3bba8b9360d3589e905fc4533d71e375bb2045013be659d2efd1c14129c"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/role_statistics.csv",
+      "bytes": 185,
+      "sha256": "bfdcbff82e6b306080aff37da34b889438163afa2c435bec6ef6495cef1c115b"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/salary_by_location.png",
+      "bytes": 25276,
+      "sha256": "71f6464ef0d1851994d1bf13d9cf0bb95e87180f378951749d12d9b87fb33bc5"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/salary_by_role.png",
+      "bytes": 40719,
+      "sha256": "296258cab35ba6d2e35a94e9930d4d506644ea91c339f8908eec39135d34973a"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/skill_demand.png",
+      "bytes": 33615,
+      "sha256": "dbf06ab42b990d80e67df66482a975454791b005052be54c15b2a07c1f189146"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/skill_salary.png",
+      "bytes": 59193,
+      "sha256": "5a9177a188ba4b271aa8bf5f5ecea611cf7d889c245b9f9819942f75eab2dcc0"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/skill_statistics.csv",
+      "bytes": 967,
+      "sha256": "3921258f7750c3eecf6a270420817bf07ad0d75792b2a9329f5a46eda3079212"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/source_copy_verification.json",
+      "bytes": 577,
+      "sha256": "023ba59706f837875dafc0ccc1035ad652b3ad08c70c8ef193c7ebba01bee6e2"
+    },
+    {
+      "path": "outputs/eda/salary_v2_strict_train_042e3aa1a886/summary.json",
+      "bytes": 3301,
+      "sha256": "6ec9d14c1e6fc2a41fd65a71e6c813e40e055c47c09ce582687f40fe842b5c8d"
     },
     {
       "path": "outputs/environment/check.json",
@@ -2854,8 +2914,8 @@
     },
     {
       "path": "reports/BAO_CAO_NOI_DUNG.md",
-      "bytes": 12635,
-      "sha256": "b1539a3f8a6d21c7c185ecf285e2d2020a77a74b10314515b3f648fd41051d08"
+      "bytes": 17115,
+      "sha256": "48dc544f2c6e90707011671ccb1d250f955d7558fa773af3c8e187e491719238"
     },
     {
       "path": "requirements-dev.txt",
@@ -3014,8 +3074,8 @@
     },
     {
       "path": "scripts/publish_source_snapshot.py",
-      "bytes": 11376,
-      "sha256": "ea39e38b0b7a3fecbaec90826f82957c88891306603787aa671f23d1469529b9"
+      "bytes": 11435,
+      "sha256": "ca859c4348aee144c960d63ae7e2fb01cb3b77c08671e39954a0eab504faf3d1"
     },
     {
       "path": "scripts/refine_gemma_references.py",
@@ -3173,5 +3233,5 @@
       "sha256": "3b9400fa06345f1b8a32622cd6d9eb11ebfffa80f8bfcc5190f9e68032a777e3"
     }
   ],
-  "generated_at_utc": "2026-10-18T10:27:14.287253+00:00"
+  "generated_at_utc": "2026-10-18T10:33:48.717979+00:00"
 }

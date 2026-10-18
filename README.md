@@ -27,6 +27,9 @@ Lệnh này chỉ chạy ứng dụng/suy luận; không train. Dữ liệu nh�
 [kế hoạch & tiêu chí](docs/APP_IMPLEMENTATION_PLAN.md).
 Kịch bản báo cáo 7–10 phút: [DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md), có kết quả
 tư vấn đã đối chiếu trên browser/API và giới hạn cần trình bày.
+EDA cho tập train v2 đang phục vụ: [notebook 04](notebooks/04_salary_v2_eda.ipynb)
+và [nội dung báo cáo có biểu đồ](reports/BAO_CAO_NOI_DUNG.md). Thống kê quan sát
+chỉ dùng 79 nhãn có kỳ tháng rõ, tách khỏi phần nhãn yếu của model.
 
 ## Lệnh train và lệnh suy luận
 

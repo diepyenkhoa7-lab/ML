@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "scope": "Re-executed complete notebook from publication whitelist copy; descriptive train-only EDA",
+  "source_notebook_sha256": "feb2febb6f19e49749354b5994c6d5d1c75d556f14f03b16950631f892e16891",
+  "rows": 79,
+  "company_groups": 69,
+  "embedded_figures": 5,
+  "report_images_resolved": 6,
+  "all_table_and_figure_hashes_reproduced": true,
+  "summary_reproduced": true,
+  "validation_or_test_examples_used": false,
+  "model_retrained": false,
+  "limits": "Existing local Python dependency environment; not an independent model-quality evaluation"
+}

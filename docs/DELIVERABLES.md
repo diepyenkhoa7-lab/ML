@@ -3,7 +3,7 @@
 | Yêu cầu | Đầu ra cần hoàn thành | Trạng thái hiện tại |
 |---|---|---|
 | Xử lý dữ liệu | CSV/JSON/XLSX sạch + data card, quy tắc lương/kỹ năng | Đã có v1, salary v2.1.0 và thử nghiệm strict v3/v3.1; corpus Gemma corrected v2.2.0; còn silver labels/nguồn yếu, xem data card và các runbook |
-| Matplotlib & Seaborn | Top nhu cầu kỹ năng; top lương kỹ năng; kinh nghiệm–lương; vai trò/khu vực | Đã có biểu đồ train trong outputs/eda/ |
+| Matplotlib & Seaborn | Top nhu cầu kỹ năng; top lương kỹ năng; kinh nghiệm–lương; vai trò/khu vực | Notebook 04 tạo 5 biểu đồ strict train v2 (79 tin/69 công ty), bảng CSV và hash; nội dung báo cáo đã có hình/kết quả; biểu đồ v1 giữ riêng |
 | Ít nhất 2 mô hình | Ridge và Random Forest, cùng tập chia | Đã train/so sánh cùng salary v2.1.0; Ridge đang dùng, RF đối chiếu và model cũ giữ rollback |
 | Ít nhất 2 metric | MAE, RMSE; thêm R² | Cùng 30 test mới: Ridge MAE 4,433M, RMSE 5,664M, R² 0,540; xem REPORT salary v2 |
 | Giá trị kỹ năng | Thống kê theo vai trò, số mẫu và mức lương | Đã có thống kê và hệ số Ridge trên train; không suy nhân quả |

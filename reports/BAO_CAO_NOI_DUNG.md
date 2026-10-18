@@ -26,7 +26,58 @@ Các lần salary v3/v3.1 chỉ dùng nhãn kỳ tháng rõ đã được thử 
 
 Dòng trùng hoàn toàn vẫn có kết quả theo dòng nhưng không đếm lại trong thống kê/metric. Không đủ dữ liệu thì hiển thị thiếu dữ liệu thay vì tạo số liệu. Không có ngày đăng hợp lệ thì không tuyên bố xu hướng theo thời gian. Kỹ năng ngoài danh mục hiển thị vẫn được giữ trong bảng kết quả; danh mục có thể chưa đầy đủ.
 
-Bằng chứng biểu đồ/notebook nằm trong `outputs/eda/`, `notebooks/` và các artifact theo từng job. Ảnh ứng dụng đã kiểm thử nằm tại `outputs/research/2026-10-18/ridge_market_desktop.png` và `gemma_mobile.png`.
+Bộ biểu đồ dưới được tạo từ **79 tin strict train v2, 69 nhóm công ty**, không dùng 1.078 nhãn yếu hoặc ví dụ validation/test để tính thống kê. Nhãn strict ở đây chỉ có nghĩa kỳ tháng rõ, vẫn là silver, không phải gold do người kiểm chứng. Notebook tái lập: `notebooks/04_salary_v2_eda.ipynb`; CSV và checksum tại `outputs/eda/salary_v2_strict_train_042e3aa1a886/`. Biểu đồ cũ ở notebook 01 thuộc v1, không gán thành v2.
+
+### 3.1. Nhu cầu và lương theo công nghệ
+
+| Công nghệ có nhu cầu cao trong mẫu | Số tin | Số nhóm công ty |
+|---|---:|---:|
+| JavaScript | 27 | 24 |
+| CSS | 23 | 20 |
+| HTML | 19 | 16 |
+| MySQL | 17 | 16 |
+| React | 17 | 17 |
+
+![Nhu cầu công nghệ trên strict train v2](../outputs/eda/salary_v2_strict_train_042e3aa1a886/skill_demand.png)
+
+Chỉ xếp hạng trung vị lương của công nghệ có ít nhất 5 tin và 5 nhóm công ty.
+Redis và Spring cùng 25 triệu/tháng (lần lượt 6 và 5 tin); PostgreSQL 23,75 triệu
+(8 tin), MongoDB 21,5 triệu (7 tin), Docker 21,25 triệu (6 tin). Đây là lương của
+tin có đề cập công nghệ, chịu ảnh hưởng vai trò/kinh nghiệm và các kỹ năng đi kèm.
+Không thể kết luận riêng công nghệ đó tạo ra chênh lệch thu nhập. Mỗi công nghệ
+được đếm tối đa một lần/tin; một tin có thể nằm trong nhiều nhóm kỹ năng.
+
+![Trung vị lương theo công nghệ trên strict train v2](../outputs/eda/salary_v2_strict_train_042e3aa1a886/skill_salary.png)
+
+### 3.2. Kinh nghiệm, vai trò và khu vực
+
+Tương quan Pearson kinh nghiệm–lương trong 79 mẫu là **r = 0,385**, cho thấy liên
+hệ tuyến tính dương ở mức vừa trong mẫu này. Đây không phải R² của mô hình và
+không chứng minh thêm một năm kinh nghiệm sẽ tăng một lượng lương cố định.
+
+![Kinh nghiệm và lương trên strict train v2](../outputs/eda/salary_v2_strict_train_042e3aa1a886/experience_salary.png)
+
+Tập strict train có Software Developer 48 tin, Full-stack 11, Backend 9,
+Frontend 6 và Mobile 5. Không có strict train cho Data/ML/Embedded nên không
+suy diễn mức lương quan sát của ba vai trò này từ biểu đồ. Biểu đồ khu vực chỉ
+trình bày nhóm có ít nhất 5 tin: TP.HCM 35 và Hà Nội 32; các địa chỉ/nhóm nhỏ
+vẫn được giữ trong CSV, không tự nhập vào một thành phố khác.
+
+![Lương theo vai trò trên strict train v2](../outputs/eda/salary_v2_strict_train_042e3aa1a886/salary_by_role.png)
+
+![Lương theo khu vực trên strict train v2](../outputs/eda/salary_v2_strict_train_042e3aa1a886/salary_by_location.png)
+
+### 3.3. Kỹ năng liên hệ với dự đoán lương
+
+Phân tích Ridge dùng snapshot **1.157 tin train gồm cả nhãn yếu**, khác phạm vi
+79 tin của thống kê mô tả trên. Các hệ số kỹ năng dương lớn trong model đã fit:
+PyTorch khoảng +9,12 triệu (15 tin), Rust +7,05 triệu (10), Rails +5,44 triệu (13),
+ASP.NET Core +4,75 triệu (23), Docker +4,75 triệu (208). Skill feature là binary;
+hệ số mô tả thay đổi dự đoán khi thêm cờ kỹ năng và giữ các feature khác cố định.
+Mẫu ít, nhãn yếu và kỹ năng đồng xuất hiện có thể làm hệ số thiếu ổn định. Đây
+không phải mức tăng thu nhập đã kiểm chứng. App còn yêu cầu ít nhất 5 mẫu cùng
+vai trò trước khi đề xuất. Bảng đầy đủ: `ridge_skill_associations_train.csv`
+trong thư mục EDA v2 nói trên.
 
 ## 4. Hai mô hình dự đoán lương
 
@@ -63,6 +114,16 @@ Frontend Vue kết nối FastAPI. Người dùng nhập CSV/XLSX/JSON, kiểm tr
 
 Phần tư vấn nhận vai trò, kinh nghiệm, khu vực và kỹ năng, trả dự đoán lương cùng kỹ năng nên xem xét học thêm. Gợi ý cần ít nhất 5 mẫu train cùng vai trò và tín hiệu Ridge dương. Đây là liên hệ thống kê và phản ứng của model, không phải bằng chứng học một kỹ năng sẽ làm tăng lương tương ứng.
 
+Luồng browser đã thử với Backend Developer, Junior, 3 năm, Hà Nội, Python/SQL:
+Ridge dự đoán khoảng 26,5 triệu/tháng, RF đối chiếu 23,9 triệu. ITviec nhóm
+3–4 năm hiển thị riêng trung vị 30,1 triệu. Khi thêm Rust, kết quả cũ được xóa;
+dự đoán lại khoảng 33,6 triệu cho Ridge và Rust không còn là gợi ý mới. Đây là
+hồ sơ minh họa không có nhãn thu nhập thật, không dùng tính MAE. API live đã thử
+tám vai trò; hồ sơ ML Engineer thử không đủ bằng chứng để gợi ý kỹ năng.
+Bằng chứng JSON và ảnh browser thật tại `outputs/app_verification/career_demo/`.
+
+![Ứng dụng tư vấn trên browser thật](../outputs/app_verification/career_demo/profile_prediction.jpg)
+
 Lệnh chạy app: `make app`. Lệnh này chỉ build/serve và suy luận. `make gemma-corrected-plan` kiểm tra kế hoạch, không train; `make gemma-corrected-train` train thật theo protocol đã khóa và từ chối khi hết ngân sách. Các lệnh corpus cũ được ghi riêng trong README.
 
 ## 7. Đối chiếu nguồn thu nhập thị trường
@@ -81,8 +142,8 @@ Phần còn cần hoàn thiện gồm dữ liệu/validation mới cho một vò
 
 ## 9. Sản phẩm và tái lập
 
-Repository: https://github.com/theihoz/ML/tree/publish/salary-gemma-prep . Nhánh source gọn chứa mã, notebook, split/nhãn đã version, final adapter đã nghiệm thu hoặc đánh giá và báo cáo thực nghiệm; dữ liệu/trọng số lớn tải theo manifest. Dataset phục vụ tái lập, nguồn và quyền sử dụng được chỉ dẫn trong `docs/DATASET.md` và `docs/DATA_SOURCES.md`.
+Repository: https://github.com/theihoz/ML/tree/publish/salary-gemma-prep . Nhánh source gọn chứa mã, notebook, split/nhãn đã version, final adapter đã nghiệm thu hoặc đánh giá và báo cáo thực nghiệm; dữ liệu/trọng số lớn tải theo manifest. `make submission-data` tạo `outputs/submission/datasets.zip`: 42 file dữ liệu/provenance và một manifest, kiểm tra SHA-256/CRC/số dòng. Gói tách serving dataset khỏi corrected trial không đạt. Nguồn và quyền sử dụng được chỉ dẫn trong `docs/DATASET_HANDOFF.md` và `docs/DATA_SOURCES.md`.
 
-Khi trình bày: mở app, nhập bảng mẫu, kiểm tra đơn vị/ghép cột, chạy phân tích, chỉ rõ model hiện dùng và cảnh báo, xem biểu đồ, thử tư vấn và tải ZIP. Khi có nhãn lương do người dùng cung cấp, giải thích metric trên bảng nhập không phải test holdout độc lập. Kịch bản và lệnh chi tiết ở `docs/APP_RUNBOOK.md`.
+Khi trình bày: mở app, nhập bảng mẫu, kiểm tra đơn vị/ghép cột, chạy phân tích, chỉ rõ model hiện dùng và cảnh báo, xem biểu đồ, thử tư vấn và tải ZIP. Khi có nhãn lương do người dùng cung cấp, giải thích metric trên bảng nhập không phải test holdout độc lập. Kịch bản 7–10 phút ở `docs/DEMO_SCRIPT.md`, lệnh chạy ở `docs/APP_RUNBOOK.md`.
 
-Nội dung trên cần được đối chiếu lại với trạng thái cuối của lượt corrected trước khi đóng báo cáo, rồi đưa vào mẫu giảng viên và tạo một file `STT_Họ và tên_MSSV` cho mỗi thành viên. Không nộp bản draft này như báo cáo cá nhân đã hoàn tất.
+Nội dung trên đã ghi kết quả cuối của lượt corrected không đạt và dữ liệu/model đang phục vụ. Bước còn thiếu là đưa vào mẫu giảng viên và tạo một file `STT_Họ và tên_MSSV` cho mỗi thành viên sau khi được cung cấp thông tin. Không nộp bản draft này như báo cáo cá nhân đã hoàn tất.

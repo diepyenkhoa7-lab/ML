@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-18 — Bổ sung EDA đúng phiên bản salary v2 vào báo cáo
+
+- Notebook 04 phân tích 79 strict train/69 công ty, không trộn 1.078 weak train
+  vào biểu đồ lương; tạo 5 PNG, bảng kỹ năng/vai trò/khu vực và hash nguồn/output.
+- Báo cáo có hình thật, số liệu nhu cầu/trung vị/tương quan và phân tích hệ số
+  Ridge tách rõ phạm vi 1.157 train gồm nhãn yếu. Không suy nhân quả hoặc MAE mới.
+- Giữ notebook/EDA v1, không fit model hoặc dùng ví dụ validation/test.
+
 ## 2026-10-18 — Kiểm chứng tư vấn nghề nghiệp và chuẩn bị demo
 
 - Browser thật xác nhận hồ sơ Backend/Junior/3 năm/Python SQL có Ridge/RF,

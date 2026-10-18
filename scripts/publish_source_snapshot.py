@@ -90,6 +90,7 @@ def collect_files():
         "outputs/submission",
         "outputs/architecture_audit",
         "outputs/eda/20261017T092843Z_e3747c",
+        "outputs/eda/salary_v2_strict_train_042e3aa1a886",
         "outputs/metrics/salary_bd9af2fa002caae8",
         "outputs/metrics/gemma_20261017T094853Z_base_valid",
         "outputs/metrics/gemma_20261017T094853Z_adapter_valid",

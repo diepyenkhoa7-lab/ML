@@ -198,6 +198,12 @@ Live API kiểm tra 8 roles đều phản hồi 200 với hai prediction dương
 
 Đây là kiểm chứng UI/API và hành vi tư vấn, không phải train, thay model/nhãn hoặc claim MAE. Buổi báo cáo chưa được xác nhận; báo cáo cá nhân vẫn chờ mẫu và STT/tên/MSSV.
 
+## 20. EDA salary v2 theo strict train
+
+Notebook `notebooks/04_salary_v2_eda.ipynb` đã chạy 5 cell code và tạo 5 biểu đồ từ 79 mẫu strict train thuộc 69 nhóm công ty. Không trộn 1.078 weak labels vào các biểu đồ mô tả, cũng không dùng validation/test. Top demand là JavaScript 27, CSS 23, HTML 19, MySQL 17 và React 17; tương quan Pearson kinh nghiệm–lương là 0,3846. Các liên hệ kỹ năng Ridge trên scope 1.157 mẫu train gồm cả weak được ghi riêng và chỉ là quan hệ trong dữ liệu, không phải quan hệ nhân quả.
+
+Source copy đã chạy lại toàn notebook; summary, bảng và hash 5 PNG giống nhau, 6 liên kết ảnh trong báo cáo resolve thành công (`outputs/eda/salary_v2_strict_train_042e3aa1a886/source_copy_verification.json`). Đây là EDA mô tả, không train, không đổi weights hay mở test; nhãn strict vẫn là silver. Báo cáo kỹ thuật có thêm các biểu đồ này và ảnh UI, nhưng báo cáo cá nhân vẫn thiếu mẫu và identity sinh viên.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`
