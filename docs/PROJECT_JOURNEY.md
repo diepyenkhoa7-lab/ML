@@ -140,6 +140,8 @@ Sau đó bộ kiểm thử chốt đạt 72 tests, trong đó có test annotatio
 
 Verification cuối trước publication đã đạt: `outputs/research/v3/source_export.json` xác nhận bản source copy 516 files, 72 tests, Ruff56, strict SFT, frozen v1 và clean offline npm ci/build; `outputs/research/v3/api_active_model.json` xác nhận HTTP 200 sau restart server với active model `Ridge v2_042e3aa1a886`. V3.1 không promote vì chỉ có 3 mẫu/3 công ty kiểm tra độc lập và market gap kém v2, không đạt gate đã khóa. Zero-assumed-period là đặc điểm nhãn của thử nghiệm; silver chưa phải gold là giới hạn chất lượng, không phải một điều kiện nghiệm thu được thêm sau khi chấm. Commit/push v3 vẫn chưa xong tại thời điểm ghi nhận này.
 
+Release v3 source gọn sau đó đã push thành công lên `publish/salary-gemma-prep` tại commit `3b138e336745d5f9013e6c65ee8524df8090dd03` (feature commit `b8bc10dcc20d4604a3e36b734426583302c3577d`). Bản release gồm 519 files, khoảng 93 MB; source copy kiểm tra trước đó gồm 516 files/72 tests, ba file bổ sung là `source_export.json`, `api_active_model.json`, `gemma_unchanged.json`; nhật ký được cập nhật trong file đã có. Đây là mốc publication đã hoàn tất cho release v3.
+
 ## Tài liệu và bằng chứng chính
 
 * `README.md`, `CHANGELOG.md`
