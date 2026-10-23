@@ -14,6 +14,16 @@ root = Path(__file__).resolve().parents[1]
 manifest_path = root / "configs/qwen_source.json"
 manifest = json.loads(manifest_path.read_text())
 url = hf_hub_url(manifest["repo"], "model.weights.h5", revision=manifest["revision"])
+destination = root / manifest["local_path"] / "model.weights.h5"
+if manifest.get("download_complete") and destination.exists():
+    value = hashlib.sha256()
+    with destination.open("rb") as source:
+        for block in iter(lambda: source.read(4 * 1024 * 1024), b""):
+            value.update(block)
+    if value.hexdigest() != manifest["sha256"]:
+        raise ValueError("Existing pretrained weights checksum mismatch")
+    print("Existing pinned Qwen weights verified; no download needed", flush=True)
+    raise SystemExit(0)
 metadata = get_hf_file_metadata(url)
 cache = root / ".cache/qwen-ranges" / metadata.etag
 cache.mkdir(parents=True, exist_ok=True)

@@ -10,3 +10,9 @@ train-llm:
 	$(PYTHON) -m career_ai train-llm
 test:
 	$(PYTHON) -m unittest discover -s tests -v
+
+.PHONY: status pipeline-background
+status:
+	$(PYTHON) scripts/status.py
+pipeline-background:
+	$(PYTHON) scripts/start_background.py

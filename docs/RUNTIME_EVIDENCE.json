@@ -1,0 +1,92 @@
+{
+  "captured_at": "2026-10-23T15:37:21.851305+07:00",
+  "environment": {
+    "status": "ready",
+    "device_selection": "CPU"
+  },
+  "cpu_compatibility": {
+    "tensorflow": "2.20.0",
+    "keras": "3.15.1",
+    "keras_hub": "0.32.0",
+    "devices": [
+      "/device:CPU:0"
+    ],
+    "output_device": "/job:localhost/replica:0/task:0/device:CPU:0",
+    "tiny_random_qwen_lora_update": true,
+    "same_model_lora_reload_parity": true,
+    "note": "Compatibility only; no pretrained Qwen quality claim."
+  },
+  "baseline": {
+    "run": "outputs/baseline_20261023T082631",
+    "metrics": {
+      "international": {
+        "samples": 3157,
+        "unit": "USD/year",
+        "mae": 30577.771408599427,
+        "rmse": 58495.02315772886,
+        "r2": 0.421900113406951,
+        "low_support": false
+      },
+      "vietnam": {
+        "samples": 49,
+        "unit": "VND/month",
+        "mae": 5497220.545398946,
+        "rmse": 7287465.527577389,
+        "r2": 0.4258434015639453,
+        "low_support": false
+      }
+    },
+    "reload": {
+      "passed": true,
+      "profiles": 2,
+      "rtol": 1e-05,
+      "model": "baseline"
+    },
+    "batch": {
+      "passed": true,
+      "formats": [
+        "csv",
+        "xlsx",
+        "json"
+      ],
+      "valid_rows": 4,
+      "invalid_rows": 1,
+      "charts": true
+    }
+  },
+  "pretrained_probe": {
+    "source": "pinned_pretrained_no_adapter",
+    "answer": "{\n  \"role\": \"Backend Developer\",\n  \"experience_years\": 3,\n  \"skills\": [\"Python\", \"SQL\"]\n}",
+    "json_keys_valid": true,
+    "elapsed_seconds": 19.685044542013202,
+    "note": "Single compatibility probe, not a generalization metric."
+  },
+  "llm_smoke": {
+    "run": "outputs/qwen_smoke_20261023T082631",
+    "limited_trial": true,
+    "training_rows": 20,
+    "reload": {
+      "passed": true,
+      "profiles": 2,
+      "rtol": 1e-05,
+      "model": "llm"
+    }
+  },
+  "full_training_snapshot": {
+    "directory": "outputs/pipeline_20261023T082631",
+    "status": "running",
+    "pid": 18836,
+    "started_at": "2026-10-23T08:26:31.335776+00:00",
+    "phase": "train_qwen_full",
+    "updated_at": "2026-10-23T08:31:15.624450+00:00"
+  },
+  "tests": {
+    "data_and_batch_contracts_passed": 12
+  },
+  "limitations": [
+    "CPU selected because Metal plugin failed to load with TensorFlow 2.20.",
+    "Full LLM training still running; no full LLM test metrics yet.",
+    "Vietnam test has 49 source-derived salary labels, not human gold.",
+    "Smoke and one Vietnamese generation probe are not generalization metrics."
+  ]
+}

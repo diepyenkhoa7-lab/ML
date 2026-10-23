@@ -1,6 +1,6 @@
 import os
 
-os.environ.setdefault("KERAS_BACKEND", "tensorflow")
+os.environ["KERAS_BACKEND"] = "tensorflow"
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 import json
 from functools import lru_cache
@@ -9,7 +9,19 @@ import keras
 import numpy as np
 import tensorflow as tf
 
-from .data import ROOT, features, inverse, load, load_language, prompt, target, write
+from .data import (
+    FEATURES,
+    ROOT,
+    baseline_normalization,
+    digest,
+    features,
+    inverse,
+    load,
+    load_language,
+    prompt,
+    target,
+    write,
+)
 
 PRESET = "hf://keras/qwen3_1.7b_en"
 
@@ -19,8 +31,8 @@ def baseline_train(folder, epochs=100):
     train, valid = load("train"), load("valid")
     x, vocab = features(train)
     xv, _ = features(valid, vocab)
-    normal = keras.layers.Normalization()
-    normal.adapt(x)
+    mean, variance = baseline_normalization(x, vocab)
+    normal = keras.layers.Normalization(mean=mean, variance=variance)
     model = keras.Sequential([keras.Input((x.shape[1],)), normal, keras.layers.Dense(1)])
     model.compile(optimizer=keras.optimizers.Adam(0.01), loss=keras.losses.Huber())
     history = model.fit(
@@ -32,14 +44,39 @@ def baseline_train(folder, epochs=100):
         verbose=2,
         callbacks=[keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True)],
     )
+    probe = valid.groupby("market").head(1)
+    xp, _ = features(probe, vocab)
+    expected = np.maximum(model.predict(xp, verbose=0).ravel(), 0)
+    write(
+        folder / "reload_probe.json",
+        dict(
+            profiles=probe[FEATURES].to_dict("records"),
+            predictions=inverse(expected, probe.market).tolist(),
+        ),
+    )
     model.save(folder / "baseline.keras")
     write(folder / "vocabulary.json", vocab)
     write(folder / "baseline_history.json", history.history)
+    write(
+        folder / "baseline.json",
+        dict(
+            dataset_manifest_sha256=digest(ROOT / "data/tensorflow_v1/manifest.json"),
+            normalization="experience_only; one-hot remains 0/1",
+            seed=42,
+            target_transform="log1p(salary / market_scale)",
+        ),
+    )
 
 
 def qwen_load():
     import keras_hub
 
+    source = json.loads((ROOT / "configs/qwen_source.json").read_text())
+    weights = ROOT / source["local_path"] / "model.weights.h5"
+    if not source.get("download_complete") or not weights.exists():
+        raise ValueError("Pinned pretrained Qwen weights have not finished downloading")
+    if source.get("sha256") and digest(weights) != source["sha256"]:
+        raise ValueError("Pretrained Qwen weight checksum mismatch")
     model = keras_hub.models.Qwen3CausalLM.from_preset(str(ROOT / "models/qwen3"), dtype="float32")
     model.preprocessor.sequence_length = 1024
     model.compile(sampler="greedy")
@@ -197,6 +234,17 @@ def llm_train(folder, epochs=2, limit=None):
         if selection_score < best:
             best = selection_score
             best_epoch = epoch + 1
+            probe = valid.groupby("market").head(1)
+            expected = [
+                float(head(pooled(lm, tokenize(lm, [r])))[0, 0]) for r in probe.to_dict("records")
+            ]
+            write(
+                folder / "reload_probe.json",
+                dict(
+                    profiles=probe[FEATURES].to_dict("records"),
+                    predictions=inverse(expected, probe.market).tolist(),
+                ),
+            )
             lm.backbone.save_lora_weights(str(folder / "qwen.lora.h5"))
             head.save(folder / "salary_head.keras")
     lm.backbone.load_lora_weights(str(folder / "qwen.lora.h5"))
@@ -211,7 +259,9 @@ def llm_train(folder, epochs=2, limit=None):
     write(
         folder / "llm.json",
         dict(
+            dataset_manifest_sha256=digest(ROOT / "data/tensorflow_v1/manifest.json"),
             preset=PRESET,
+            base_source=json.loads((ROOT / "configs/qwen_source.json").read_text()),
             rank=8,
             context=1024,
             epochs=epochs,
@@ -226,14 +276,29 @@ def llm_train(folder, epochs=2, limit=None):
     )
 
 
+def verify_run(folder, family):
+    metadata = json.loads((folder / f"{family}.json").read_text())
+    if metadata["dataset_manifest_sha256"] != digest(ROOT / "data/tensorflow_v1/manifest.json"):
+        raise ValueError("Model was trained against a different frozen dataset")
+    if family == "llm":
+        current = json.loads((ROOT / "configs/qwen_source.json").read_text())
+        if any(
+            metadata["base_source"].get(k) != current.get(k) for k in ["repo", "revision", "sha256"]
+        ):
+            raise ValueError("Adapter requires its original pinned base weights")
+    return metadata
+
+
 @lru_cache(maxsize=2)
 def loaded_baseline(folder):
+    verify_run(folder, "baseline")
     vocab = json.loads((folder / "vocabulary.json").read_text())
     return keras.models.load_model(folder / "baseline.keras"), vocab
 
 
 @lru_cache(maxsize=1)
 def loaded_llm(folder):
+    verify_run(folder, "llm")
     lm = qwen_load()
     lm.backbone.load_lora_weights(str(folder / "qwen.lora.h5"))
     return lm, keras.models.load_model(folder / "salary_head.keras")

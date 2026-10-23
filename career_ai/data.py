@@ -18,7 +18,11 @@ UNITS = {"international": "USD/year", "vietnam": "VND/month"}
 
 
 def digest(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    value = hashlib.sha256()
+    with Path(path).open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            value.update(block)
+    return value.hexdigest()
 
 
 def write(path, obj):
@@ -300,6 +304,16 @@ def features(frame, vocabulary=None):
     return np.asarray(
         [[r.get(k, 0.0) for k in vocabulary] for r in records], dtype="float32"
     ), vocabulary
+
+
+def baseline_normalization(x, vocabulary):
+    # Standardize the continuous feature only; rare one-hot categories stay 0/1.
+    mean = np.zeros(x.shape[1], dtype="float32")
+    variance = np.ones(x.shape[1], dtype="float32")
+    i = vocabulary.index("experience_years")
+    mean[i] = x[:, i].mean()
+    variance[i] = max(float(x[:, i].var()), 1.0)
+    return mean, variance
 
 
 def target(frame):

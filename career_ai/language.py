@@ -20,8 +20,8 @@ def generate_json(lm, instruction):
     size = int(np.asarray(lm.preprocessor.tokenizer(text)).size)
     if size + 256 > 1024:
         raise ValueError("Input exceeds context; shorten explicitly")
-    result = lm.generate(text, max_length=size + 256)
-    answer = str(result)[len(text) :].strip().removesuffix("<|im_end|>").strip()
+    result = lm.generate(text, max_length=size + 256, strip_prompt=True)
+    answer = str(result).strip().removesuffix("<|im_end|>").strip()
     value = json.loads(answer)
     if not isinstance(value, dict):
         raise ValueError("Expected JSON object")
@@ -66,21 +66,38 @@ def advise(lm, profile):
         delta = float(subset.loc[has, "salary"].median() - subset.loc[~has, "salary"].median())
         if delta > 0:
             evidence.append(dict(skill=skill, support=int(has.sum()), observed_difference=delta))
-    evidence = sorted(evidence, key=lambda e: e["observed_difference"], reverse=True)[:3]
+    evidence = sorted(evidence, key=lambda e: e["observed_difference"], reverse=True)[:8]
     if not evidence:
         return dict(status="insufficient_data", recommendations=[])
     value = generate_json(
         lm,
-        "Explain in Vietnamese why these skills may be considered. Return "
-        '{"explanation": "..."}. Do not state salary numbers or promise an'
-        " increase. Evidence is observational, not causal.\n"
-        + json.dumps(evidence, ensure_ascii=False),
+        "Select at most three skills from this evidence and explain in Vietnamese. "
+        'Return {"skills": ["..."], "explanation": "..."}. '
+        "Do not state salary numbers or promise an increase. "
+        "Evidence is observational, not causal.\n" + json.dumps(evidence, ensure_ascii=False),
     )
+    selected = validate_recommendations(value, evidence)
     return dict(
-        recommendations=evidence,
+        recommendations=selected,
         explanation=value.get("explanation"),
         caution="Observational association, not causal. Salary estimates are not guaranteed.",
     )
+
+
+def validate_recommendations(value, evidence):
+    candidates = {e["skill"]: e for e in evidence}
+    skills = value.get("skills")
+    if (
+        not isinstance(skills, list)
+        or len(skills) > 3
+        or any(not isinstance(s, str) for s in skills)
+        or len(set(skills)) != len(skills)
+        or any(s not in candidates for s in skills)
+        or not isinstance(value.get("explanation"), str)
+        or not value["explanation"].strip()
+    ):
+        raise ValueError("Recommendation must select up to three evidenced skills")
+    return [candidates[s] for s in skills]
 
 
 def evaluate_language(lm, examples):
@@ -109,7 +126,9 @@ def evaluate_language(lm, examples):
         samples=n,
         json_schema_rate=valid / n if n else None,
         field_accuracy=field_correct / (2 * n) if n else None,
-        skill_f1=2 * tp / (2 * tp + fp + fn) if 2 * tp + fp + fn else 1.0,
+        skill_f1=(
+            2 * tp / (2 * tp + fp + fn) if 2 * tp + fp + fn else (float(valid == n) if n else None)
+        ),
         errors=errors,
         label_quality="source_derived_silver_not_human_gold",
     )

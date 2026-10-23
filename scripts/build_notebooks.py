@@ -97,4 +97,23 @@ for name, title, code in sections:
             }
         },
     )
+    if name == "04_evaluation":
+        book.cells.append(
+            n.v4.new_code_cell(
+                "import subprocess\n"
+                "baseline=sorted((ROOT/'outputs').glob('*/baseline_test_metrics.json'))\n"
+                "llm=sorted((ROOT/'outputs').glob('*/llm_test_metrics.json'))\n"
+                "if baseline and llm:\n"
+                "    out=ROOT/'outputs'/('comparison_'+llm[-1].parent.name)\n"
+                "    if not out.exists():\n"
+                "        subprocess.run([sys.executable, str(ROOT/'scripts/compare_runs.py'),\n"
+                "            '--baseline', str(baseline[-1].parent), "
+                "'--llm', str(llm[-1].parent),\n"
+                "            '--output', str(out)],check=True)\n"
+                "    import pandas as pd\n"
+                "    display(pd.read_csv(out/'comparison.csv'))\n"
+                "else:\n"
+                "    print('Chờ kết quả đánh giá full của cả hai mô hình để so sánh.')"
+            )
+        )
     n.write(book, root / "notebooks" / f"{name}.ipynb")

@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-installer_pid = int(sys.argv[1])
+installer_pid = int(sys.argv[1]) if len(sys.argv) > 1 else None
 control = root / ".cache/tf_environment_status.json"
 control.parent.mkdir(exist_ok=True)
 
@@ -20,7 +20,7 @@ def status(state, **extra):
 try:
     status("waiting_for_existing_installer")
     deadline = time.monotonic() + 7200
-    while True:
+    while installer_pid is not None:
         try:
             os.kill(installer_pid, 0)
         except ProcessLookupError:
@@ -30,7 +30,18 @@ try:
         time.sleep(10)
     status("finishing_requirements")
     subprocess.run(
-        [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"], cwd=root, check=True
+        [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--find-links",
+            str(root / ".cache/wheels"),
+            "-r",
+            "requirements.txt",
+        ],
+        cwd=root,
+        check=True,
     )
     subprocess.run([sys.executable, "-m", "pip", "check"], cwd=root, check=True)
     status("checking_cpu")

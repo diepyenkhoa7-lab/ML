@@ -47,3 +47,13 @@ Trên máy này, bộ điều phối đang được dùng là `scripts/run_train
 Chọn checkpoint LLM bằng trung bình MAE log theo thị trường +0,1×answer-only cross-entropy trên tối đa32 mẫu validation trích xuất. Tỷ trọng này cố định trước khi đánh giá test. Báo cáo test có MAE/RMSE/R² theo thị trường, vai trò, nhóm kinh nghiệm; dưới10 mẫu gắn `low_support`. Baseline chặn log dự đoán dưới0 để đảm bảo mức lương không âm. Tư vấn kỹ năng dựa vào chênh lệch trung vị quan sát, chịu ảnh hưởng các yếu tố gây nhiễu.
 
 Bản khôi phục source trước khi dọn ở `data/archive/pre_tensorflow_20261023/` (local, không đẩy lên Git). Notebook dùng kernel `career-ai-tf` được đăng ký trong `.venv-tf`; có thể chọn interpreter này trong VS Code. `scripts/execute_notebooks.py` chạy kernel sạch và lưu output, không bật cờ training trong notebook.
+
+## Kết quả đã kiểm chứng ngày 23/10/2026
+
+Môi trường đã khóa trong `requirements-lock-tf-macos-arm64.txt`; CPU vượt kiểm tra. Metal không nạp được với TensorFlow2.20, nên đã gỡ và chọn CPU. Trọng số Qwen đã tải đủ, SHA256 khớp. Smoke LoRA20 mẫu và kiểm tra save/reload ở tiến trình mới đạt; vòng full2epoch đang chạy, chưa có metric LLM full. Chi tiết và giới hạn: `docs/RUNTIME_EVIDENCE.json`.
+
+Baseline test: MAE30.578USD/năm (quốc tế),5,50triệuVND/tháng (Việt Nam); R² lần lượt0,4219/0,4258. Không xem đây là kết quả Qwen. Mười hai kiểm thử đạt; CLI và model thật đã chạy qua CSV/XLSX/JSON, lỗi từng dòng, xuất bảng/biểu đồ. Năm notebook đã thực thi; cell so sánh chờ metric full của LLM.
+
+Chạy `python scripts/status.py` để đối chiếu PID sống với trạng thái lưu. `make pipeline-background` chỉ khởi chạy một worker tách phiên; từ chối nếu worker trước còn sống. Khi máy ngủ, tiến trình cũng có thể tạm dừng; khi worker chết, không coi file running cũ là bằng chứng tiếp tục train. Checkpoint partial là adapter/head trung gian, không bao gồm đầy đủ optimizer để tự khôi phục chính xác giữa epoch.
+
+`python scripts/compare_runs.py --baseline outputs/BASELINE --llm outputs/QWEN --output outputs/COMPARISON` tạo bảng và biểu đồ đối chiếu, yêu cầu hai run dùng cùng snapshot và LLM đã có test full. Smoke bị từ chối. Notebook đánh giá cũng gọi lệnh này khi đủ metric. Với baseline và mô tả cần trích xuất, thêm `--extractor-run outputs/QWEN` trỏ tới LLM đã train; không dùng thư mục baseline làm extractor.

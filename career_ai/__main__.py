@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from .data import ROOT, UNITS, digest, load, load_language, prepare, validate_profile, write
+from .inputs import missing, read_profiles
 
 
 def main():
@@ -26,6 +27,7 @@ def main():
     )
     p.add_argument("--run", type=Path)
     p.add_argument("--input", type=Path)
+    p.add_argument("--extractor-run", type=Path)
     p.add_argument("--model", choices=["baseline", "llm"], default="llm")
     p.add_argument("--epochs", type=int)
     p.add_argument("--limit", type=int)
@@ -95,12 +97,7 @@ def main():
         return
     if not a.input:
         p.error("--input is required")
-    if a.input.suffix == ".json":
-        frame = pd.read_json(a.input)
-    elif a.input.suffix == ".xlsx":
-        frame = pd.read_excel(a.input)
-    else:
-        frame = pd.read_csv(a.input)
+    frame = read_profiles(a.input)
     if a.command == "advise":
         from .language import advise
         from .models import loaded_llm
@@ -131,14 +128,17 @@ def main():
             if (
                 isinstance(row.get("description"), str)
                 and row["description"]
-                and any(not row.get(k) for k in ["role", "experience_years", "skills"])
+                and any(missing(row.get(k)) for k in ["role", "experience_years", "skills"])
             ):
                 from .language import extract
                 from .models import loaded_llm
 
-                extraction = extract(loaded_llm(a.run)[0], str(row["description"]))
+                extractor_run = a.run if a.model == "llm" else a.extractor_run
+                if extractor_run is None:
+                    raise ValueError("Text extraction with baseline requires --extractor-run")
+                extraction = extract(loaded_llm(extractor_run)[0], str(row["description"]))
                 for k, v in extraction.items():
-                    if row.get(k) is None or row.get(k) == "":
+                    if missing(row.get(k)):
                         row[k] = v
             profile = validate_profile(row)
             value = float(predict(pd.DataFrame([profile]), a.run, a.model)[0])
@@ -154,7 +154,21 @@ def main():
             )
         except (ValueError, TypeError, KeyError) as exc:
             results.append(dict(source_row=i + 1, prediction=None, error=str(exc)))
-    frame = pd.DataFrame(results)
+    frame = pd.DataFrame(
+        results,
+        columns=[
+            "source_row",
+            "market",
+            "role",
+            "location",
+            "experience_years",
+            "skills",
+            "prediction",
+            "model_version",
+            "unit",
+            "error",
+        ],
+    )
     destination = a.run / "predictions.csv"
     frame.to_csv(destination, index=False)
     write(a.run / "predictions.json", results)

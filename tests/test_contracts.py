@@ -90,3 +90,16 @@ class EvaluationContracts(unittest.TestCase):
         self.assertEqual(result["by_market"]["vietnam"]["mae"], 1e6)
         self.assertEqual(result["by_market"]["international"]["mae"], 10000)
         self.assertIsNone(result["by_market"]["vietnam"]["r2"])
+
+
+class NormalizationContracts(unittest.TestCase):
+    def test_rare_categories_are_not_amplified(self):
+        from career_ai.data import baseline_normalization, features
+
+        frame = load("train")
+        x, vocabulary = features(frame)
+        mean, variance = baseline_normalization(x, vocabulary)
+        normalized = (x - mean) / np.sqrt(variance)
+        discrete = [i for i, name in enumerate(vocabulary) if name != "experience_years"]
+        np.testing.assert_array_equal(normalized[:, discrete], x[:, discrete])
+        self.assertLess(abs(normalized[:, vocabulary.index("experience_years")].mean()), 1e-5)

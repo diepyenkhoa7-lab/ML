@@ -22,7 +22,10 @@ def charts(frame, folder):
         counts = ex[ex.skills.ne("")].skills.value_counts().head(10)
         counts.to_csv(folder / f"{market}_skill_counts.csv")
         fig, ax = plt.subplots(figsize=(9, 5))
-        counts.sort_values().plot.barh(ax=ax)
+        if len(counts):
+            counts.sort_values().plot.barh(ax=ax)
+        else:
+            ax.text(0.5, 0.5, "No observed skills", ha="center")
         ax.set_title(
             "Technology usage in survey"
             if market == "international"

@@ -16,7 +16,7 @@ control.mkdir(parents=True, exist_ok=False)
 os.environ["KERAS_BACKEND"] = "tensorflow"
 os.environ["MPLCONFIGDIR"] = str(root / ".cache/matplotlib")
 os.environ["HF_HOME"] = str(root / ".cache/huggingface")
-status = dict(status="running", started_at=datetime.now(UTC).isoformat())
+status = dict(status="running", pid=os.getpid(), started_at=datetime.now(UTC).isoformat())
 
 
 def phase(name):
@@ -54,6 +54,10 @@ try:
     baseline = root / "outputs" / ("baseline_" + run_id)
     execute("train_baseline", ["-m", "career_ai", "train-baseline", "--run", str(baseline)])
     execute(
+        "baseline_reload",
+        ["scripts/check_saved_run.py", "--run", str(baseline), "--model", "baseline"],
+    )
+    execute(
         "evaluate_baseline",
         ["-m", "career_ai", "evaluate", "--model", "baseline", "--run", str(baseline)],
     )
@@ -64,6 +68,7 @@ try:
         if time.monotonic() > deadline:
             raise TimeoutError("Qwen download not complete after 24 hours")
         time.sleep(10)
+    execute("pretrained_vietnamese", ["scripts/check_qwen_pretrained.py"])
     smoke = root / "outputs" / ("qwen_smoke_" + run_id)
     execute(
         "qwen_smoke",
@@ -73,9 +78,16 @@ try:
         "qwen_reload_inference",
         ["-m", "career_ai", "predict", "--run", str(smoke), "--input", "data/profiles_demo.json"],
     )
+    execute(
+        "qwen_reload_parity", ["scripts/check_saved_run.py", "--run", str(smoke), "--model", "llm"]
+    )
     qwen = root / "outputs" / ("qwen_" + run_id)
     execute(
         "train_qwen_full", ["-m", "career_ai", "train-llm", "--run", str(qwen), "--epochs", "2"]
+    )
+    execute(
+        "full_qwen_reload_parity",
+        ["scripts/check_saved_run.py", "--run", str(qwen), "--model", "llm"],
     )
     execute("evaluate_qwen", ["-m", "career_ai", "evaluate", "--run", str(qwen), "--language-eval"])
     execute(
