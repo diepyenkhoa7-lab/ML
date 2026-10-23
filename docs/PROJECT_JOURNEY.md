@@ -19,3 +19,9 @@ Chưa xác nhận nạp pretrained, cập nhật LoRA trên pretrained hoặc đ
 ## Các bước sẽ chạy sau khi đủ điều kiện
 
 Kiểm tra import/thiết bị và LoRA nhỏ → train/evaluate baseline → kiểm tra pretrained Qwen, smoke LoRA trên cả hai thị trường, save/reload → train đầy đủ tối đa2epoch → đánh giá test riêng đơn vị và phần trích xuất → demo tệp và biểu đồ. Mỗi bước có log riêng và dừng khi thất bại; không bỏ qua lỗi để công bố hoàn tất.
+
+## 2026-10-23 — Mốc lưu source và khởi chạy điều phối
+
+Đã push source gọn lên `origin/dev/tensorflow-rebuild`, commit triển khai `d5db9e9`. Lịch sử local trước rebuild giữ ở `dev/tensorflow-rebuild-history-20261023`; bản khôi phục thay đổi chưa commit cũng được chép sang `data/archive/pre_tensorflow_20261023/` để không phụ thuộc riêng thư mục tạm.
+
+Đã khởi chạy bộ cài môi trường, tải trọng số theo phiên bản và bộ điều phối training thật. Trạng thái tại thời điểm ghi là **waiting_for_environment**, chưa bắt đầu cập nhật trọng số. `outputs/latest_pipeline.json` là bằng chứng hiện hành, `.cache/tf_environment_status.json` là trạng thái bộ cài. Không coi khởi chạy bộ điều phối là đã train thành công. Output notebook cũ từ lần chuẩn bị dữ liệu trước được xóa để tránh nhầm với kết quả snapshot chốt; sẽ chạy lại bằng kernel TensorFlow sạch.
