@@ -121,6 +121,17 @@ def install_validation_default(state):
     state["validation_default_installed"] = True
 
 
+def install_analysis_charts(state):
+    # Keep original experiment source frozen until the model has terminated.
+    path = ROOT / "career_ai/charts.py"
+    delegate = '"""Charts maintained by the TensorFlow goal pipeline."""\n\n'
+    delegate += "from career_auto.charts import charts as charts\n"
+    if path.read_text() != delegate:
+        shutil.copyfile(path, FOLDER / "legacy_charts_before_analysis_fix.py")
+        path.write_text(delegate)
+    state["analysis_charts_installed"] = True
+
+
 def handle_finished_job(state, job):
     action = job["action"]
     if action == "validate_baseline":
@@ -224,6 +235,7 @@ def tick():
                 handoff="legacy_controller_retired_after_train", reference_run=policy["current_run"]
             )
             install_validation_default(state)
+            install_analysis_charts(state)
             start(
                 state,
                 "validate_baseline",

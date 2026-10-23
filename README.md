@@ -12,8 +12,8 @@ Python 3.11. Cài `requirements.txt` vào `.venv-tf`. Cần tải trọng số K
 .venv-tf/bin/python -m career_ai prepare
 .venv-tf/bin/python -m career_ai train-baseline --run outputs/baseline
 .venv-tf/bin/python -m career_ai train-llm --run outputs/qwen --epochs 2
-.venv-tf/bin/python -m career_ai evaluate --run outputs/baseline --model baseline
-.venv-tf/bin/python -m career_ai evaluate --run outputs/qwen --model llm
+.venv-tf/bin/python -m career_auto.evaluation --run outputs/baseline --model baseline
+.venv-tf/bin/python -m career_auto.evaluation --run outputs/qwen --model llm
 .venv-tf/bin/python -m career_ai analyze --run outputs/qwen --input data/profiles_demo.json
 .venv-tf/bin/python -m career_ai advise --run outputs/qwen --input data/profiles_demo.json
 ```
@@ -38,11 +38,13 @@ Tài liệu trạng thái thực thi trong `outputs/`; chưa có checkpoint/metr
 
 Tải raw đúng phiên bản: `.venv-tf/bin/python scripts/download_data.py`. Kiểm checksum trước khi dùng; lệnh này không ghi đè raw khác checksum. `data/tensorflow_v1/README.md` mô tả bộ lọc và loại nhãn. Dữ liệu đã chia có trong source gọn; raw/trọng số lớn tải riêng.
 
-Trên máy này, bộ điều phối đang được dùng là `scripts/run_training_pipeline.py`: chờ môi trường sẵn sàng, kiểm tra API, train baseline thật, chờ đủ Qwen, smoke LoRA20 mẫu, rồi train đầy đủ2epoch và đánh giá. Trạng thái mới nhất ở `outputs/latest_pipeline.json`; log từng bước trong thư mục pipeline ghi trong đó. Một lỗi sẽ dừng chuỗi, không chuyển trạng thái sang hoàn tất. Không khởi chạy thêm một bộ điều phối khi bộ hiện tại còn chạy.
+Trên máy này, goal hiện do `career_auto.coordinator` quản lý, registry ở `outputs/auto_dev/state.json`; xem hợp đồng trong `docs/AUTONOMOUS_GOAL.md`. Vòng Qwen gốc vẫn train, controller legacy được dừng có chủ đích để không tự mở test. `outputs/latest_pipeline.json` chỉ phản ánh pipeline legacy và có thể còn ghi running; phải đối chiếu PID và registry goal. Không khởi chạy `pipeline-background` hoặc `run_training_pipeline.py` khi goal đang quản lý tài nguyên.
 
 `python scripts/check_tensorflow.py --device cpu` kiểm tra Qwen kích thước nhỏ khởi tạo ngẫu nhiên: có cập nhật LoRA và save/reload, chỉ là kiểm tương thích. `--device gpu` yêu cầu GPU thực sự trả tensor đầu ra; không suy ra pretrained đã chạy chỉ từ kiểm tra nhỏ. Chỉ khóa môi trường vào `requirements-lock-tf-macos-arm64.txt` sau khi bộ cài và kiểm tra thành công. Dùng lock này trên cùng nền tảng, không coi là lock cho CUDA/Linux.
 
 Đọc CSV/XLSX/JSON theo các cột hồ sơ đã nêu; JSON là mảng các object. Có thể đưa thêm `description` để LLM trích phần thiếu; `market` và `location` phải được cung cấp. Lỗi được ghi theo dòng, không tự đoán đơn vị. `analyze` xuất `predictions.csv/json`, `figures/*.png`, bảng thống kê kỹ năng; biểu đồ từ prediction được hiểu là dự đoán. Không vẽ xu hướng thời gian khi không có cột thời gian phù hợp.
+
+Bản biểu đồ mới trong `career_auto.charts` giữ từng quan sát hợp lệ, không loại người/tin khác nhau chỉ vì trùng đặc trưng. Biểu đồ suy luận ghi rõ predicted income và kỹ năng trong file đầu vào, không coi đó là số liệu nhu cầu tuyển dụng thực đo. Biểu đồ kỹ năng–thu nhập cần10 mẫu mỗi kỹ năng; thiếu mẫu xuất thông báo thay vì xếp hạng. CLI chuyển sang bản này sau khi vòng train gốc kết thúc để giữ source experiment đang chạy bất biến.
 
 Chọn checkpoint LLM bằng trung bình MAE log theo thị trường +0,1×answer-only cross-entropy trên tối đa32 mẫu validation trích xuất. Tỷ trọng này cố định trước khi đánh giá test. Báo cáo test có MAE/RMSE/R² theo thị trường, vai trò, nhóm kinh nghiệm; dưới10 mẫu gắn `low_support`. Baseline chặn log dự đoán dưới0 để đảm bảo mức lương không âm. Tư vấn kỹ năng dựa vào chênh lệch trung vị quan sát, chịu ảnh hưởng các yếu tố gây nhiễu.
 

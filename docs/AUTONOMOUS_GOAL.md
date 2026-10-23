@@ -38,4 +38,6 @@ Sau khi chọn: test ứng viên cuối, so sánh baseline, demo ba định dạ
 
 Ứng viên cuối luôn qua `final_reload` trước `final_test`, kể cả khi được chọn từ vòng gốc. Báo cáo bàn giao ghi SHA256/kích thước adapter, đầu hồi quy, metadata/lineage, bằng chứng lưu/nạp, metric, manifest nguồn và môi trường cùng5 notebook đã chạy. Đây là manifest kiểm toàn vẹn artifact, không thay thế giấy phép/nguồn dữ liệu đã ghi riêng.
 
+`career_auto.charts` được kiểm riêng bằng2 hợp đồng: không gộp các quan sát khác nhau chỉ vì cùng đặc trưng và cài chuyển tiếp CLI có giữ bản cũ. Đã xuất10 PNG và4 bảng từ toàn bộ tập train thật ở `outputs/chart_review_train/`; đây là EDA thu nhập quan sát, không là đánh giá dự đoán. CLI sẽ chuyển sang bản mới sau khi vòng gốc kết thúc; không đổi `career_ai` trong lúc train. Với file suy luận, biểu đồ ghi rõ thu nhập dự đoán và kỹ năng trong hồ sơ đầu vào; không gọi đó là nhu cầu tuyển dụng thực đo. Nhóm kỹ năng dưới10 mẫu không xếp hạng thu nhập.
+
 Khi cần sửa lỗi, ghi giả thuyết, sửa và kiểm thử đúng phạm vi; không tự vượt ngân sách thí nghiệm/retry. Khi bàn giao xong, dừng heartbeat phát triển để không tiếp tục train ngoài goal.
