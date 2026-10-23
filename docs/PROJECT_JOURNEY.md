@@ -41,3 +41,13 @@ Phát hiện lỗi hậu xử lý sinh văn bản: cắt số ký tự của pro
 Smoke Qwen LoRA20 mẫu hoàn tất, có2 language update và32 mẫu validation language; lưu adapter/head và so sánh dự đoán trong tiến trình mới đạt. Không dùng smoke để chấm test full. Vòng đầy đủ trên10.417 dòng train, tối đa2epoch đã bắt đầu trên CPU lúc15:31. Các log loss hiện hữu; chưa có metric LLM full, chưa thể kết luận vượt baseline.
 
 Đã chạy5 notebook bằng kernel TensorFlow sạch; cờ train trong notebook giữ tường minh. Có12 kiểm thử hợp đồng đạt trong môi trường mới. Bằng chứng tổng hợp có thể commit: `docs/RUNTIME_EVIDENCE.json`; trạng thái sống hiện hành: `outputs/background_status.json`, `outputs/latest_pipeline.json`, `scripts/status.py`.
+
+## 2026-10-23 — Kích hoạt goal tự động có giới hạn
+
+Người dùng duyệt goal model+CLI/notebook, tối đa3 cấu hình thêm, mỗi cấu hình2epoch, heartbeat mỗi30 phút. Goal và heartbeat native trong chat đã được tạo; không tạo cron thay thế hay dùng cloud. Chính sách/registry được lưu riêng.
+
+Giữ model train PID19191 chạy nguyên source; SIGSTOP riêng controller18836 để nó không tự mở test trước khi chọn theo validation. Đã xác minh controller ở trạng tháiT và model vẫn dùng CPU, log tiếp tục tăng. Handoff chỉ thực hiện sau lineage completed, không dừng model để sửa code.
+
+Đã chuẩn bị package `career_auto` riêng: khóa chống điều phối trùng, job tách phiên có exit record, quota/retry/patience, lựa chọn validation, gate test ứng viên cuối, checkpoint atomic LoRA/head/optimizer/cursor và chặn resume khi khác config/source/data/phiên bản. CLI legacy chỉ đổi mặc định evaluate khi vòng cũ đã kết thúc; module evaluate mới mặc định validation ngay từ đầu.
+
+16 kiểm thử hợp đồng đạt, gồm round-trip optimizer thật nhưng không training trong test, kiểm checksum hỏng/config khác, patience không reset bởi cải thiện nhỏ, test gate và thử patch CLI trên bản sao tạm. Đây chưa chứng minh vòng Qwen mới resume đúng trên mọi phase: mỗi cấu hình phải qua smoke và kiểm restore optimizer thật trước full. Chưa mở cấu hình bổ sung khi vòng gốc còn chạy; chưa có metric LLM full mới. Log kiểm thử: `outputs/auto_dev/contract_tests.log`.

@@ -57,3 +57,9 @@ Baseline test: MAE30.578USD/năm (quốc tế),5,50triệuVND/tháng (Việt Nam
 Chạy `python scripts/status.py` để đối chiếu PID sống với trạng thái lưu. `make pipeline-background` chỉ khởi chạy một worker tách phiên; từ chối nếu worker trước còn sống. Khi máy ngủ, tiến trình cũng có thể tạm dừng; khi worker chết, không coi file running cũ là bằng chứng tiếp tục train. Checkpoint partial là adapter/head trung gian, không bao gồm đầy đủ optimizer để tự khôi phục chính xác giữa epoch.
 
 `python scripts/compare_runs.py --baseline outputs/BASELINE --llm outputs/QWEN --output outputs/COMPARISON` tạo bảng và biểu đồ đối chiếu, yêu cầu hai run dùng cùng snapshot và LLM đã có test full. Smoke bị từ chối. Notebook đánh giá cũng gọi lệnh này khi đủ metric. Với baseline và mô tả cần trích xuất, thêm `--extractor-run outputs/QWEN` trỏ tới LLM đã train; không dùng thư mục baseline làm extractor.
+
+## Goal phát triển tự động
+
+Goal và heartbeat mỗi30 phút đã được kích hoạt theo `docs/AUTONOMOUS_GOAL.md`. Chính sách tối đa3 cấu hình/2epoch và registry được giữ riêng; code của vòng train đang chạy không bị sửa. `make auto-tick` điều phối bước tiếp theo, không chạy thêm model khi train hiện tại còn sống. Đây là lệnh thực thi, không chỉ xem trạng thái.
+
+`python -m career_auto.evaluation --run outputs/RUN` mặc định validation. `--split test` yêu cầu selected_run được goal chốt; smoke không được chấm full. CLI legacy chỉ đổi mặc định sau khi vòng train hiện tại kết thúc. Các vòng mới có checkpoint optimizer/resume; hỗ trợ `python -m career_auto.training --config outputs/auto_dev/CONFIG.config.json --run outputs/RUN --resume` với identity bất biến. Không tự gọi train/resume ngoài registry đang quản lý vì có thể làm trùng tiến trình.

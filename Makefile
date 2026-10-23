@@ -16,3 +16,7 @@ status:
 	$(PYTHON) scripts/status.py
 pipeline-background:
 	$(PYTHON) scripts/start_background.py
+
+.PHONY: auto-tick
+auto-tick:
+	$(PYTHON) -m career_auto.coordinator
