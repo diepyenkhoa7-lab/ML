@@ -1,7 +1,0 @@
-{
-  "phase": "completed",
-  "training_pid": 76941,
-  "run": "outputs/training_logs/gemma_20261018T051656Z",
-  "validation_passed": false,
-  "serving_adapter_changed": false
-}

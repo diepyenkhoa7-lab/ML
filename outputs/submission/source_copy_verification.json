@@ -1,9 +1,0 @@
-{
-  "status": "passed",
-  "scope": "source-whitelist copy, identical dataset ZIP, CRC/hash/count verification and existing full unit suite",
-  "files_copied": 626,
-  "zip_sha256": "1726e1f2a0515f32ed30b48ffaca1d1456daada4d0fbad14ed71d0bd4e6dd6e3",
-  "unit_test_returncode": 0,
-  "unit_test_output_tail": "Matplotlib is building the font cache; this may take a moment.\n.................................................................................................\n----------------------------------------------------------------------\nRan 97 tests in 3.966s\n\nOK\n",
-  "limits": "No new model training, no new accuracy claim, no frontend changes; uses the existing local Python dependency environment"
-}

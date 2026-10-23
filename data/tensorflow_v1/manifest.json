@@ -1,0 +1,45 @@
+{
+  "files": {
+    "train": {
+      "sha256": "c69de4beceb61ec7f0484e1f094df7e9922ad7328209441cf2e43db025cab29f",
+      "rows": 10417,
+      "markets": {
+        "international": 10262,
+        "vietnam": 155
+      }
+    },
+    "valid": {
+      "sha256": "0fd67e24e9859e436589694607f4aea3d4d467bf34e05c7ce16c343847ced5de",
+      "rows": 2405,
+      "markets": {
+        "international": 2368,
+        "vietnam": 37
+      }
+    },
+    "test": {
+      "sha256": "fd1c8364325678a28a766c066be1ff1e0c24b514a4604b8f39a38bffcc8c6002",
+      "rows": 3206,
+      "markets": {
+        "international": 3157,
+        "vietnam": 49
+      }
+    }
+  },
+  "artifacts": {
+    "train.jsonl": "66f928806e5e2da672548818666d78810dfbeb38d87098db647de1421b95bf57",
+    "test.jsonl": "0df14714b2e417553170af48ce6e62c6cf1c5f60c229364588465ad08d713329",
+    "valid.jsonl": "82db6e73b6f6e5c75b232f673dbbda76773137df5d61afc5166ea1a7143e1c49",
+    "international_audit.csv": "1b79d7d43a17ea573bf0758cdac40cf6bab1b15fd7548549086c1b5f3ecaab70",
+    "vn_audit.csv": "3cf9a00bc8d9cde31e1f3b1c28919c7793035dc80caca080dc6f3b6fda3cda57"
+  },
+  "raw": {
+    "data/raw/stackoverflow_2024/survey_results_public.csv": "7f2c2dbf6989d00b80a7351de4bb3af4b52b21cc52d5c947891bbc4f4e5cbe49",
+    "data/raw/tinixai_2026/data.parquet": "4d5e11b58490edc40900386986de71e844cd9f0f3a5fc714418747f66462f834"
+  },
+  "units": {
+    "international": "USD/year",
+    "vietnam": "VND/month"
+  },
+  "experience_policy": "VN interval/lower-bound experience uses stated minimum; see experience_kind.",
+  "note": "Previously studied sources; new split is not a newly collected blind benchmark. VN labels are source-derived silver."
+}
