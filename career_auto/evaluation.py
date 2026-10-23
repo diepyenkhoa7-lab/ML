@@ -31,7 +31,7 @@ def evaluate(run, family="llm", split="valid", language=True):
     )
     write(run / f"{family}_{split}_metrics.json", result)
     if family == "llm" and language:
-        from career_ai.language import evaluate_language
+        from .language_evaluation import evaluate_language
 
         examples = load_language(split)
         if split == "valid":

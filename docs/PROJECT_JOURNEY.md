@@ -51,3 +51,11 @@ Giữ model train PID19191 chạy nguyên source; SIGSTOP riêng controller18836
 Đã chuẩn bị package `career_auto` riêng: khóa chống điều phối trùng, job tách phiên có exit record, quota/retry/patience, lựa chọn validation, gate test ứng viên cuối, checkpoint atomic LoRA/head/optimizer/cursor và chặn resume khi khác config/source/data/phiên bản. CLI legacy chỉ đổi mặc định evaluate khi vòng cũ đã kết thúc; module evaluate mới mặc định validation ngay từ đầu.
 
 16 kiểm thử hợp đồng đạt, gồm round-trip optimizer thật nhưng không training trong test, kiểm checksum hỏng/config khác, patience không reset bởi cải thiện nhỏ, test gate và thử patch CLI trên bản sao tạm. Đây chưa chứng minh vòng Qwen mới resume đúng trên mọi phase: mỗi cấu hình phải qua smoke và kiểm restore optimizer thật trước full. Chưa mở cấu hình bổ sung khi vòng gốc còn chạy; chưa có metric LLM full mới. Log kiểm thử: `outputs/auto_dev/contract_tests.log`.
+
+## 2026-10-23 — Siết kiểm tra resume và chuẩn bị bàn giao tự động
+
+Đã bổ sung bước smoke dừng có chủ đích giữa epoch sau2 optimizer update, nạp lại đúng cursor và lưu resume event. Lý do: chỉ nạp checkpoint sau epoch cuối không chứng minh có thể tiếp tục phần train còn lại. Gate full yêu cầu bằng chứng resume giữa epoch, LoRA thay đổi và lưu/nạp trong tiến trình mới. Đây là cơ chế đã viết và kiểm hợp đồng; smoke pretrained cho cấu hình mới vẫn chờ vòng gốc kết thúc.
+
+Đánh giá ngôn ngữ có độ khớp riêng từng trường và số nhãn khác null; generation lỗi được tính thất bại, không làm tăng điểm do bỏ mẫu. Đã chuẩn bị báo cáo lỗi lớn theo thị trường và notebook chỉ hiển thị model được chọn. Notebook không tự mở thí nghiệm khi goal còn hoạt động. Báo cáo cuối bị chặn trước khi test, demo, notebook và kiểm thử hoàn tất.
+
+23 kiểm thử phần mềm đạt; kiểm chuẩn bị notebook chạy trên bản sao tạm, không thay notebook đang dùng hoặc cập nhật trọng số. Vòng gốc PID19191 vẫn sử dụng CPU và log đã tới step1350 epoch1 lúc kiểm tra; controller18836 giữ trạng tháiT có chủ đích. Raw, split và source `career_ai` của vòng gốc không thay đổi; chưa có kết quả LLM full để công bố cải thiện.

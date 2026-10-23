@@ -1,6 +1,7 @@
 """One safe scheduling decision per heartbeat; never import TensorFlow while waiting."""
 
 import argparse
+import ast
 import os
 import shutil
 import signal
@@ -104,6 +105,18 @@ def install_validation_default(state):
 """
             + text[last:]
         )
+        # Delegating evaluate makes the old split loaders unused.
+        tree = ast.parse(text)
+        imports = [
+            node for node in tree.body if isinstance(node, ast.ImportFrom) and node.module == "data"
+        ]
+        for node in reversed(imports):
+            node.names = [
+                alias for alias in node.names if alias.name not in ["load", "load_language"]
+            ]
+            lines = text.splitlines()
+            lines[node.lineno - 1 : node.end_lineno] = [ast.unparse(node)]
+            text = "\n".join(lines) + "\n"
         path.write_text(text)
     state["validation_default_installed"] = True
 
@@ -262,7 +275,16 @@ def tick():
                 start(
                     state,
                     "smoke",
-                    ["-m", "career_auto.training", "--config", config, "--run", trial["smoke_run"]],
+                    [
+                        "-m",
+                        "career_auto.training",
+                        "--config",
+                        config,
+                        "--run",
+                        trial["smoke_run"],
+                        "--checkpoint-stop-after",
+                        "2",
+                    ],
                     training=True,
                 )
         elif state["status"] in [
@@ -293,7 +315,7 @@ def tick():
                 start(
                     state,
                     "check_smoke",
-                    ["scripts/check_saved_run.py", "--model", "llm", "--run", trial["smoke_run"]],
+                    ["-m", "career_auto.verify_smoke", "--run", trial["smoke_run"]],
                 )
             elif state["status"] == "start_full":
                 config = str((FOLDER / f"{trial['id']}.config.json").relative_to(ROOT))
@@ -339,8 +361,9 @@ def tick():
                     ],
                 ),
                 ("demo", ["-m", "career_auto.demo", "--run", state["selected_run"]]),
-                ("notebooks", ["scripts/execute_notebooks.py"]),
+                ("notebooks", ["-m", "career_auto.notebook_handoff"]),
                 ("tests", ["-m", "unittest", "discover", "-s", "tests", "-v"]),
+                ("report", ["-m", "career_auto.report"]),
             ]
             if state["final_step"] >= len(steps):
                 state["status"] = "ready_for_handoff"

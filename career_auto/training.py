@@ -88,7 +88,9 @@ def validation(model, head, valid):
     )
 
 
-def train(config, run, resume=False):
+def train(config, run, resume=False, checkpoint_stop_after=None):
+    if checkpoint_stop_after is not None and checkpoint_stop_after < 1:
+        raise ValueError("Checkpoint stop must be a positive optimizer step")
     if config["rank"] not in [8, 16] or config["learning_rate"] not in [2e-5, 5e-5, 1e-4]:
         raise ValueError("Experiment outside approved search space")
     if config["epochs"] not in [1, 2]:
@@ -135,6 +137,10 @@ def train(config, run, resume=False):
                 restored=True,
             ),
         )
+        events_path = run / "resume_events.json"
+        events = read(events_path) if events_path.exists() else []
+        events.append(read(run / "resume_check.json"))
+        write(events_path, events)
     else:
         checkpoints.save(run, model.backbone, head, optimizer, cursor, frozen)
     counts = train_data.market.value_counts()
@@ -202,6 +208,18 @@ def train(config, run, resume=False):
                         accum = [tf.zeros_like(v) for v in selected_vars]
                         pending = 0
                         cursor["next_index"] = i + 1
+                        if (
+                            checkpoint_stop_after is not None
+                            and int(optimizer.iterations) >= checkpoint_stop_after
+                        ):
+                            checkpoints.save(run, model.backbone, head, optimizer, cursor, frozen)
+                            write(run / "lineage.json", dict(status="checkpoint_paused", **frozen))
+                            write(
+                                run / "intentional_pause.json",
+                                dict(optimizer_iterations=int(optimizer.iterations), cursor=cursor),
+                            )
+                            print("Intentional checkpoint pause; resume required", flush=True)
+                            return
                         if phase == "language":
                             cursor["language_updates"] += 1
                         if i + 1 - last_save >= (100 if phase == "numeric" else 20):
@@ -281,5 +299,6 @@ if __name__ == "__main__":
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--checkpoint-stop-after", type=int)
     args = parser.parse_args()
-    train(read(args.config), args.run, args.resume)
+    train(read(args.config), args.run, args.resume, args.checkpoint_stop_after)
