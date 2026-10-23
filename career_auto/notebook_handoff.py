@@ -10,7 +10,7 @@ def prepare():
     import nbformat
 
     state = read(FOLDER / "state.json")
-    if not state.get("selected_run") or state.get("final_step", 0) < 3:
+    if not state.get("selected_run") or state.get("final_step", 0) < 4:
         raise ValueError("Selected model, test and demo must exist before final notebooks")
     setup = """from pathlib import Path
 import json

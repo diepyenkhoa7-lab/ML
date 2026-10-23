@@ -179,6 +179,33 @@ class ResumeSchedulingContracts(unittest.TestCase):
 
 
 class HandoffMetricContracts(unittest.TestCase):
+    def test_final_checkpoint_reload_is_scheduled_before_test(self):
+        from contextlib import nullcontext
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            folder = root / "outputs/auto_dev"
+            write(
+                root / "configs/auto_goal.json",
+                dict(dataset_manifest_sha256="fixed", baseline_run="outputs/baseline"),
+            )
+            write(root / "data/tensorflow_v1/manifest.json", dict(raw={}))
+            write(
+                folder / "state.json",
+                dict(status="finalize", selected_run="outputs/winner", final_step=0),
+            )
+            with (
+                patch.object(coordinator, "ROOT", root),
+                patch.object(coordinator, "FOLDER", folder),
+                patch.object(coordinator, "STATE", folder / "state.json"),
+                patch.object(coordinator, "lock", return_value=nullcontext()),
+                patch("career_ai.data.digest", return_value="fixed"),
+                patch.object(coordinator, "start") as start,
+            ):
+                coordinator.tick()
+            self.assertEqual(start.call_args.args[1], "final_reload")
+            self.assertEqual(start.call_args.args[2][0], "scripts/check_saved_run.py")
+
     def test_final_notebooks_select_explicit_artifacts_without_retraining(self):
         import nbformat
 
@@ -190,7 +217,7 @@ class HandoffMetricContracts(unittest.TestCase):
             for source in Path("notebooks").glob("*.ipynb"):
                 (root / "notebooks" / source.name).write_bytes(source.read_bytes())
             folder = root / "outputs/auto_dev"
-            write(folder / "state.json", dict(selected_run="outputs/winner", final_step=3))
+            write(folder / "state.json", dict(selected_run="outputs/winner", final_step=4))
             with (
                 patch.object(notebook_handoff, "ROOT", root),
                 patch.object(notebook_handoff, "FOLDER", folder),
@@ -246,8 +273,8 @@ class HandoffMetricContracts(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             folder = Path(directory)
             for state in [
-                dict(test_authorized=False, final_step=5),
-                dict(test_authorized=True, final_step=4),
+                dict(test_authorized=False, final_step=6),
+                dict(test_authorized=True, final_step=5),
             ]:
                 write(folder / "state.json", state)
                 with patch.object(report, "FOLDER", folder), self.assertRaises(ValueError):

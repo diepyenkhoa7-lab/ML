@@ -30,10 +30,12 @@ Nếu2 cấu hình liên tiếp không giảm ít nhất1% so với best trướ
 
 Mỗi bước tối đa2 retry. Job còn PID đúng hoặc model con còn sống thì không tạo job khác. Retry train dùng checkpoint khi có; khởi tạo hỏng chưa có checkpoint được lưu nguyên vào failed-init trước khi thử lại. Khi hết retry hoặc gặp trạng thái không thể tiếp tục an toàn: needs_attention, lưu log và báo người dùng. Không tự đổi nguồn dữ liệu hay mượn GPU.
 
-Đã kiểm23 hợp đồng phần mềm, bao gồm serializer optimizer thật nhưng không thực hiện cập nhật model trong bài test đó. Fixture trọng số chỉ kiểm serialization; không là bằng chứng AI. Cấu hình Qwen mới vẫn phải qua smoke thực tế và check_saved_run trước full.
+Đã kiểm24 hợp đồng phần mềm, bao gồm serializer optimizer thật nhưng không thực hiện cập nhật model trong bài test đó. Fixture trọng số chỉ kiểm serialization; không là bằng chứng AI. Cấu hình Qwen mới vẫn phải qua smoke thực tế và check_saved_run trước full.
 
 Smoke mới chủ động dừng sau2 cập nhật optimizer ở epoch0, numeric next_index16; bước sau phải nạp checkpoint và tiếp tục từ đúng vị trí này. Kiểm tra resume không chấp nhận chỉ nạp lại experiment đã xong epoch. `resume_events.json` lưu iteration/cursor thực tế; `smoke_acceptance.json` chỉ được tạo sau kiểm tra LoRA thay đổi, train hoàn tất và dự đoán khớp ở tiến trình mới. Các kiểm tra phần mềm hiện tại chỉ xác minh cơ chế; chưa tuyên bố smoke Qwen mới đã chạy.
 
 Sau khi chọn: test ứng viên cuối, so sánh baseline, demo ba định dạng và lỗi từng dòng/quá dài, tư vấn từ evidence, chạy5 notebook kernel sạch, tests và tạo báo cáo. Notebook cuối chỉ đọc artifact của ứng viên đã chọn, không chọn run theo tên thư mục hoặc tự train lại. Báo cáo ghi MAE/RMSE/R², độ khớp riêng từng trường và mẫu hỗ trợ, các dòng/nhóm lỗi lớn; chỉ sinh sau khi demo và notebook thực thi thành công. Coordinator kết thúc ở ready_for_handoff; agent còn phải đọc kết quả, kiểm notebook/demo thật, cập nhật tài liệu, commit/push source gọn và đối chiếu remote. Chỉ sau toàn bộ bằng chứng đạt mới complete goal; nếu LLM thua baseline thì giữ nguyên kết quả và giải thích. Không được complete khi bước bắt buộc còn chạy.
+
+Ứng viên cuối luôn qua `final_reload` trước `final_test`, kể cả khi được chọn từ vòng gốc. Báo cáo bàn giao ghi SHA256/kích thước adapter, đầu hồi quy, metadata/lineage, bằng chứng lưu/nạp, metric, manifest nguồn và môi trường cùng5 notebook đã chạy. Đây là manifest kiểm toàn vẹn artifact, không thay thế giấy phép/nguồn dữ liệu đã ghi riêng.
 
 Khi cần sửa lỗi, ghi giả thuyết, sửa và kiểm thử đúng phạm vi; không tự vượt ngân sách thí nghiệm/retry. Khi bàn giao xong, dừng heartbeat phát triển để không tiếp tục train ngoài goal.

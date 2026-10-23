@@ -11,9 +11,11 @@ def report():
     import pandas as pd
 
     state = read(FOLDER / "state.json")
-    if not state.get("test_authorized") or state.get("final_step", 0) < 5:
+    if not state.get("test_authorized") or state.get("final_step", 0) < 6:
         raise ValueError("Final model, test, demo and notebook checks are not finished")
     selected = ROOT / state["selected_run"]
+    if not read(selected / "fresh_process_reload.json").get("passed"):
+        raise ValueError("Selected model fresh-process reload has not passed")
     policy = read(ROOT / "configs/auto_goal.json")
     baseline = ROOT / policy["baseline_run"]
     acceptance = read(FOLDER / "demo/acceptance.json")
@@ -62,6 +64,34 @@ def report():
         demo=acceptance,
         test_previously_opened=policy["test_previously_opened"],
     )
+    from career_ai.data import digest
+
+    paths = [
+        selected / name
+        for name in [
+            "qwen.lora.h5",
+            "salary_head.keras",
+            "llm.json",
+            "lineage.json",
+            "fresh_process_reload.json",
+            "llm_history.json",
+            "llm_valid_metrics.json",
+            "llm_test_metrics.json",
+            "language_valid.json",
+            "language_test.json",
+        ]
+    ] + [
+        ROOT / "data/tensorflow_v1/manifest.json",
+        ROOT / "configs/qwen_source.json",
+        ROOT / "configs/auto_goal.json",
+        ROOT / "requirements-lock-tf-macos-arm64.txt",
+        FOLDER / "demo/acceptance.json",
+        *notebooks,
+    ]
+    summary["artifacts"] = {
+        str(path.relative_to(ROOT)): dict(bytes=path.stat().st_size, sha256=digest(path))
+        for path in paths
+    }
     write(FOLDER / "handoff.json", summary)
     lines = [
         "# Kết quả goal TensorFlow",

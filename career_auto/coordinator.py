@@ -338,6 +338,16 @@ def tick():
         elif state["status"] == "finalize":
             steps = [
                 (
+                    "final_reload",
+                    [
+                        "scripts/check_saved_run.py",
+                        "--model",
+                        "llm",
+                        "--run",
+                        state["selected_run"],
+                    ],
+                ),
+                (
                     "final_test",
                     [
                         "-m",
