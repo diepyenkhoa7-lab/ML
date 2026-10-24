@@ -146,7 +146,11 @@ def train(config, run, resume=False, checkpoint_stop_after=None):
     counts = train_data.market.value_counts()
     market_weights = {m: min(len(train_data) / (2 * n), 5.0) for m, n in counts.items()}
     language = load_language("train")[:2] if limited else load_language("train")
-    before_lora = [v.numpy().copy() for v in variables[:lora_count]] if not resume else None
+    before_lora = (
+        [v.numpy().copy() for v in variables[:lora_count]]
+        if int(optimizer.iterations) == 0
+        else None
+    )
     try:
         while cursor["epoch"] < config["epochs"]:
             epoch = cursor["epoch"]
@@ -268,6 +272,8 @@ def train(config, run, resume=False, checkpoint_stop_after=None):
             cursor.update(epoch=epoch + 1, phase="numeric", next_index=0)
             checkpoints.save(run, model.backbone, head, optimizer, cursor, frozen)
             write(run / "llm_history.json", cursor["history"])
+        # A crash can occur after the final checkpoint but before history publication.
+        write(run / "llm_history.json", cursor["history"])
         best = run / cursor["best_dir"]
         for name in ["qwen.lora.h5", "salary_head.keras", "reload_probe.json"]:
             shutil.copyfile(best / name, run / name)
