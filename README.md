@@ -1,244 +1,67 @@
-# IT Career Insight
+# Career AI — TensorFlow / Keras
 
-Đề tài 4: phân tích thị trường việc làm CNTT và dự đoán lương lập trình viên bằng Python.
-Model trích xuất đã chốt: [google/gemma-4-E4B-it](https://huggingface.co/google/gemma-4-E4B-it).
-Ứng dụng Vue 3 + FastAPI đã nối nhập bảng → dự đoán → biểu đồ → xuất kết quả,
-cùng trang tư vấn nghề nghiệp và Gemma đọc mô tả khi bật.
+Bản làm lại trên nhánh `dev/tensorflow-rebuild`: một Qwen3-1.7B có đầu hồi quy chung cho Việt Nam và quốc tế; hồi quy tuyến tính TensorFlow làm đối chứng. Không có frontend/FastAPI/Gemma trong source hoạt động.
 
-Dữ liệu bàn giao: `make submission-data` tạo `outputs/submission/datasets.zip`
-cùng manifest SHA-256/số dòng. Gồm dữ liệu của model đang chạy và bộ 214 dòng đã
-duyệt, tách rõ trial Gemma không đạt. Xem [hướng dẫn và nguồn](docs/DATASET_HANDOFF.md).
+## Môi trường và chạy
 
-Vòng nhãn rõ kỳ tháng **v3/v3.1 đã train 24 cấu hình**, chưa đạt điều kiện triển khai:
-v3.1 không còn giả định kỳ tháng nhưng kiểm tra độc lập chỉ có 3 mẫu và độ lệch nhóm
-ITviec còn kém v2. Web giữ Ridge v2. Xem [kết quả và nhãn cần duyệt](docs/SALARY_V3_REVIEW.md).
+Python 3.11. Cài `requirements.txt` vào `.venv-tf`. Cần tải trọng số Keras chính thức bằng `scripts/download_qwen.py`; base weights không nằm trong Git.
 
-## Mở ứng dụng
-
-```bash
-make frontend-setup  # Lần đầu: cài dependency Vue/Vite theo lockfile.
-make app
+```
+.venv-tf/bin/python -m pip install -r requirements.txt
+.venv-tf/bin/python scripts/download_qwen.py
+.venv-tf/bin/python -m career_ai prepare
+.venv-tf/bin/python -m career_ai train-baseline --run outputs/baseline
+.venv-tf/bin/python -m career_ai train-llm --run outputs/qwen --epochs 2
+.venv-tf/bin/python -m career_auto.evaluation --run outputs/baseline --model baseline
+.venv-tf/bin/python -m career_auto.evaluation --run outputs/qwen --model llm
+.venv-tf/bin/python -m career_ai analyze --run outputs/qwen --input data/profiles_demo.json
+.venv-tf/bin/python -m career_ai advise --run outputs/qwen --input data/profiles_demo.json
 ```
 
-Mở **http://127.0.0.1:8000**. Chọn CSV/XLSX/JSON hoặc thử 48 tin có sẵn,
-kiểm tra ghép cột rồi bấm Phân tích. Tải CSV, Excel, PNG hoặc toàn bộ ZIP.
-Lệnh này chỉ chạy ứng dụng/suy luận; không train. Dữ liệu nhập nằm tại
-`outputs/app_runtime/`, giữ ngoài Git. [Hướng dẫn chi tiết](docs/APP_RUNBOOK.md),
-[kế hoạch & tiêu chí](docs/APP_IMPLEMENTATION_PLAN.md).
-Kịch bản báo cáo 7–10 phút: [DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md), có kết quả
-tư vấn đã đối chiếu trên browser/API và giới hạn cần trình bày.
-EDA cho tập train v2 đang phục vụ: [notebook 04](notebooks/04_salary_v2_eda.ipynb)
-và [nội dung báo cáo có biểu đồ](reports/BAO_CAO_NOI_DUNG.md). Thống kê quan sát
-chỉ dùng 79 nhãn có kỳ tháng rõ, tách khỏi phần nhãn yếu của model.
+`prepare` từ chối ghi đè snapshot. Training tạo thư mục run mới; `--limit` chỉ dành cho smoke trial, không dùng claim kết quả full. Năm notebook trong `notebooks/`; training trong notebook được bật tường minh bằng `RUN_TRAINING=True`. Dữ liệu demo từ train, không dùng chấm generalization.
 
-## Lệnh train và lệnh suy luận
+## Hợp đồng dữ liệu
 
-Bộ 214 dòng đã có bản rà soát AI riêng: 201 chấp nhận, 13 loại; chưa phải human gold.
-Fine-tune reviewed đã hoàn tất 501 bước; F1 validation mới tăng 72,73% → 78,49% nhưng
-không đạt guard validation cũ, nên giữ adapter web cũ và chưa chấm test mới.
-Kết quả: [báo cáo reviewed v2](outputs/metrics/gemma_reviewed_v2/REPORT.md).
-[Audit nhãn tiếp theo](docs/GEMMA_LABEL_QUALITY_AUDIT.md) xác nhận reference còn thiếu;
-đã lưu 17 quyết định sửa có dẫn chứng. [Lượt corrected v2.2.0](docs/GEMMA_CORRECTED_FINETUNE.md)
-đã hoàn tất501 bước, LR2e-6 nhưng không đạt regression guards; giữ adapter web cũ.
-Web hỗ trợ mô tả2048token, schema retry có lưu raw attempts và kỹ năng có bằng chứng nguồn;
-đây là [cải tiến luồng phục vụ đã kiểm chứng](docs/SERVING_IMPROVEMENTS.md), chưa phải giảm MAE lương.
-Corpus mới gồm 137 tin train mới + 364 replay, 31 validation và 33 test mới theo công ty.
-Lượt dữ liệu này dùng `make gemma-reviewed-plan` (không train) và
-`make gemma-reviewed-train` (**train thật 501 bước**, một candidate theo protocol).
-Xem [nhãn, lineage và cách đánh giá](docs/GEMMA_REVIEWED_FINETUNE.md).
+Hồ sơ cần `market` (`international` hoặc `vietnam`), `role`, `location` (quốc gia cho khảo sát), `experience_years`, `skills` (chuỗi phân cách `;`). Nhãn là `salary` và luôn gắn thị trường: tổng thu nhập khảo sát USD/năm, hoặc trung điểm khoảng lương chào tuyển VND/tháng. Không chuyển ngoại tệ tự động. Lương nguồn không vào prompt hồi quy.
 
-| Lệnh | Tác dụng |
-|---|---|
-| `make gemma-adapter` | **Train thật** toàn bộ 364 mẫu train, mặc định 1 epoch = 364 bước |
-| `EPOCHS=3 make gemma-adapter` | Train thật 3 epochs = 1.092 bước |
-| `make gemma-infer-adapter` | **Chỉ suy luận**, không cập nhật trọng số |
-| `make gemma-plan-full` | Kiểm tra dữ liệu và in lịch train, không huấn luyện |
-| `make gemma-train` / `make gemma-smoke` | In kế hoạch trial cũ, không tự train |
+Nguồn quốc tế Stack Overflow 2024 (ODbL/DbCL; ghi nguồn Stack Overflow). Việt Nam TiniX, snapshot đã có trong `data/raw/tinixai_2026/data.parquet`, giấy phép nguồn CC-BY-NC-4.0. Bộ parser quy tắc được di chuyển từ lịch sử Git để kiểm tra lại kỳ lương bằng số tiền khớp trong mô tả, không nâng nhãn thiếu kỳ lên strict. Dữ liệu gốc và manifest cũ giữ trong `data/`; các file này không đồng nghĩa tất cả được train bản mới.
 
-Dữ liệu ở `data/finetune_full/v1.0.0/`: 364 train / 72 validation / 82 test.
-Validation/test giữ riêng. Mỗi lần train tạo run và adapter mới.
-**`make gemma-infer-adapter` mặc định nạp bản tốt nhất theo validation:
-`20261017T105728Z`.** Có thể chỉ định `GEMMA_ADAPTER` để dùng bản khác.
+Tập mới là nguồn đã từng được nghiên cứu, chia lại không tạo một benchmark mới thu thập độc lập. Nhãn trích từ nguồn/rà soát quy tắc là silver, chưa phải human gold. Nhãn Việt Nam ít hơn đáng kể. Không hứa LLM tốt hơn hồi quy hoặc cam kết sai số thấp.
 
-Lượt bạn tự chạy `20261017T101925Z` đã hoàn tất **364/364 bước**, exit code 0.
-Train loss cuối **0,032**, validation loss **0,068** trên đủ 72 mẫu. Xem log bằng lệnh chỉ đọc:
+## Huấn luyện và đánh giá
 
-```bash
-tail -f outputs/training_logs/gemma_20261017T101925Z/console.log
-```
+Qwen backbone LoRA rank8 + LayerNorm/Dense64/Dense1-softplus; loss Huber trên log-lương chuẩn hóa theo thị trường. Batch1, gradient accumulation8, AdamW5e-5, tối đa2epoch. Language replay dùng đáp án trích xuất JSON và mask prompt. Chọn checkpoint trên validation. MAE/RMSE/R² báo cáo riêng từng thị trường. Thống kê kỹ năng từ train cần10 mẫu hỗ trợ; liên hệ quan sát không chứng minh tăng lương do học kỹ năng.
 
-Suy luận bằng adapter được chọn sau các lượt cải tiến (không train):
+Tài liệu trạng thái thực thi trong `outputs/`; chưa có checkpoint/metric thì không được xem training đã hoàn thành. `predict`, `analyze`, `advise` không cập nhật trọng số. `make test` kiểm tra nhóm, leakage và đơn vị.
 
-```bash
-make gemma-infer-adapter
-# Bản full ban đầu vẫn được giữ để so sánh/quay lại:
-GEMMA_ADAPTER=adapters/gemma-jobs/20261017T101925Z make gemma-infer-adapter
-```
+## Tái lập và theo dõi
 
-Xem [hướng dẫn train, giám sát và suy luận](docs/GEMMA_FULL_TRAINING.md).
-Protocol và lệnh đánh giá: [Gemma tuning](docs/GEMMA_TUNING.md).
-Kết quả: [bảng chọn bằng validation](outputs/metrics/gemma_tuning/REPORT.md),
-[đánh giá cuối](outputs/metrics/gemma_tuning/FINAL_REPORT.md).
+Tải raw đúng phiên bản: `.venv-tf/bin/python scripts/download_data.py`. Kiểm checksum trước khi dùng; lệnh này không ghi đè raw khác checksum. `data/tensorflow_v1/README.md` mô tả bộ lọc và loại nhãn. Dữ liệu đã chia có trong source gọn; raw/trọng số lớn tải riêng.
 
-## Trạng thái hiện tại
+Trên máy này, goal hiện do `career_auto.coordinator` quản lý, registry ở `outputs/auto_dev/state.json`; xem hợp đồng trong `docs/AUTONOMOUS_GOAL.md`. Vòng Qwen gốc vẫn train, controller legacy được dừng có chủ đích để không tự mở test. `outputs/latest_pipeline.json` chỉ phản ánh pipeline legacy và có thể còn ghi running; phải đối chiếu PID và registry goal. Không khởi chạy `pipeline-background` hoặc `run_training_pipeline.py` khi goal đang quản lý tài nguyên.
 
-- Đã nhập/làm sạch bốn nguồn, rà soát nhãn và đóng băng split v1.0.1.
-- Đã chạy EDA Matplotlib/Seaborn và train median baseline, Ridge, Random Forest.
-- Bộ developer Việt Nam: **train 123 / validation 25 / test 28**. Fit trên train;
-  chọn Random Forest bằng MAE validation, giữ test cho đánh giá cuối theo protocol.
-- Test MAE RF **6,656 triệu VND/tháng**, RMSE **10,517 triệu**, R² **0,444**.
-  Ridge: MAE 7,074 triệu, RMSE 9,603 triệu; baseline MAE 8,921 triệu.
-  Báo cáo cả ba, không chọn lại bằng test. Chỉ 28 mẫu test, nhãn nguồn chưa phải gold,
-  chưa chứng minh tổng quát toàn thị trường.
-- Gemma: đủ trọng số Google và MLX 4-bit, checksum đã xác minh. JSONL silver có
-  **364 / 72 / 82** mẫu, tương ứng 122 / 25 / 28 tin nguồn; gồm biến thể bỏ trường.
-  Sau full baseline đã train thật thêm 3 lượt × 364 bước với lr giảm dần.
-  Chọn `20261017T105728Z` bằng validation; lượt cuối giảm điểm nên bị loại.
-  Validation: Skill F1 **93,76%** (baseline full 90,22%), accuracy trung bình 8 trường
-  **93,75%**, schema **95,83%**, JSON **100%**. Skills exact chỉ **56,94%**;
-  nhãn silver, còn alias/duplicate và mục tiêu schema 98%/accuracy 95% chưa đạt.
-  Test (82 mẫu / 28 tin): Skill F1 **91,85%**, accuracy trung bình **93,90%**,
-  schema **95,12%**, JSON **100%**; skills exact **54,88%**.
-  Test chỉ chấm sau khi khóa lựa chọn, không train tiếp bằng lỗi test;
-  xem [báo cáo cuối và từng trường](outputs/metrics/gemma_tuning/FINAL_REPORT.md).
-  [Trial 100 bước cũ](outputs/metrics/gemma_20261017T094853Z_comparison/REPORT.md)
-  vẫn được giữ riêng.
-- Đã chuẩn bị notebook 03, kế hoạch, wrapper lưu log và script đánh giá Gemma;
-  mặc định suy luận dùng adapter đã chọn bằng validation;
-  ứng dụng tư vấn dùng dự đoán RF/Ridge và hỗ trợ kỹ năng từ train.
-  Giải thích bằng Python có bằng chứng; Gemma dùng cho trích xuất, không sinh số lương.
+`python scripts/check_tensorflow.py --device cpu` kiểm tra Qwen kích thước nhỏ khởi tạo ngẫu nhiên: có cập nhật LoRA và save/reload, chỉ là kiểm tương thích. `--device gpu` yêu cầu GPU thực sự trả tensor đầu ra; không suy ra pretrained đã chạy chỉ từ kiểm tra nhỏ. Chỉ khóa môi trường vào `requirements-lock-tf-macos-arm64.txt` sau khi bộ cài và kiểm tra thành công. Dùng lock này trên cùng nền tảng, không coi là lock cho CUDA/Linux.
 
-Xem [hướng dẫn train và bằng chứng](docs/TRAINING_RUNBOOK.md),
-[kết quả lương](outputs/metrics/salary_bd9af2fa002caae8/REPORT.md),
-[hồ sơ nguồn](docs/DATA_SOURCES.md), [quy tắc làm sạch](docs/DATA_CLEANING.md),
-[bộ chia](docs/LABEL_REVIEW_AND_SPLITS.md), [data card](data/DATA_CARD.md).
+Đọc CSV/XLSX/JSON theo các cột hồ sơ đã nêu; JSON là mảng các object. Có thể đưa thêm `description` để LLM trích phần thiếu; `market` và `location` phải được cung cấp. Lỗi được ghi theo dòng, không tự đoán đơn vị. `analyze` xuất `predictions.csv/json`, `figures/*.png`, bảng thống kê kỹ năng; biểu đồ từ prediction được hiểu là dự đoán. Không vẽ xu hướng thời gian khi không có cột thời gian phù hợp.
 
-## Mở môi trường
+Bản biểu đồ mới trong `career_auto.charts` giữ từng quan sát hợp lệ, không loại người/tin khác nhau chỉ vì trùng đặc trưng. Biểu đồ suy luận ghi rõ predicted income và kỹ năng trong file đầu vào, không coi đó là số liệu nhu cầu tuyển dụng thực đo. Biểu đồ kỹ năng–thu nhập cần10 mẫu mỗi kỹ năng; thiếu mẫu xuất thông báo thay vì xếp hạng. CLI chuyển sang bản này sau khi vòng train gốc kết thúc để giữ source experiment đang chạy bất biến.
 
-```bash
-cd /Users/scara2906/Downloads/ML
-source .venv/bin/activate
-make lab
-```
+Chọn checkpoint LLM bằng trung bình MAE log theo thị trường +0,1×answer-only cross-entropy trên tối đa32 mẫu validation trích xuất. Tỷ trọng này cố định trước khi đánh giá test. Báo cáo test có MAE/RMSE/R² theo thị trường, vai trò, nhóm kinh nghiệm; dưới10 mẫu gắn `low_support`. Baseline chặn log dự đoán dưới0 để đảm bảo mức lương không âm. Tư vấn kỹ năng dựa vào chênh lệch trung vị quan sát, chịu ảnh hưởng các yếu tố gây nhiễu.
 
-Chọn kernel **Python (IT Career Insight)**. Nếu đang mở bản notebook cũ, nạp lại từ ổ đĩa.
+Bản khôi phục source trước khi dọn ở `data/archive/pre_tensorflow_20261023/` (local, không đẩy lên Git). Notebook dùng kernel `career-ai-tf` được đăng ký trong `.venv-tf`; có thể chọn interpreter này trong VS Code. `scripts/execute_notebooks.py` chạy kernel sạch và lưu output, không bật cờ training trong notebook.
 
-- `notebooks/01_eda.ipynb`: đầy đủ cell và output, EDA trên train CNTT VN.
-- `notebooks/02_salary_models.ipynb`: đầy đủ cell huấn luyện, metric, lưu/nạp model.
-  [Bản thực thi đầy đủ, lưu riêng](outputs/training_logs/salary_20261017T094526Z/02_salary_models.executed.ipynb)
-  giữ output khi phiên Jupyter đang mở lưu đè bản cũ.
-- `notebooks/03_gemma_extraction.ipynb`: đủ bước chuẩn bị/xác nhận/train/đánh giá;
-  các cell kiểm tra đã được chạy riêng; Run All với mặc định không train hoặc suy luận Gemma.
-  Lệnh full và suy luận hiện hành xem bảng phía trên.
+## Kết quả đã kiểm chứng ngày 23/10/2026
 
-```bash
-make salary-train  # Chạy notebook 01 + 02, lưu transcript; không chạy Gemma.
-make validate-sft
-make gemma-train   # CHỈ xuất kế hoạch, không train.
-make api          # http://127.0.0.1:8000/docs và /health
-```
+Môi trường đã khóa trong `requirements-lock-tf-macos-arm64.txt`; CPU vượt kiểm tra. Metal không nạp được với TensorFlow2.20, nên đã gỡ và chọn CPU. Trọng số Qwen đã tải đủ, SHA256 khớp. Smoke LoRA20 mẫu và kiểm tra save/reload ở tiến trình mới đạt; vòng full2epoch đang chạy, chưa có metric LLM full. Chi tiết và giới hạn: `docs/RUNTIME_EVIDENCE.json`.
 
-Pipeline lương ở `models/salary/bd9af2fa002caae8/`; metrics/biểu đồ và dự đoán test ở
-`outputs/metrics/salary_bd9af2fa002caae8/`; transcript ở `outputs/training_logs/`.
-Cùng protocol sẽ kiểm tra/đọc kết quả test đã chốt, không dùng test để tìm tham số.
-Hệ số kỹ năng Ridge là liên hệ có điều kiện, không phải tác động nhân quả.
+Baseline test: MAE30.578USD/năm (quốc tế),5,50triệuVND/tháng (Việt Nam); R² lần lượt0,4219/0,4258. Không xem đây là kết quả Qwen. Mười hai kiểm thử đạt; CLI và model thật đã chạy qua CSV/XLSX/JSON, lỗi từng dòng, xuất bảng/biểu đồ. Năm notebook đã thực thi; cell so sánh chờ metric full của LLM.
 
-## Cài lại
+Chạy `python scripts/status.py` để đối chiếu PID sống với trạng thái lưu. `make pipeline-background` chỉ khởi chạy một worker tách phiên; từ chối nếu worker trước còn sống. Khi máy ngủ, tiến trình cũng có thể tạm dừng; khi worker chết, không coi file running cũ là bằng chứng tiếp tục train. Checkpoint partial là adapter/head trung gian, không bao gồm đầy đủ optimizer để tự khôi phục chính xác giữa epoch.
 
-```bash
-bash scripts/setup.sh
-make test-data
-make lint
-.venv/bin/python scripts/verify_salary_splits.py --training-only
-```
+`python scripts/compare_runs.py --baseline outputs/BASELINE --llm outputs/QWEN --output outputs/COMPARISON` tạo bảng và biểu đồ đối chiếu, yêu cầu hai run dùng cùng snapshot và LLM đã có test full. Smoke bị từ chối. Notebook đánh giá cũng gọi lệnh này khi đủ metric. Với baseline và mô tả cần trích xuất, thêm `--extractor-run outputs/QWEN` trỏ tới LLM đã train; không dùng thư mục baseline làm extractor.
 
-Python 3.11.17, macOS arm64; MLX 0.32.4, MLX-LM 0.32.2. Script ưu tiên uv nếu có,
-không có thì pip. File lock macOS giữ phiên bản; Windows/Linux dùng
-`requirements-dev.txt` cho EDA/hồi quy/API. MLX dùng Apple Silicon/Metal.
-Kernel được cài trong `.venv/share/jupyter`, cache ở `.cache/` dự án.
-`make check-mlx` cần quyền truy cập Metal; môi trường sandbox có thể không thấy GPU.
-Các số đo giả lập cũ trong `outputs/environment/` chỉ kiểm tra kỹ thuật.
+## Goal phát triển tự động
 
-## Gemma: model, dữ liệu và xác nhận
+Goal và heartbeat mỗi30 phút đã được kích hoạt theo `docs/AUTONOMOUS_GOAL.md`. Chính sách tối đa3 cấu hình/2epoch và registry được giữ riêng; code của vòng train đang chạy không bị sửa. `make auto-tick` điều phối bước tiếp theo, không chạy thêm model khi train hiện tại còn sống. Đây là lệnh thực thi, không chỉ xem trạng thái.
 
-Model gốc Google revision `ee0ef6023621cff504d758262d4e04895a5af4a2`, trọng số
-15.992.595.884 byte; bản MLX text-only 4-bit 4.198.925.877 byte.
-Trên máy hiện tại đã có đủ, không cần tải lại. SHA256 tại
-`outputs/gemma_preparation/weights.json`; manifest ở hai thư mục model.
-Đã chạy full baseline và 3 lượt cải tiến thật, lưu/nạp lại adapter để đánh giá.
-Bản chuyển chỉ dùng văn bản.
-
-Máy khác tải riêng, không đưa trọng số lên Git:
-
-```bash
-.venv/bin/python scripts/download_gemma.py --revision ee0ef6023621cff504d758262d4e04895a5af4a2 --convert
-```
-
-Nếu cần đăng nhập, nhập token bằng Hugging Face CLI, không lưu vào source.
-
-JSONL gồm phiếu tin thật và nhãn **silver_source_fields**, chưa qua duyệt thủ công độc lập,
-chưa phải dữ liệu tin tự do đầy đủ hoặc dữ liệu tư vấn. Kế thừa split/nhóm từ bộ lương;
-không trùng nguồn/nhóm/prompt, không cắt token; dài nhất 614 token. Năm/tháng và tiền tệ
-được giữ theo nguồn. Manifest/ledger ghi nguồn và các biến thể bị loại.
-
-Full baseline: MLX 4-bit LoRA, 4 lớp cuối, rank 8, batch 1, 364 updates,
-learning rate 1e-4, context 1024, mask prompt, gradient checkpoint. Các config tuning
-dùng lr 5e-5 / 2e-5 / 1e-5 và ghi adapter cha/seed. Người dùng đã cho phép đợt train
-lặp này; lệnh `make gemma-adapter` là yêu cầu chạy thật một lượt mới.
-`make gemma-train` và `make gemma-smoke` chỉ giữ kế hoạch trial cũ.
-
-Wrapper lưu console loss, cấu hình, exit code và checkpoint theo run_id; không ghi đè
-lượt cũ. `scripts/evaluate_gemma.py` chấm JSON validity, schema validity, accuracy
-8 trường và Skill F1. Chọn adapter trên validation, sau đó chấm test riêng cho bản
-được chọn; không đổi model từ kết quả test. Log/loss curve theo từng run tại
-`outputs/training_logs/`; kết quả và quyết định ở `outputs/metrics/gemma_tuning/`.
-
-## Nhánh Git gọn và dữ liệu lớn
-
-Nhánh bàn giao **`publish/salary-gemma-prep`** chứa source, notebook, CSV sạch VN,
-CSV split, JSONL, pipeline lương nhỏ, metric và log. Manifest liệt kê file tại
-`outputs/source_publication/manifest.json`. Lịch sử cũ và dữ liệu lớn local được giữ
-nguyên; không force-push. Trọng số Gemma gốc, cache, raw/bảng audit lớn và checkpoint trung gian tải/lưu riêng.
-Adapter cuối nhỏ (6,95 MB), config và checksum được đưa cùng source để tái sử dụng.
-
-`configs/data_sources.json` ghi URL/revision/checksum. File `vietnam_it_job_posts.csv`
-người dùng gửi chưa có URL nguồn, cần cung cấp thủ công để làm sạch lại từ raw.
-`make data-verify` đầy đủ cần raw/bảng trung gian local; clone gọn dùng
-`verify_salary_splits.py --training-only` để kiểm tra frozen CSV.
-
-```bash
-make data-fetch
-make data-clean
-make data-split
-make data-verify
-```
-
-Không chạy lại làm sạch/chia đè snapshot đã dùng báo cáo; tạo phiên bản mới khi đổi nhãn.
-Các nguồn có giới hạn xuất xứ/điều khoản ghi rõ tại DATA_SOURCES.md.
-
-## Sản phẩm còn lại
-
-Bổ sung nhãn gold và holdout mới khi mở vòng nghiên cứu khác; chuẩn bị thuyết trình.
-Báo cáo cá nhân đã được người dùng loại khỏi phạm vi công việc.
-Ứng dụng local đã có luồng demo nhập bảng, dự đoán, biểu đồ, tư vấn và tải kết quả.
-Đối chiếu [bảng bàn giao](docs/DELIVERABLES.md).
-
-Tham chiếu: [Google model card](https://huggingface.co/google/gemma-4-E4B-it),
-[MLX-LM LoRA/QLoRA](https://github.com/ml-explore/mlx-lm/blob/main/mlx_lm/LORA.md).
-
-Audit kiến trúc ngày 18/10: [báo cáo](outputs/architecture_audit/2026-10-18/REPORT.md).
-Hành trình, khái niệm và khó khăn có bằng chứng: [PROJECT_JOURNEY](docs/PROJECT_JOURNEY.md).
-
-## Cập nhật 18/10: salary v2 + Gemma trên web
-
-Ứng dụng hiện chọn Ridge `v2_042e3aa1a886`, Random Forest đối chiếu, Gemma trích mô tả. Trên **cùng30 test mới**, MAE RFv1 8,246 → Ridgev2 4,433 triệu VND/tháng, RMSE10,508→5,664; không so trực tiếp với test cũ28tin. Train1157 gồm79 nhãn tháng +1078 nhãn yếu(weight0,3); valid25/test30 chỉ nhãn có bằng chứng tháng, company-disjoint.
-
-Phép đối chiếu ITviec trong báo cáo v2 là lịch sử thử nghiệm; đã bỏ tham chiếu này khỏi tư vấn web theo yêu cầu người dùng. Không dùng ITviec làm dữ liệu/gate của hai vòng train quốc tế mới. [Kết quả và giới hạn lịch sử](outputs/metrics/salary_v2_042e3aa1a886/REPORT.md), [lệnh chạy/train/rollback](docs/SALARY_V2_RUNBOOK.md).
-
-## Dashboard và mô hình quốc tế
-
-Trang đầu hiện là phân tích kỹ năng/thu nhập, có 5 biểu đồ train thật và chọn SO2024 quốc tế hoặc tin Việt Nam. Trang so sánh hiển thị Ridge/RF/baseline cùng MAE, RMSE, R² đúng đơn vị. Tư vấn và nhập CSV/XLSX/JSON hỗ trợ quốc tế **USD/năm** riêng với Việt Nam **VND/tháng**; xuất bảng, PNG và ZIP có checksum. Gemma vẫn đọc mô tả trong nhánh tin Việt Nam.
-
-Đã tải thêm SO2024 (65.437 dòng), AIJobs (151.445) và Level (52.296), với revision/giấy phép/hash. Đã train hai bộ quốc tế riêng: SO2024 RF được chọn bằng validation, test 3.158 mẫu đạt MAE 29.606,92 USD/năm, RMSE 51.699,84, R² 0,487; sai số vẫn đáng kể, dữ liệu là thu nhập tự khai năm 2024. AIJobs chỉ là benchmark vì thiếu kỹ năng và số năm kinh nghiệm. Level chưa train vì thiếu kỳ lương. Không fine-tune thêm Gemma trên ba nguồn mới.
-
-Xem [nguồn, metric, giới hạn và demo quốc tế](docs/INTERNATIONAL_DATA.md). `make open-data-fetch` khôi phục raw pinned; `make submission-open-data` tạo ZIP dữ liệu quốc tế. `make salary-global-train` và `make salary-aijobs-train` là **train thật**, từ chối ghi đè run đã có; `make app` chỉ build và chạy suy luận.
+`python -m career_auto.evaluation --run outputs/RUN` mặc định validation. `--split test` yêu cầu selected_run được goal chốt; smoke không được chấm full. CLI legacy chỉ đổi mặc định sau khi vòng train hiện tại kết thúc. Các vòng mới có checkpoint optimizer/resume; hỗ trợ `python -m career_auto.training --config outputs/auto_dev/CONFIG.config.json --run outputs/RUN --resume` với identity bất biến. Không tự gọi train/resume ngoài registry đang quản lý vì có thể làm trùng tiến trình.

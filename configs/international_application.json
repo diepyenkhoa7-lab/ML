@@ -1,9 +1,0 @@
-{
-  "experiment": "global_survey_v1_7f2c2dbf6989",
-  "manifest": {
-    "path": "models/salary/global_survey_v1_7f2c2dbf6989/manifest.json",
-    "sha256": "00c1d58212b309b32de115944ba0902f27912fd4194a868fba35002b6ead1c1f"
-  },
-  "unit": "USD/year",
-  "target": "Self-reported annual total compensation"
-}

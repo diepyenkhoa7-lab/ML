@@ -1,9 +1,0 @@
-{
-  "job_id": "460d8ece1ce547698c80b08320e05423",
-  "rows": 48,
-  "unit": "USD/year",
-  "all_application_hashes_match": true,
-  "all_artifact_hashes_match": true,
-  "fixture_is_train": true,
-  "model": "global_survey_v1_7f2c2dbf6989"
-}
