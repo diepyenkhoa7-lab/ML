@@ -16,6 +16,8 @@ Vòng gốc `outputs/qwen_20261023T082631` vẫn train nguyên code/dữ liệu.
 
 Không sửa `career_ai/*.py` hoặc dữ liệu trong lúc vòng gốc đang train. Module mới ở `career_auto` được chuẩn bị riêng. Khi vòng gốc kết thúc mới cài mặc định CLI `evaluate --split valid`; hiện dùng module `career_auto.evaluation` đã có mặc định validation. Không sửa training/checkpoint source khi experiment mới đang chạy; kiểm checksum identity trước resume.
 
+Giới hạn giám sát vòng gốc: `career_ai/models.py` chỉ in loss mỗi10 dòng và ghi partial/progress mỗi100 dòng trong phần hồi quy. Sau dòng cuối (log step10410 cho train10.417 dòng), trainer còn replay tối đa324 mẫu JSONL train, bỏ mẫu vượt context, rồi tính validation2.405 hồ sơ và tối đa32 mẫu language validation. Các phần này không có log từng bước hoặc partial mới. Vì vậy log/progress đứng ở cuối phần hồi quy chưa chứng minh tiến trình đã treo; kiểm PID/command, CPU/bộ nhớ, lỗi và artifact thực tế. CPU hoạt động chỉ chứng minh tiến trình còn tính toán, không tự chứng minh đã hoàn tất phase hoặc chất lượng model. `llm_history.json` chỉ xuất sau validation của epoch; `lineage completed` cùng `llm.json` mới cho phép handoff. Không tự restart vì khoảng im log này, không sửa nóng trainer để thêm print. Các experiment mới đã có progress theo phase và checkpoint optimizer riêng.
+
 ## Thí nghiệm và lựa chọn
 
 Giữ nguyên raw/nhãn/split/đơn vị/seed42. Tối đa3 cấu hình bổ sung: rank8/lr2e-5; rank8/lr1e-4; rank16 với learning rate có validation tốt nhất trong vòng gốc và các vòng trước. Mỗi cấu hình có smoke20 mẫu, kiểm resume optimizer + lưu/nạp trong tiến trình mới trước khi train full tối đa2epoch, context1024, microbatch1, tích lũy8. Smoke không là metric chất lượng chung và không làm tăng quota cấu hình.
