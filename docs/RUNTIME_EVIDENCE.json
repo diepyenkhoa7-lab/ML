@@ -88,5 +88,44 @@
     "Full LLM training still running; no full LLM test metrics yet.",
     "Vietnam test has 49 source-derived salary labels, not human gold.",
     "Smoke and one Vietnamese generation probe are not generalization metrics."
-  ]
+  ],
+  "full_training_latest_observation": {
+    "observed_at": "2026-10-24T17:48:54.464049+07:00",
+    "run": "outputs/qwen_20261023T082631",
+    "model_pid": 19191,
+    "controller_pid": 18836,
+    "controller_intentionally_stopped": true,
+    "status": "running_epoch_2_confirmed_by_log",
+    "completed_epoch_history": [
+      {
+        "epoch": 1,
+        "train_loss": 0.15049691711923732,
+        "validation_log_mae": 0.43059623063969854,
+        "validation_answer_ce": 0.1411506637232378,
+        "validation_language_examples": 32,
+        "selection_score": 0.44471129701202233
+      }
+    ],
+    "epoch_1_saved_artifacts": {
+      "qwen.lora.h5": {
+        "bytes": 44427224,
+        "sha256": "05e31d53bdf14cc0afa8bc4c71557a2c297baaf32cab738c9354fe876906e3ca"
+      },
+      "salary_head.keras": {
+        "bytes": 559695,
+        "sha256": "22228d31c559747b2e0aea844701e8e860cbfe64b45cd7f20d5087b054d9272c"
+      },
+      "reload_probe.json": {
+        "bytes": 609,
+        "sha256": "6ebbb35642e5b600c8bdf62334a69b77d9675cc2179af98b8ee4dab11011ef8b"
+      },
+      "llm_history.json": {
+        "bytes": 245,
+        "sha256": "7bbc6f74e71763ada257225da4137be8da409b3dbc02e19e444af0a773d0b4e4"
+      }
+    },
+    "full_model_reload_verified": false,
+    "additional_experiments_used": 0,
+    "note": "Intermediate epoch checkpoint. Full training, final reload and original-unit evaluation are pending; this is not full LLM test quality."
+  }
 }

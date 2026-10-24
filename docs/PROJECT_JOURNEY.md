@@ -75,3 +75,9 @@ Ngày23/10 lúc17:57 (giờ Việt Nam), người dùng yêu cầu tạm dừng:
 Ngày24/10 lúc06:14, người dùng yêu cầu tiếp tục. Đã xác minh PID/command đúng, tiến trình còn ở trạng tháiT và mọi checksum source trong lineage của vòng gốc vẫn khớp; sau đó gửi SIGCONT riêng model19191. Log thực tăng từ step2750 sang2760 epoch1, CPU hoạt động trở lại. Đây là tiếp tục tiến trình còn sống trong RAM, không phải nạp lại partial trên đĩa hoặc mở thêm cấu hình. Registry lưu `pause_history` với thời điểm tạm dừng/tiếp tục; quota cấu hình bổ sung vẫn0/3.
 
 Heartbeat30 phút đã bật lại; goal được xác minh active sau khi người dùng tiếp tục trong ứng dụng. Dữ liệu/nhãn/split và cấu hình vòng đang chạy được giữ nguyên. Bằng chứng: `outputs/auto_dev/state.json`, `outputs/qwen_20261023T082631/lineage.json`, `outputs/pipeline_20261023T082631/train_qwen_full.log`. Chưa có metric LLM full; các vòng tiếp theo vẫn chờ vòng gốc kết thúc.
+
+## 2026-10-24 — Epoch1 hoàn tất, vòng gốc sang epoch2
+
+Khoảng17:46 (giờ Việt Nam), vòng gốc đã ghi `llm_history.json`, adapter/head và reload probe cho epoch1; log sau đó xác nhận epoch2 bắt đầu. Validation sau language replay cho MAE log trung bình theo thị trường0,4305962306, answer cross-entropy0,1411506637 trên32 mẫu phù hợp context, selection score0,4447112970. Giá trị này đúng công thức đã chốt, chưa là MAE theo USD/năm hoặc VND/tháng và không chứng minh chất lượng generation JSON hay model vượt baseline.
+
+Đã ghi checksum/kích thước artifact epoch1 và mốc quan sát vào `docs/RUNTIME_EVIDENCE.json`; chúng là trọng số trung gian của vòng full, chưa được công bố là checkpoint có optimizer hoặc full-model reload đã kiểm. Vòng hiện tại vẫn tiếp tục epoch2, `lineage` còn running; chưa mở test hay dùng cấu hình bổ sung. Phần JSON/validation của trainer gốc không in log từng bước, vì vậy giai đoạn im log trước đó được giám sát qua PID/CPU/bộ nhớ và artifact, không tự restart. Không sửa nóng source đang train.
