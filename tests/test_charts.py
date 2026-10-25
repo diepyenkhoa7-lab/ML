@@ -27,7 +27,9 @@ class ChartContracts(unittest.TestCase):
             self.assertEqual(len(list(folder.glob("*.png"))), 5)
 
     def test_chart_patch_is_deferred_idempotent_and_retains_original(self):
-        original = Path("career_ai/charts.py").read_text()
+        current = Path("career_ai/charts.py").read_text()
+        # Exercise migration even after the real checkout already uses the delegate.
+        original = '"""Legacy chart fixture."""\n\ndef charts(frame, folder):\n    pass\n'
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "career_ai").mkdir()
@@ -47,4 +49,4 @@ class ChartContracts(unittest.TestCase):
                 (folder / "legacy_charts_before_analysis_fix.py").read_text(), original
             )
             self.assertTrue(state["analysis_charts_installed"])
-        self.assertEqual(Path("career_ai/charts.py").read_text(), original)
+        self.assertEqual(Path("career_ai/charts.py").read_text(), current)

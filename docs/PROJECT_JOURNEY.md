@@ -97,3 +97,13 @@ Phát hiện và tái hiện cửa sổ lỗi khi checkpoint cuối epoch đã l
 ## 2026-10-25 — Sửa khoảng im log cuối epoch
 
 Theo yêu cầu sửa log của người dùng, bổ sung career_auto/training.py: log chuyển pha học số/JSON, mẫu bị bỏ vì context, validation lương mỗi100 dòng và ngôn ngữ mỗi4 dòng, validation score và lưu checkpoint tốt nhất. Có timestamp, số xử lý/tổng, flush terminal và progress.json. Không thay career_ai/models.py đã nạp trong PID19191, không restart hay can thiệp bộ nhớ. Vì vậy log legacy hiện tại chưa được thay đổi. Test mới dùng model/giá trị giả chỉ kiểm thông báo đúng pha, tổng và mẫu ngôn ngữ bị bỏ; không đo chất lượng AI.
+
+## 2026-10-25 20:13 — Hoàn tất train gốc và nạp lại trọng số thật
+
+Lineage vòng outputs/qwen_20261023T082631 completed lúc 13:13:07Z; 10.417 dòng mỗi epoch, 2 epoch và 648 language updates theo metadata. Điểm validation chọn model: epoch 1 = 0,4447112970, epoch 2 = 0,4553996349; chọn epoch 1. Đây là market-mean logMAE + 0,1×answer CE, không phải sai số USD/VND.
+
+Đã kết thúc controller legacy dừng có chủ đích sau khi trainer kết thúc; bộ điều phối mới tiếp quản. CLI evaluate mặc định validation và bản biểu đồ mới được cài sau train, không sửa source vòng đang chạy. Baseline validation hoàn tất: quốc tế n=2368 MAE=31556,44 USD/năm, RMSE=64839,90, R²=0,34975; Việt Nam n=37 MAE=6337482,63 VND/tháng, RMSE=8217053,96, R²=0,29356.
+
+Fresh-process check đã nạp backbone đúng phiên bản + qwen.lora.h5 + salary_head.keras; khớp dự đoán 2 hồ sơ trước lưu với rtol=1e-5 (fresh_process_reload.json passed). Đây là bằng chứng lưu/nạp, chưa phải chất lượng tổng quát. Đang đánh giá validation đầy đủ Qwen; chưa mở test và chưa chạy cấu hình bổ sung. Hash/metadata/history/bằng chứng tại docs/RUNTIME_EVIDENCE.json, full_training_completion.
+
+Kiểm thử sau handoff phát hiện bài test migration biểu đồ phụ thuộc source legacy trong checkout nên lỗi khi checkout đã chuyển sang delegate. Đã đổi sang fixture legacy độc lập để vẫn kiểm backup và idempotence, giữ kiểm checkout không bị test sửa. Đây là sửa tính tái lập của test, không là cải thiện độ chính xác.
