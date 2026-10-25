@@ -264,7 +264,8 @@ def tick():
             )
         elif state["status"] == "choose_next_trial":
             if (
-                state["additional_experiments_used"] >= policy["max_additional_experiments"]
+                policy.get("search_closed", False)
+                or state["additional_experiments_used"] >= policy["max_additional_experiments"]
                 or state["consecutive_no_improvement"] >= policy["patience"]
             ):
                 state.update(
@@ -287,7 +288,7 @@ def tick():
                         dict(
                             rank=item["rank"],
                             learning_rate=item["learning_rate"],
-                            epochs=1 if smoke else 2,
+                            epochs=1 if smoke else policy["max_epochs"],
                             **(dict(limit=20) if smoke else {}),
                         ),
                     )

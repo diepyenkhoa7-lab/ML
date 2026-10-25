@@ -61,6 +61,8 @@ def report():
         selected_run=state["selected_run"],
         selection_score=state["best_score"],
         additional_experiments_used=state["additional_experiments_used"],
+        experiment_history=state.get("trials", []),
+        selection_reason=state.get("selection_reason", "Validation score"),
         markets=rows,
         language=language,
         demo=acceptance,

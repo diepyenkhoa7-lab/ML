@@ -726,5 +726,20 @@
       "loss": 0.9801715016365051,
       "optimizer_steps": 3
     }
+  },
+  "user_selected_final_model": {
+    "observed_at": "2026-10-25T14:50:42.960126+00:00",
+    "run": "outputs/qwen_20261023T082631",
+    "selected_epoch": 1,
+    "reason": "Explicit user choice after validation; cancel all additional training",
+    "cancelled_trial": "outputs/auto_lr_low",
+    "final_reload": {
+      "passed": true,
+      "profiles": 2,
+      "rtol": 1e-05,
+      "model": "llm"
+    },
+    "next_step": "Final test then comparison/demo/notebooks/tests/report",
+    "test_for_tuning": false
   }
 }

@@ -1,3 +1,7 @@
+# Quyết định mới nhất — 2026-10-25
+
+Người dùng đã chốt model `outputs/qwen_20261023T082631`, trọng số epoch1 theo validation. Dừng và không tiếp tục cấu hình bổ sung `rank8/lr2e-5`; bỏ `rank8/lr1e-4` và `rank16`. Không mở thêm train. Bộ điều phối chuyển sang final reload/test, so sánh baseline, demo,5 notebook, tests và bàn giao. Các đoạn kế hoạch thử nghiệm dưới đây là lịch sử trước quyết định này; policy `search_closed=true` và registry hiện tại là nguồn điều phối.
+
 # Goal tự động TensorFlow — hợp đồng thực thi
 
 Đã kích hoạt goal trong chat và heartbeat `t-ng-ho-n-thi-n-ml-tensorflow` mỗi30 phút. Đây là goal phát triển model + demo CLI/notebook, chưa làm web. Chỉ máy local, không cloud/chi phí, một train tại một thời điểm.
@@ -32,7 +36,7 @@ Nếu2 cấu hình liên tiếp không giảm ít nhất1% so với best trướ
 
 Mỗi bước tối đa2 retry. Job còn PID đúng hoặc model con còn sống thì không tạo job khác. Retry train dùng checkpoint khi có; khởi tạo hỏng chưa có checkpoint được lưu nguyên vào failed-init trước khi thử lại. Khi hết retry hoặc gặp trạng thái không thể tiếp tục an toàn: needs_attention, lưu log và báo người dùng. Không tự đổi nguồn dữ liệu hay mượn GPU.
 
-Đã kiểm30 hợp đồng phần mềm, bao gồm serializer optimizer thật nhưng không thực hiện cập nhật model trong bài test đó. Fixture trọng số chỉ kiểm serialization; không là bằng chứng AI. Cấu hình Qwen mới vẫn phải qua smoke thực tế và check_saved_run trước full.
+Đã kiểm31 hợp đồng phần mềm, bao gồm serializer optimizer thật nhưng không thực hiện cập nhật model trong bài test đó. Fixture trọng số chỉ kiểm serialization; không là bằng chứng AI. Cấu hình Qwen mới vẫn phải qua smoke thực tế và check_saved_run trước full.
 
 Sau handoff, Qwen vòng gốc phải nạp lại trong tiến trình mới và khớp reload probe trước validation/chọn ứng viên. Suy luận dùng pretrained backbone cùng `qwen.lora.h5` đã học và `salary_head.keras` đã học, không chỉ dùng backbone gốc. Demo cuối có thêm hai mô tả tuyển dụng tổng hợp từ đặc trưng train, không chứa lương, để kiểm trích xuất rồi dự đoán cho hai thị trường. Lưu kết quả ở `outputs/auto_dev/demo/text_predictions.json`; đây là kiểm chứng luồng, không phải metric chất lượng. Báo cáo bàn giao yêu cầu demo văn bản đạt.
 

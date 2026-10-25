@@ -121,3 +121,13 @@ Job validate_reference kết thúc exit 0. Quốc tế n=2368: MAE=31508,37 USD/
 Smoke outputs/auto_lr_low_smoke đã chứng minh actual_lora_changed=true; chủ động dừng ở optimizer iteration2/cursor epoch0 numeric next_index16; khôi phục optimizer238 variables và đúng cursor, học tiếp rồi lineage completed. scripts/check_saved_run.py chạy tiến trình mới khớp2 probe; smoke_acceptance.json đạt cả4 cổng. Đây là kiểm chứng cập nhật/resume/lưu-nạp thật, không dùng metric smoke để tuyên bố chất lượng tổng quát.
 
 Đã bắt đầu full outputs/auto_lr_low: rank8/lr2e-5,2epoch, từ pretrained cùng phiên bản, tập10.417 dòng; một train local. Quan sát bước21 epoch1 và optimizer2, checkpoint ban đầu đã lưu, actual_lora_changed=true. Log có timestamp/phase/examples/total và sẽ cập nhật validation/lưu best. Bằng chứng thực tế tại docs/RUNTIME_EVIDENCE.json/first_additional_smoke_acceptance. Chưa mở test, chưa chọn ứng viên cuối.
+
+## 2026-10-25 — Người dùng chốt model vòng gốc, dừng thử thêm
+
+Người dùng yêu cầu giảm thời gian xuống1epoch, bỏ rank8/lr1e-4 và rank16, sau đó chốt dùng model vòng trước outputs/qwen_20261023T082631 với các metric validation đã công bố. Đã hủy trial auto_lr_low, không dùng checkpoint dở dang của trial này làm ứng viên. Quyết định này thay giới hạn thử nghiệm trước; chỉ tiếp tục bàn giao model đã chọn, không mở train nữa.
+
+Trước quyết định chốt model có thử chuyển giới hạn epoch qua checkpoint giữ nguyên mảng trọng số/optimizer, lưu bản gốc và migration manifest; tiến trình resume bị chặn bởi kiểm identity lineage trước khi học tiếp. Không coi resume đó thành công. Trial được hủy theo quyết định người dùng, log/migration vẫn giữ trong outputs; không retry hoặc làm yếu guard. Trọng số model vòng gốc không bị sửa.
+
+Đã đặt selected_run và search_closed, cập nhật heartbeat không train thêm; khởi động final_reload trước final_test. Kết quả test chỉ dùng báo cáo, không điều chỉnh model nữa.
+
+Đã xác nhận final_reload exit0, chuyển final_test cho đúng model đã chốt. 31 unittest đạt (outputs/auto_dev/contract_tests_selected_model.log), gồm kiểm search_closed không mở thử nghiệm dù còn quota và config train tuân thủ max_epochs. Ruff đạt. Heartbeat đã cập nhật chỉ hoàn thiện bàn giao, không train thêm.

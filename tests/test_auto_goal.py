@@ -135,7 +135,7 @@ class ResumeSchedulingContracts(unittest.TestCase):
         self.assertTrue(resumed_mid_epoch([midpoint, finished]))
         self.assertFalse(resumed_mid_epoch([dict(midpoint, restored=False)]))
 
-    def _schedule(self, used=0, no_improvement=0):
+    def _schedule(self, used=0, no_improvement=0, closed=False):
         from contextlib import nullcontext
 
         with tempfile.TemporaryDirectory() as directory:
@@ -144,6 +144,8 @@ class ResumeSchedulingContracts(unittest.TestCase):
             policy = dict(
                 dataset_manifest_sha256="fixed",
                 max_additional_experiments=3,
+                max_epochs=1,
+                search_closed=closed,
                 patience=2,
                 experiments=[dict(id="low", rank=8, learning_rate=2e-5)],
             )
@@ -168,6 +170,8 @@ class ResumeSchedulingContracts(unittest.TestCase):
             ):
                 result = coordinator.tick()
                 arguments = start.call_args
+                if arguments is not None:
+                    self.assertEqual(read(folder / "low.config.json")["epochs"], 1)
             return result, arguments
 
     def test_smoke_is_scheduled_to_pause_after_two_real_optimizer_updates(self):
@@ -184,6 +188,12 @@ class ResumeSchedulingContracts(unittest.TestCase):
             self.assertEqual(state["status"], "finalize")
             self.assertTrue(state["test_authorized"])
             self.assertEqual(state["selected_run"], "outputs/reference")
+
+    def test_explicit_user_selection_closes_search_before_unused_quota(self):
+        state, arguments = self._schedule(closed=True)
+        self.assertIsNone(arguments)
+        self.assertEqual(state["additional_experiments_used"], 0)
+        self.assertEqual(state["selected_run"], "outputs/reference")
 
 
 class HandoffMetricContracts(unittest.TestCase):
