@@ -107,3 +107,17 @@ Lineage vòng outputs/qwen_20261023T082631 completed lúc 13:13:07Z; 10.417 dòn
 Fresh-process check đã nạp backbone đúng phiên bản + qwen.lora.h5 + salary_head.keras; khớp dự đoán 2 hồ sơ trước lưu với rtol=1e-5 (fresh_process_reload.json passed). Đây là bằng chứng lưu/nạp, chưa phải chất lượng tổng quát. Đang đánh giá validation đầy đủ Qwen; chưa mở test và chưa chạy cấu hình bổ sung. Hash/metadata/history/bằng chứng tại docs/RUNTIME_EVIDENCE.json, full_training_completion.
 
 Kiểm thử sau handoff phát hiện bài test migration biểu đồ phụ thuộc source legacy trong checkout nên lỗi khi checkout đã chuyển sang delegate. Đã đổi sang fixture legacy độc lập để vẫn kiểm backup và idempotence, giữ kiểm checkout không bị test sửa. Đây là sửa tính tái lập của test, không là cải thiện độ chính xác.
+
+## 2026-10-25 — Validation đầy đủ model vòng gốc
+
+Job validate_reference kết thúc exit 0. Quốc tế n=2368: MAE=31508,37 USD/năm, RMSE=64012,33, R²=0,36624. Việt Nam n=37: MAE=7696924,67 VND/tháng, RMSE=9080539,59, R²=0,13729. So với baseline validation đã ghi ở trên, quốc tế gần tương đương, Việt Nam kém hơn; không tuyên bố LLM tốt hơn toàn bộ.
+
+32 mẫu ngôn ngữ validation: JSON schema 1,0; role accuracy 0,8125; experience accuracy 1,0; Skill F1=0,64661654; không lỗi schema. Nhãn silver chưa được gọi human gold. Chi tiết và hash tại docs/RUNTIME_EVIDENCE.json/reference_validation_completion; không dùng test để chọn.
+
+Đã reserve cấu hình bổ sung thứ nhất rank8/lr2e-5 và khởi động smoke outputs/auto_lr_low_smoke, chưa gọi full training đạt. Smoke phải chủ động dừng sau2 optimizer update, resume từ cursor giữa epoch và qua kiểm tra nạp model ở tiến trình mới. Một train local tại một thời điểm.
+
+## 2026-10-25 21:20 — Smoke Qwen thật đạt, bắt đầu cấu hình bổ sung thứ nhất
+
+Smoke outputs/auto_lr_low_smoke đã chứng minh actual_lora_changed=true; chủ động dừng ở optimizer iteration2/cursor epoch0 numeric next_index16; khôi phục optimizer238 variables và đúng cursor, học tiếp rồi lineage completed. scripts/check_saved_run.py chạy tiến trình mới khớp2 probe; smoke_acceptance.json đạt cả4 cổng. Đây là kiểm chứng cập nhật/resume/lưu-nạp thật, không dùng metric smoke để tuyên bố chất lượng tổng quát.
+
+Đã bắt đầu full outputs/auto_lr_low: rank8/lr2e-5,2epoch, từ pretrained cùng phiên bản, tập10.417 dòng; một train local. Quan sát bước21 epoch1 và optimizer2, checkpoint ban đầu đã lưu, actual_lora_changed=true. Log có timestamp/phase/examples/total và sẽ cập nhật validation/lưu best. Bằng chứng thực tế tại docs/RUNTIME_EVIDENCE.json/first_additional_smoke_acceptance. Chưa mở test, chưa chọn ứng viên cuối.
