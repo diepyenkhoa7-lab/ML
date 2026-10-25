@@ -133,3 +133,13 @@ Trước quyết định chốt model có thử chuyển giới hạn epoch qua 
 Đã xác nhận final_reload exit0, chuyển final_test cho đúng model đã chốt. 31 unittest đạt (outputs/auto_dev/contract_tests_selected_model.log), gồm kiểm search_closed không mở thử nghiệm dù còn quota và config train tuân thủ max_epochs. Ruff đạt. Heartbeat đã cập nhật chỉ hoàn thiện bàn giao, không train thêm.
 
 Đã đồng bộ README với model đã chốt, số liệu validation và các bước còn chờ; bỏ mô tả full train còn chạy và quota3 cấu hình đã lỗi thời. Lệnh suy luận dùng đúng run đã học. Ví dụ train thủ công/ngoài goal giảm1epoch; notebook mặc định không train. Kiểm lại31 unittest đạt, Ruff đạt. Đây là đồng bộ hướng dẫn, không thay metric hoặc trọng số.
+
+## 2026-10-25 — Hoàn tất đánh giá, demo và5 notebook
+
+Final test hoàn tất: quốc tế n3157 MAE30282,04 USD/năm, RMSE57703,57, R²0,43744; Việt Nam n49 MAE6019790,60 VND/tháng, RMSE8321248,87, R²0,25139. LLM chỉ nhỉnh hơn nhẹ ở quốc tế, kém baseline Việt Nam.85 mẫu ngôn ngữ silver: schema1,0, role0,870588, experience0,976471 (80 trường kinh nghiệm có nhãn biết:1,0), Skill F1=0,659933. Không điều chỉnh model bằng test.
+
+Demo phát hiện model viết tắt aws trong khi bằng chứng dùng amazon web services (aws). Đã tái hiện bằng suy luận trên hồ sơ train, bổ sung alias tường minh chỉ khi tên chuẩn có trong bảng bằng chứng; giữ validator chặn kỹ năng ngoài bằng chứng. Prompt tư vấn chuyển tiếng Việt, nhấn mạnh liên hệ quan sát. Không đổi trọng số, prompt trích xuất hoặc metric lương/ngôn ngữ. Sau2 retry demo trong giới hạn đã duyệt, demo thật đạt ba định dạng,2 dòng lỗi,2 mô tả trích xuất và tư vấn tiếng Việt. Hai hồ sơ Việt Nam thiếu evidence phù hợp được báo insufficient_data, không bịa gợi ý.
+
+Cả5 notebook kernel sạch đã chạy,32 unittest đạt, Ruff đạt. Report/manifest và20 dòng sai số lớn đã xuất. Đã đối chiếu20 artifact SHA/kích thước đều khớp và xem2 biểu đồ thật. Source/nhãn/split/đơn vị không bị sửa để cải thiện metric. Đang đóng gói và push bàn giao; không còn train.
+
+Audit bổ sung: toàn bộ phiên bản đã cài khớp requirements lock; CLI thật nhận file rỗng và hồ sơ chỉ có market trên cả3 định dạng, trả đúng0 dòng hoặc lỗi từng dòng, giữ nguyên bảng demo. File XLSX toàn ô trống được pandas đọc là bảng rỗng, nên kiểm thiếu trường dùng dòng có market để hiện hữu trong cả3 định dạng. Bằng chứng tại outputs/auto_dev/edge_cases/acceptance.json; không là metric AI.

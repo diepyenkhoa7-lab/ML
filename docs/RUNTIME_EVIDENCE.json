@@ -741,5 +741,437 @@
     },
     "next_step": "Final test then comparison/demo/notebooks/tests/report",
     "test_for_tuning": false
+  },
+  "final_handoff_validation": {
+    "observed_at": "2026-10-25T16:37:59.546543+00:00",
+    "selected_run": "outputs/qwen_20261023T082631",
+    "numeric_test": {
+      "by_market": {
+        "international": {
+          "samples": 3157,
+          "unit": "USD/year",
+          "mae": 30282.043557768466,
+          "rmse": 57703.56799105042,
+          "r2": 0.4374380101390939,
+          "low_support": false
+        },
+        "vietnam": {
+          "samples": 49,
+          "unit": "VND/month",
+          "mae": 6019790.60370559,
+          "rmse": 8321248.86780188,
+          "r2": 0.2513921873244741,
+          "low_support": false
+        }
+      },
+      "by_role": {
+        "international | Academic researcher": {
+          "samples": 39,
+          "unit": "USD/year",
+          "mae": 28574.734917717753,
+          "rmse": 35193.29348784806,
+          "r2": -0.2772667830560289,
+          "low_support": false
+        },
+        "international | Blockchain": {
+          "samples": 16,
+          "unit": "USD/year",
+          "mae": 46562.42779997518,
+          "rmse": 57839.78658910282,
+          "r2": 0.06903268929696571,
+          "low_support": false
+        },
+        "international | Cloud infrastructure engineer": {
+          "samples": 42,
+          "unit": "USD/year",
+          "mae": 39723.72893165494,
+          "rmse": 64331.19024057064,
+          "r2": 0.3718659356726276,
+          "low_support": false
+        },
+        "international | Data engineer": {
+          "samples": 70,
+          "unit": "USD/year",
+          "mae": 26321.38335464342,
+          "rmse": 36023.94925946961,
+          "r2": 0.44977443996544775,
+          "low_support": false
+        },
+        "international | Data or business analyst": {
+          "samples": 25,
+          "unit": "USD/year",
+          "mae": 17449.63262626757,
+          "rmse": 21992.67930923536,
+          "r2": 0.450806413367989,
+          "low_support": false
+        },
+        "international | Data scientist or machine learning specialist": {
+          "samples": 57,
+          "unit": "USD/year",
+          "mae": 30211.789272015827,
+          "rmse": 74565.87891184948,
+          "r2": 0.44710211855939885,
+          "low_support": false
+        },
+        "international | Database administrator": {
+          "samples": 2,
+          "unit": "USD/year",
+          "mae": 19015.96598737821,
+          "rmse": 19148.99851626043,
+          "r2": 0.3473422521852175,
+          "low_support": true
+        },
+        "international | Designer": {
+          "samples": 3,
+          "unit": "USD/year",
+          "mae": 38703.49240771633,
+          "rmse": 52440.20523435773,
+          "r2": -30.671630880587333,
+          "low_support": true
+        },
+        "international | DevOps specialist": {
+          "samples": 70,
+          "unit": "USD/year",
+          "mae": 33473.08341757267,
+          "rmse": 44994.678245608484,
+          "r2": 0.463471257700639,
+          "low_support": false
+        },
+        "international | Developer Advocate": {
+          "samples": 8,
+          "unit": "USD/year",
+          "mae": 44789.180549319695,
+          "rmse": 54315.804290777625,
+          "r2": 0.12880435080629415,
+          "low_support": true
+        },
+        "international | Developer Experience": {
+          "samples": 16,
+          "unit": "USD/year",
+          "mae": 81226.60275892424,
+          "rmse": 167336.03343264345,
+          "r2": 0.04170490545128658,
+          "low_support": false
+        },
+        "international | Developer, AI": {
+          "samples": 22,
+          "unit": "USD/year",
+          "mae": 26758.342272765945,
+          "rmse": 38711.54017582997,
+          "r2": 0.5412381651418026,
+          "low_support": false
+        },
+        "international | Developer, QA or test": {
+          "samples": 23,
+          "unit": "USD/year",
+          "mae": 21112.622763490108,
+          "rmse": 29249.61589034756,
+          "r2": 0.5207584792175883,
+          "low_support": false
+        },
+        "international | Developer, back-end": {
+          "samples": 654,
+          "unit": "USD/year",
+          "mae": 36108.979999868185,
+          "rmse": 70639.03770650766,
+          "r2": 0.4099032189123608,
+          "low_support": false
+        },
+        "international | Developer, desktop or enterprise applications": {
+          "samples": 131,
+          "unit": "USD/year",
+          "mae": 27520.227960233628,
+          "rmse": 53447.79966504046,
+          "r2": 0.4632967461489085,
+          "low_support": false
+        },
+        "international | Developer, embedded applications or devices": {
+          "samples": 113,
+          "unit": "USD/year",
+          "mae": 23417.11896521884,
+          "rmse": 38664.35542490576,
+          "r2": 0.593911834968279,
+          "low_support": false
+        },
+        "international | Developer, front-end": {
+          "samples": 195,
+          "unit": "USD/year",
+          "mae": 26839.797205846928,
+          "rmse": 51495.4221283433,
+          "r2": 0.4471162679538666,
+          "low_support": false
+        },
+        "international | Developer, full-stack": {
+          "samples": 1174,
+          "unit": "USD/year",
+          "mae": 24846.611217304373,
+          "rmse": 42481.42119284485,
+          "r2": 0.49861648601267383,
+          "low_support": false
+        },
+        "international | Developer, game or graphics": {
+          "samples": 29,
+          "unit": "USD/year",
+          "mae": 33646.08457570092,
+          "rmse": 49905.67061698769,
+          "r2": 0.3535009316616058,
+          "low_support": false
+        },
+        "international | Developer, mobile": {
+          "samples": 123,
+          "unit": "USD/year",
+          "mae": 29953.650016042473,
+          "rmse": 54109.015680309436,
+          "r2": 0.5197843876841963,
+          "low_support": false
+        },
+        "international | Educator": {
+          "samples": 14,
+          "unit": "USD/year",
+          "mae": 28022.098431670056,
+          "rmse": 38702.70926930638,
+          "r2": -0.6184668027689479,
+          "low_support": false
+        },
+        "international | Engineer, site reliability": {
+          "samples": 15,
+          "unit": "USD/year",
+          "mae": 32817.12738496776,
+          "rmse": 46043.738137756976,
+          "r2": 0.645777784266897,
+          "low_support": false
+        },
+        "international | Engineering manager": {
+          "samples": 73,
+          "unit": "USD/year",
+          "mae": 34122.85812794676,
+          "rmse": 54275.01441172814,
+          "r2": 0.41306176958602947,
+          "low_support": false
+        },
+        "international | Hardware Engineer": {
+          "samples": 8,
+          "unit": "USD/year",
+          "mae": 18195.767507576846,
+          "rmse": 24269.05492461419,
+          "r2": 0.4352835513441523,
+          "low_support": true
+        },
+        "international | Other (please specify):": {
+          "samples": 68,
+          "unit": "USD/year",
+          "mae": 36401.825014402886,
+          "rmse": 52613.159968518135,
+          "r2": 0.35341531560670414,
+          "low_support": false
+        },
+        "international | Product manager": {
+          "samples": 11,
+          "unit": "USD/year",
+          "mae": 35660.43226346258,
+          "rmse": 54808.856166782614,
+          "r2": 0.09527770375523548,
+          "low_support": false
+        },
+        "international | Project manager": {
+          "samples": 18,
+          "unit": "USD/year",
+          "mae": 20964.461974485886,
+          "rmse": 27340.818524461487,
+          "r2": 0.38487152306221584,
+          "low_support": false
+        },
+        "international | Research & Development role": {
+          "samples": 50,
+          "unit": "USD/year",
+          "mae": 38193.499478913465,
+          "rmse": 70115.98306614593,
+          "r2": 0.43005259405086527,
+          "low_support": false
+        },
+        "international | Scientist": {
+          "samples": 21,
+          "unit": "USD/year",
+          "mae": 30767.938881416063,
+          "rmse": 36867.55931308435,
+          "r2": 0.38913549668574265,
+          "low_support": false
+        },
+        "international | Security professional": {
+          "samples": 8,
+          "unit": "USD/year",
+          "mae": 15425.540758275101,
+          "rmse": 18807.750174061162,
+          "r2": 0.7804057807560294,
+          "low_support": true
+        },
+        "international | Senior Executive (C-Suite, VP, etc.)": {
+          "samples": 35,
+          "unit": "USD/year",
+          "mae": 97186.362076318,
+          "rmse": 197754.62870821802,
+          "r2": 0.06039878135814991,
+          "low_support": false
+        },
+        "international | Student": {
+          "samples": 11,
+          "unit": "USD/year",
+          "mae": 32079.06650480133,
+          "rmse": 50315.78292044065,
+          "r2": -0.2979310157259767,
+          "low_support": false
+        },
+        "international | System administrator": {
+          "samples": 13,
+          "unit": "USD/year",
+          "mae": 54799.787812405535,
+          "rmse": 81196.53512455021,
+          "r2": -0.22948887493538672,
+          "low_support": false
+        },
+        "vietnam | Backend Developer": {
+          "samples": 4,
+          "unit": "VND/month",
+          "mae": 5569475.933960323,
+          "rmse": 6952098.560413453,
+          "r2": -0.4143699868298947,
+          "low_support": true
+        },
+        "vietnam | Frontend Developer": {
+          "samples": 3,
+          "unit": "VND/month",
+          "mae": 3479747.827390647,
+          "rmse": 4464224.252766993,
+          "r2": 0.46855204856018606,
+          "low_support": true
+        },
+        "vietnam | Full-stack Developer": {
+          "samples": 6,
+          "unit": "VND/month",
+          "mae": 3903879.998355231,
+          "rmse": 4793046.336208572,
+          "r2": 0.021256148499968375,
+          "low_support": true
+        },
+        "vietnam | Mobile Developer": {
+          "samples": 7,
+          "unit": "VND/month",
+          "mae": 6138930.972574062,
+          "rmse": 7059547.940201819,
+          "r2": -0.34993014863481475,
+          "low_support": true
+        },
+        "vietnam | Software Developer": {
+          "samples": 29,
+          "unit": "VND/month",
+          "mae": 6753682.605703821,
+          "rmse": 9564844.181431238,
+          "r2": 0.2715384065492995,
+          "low_support": false
+        }
+      },
+      "by_experience": {
+        "international | 0-2": {
+          "samples": 327,
+          "unit": "USD/year",
+          "mae": 15698.168321696494,
+          "rmse": 27781.367302331968,
+          "r2": 0.47355881740607064,
+          "low_support": false
+        },
+        "international | 3-5": {
+          "samples": 628,
+          "unit": "USD/year",
+          "mae": 21819.215032956206,
+          "rmse": 52244.115199700376,
+          "r2": 0.33449177467170454,
+          "low_support": false
+        },
+        "international | 6-10": {
+          "samples": 920,
+          "unit": "USD/year",
+          "mae": 29047.42803743965,
+          "rmse": 49988.03040961686,
+          "r2": 0.4234049184387787,
+          "low_support": false
+        },
+        "international | 11+": {
+          "samples": 1282,
+          "unit": "USD/year",
+          "mae": 39033.54885767497,
+          "rmse": 69803.02361023641,
+          "r2": 0.3324466159368069,
+          "low_support": false
+        },
+        "vietnam | 0-2": {
+          "samples": 34,
+          "unit": "VND/month",
+          "mae": 5509225.428248524,
+          "rmse": 7097345.872243548,
+          "r2": -0.2548235405556898,
+          "low_support": false
+        },
+        "vietnam | 3-5": {
+          "samples": 14,
+          "unit": "VND/month",
+          "mae": 5714293.214915045,
+          "rmse": 8086163.00197991,
+          "r2": -0.19903514147246293,
+          "low_support": false
+        },
+        "vietnam | 6-10": {
+          "samples": 1,
+          "unit": "VND/month",
+          "mae": 27655970.012313448,
+          "rmse": 27655970.012313448,
+          "r2": null,
+          "low_support": true
+        }
+      }
+    },
+    "language_test": {
+      "samples": 85,
+      "json_schema_rate": 1.0,
+      "field_accuracy": 0.9235294117647059,
+      "field_accuracy_by_name": {
+        "role": 0.8705882352941177,
+        "experience_years": 0.9764705882352941
+      },
+      "known_field_samples": {
+        "role": 85,
+        "experience_years": 80
+      },
+      "known_field_accuracy": {
+        "role": 0.8705882352941177,
+        "experience_years": 1.0
+      },
+      "skill_f1": 0.6599326599326599,
+      "errors": [],
+      "label_quality": "source_derived_silver_not_human_gold"
+    },
+    "demo": {
+      "passed": true,
+      "model_run": "outputs/qwen_20261023T082631",
+      "formats": [
+        "csv",
+        "xlsx",
+        "json"
+      ],
+      "valid_profiles": 4,
+      "rejected_rows": 2,
+      "advice": true,
+      "text_extraction": {
+        "passed": true,
+        "profiles": 2,
+        "provenance": "Synthetic job descriptions from train profile features; salary excluded",
+        "quality_metric": false
+      },
+      "dataset": "train-derived demonstration, not test metrics"
+    },
+    "notebooks_completed": 5,
+    "unit_tests_passed": 32,
+    "artifact_manifest_verified": 20,
+    "training_remaining": false,
+    "limits": "Silver language labels; Vietnam n49 test; baseline test opened previously; no tuning on final test"
   }
 }

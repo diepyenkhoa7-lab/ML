@@ -4,9 +4,11 @@ Bản làm lại trên nhánh `dev/tensorflow-rebuild`: một Qwen3-1.7B có đ�
 
 ## Model đã chốt ngày 25/10/2026
 
-Dùng `outputs/qwen_20261023T082631`: đã train2epoch, giữ trọng số epoch1 theo validation. Đã nạp lại backbone + LoRA + đầu hồi quy trong tiến trình mới và khớp2 hồ sơ probe. Người dùng đã dừng mọi training bổ sung; không tiếp tục trial `auto_lr_low`. Hiện đang đánh giá test cuối, sau đó hoàn thiện demo và chạy lại5 notebook cho model này. Xem `outputs/auto_dev/state.json` để biết bước thực tế.
+Dùng `outputs/qwen_20261023T082631`: đã train2epoch, giữ trọng số epoch1 theo validation. Đã nạp lại backbone + LoRA + đầu hồi quy trong tiến trình mới và khớp2 hồ sơ probe. Người dùng đã dừng mọi training bổ sung; không tiếp tục trial `auto_lr_low`. Test cuối, demo thật và5 notebook kernel sạch đã hoàn tất. Kết quả ở `docs/AUTONOMOUS_RESULTS.md`; checklist ở `docs/DELIVERY_CHECKLIST.md`.
 
 Validation quốc tế n=2368: MAE31508,37USD/năm, RMSE64012,33, R²0,36624. Việt Nam n=37: MAE7696924,67VND/tháng, RMSE9080539,59, R²0,13729. Quốc tế gần baseline; Việt Nam kém baseline (MAE6337482,63VND/tháng). Trên32 mẫu silver: JSON schema100%, role accuracy81,25%, experience accuracy100%, Skill F1=0,6466. Đây là kết quả validation, chưa phải kết quả test.
+
+Test cuối: MAE30282,04USD/năm ở quốc tế (baseline30577,77), MAE6019790,60VND/tháng ở Việt Nam (baseline5497220,55). LLM tốt hơn nhẹ ở quốc tế, kém hơn ở Việt Nam. Trên85 mẫu silver, JSON schema100%, Skill F1=0,6599. Không dùng test để điều chỉnh trọng số hoặc chọn lại model.
 
 Suy luận bằng trọng số đã học, không cập nhật model:
 
@@ -69,7 +71,7 @@ Bản khôi phục source trước khi dọn ở `data/archive/pre_tensorflow_20
 
 Môi trường đã khóa trong `requirements-lock-tf-macos-arm64.txt`; CPU vượt kiểm tra. Metal không nạp được với TensorFlow2.20, nên đã gỡ và chọn CPU. Trọng số Qwen đã tải đủ, SHA256 khớp. Vòng full hoàn tất và lưu/nạp ở tiến trình mới đạt. Chi tiết và giới hạn: `docs/RUNTIME_EVIDENCE.json`.
 
-Baseline test: MAE30.578USD/năm (quốc tế),5,50triệuVND/tháng (Việt Nam); R² lần lượt0,4219/0,4258. Không xem đây là kết quả Qwen. 31 kiểm thử phần mềm đạt. Baseline đã chạy ba định dạng; demo thật và5 notebook cho Qwen đã chọn còn phải qua các cổng bàn giao, không suy ra hoàn tất từ test dùng fixture.
+Baseline test: MAE30.578USD/năm (quốc tế),5,50triệuVND/tháng (Việt Nam); R² lần lượt0,4219/0,4258. Không xem đây là kết quả Qwen. 32 kiểm thử phần mềm đạt. Qwen đã chạy demo thật CSV/XLSX/JSON:4 hồ sơ hợp lệ,2 lỗi theo dòng;2 mô tả văn bản được trích xuất rồi dự đoán; tư vấn có bằng chứng hoặc báo thiếu dữ liệu. Cả5 notebook đã thực thi. Demo từ train không phải đánh giá generalization.
 
 Chạy `python scripts/status.py` để đối chiếu PID sống với trạng thái lưu. `make pipeline-background` chỉ khởi chạy một worker tách phiên; từ chối nếu worker trước còn sống. Khi máy ngủ, tiến trình cũng có thể tạm dừng; khi worker chết, không coi file running cũ là bằng chứng tiếp tục train. Checkpoint partial là adapter/head trung gian, không bao gồm đầy đủ optimizer để tự khôi phục chính xác giữa epoch.
 
