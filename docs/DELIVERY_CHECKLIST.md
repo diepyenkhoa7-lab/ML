@@ -30,3 +30,5 @@ Chạy demo từ thư mục dự án sau khi cài môi trường và nạp đún
 ```
 
 Thay file đầu vào bằng CSV/XLSX/JSON cùng schema. `analyze` ghi predictions.csv/json và figures; `advise` ghi advice.json. Không chạy lại prepare/train để dùng demo.
+
+Gói bàn giao: outputs/delivery/qwen_salary_demo_20261025.zip;97 file, có trọng số đã học và manifest SHA256. Nạp model từ chính gói đã kiểm ở tiến trình mới. Backbone tải riêng theo manifest. Source dùng để tạo gói tại commit e8b6c18; các commit sau chỉ ghi nhận bàn giao.
