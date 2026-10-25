@@ -135,6 +135,8 @@ def install_analysis_charts(state):
 def handle_finished_job(state, job):
     action = job["action"]
     if action == "validate_baseline":
+        state["status"] = "check_reference"
+    elif action == "check_reference":
         state["status"] = "validate_reference"
     elif action == "validate_reference":
         record_candidate(state, state["reference_run"], 5e-5, reference=True)
@@ -247,6 +249,12 @@ def tick():
                     "--run",
                     policy["baseline_run"],
                 ],
+            )
+        elif state["status"] == "check_reference":
+            start(
+                state,
+                "check_reference",
+                ["scripts/check_saved_run.py", "--model", "llm", "--run", state["reference_run"]],
             )
         elif state["status"] == "validate_reference":
             start(

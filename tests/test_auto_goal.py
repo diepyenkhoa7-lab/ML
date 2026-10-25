@@ -63,6 +63,14 @@ class OptimizerCheckpointContracts(unittest.TestCase):
 
 
 class CoordinatorContracts(unittest.TestCase):
+    def test_reference_reload_precedes_validation_and_model_selection(self):
+        state = {}
+        coordinator.handle_finished_job(state, dict(action="validate_baseline"))
+        self.assertEqual(state["status"], "check_reference")
+        coordinator.handle_finished_job(state, dict(action="check_reference"))
+        self.assertEqual(state["status"], "validate_reference")
+        self.assertNotIn("best_run", state)
+
     def test_small_improvements_do_not_reset_patience(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -87,3 +87,9 @@ Khoảng17:46 (giờ Việt Nam), vòng gốc đã ghi `llm_history.json`, adapt
 Phát hiện và tái hiện cửa sổ lỗi khi checkpoint cuối epoch đã lưu nhưng history chưa kịp xuất: resume nhận cursor đã đủ epoch, bỏ qua vòng lặp và công bố completed mà thiếu `llm_history.json`, khiến bước lựa chọn model sau đó thất bại. Test `tests/test_training_resume.py` dùng Qwen giả, checkpoint cursor hoàn tất và không chạy gradient update; trước sửa tái hiện FileNotFoundError, sau sửa history được xuất lại từ cursor. Bằng chứng: `outputs/auto_dev/terminal_resume_regression_before.log` và `outputs/auto_dev/contract_tests.log`.
 
 Đồng thời sửa điều kiện chụp trọng số trước cập nhật theo optimizer iteration0, để resume từ checkpoint ban đầu vẫn kiểm LoRA thực sự thay đổi. Nhánh này được rà soát mã; kiểm trên pretrained thực tế vẫn chờ smoke của vòng mới, chưa công bố đã kiểm cold-resume Qwen. Tổng27 kiểm thử phần mềm đạt. Các sửa chỉ nằm trong module `career_auto` dành cho experiment chưa mở; checksum source `career_ai` của vòng gốc vẫn khớp. Không dùng kết quả mock để nói chất lượng model được cải thiện.
+
+## 2026-10-25 — Lưu/nạp trọng số và kiểm chứng demo văn bản
+
+Đã thêm check_reference: nạp trọng số vòng gốc trong tiến trình mới trước validation/chọn model. Đường suy luận hiện nạp pretrained Qwen rồi qwen.lora.h5 và salary_head.keras đã học (career_ai/models.py, loaded_llm); chưa coi checkpoint epoch 1 là model cuối. Demo bổ sung hai mô tả tổng hợp từ đặc trưng train, không chứa lương, chạy trích xuất rồi dự đoán. Báo cáo yêu cầu demo này đạt. Trainer gốc chưa bị thay code/dữ liệu.
+
+29 unittest đạt, Ruff đạt; log outputs/auto_dev/contract_tests.log. Test demo dùng CLI giả chỉ kiểm hợp đồng và bảo toàn bảng đầu ra, chưa chứng minh chất lượng Qwen. Lưu/nạp và demo thật còn chờ model cuối.

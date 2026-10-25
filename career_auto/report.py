@@ -21,6 +21,8 @@ def report():
     acceptance = read(FOLDER / "demo/acceptance.json")
     if not acceptance.get("passed"):
         raise ValueError("Demo acceptance is missing")
+    if not acceptance.get("text_extraction", {}).get("passed"):
+        raise ValueError("Text extraction-to-salary demo has not passed")
     notebooks = sorted((ROOT / "notebooks").glob("*.ipynb"))
     if len(notebooks) != 5:
         raise ValueError("Exactly five completed notebooks are required")
