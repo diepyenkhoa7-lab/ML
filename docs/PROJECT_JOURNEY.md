@@ -131,3 +131,5 @@ Trước quyết định chốt model có thử chuyển giới hạn epoch qua 
 Đã đặt selected_run và search_closed, cập nhật heartbeat không train thêm; khởi động final_reload trước final_test. Kết quả test chỉ dùng báo cáo, không điều chỉnh model nữa.
 
 Đã xác nhận final_reload exit0, chuyển final_test cho đúng model đã chốt. 31 unittest đạt (outputs/auto_dev/contract_tests_selected_model.log), gồm kiểm search_closed không mở thử nghiệm dù còn quota và config train tuân thủ max_epochs. Ruff đạt. Heartbeat đã cập nhật chỉ hoàn thiện bàn giao, không train thêm.
+
+Đã đồng bộ README với model đã chốt, số liệu validation và các bước còn chờ; bỏ mô tả full train còn chạy và quota3 cấu hình đã lỗi thời. Lệnh suy luận dùng đúng run đã học. Ví dụ train thủ công/ngoài goal giảm1epoch; notebook mặc định không train. Kiểm lại31 unittest đạt, Ruff đạt. Đây là đồng bộ hướng dẫn, không thay metric hoặc trọng số.

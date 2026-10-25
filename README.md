@@ -2,6 +2,19 @@
 
 Bản làm lại trên nhánh `dev/tensorflow-rebuild`: một Qwen3-1.7B có đầu hồi quy chung cho Việt Nam và quốc tế; hồi quy tuyến tính TensorFlow làm đối chứng. Không có frontend/FastAPI/Gemma trong source hoạt động.
 
+## Model đã chốt ngày 25/10/2026
+
+Dùng `outputs/qwen_20261023T082631`: đã train2epoch, giữ trọng số epoch1 theo validation. Đã nạp lại backbone + LoRA + đầu hồi quy trong tiến trình mới và khớp2 hồ sơ probe. Người dùng đã dừng mọi training bổ sung; không tiếp tục trial `auto_lr_low`. Hiện đang đánh giá test cuối, sau đó hoàn thiện demo và chạy lại5 notebook cho model này. Xem `outputs/auto_dev/state.json` để biết bước thực tế.
+
+Validation quốc tế n=2368: MAE31508,37USD/năm, RMSE64012,33, R²0,36624. Việt Nam n=37: MAE7696924,67VND/tháng, RMSE9080539,59, R²0,13729. Quốc tế gần baseline; Việt Nam kém baseline (MAE6337482,63VND/tháng). Trên32 mẫu silver: JSON schema100%, role accuracy81,25%, experience accuracy100%, Skill F1=0,6466. Đây là kết quả validation, chưa phải kết quả test.
+
+Suy luận bằng trọng số đã học, không cập nhật model:
+
+```sh
+.venv-tf/bin/python -m career_ai analyze --run outputs/qwen_20261023T082631 --input data/profiles_demo.json
+.venv-tf/bin/python -m career_ai advise --run outputs/qwen_20261023T082631 --input data/profiles_demo.json
+```
+
 ## Môi trường và chạy
 
 Python 3.11. Cài `requirements.txt` vào `.venv-tf`. Cần tải trọng số Keras chính thức bằng `scripts/download_qwen.py`; base weights không nằm trong Git.
@@ -11,7 +24,7 @@ Python 3.11. Cài `requirements.txt` vào `.venv-tf`. Cần tải trọng số K
 .venv-tf/bin/python scripts/download_qwen.py
 .venv-tf/bin/python -m career_ai prepare
 .venv-tf/bin/python -m career_ai train-baseline --run outputs/baseline
-.venv-tf/bin/python -m career_ai train-llm --run outputs/qwen --epochs 2
+.venv-tf/bin/python -m career_ai train-llm --run outputs/qwen --epochs 1
 .venv-tf/bin/python -m career_auto.evaluation --run outputs/baseline --model baseline
 .venv-tf/bin/python -m career_auto.evaluation --run outputs/qwen --model llm
 .venv-tf/bin/python -m career_ai analyze --run outputs/qwen --input data/profiles_demo.json
@@ -19,6 +32,8 @@ Python 3.11. Cài `requirements.txt` vào `.venv-tf`. Cần tải trọng số K
 ```
 
 `prepare` từ chối ghi đè snapshot. Training tạo thư mục run mới; `--limit` chỉ dành cho smoke trial, không dùng claim kết quả full. Năm notebook trong `notebooks/`; training trong notebook được bật tường minh bằng `RUN_TRAINING=True`. Dữ liệu demo từ train, không dùng chấm generalization.
+
+Các lệnh `prepare`/`train-*` ở trên phục vụ tái lập riêng. Goal hiện tại đã chốt model; không chạy chúng trong quá trình bàn giao.
 
 ## Hợp đồng dữ liệu
 
@@ -38,23 +53,23 @@ Tài liệu trạng thái thực thi trong `outputs/`; chưa có checkpoint/metr
 
 Tải raw đúng phiên bản: `.venv-tf/bin/python scripts/download_data.py`. Kiểm checksum trước khi dùng; lệnh này không ghi đè raw khác checksum. `data/tensorflow_v1/README.md` mô tả bộ lọc và loại nhãn. Dữ liệu đã chia có trong source gọn; raw/trọng số lớn tải riêng.
 
-Trên máy này, goal hiện do `career_auto.coordinator` quản lý, registry ở `outputs/auto_dev/state.json`; xem hợp đồng trong `docs/AUTONOMOUS_GOAL.md`. Vòng Qwen gốc vẫn train, controller legacy được dừng có chủ đích để không tự mở test. `outputs/latest_pipeline.json` chỉ phản ánh pipeline legacy và có thể còn ghi running; phải đối chiếu PID và registry goal. Không khởi chạy `pipeline-background` hoặc `run_training_pipeline.py` khi goal đang quản lý tài nguyên.
+Trên máy này, goal do `career_auto.coordinator` quản lý, registry ở `outputs/auto_dev/state.json`; xem hợp đồng trong `docs/AUTONOMOUS_GOAL.md`. Vòng Qwen gốc đã hoàn tất; controller legacy đã được kết thúc có chủ đích sau train và registry legacy được đánh dấu superseded. Không khởi chạy `pipeline-background` hoặc `run_training_pipeline.py` trong quá trình bàn giao.
 
 `python scripts/check_tensorflow.py --device cpu` kiểm tra Qwen kích thước nhỏ khởi tạo ngẫu nhiên: có cập nhật LoRA và save/reload, chỉ là kiểm tương thích. `--device gpu` yêu cầu GPU thực sự trả tensor đầu ra; không suy ra pretrained đã chạy chỉ từ kiểm tra nhỏ. Chỉ khóa môi trường vào `requirements-lock-tf-macos-arm64.txt` sau khi bộ cài và kiểm tra thành công. Dùng lock này trên cùng nền tảng, không coi là lock cho CUDA/Linux.
 
 Đọc CSV/XLSX/JSON theo các cột hồ sơ đã nêu; JSON là mảng các object. Có thể đưa thêm `description` để LLM trích phần thiếu; `market` và `location` phải được cung cấp. Lỗi được ghi theo dòng, không tự đoán đơn vị. `analyze` xuất `predictions.csv/json`, `figures/*.png`, bảng thống kê kỹ năng; biểu đồ từ prediction được hiểu là dự đoán. Không vẽ xu hướng thời gian khi không có cột thời gian phù hợp.
 
-Bản biểu đồ mới trong `career_auto.charts` giữ từng quan sát hợp lệ, không loại người/tin khác nhau chỉ vì trùng đặc trưng. Biểu đồ suy luận ghi rõ predicted income và kỹ năng trong file đầu vào, không coi đó là số liệu nhu cầu tuyển dụng thực đo. Biểu đồ kỹ năng–thu nhập cần10 mẫu mỗi kỹ năng; thiếu mẫu xuất thông báo thay vì xếp hạng. CLI chuyển sang bản này sau khi vòng train gốc kết thúc để giữ source experiment đang chạy bất biến.
+Bản biểu đồ mới trong `career_auto.charts` giữ từng quan sát hợp lệ, không loại người/tin khác nhau chỉ vì trùng đặc trưng. Biểu đồ suy luận ghi rõ predicted income và kỹ năng trong file đầu vào, không coi đó là số liệu nhu cầu tuyển dụng thực đo. Biểu đồ kỹ năng–thu nhập cần10 mẫu mỗi kỹ năng; thiếu mẫu xuất thông báo thay vì xếp hạng. CLI đã chuyển sang bản này sau khi vòng train gốc kết thúc.
 
 Chọn checkpoint LLM bằng trung bình MAE log theo thị trường +0,1×answer-only cross-entropy trên tối đa32 mẫu validation trích xuất. Tỷ trọng này cố định trước khi đánh giá test. Báo cáo test có MAE/RMSE/R² theo thị trường, vai trò, nhóm kinh nghiệm; dưới10 mẫu gắn `low_support`. Baseline chặn log dự đoán dưới0 để đảm bảo mức lương không âm. Tư vấn kỹ năng dựa vào chênh lệch trung vị quan sát, chịu ảnh hưởng các yếu tố gây nhiễu.
 
 Bản khôi phục source trước khi dọn ở `data/archive/pre_tensorflow_20261023/` (local, không đẩy lên Git). Notebook dùng kernel `career-ai-tf` được đăng ký trong `.venv-tf`; có thể chọn interpreter này trong VS Code. `scripts/execute_notebooks.py` chạy kernel sạch và lưu output, không bật cờ training trong notebook.
 
-## Kết quả đã kiểm chứng ngày 23/10/2026
+## Môi trường và bằng chứng
 
-Môi trường đã khóa trong `requirements-lock-tf-macos-arm64.txt`; CPU vượt kiểm tra. Metal không nạp được với TensorFlow2.20, nên đã gỡ và chọn CPU. Trọng số Qwen đã tải đủ, SHA256 khớp. Smoke LoRA20 mẫu và kiểm tra save/reload ở tiến trình mới đạt; vòng full2epoch đang chạy, chưa có metric LLM full. Chi tiết và giới hạn: `docs/RUNTIME_EVIDENCE.json`.
+Môi trường đã khóa trong `requirements-lock-tf-macos-arm64.txt`; CPU vượt kiểm tra. Metal không nạp được với TensorFlow2.20, nên đã gỡ và chọn CPU. Trọng số Qwen đã tải đủ, SHA256 khớp. Vòng full hoàn tất và lưu/nạp ở tiến trình mới đạt. Chi tiết và giới hạn: `docs/RUNTIME_EVIDENCE.json`.
 
-Baseline test: MAE30.578USD/năm (quốc tế),5,50triệuVND/tháng (Việt Nam); R² lần lượt0,4219/0,4258. Không xem đây là kết quả Qwen. Mười hai kiểm thử đạt; CLI và model thật đã chạy qua CSV/XLSX/JSON, lỗi từng dòng, xuất bảng/biểu đồ. Năm notebook đã thực thi; cell so sánh chờ metric full của LLM.
+Baseline test: MAE30.578USD/năm (quốc tế),5,50triệuVND/tháng (Việt Nam); R² lần lượt0,4219/0,4258. Không xem đây là kết quả Qwen. 31 kiểm thử phần mềm đạt. Baseline đã chạy ba định dạng; demo thật và5 notebook cho Qwen đã chọn còn phải qua các cổng bàn giao, không suy ra hoàn tất từ test dùng fixture.
 
 Chạy `python scripts/status.py` để đối chiếu PID sống với trạng thái lưu. `make pipeline-background` chỉ khởi chạy một worker tách phiên; từ chối nếu worker trước còn sống. Khi máy ngủ, tiến trình cũng có thể tạm dừng; khi worker chết, không coi file running cũ là bằng chứng tiếp tục train. Checkpoint partial là adapter/head trung gian, không bao gồm đầy đủ optimizer để tự khôi phục chính xác giữa epoch.
 
@@ -62,6 +77,6 @@ Chạy `python scripts/status.py` để đối chiếu PID sống với trạng 
 
 ## Goal phát triển tự động
 
-Goal và heartbeat mỗi30 phút đã được kích hoạt theo `docs/AUTONOMOUS_GOAL.md`. Chính sách tối đa3 cấu hình/2epoch và registry được giữ riêng; code của vòng train đang chạy không bị sửa. `make auto-tick` điều phối bước tiếp theo, không chạy thêm model khi train hiện tại còn sống. Đây là lệnh thực thi, không chỉ xem trạng thái.
+Goal và heartbeat mỗi30 phút theo `docs/AUTONOMOUS_GOAL.md`. Người dùng đã chốt model, `search_closed=true`; không mở thêm cấu hình train. `make auto-tick` điều phối bước đánh giá/demo/notebook/bàn giao kế tiếp; đây là lệnh thực thi, không chỉ xem trạng thái.
 
-`python -m career_auto.evaluation --run outputs/RUN` mặc định validation. `--split test` yêu cầu selected_run được goal chốt; smoke không được chấm full. CLI legacy chỉ đổi mặc định sau khi vòng train hiện tại kết thúc. Các vòng mới có checkpoint optimizer/resume; hỗ trợ `python -m career_auto.training --config outputs/auto_dev/CONFIG.config.json --run outputs/RUN --resume` với identity bất biến. Không tự gọi train/resume ngoài registry đang quản lý vì có thể làm trùng tiến trình.
+`python -m career_auto.evaluation --run outputs/RUN` và CLI `evaluate` mặc định validation. `--split test` yêu cầu selected_run được goal chốt; smoke không được chấm full. Không tự gọi train/resume của trial đã hủy. Checkpoint optimizer đã được kiểm resume thật trên smoke; điều này không thay thế đánh giá chất lượng model đã chọn.
