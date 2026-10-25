@@ -12,6 +12,45 @@ from career_auto.state import read, write
 
 
 class CompletedCheckpointResume(unittest.TestCase):
+    def test_validation_logs_both_phases_including_context_skips(self):
+        import contextlib
+        import io
+        import json
+
+        import numpy as np
+
+        from career_auto import training
+
+        frame = pd.DataFrame([dict(market="vietnam"), dict(market="international")])
+        output = io.StringIO()
+        with tempfile.TemporaryDirectory() as directory:
+            run = Path(directory)
+            with (
+                contextlib.redirect_stdout(output),
+                patch.object(training, "pooled", return_value=None),
+                patch.object(training, "tokenize", return_value={}),
+                patch.object(training, "target", return_value=np.array([1.0, 1.0])),
+                patch.object(training, "load_language", return_value=[{}, {}]),
+                patch.object(training, "answer_batch", side_effect=[None, (1, 2, 3)]),
+                patch.object(training, "answer_loss", return_value=0.5),
+            ):
+                scores = training.validation(
+                    None, lambda _: np.array([[1.0]]), frame, run=run, epoch=2
+                )
+            events = [json.loads(line) for line in output.getvalue().splitlines()]
+            self.assertEqual(
+                [(e["phase"], e["examples"]) for e in events],
+                [
+                    ("validation_salary", 0),
+                    ("validation_salary", 2),
+                    ("validation_language", 0),
+                    ("validation_language", 2),
+                ],
+            )
+            self.assertEqual(events[-1]["evaluated"], 1)
+            self.assertEqual(read(run / "progress.json"), events[-1])
+            self.assertEqual(scores["validation_language_examples"], 1)
+
     def test_completed_epoch_checkpoint_recreates_missing_history_without_training(self):
         import keras
         import tensorflow as tf

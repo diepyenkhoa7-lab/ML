@@ -32,7 +32,7 @@ Nếu2 cấu hình liên tiếp không giảm ít nhất1% so với best trướ
 
 Mỗi bước tối đa2 retry. Job còn PID đúng hoặc model con còn sống thì không tạo job khác. Retry train dùng checkpoint khi có; khởi tạo hỏng chưa có checkpoint được lưu nguyên vào failed-init trước khi thử lại. Khi hết retry hoặc gặp trạng thái không thể tiếp tục an toàn: needs_attention, lưu log và báo người dùng. Không tự đổi nguồn dữ liệu hay mượn GPU.
 
-Đã kiểm29 hợp đồng phần mềm, bao gồm serializer optimizer thật nhưng không thực hiện cập nhật model trong bài test đó. Fixture trọng số chỉ kiểm serialization; không là bằng chứng AI. Cấu hình Qwen mới vẫn phải qua smoke thực tế và check_saved_run trước full.
+Đã kiểm30 hợp đồng phần mềm, bao gồm serializer optimizer thật nhưng không thực hiện cập nhật model trong bài test đó. Fixture trọng số chỉ kiểm serialization; không là bằng chứng AI. Cấu hình Qwen mới vẫn phải qua smoke thực tế và check_saved_run trước full.
 
 Sau handoff, Qwen vòng gốc phải nạp lại trong tiến trình mới và khớp reload probe trước validation/chọn ứng viên. Suy luận dùng pretrained backbone cùng `qwen.lora.h5` đã học và `salary_head.keras` đã học, không chỉ dùng backbone gốc. Demo cuối có thêm hai mô tả tuyển dụng tổng hợp từ đặc trưng train, không chứa lương, để kiểm trích xuất rồi dự đoán cho hai thị trường. Lưu kết quả ở `outputs/auto_dev/demo/text_predictions.json`; đây là kiểm chứng luồng, không phải metric chất lượng. Báo cáo bàn giao yêu cầu demo văn bản đạt.
 
@@ -47,3 +47,5 @@ Sau khi chọn: test ứng viên cuối, so sánh baseline, demo ba định dạ
 `career_auto.charts` được kiểm riêng bằng2 hợp đồng: không gộp các quan sát khác nhau chỉ vì cùng đặc trưng và cài chuyển tiếp CLI có giữ bản cũ. Đã xuất10 PNG và4 bảng từ toàn bộ tập train thật ở `outputs/chart_review_train/`; đây là EDA thu nhập quan sát, không là đánh giá dự đoán. CLI sẽ chuyển sang bản mới sau khi vòng gốc kết thúc; không đổi `career_ai` trong lúc train. Với file suy luận, biểu đồ ghi rõ thu nhập dự đoán và kỹ năng trong hồ sơ đầu vào; không gọi đó là nhu cầu tuyển dụng thực đo. Nhóm kỹ năng dưới10 mẫu không xếp hạng thu nhập.
 
 Khi cần sửa lỗi, ghi giả thuyết, sửa và kiểm thử đúng phạm vi; không tự vượt ngân sách thí nghiệm/retry. Khi bàn giao xong, dừng heartbeat phát triển để không tiếp tục train ngoài goal.
+
+Đã bổ sung log trainer mới theo pha: bắt đầu/kết thúc học số và JSON, mẫu JSON vượt context, validation lương mỗi100 hồ sơ, validation ngôn ngữ mỗi4 mẫu (có số đã đánh giá), kết quả validation và bắt đầu/kết thúc lưu best checkpoint. Log được flush ra terminal kèm thời gian UTC, epoch, số đã xử lý/tổng và đồng bộ progress.json. Thay đổi chỉ ở career_auto; tiến trình legacy đang chạy vẫn dùng code cũ, không được tuyên bố đã hiện log mới hay restart để áp dụng.

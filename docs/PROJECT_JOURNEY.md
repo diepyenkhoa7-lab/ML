@@ -93,3 +93,7 @@ Phát hiện và tái hiện cửa sổ lỗi khi checkpoint cuối epoch đã l
 Đã thêm check_reference: nạp trọng số vòng gốc trong tiến trình mới trước validation/chọn model. Đường suy luận hiện nạp pretrained Qwen rồi qwen.lora.h5 và salary_head.keras đã học (career_ai/models.py, loaded_llm); chưa coi checkpoint epoch 1 là model cuối. Demo bổ sung hai mô tả tổng hợp từ đặc trưng train, không chứa lương, chạy trích xuất rồi dự đoán. Báo cáo yêu cầu demo này đạt. Trainer gốc chưa bị thay code/dữ liệu.
 
 29 unittest đạt, Ruff đạt; log outputs/auto_dev/contract_tests.log. Test demo dùng CLI giả chỉ kiểm hợp đồng và bảo toàn bảng đầu ra, chưa chứng minh chất lượng Qwen. Lưu/nạp và demo thật còn chờ model cuối.
+
+## 2026-10-25 — Sửa khoảng im log cuối epoch
+
+Theo yêu cầu sửa log của người dùng, bổ sung career_auto/training.py: log chuyển pha học số/JSON, mẫu bị bỏ vì context, validation lương mỗi100 dòng và ngôn ngữ mỗi4 dòng, validation score và lưu checkpoint tốt nhất. Có timestamp, số xử lý/tổng, flush terminal và progress.json. Không thay career_ai/models.py đã nạp trong PID19191, không restart hay can thiệp bộ nhớ. Vì vậy log legacy hiện tại chưa được thay đổi. Test mới dùng model/giá trị giả chỉ kiểm thông báo đúng pha, tổng và mẫu ngôn ngữ bị bỏ; không đo chất lượng AI.
