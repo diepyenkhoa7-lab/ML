@@ -145,3 +145,13 @@ Cả5 notebook kernel sạch đã chạy,32 unittest đạt, Ruff đạt. Report
 Audit bổ sung: toàn bộ phiên bản đã cài khớp requirements lock; CLI thật nhận file rỗng và hồ sơ chỉ có market trên cả3 định dạng, trả đúng0 dòng hoặc lỗi từng dòng, giữ nguyên bảng demo. File XLSX toàn ô trống được pandas đọc là bảng rỗng, nên kiểm thiếu trường dùng dòng có market để hiện hữu trong cả3 định dạng. Bằng chứng tại outputs/auto_dev/edge_cases/acceptance.json; không là metric AI.
 
 Đã push source/notebook/kết quả tại e8b6c18 và tạo gói outputs/delivery/qwen_salary_demo_20261025.zip (97 file): adapter/head đã học, baseline, dataset dẫn xuất, metrics, log,5 notebook và biểu đồ. Không chép backbone6,88GB; tải đúng manifest. Đã kiểm toàn bộ checksum, ZipFile.testzip đạt và nạp model từ chính thư mục gói ở tiến trình mới khớp2 probe. Manifest gói: docs/DELIVERY_MANIFEST.json. Không còn bước train/đánh giá/demo/notebook đang chạy.
+
+## 2026-10-26 — Vue3/JavaScript và FastAPI cho model đã fine-tune
+
+Theo yêu cầu mới, xây CareerLens để xem dữ liệu train, tìm/lọc/xuất; upload CSV/JSON/XLSX, xem trước và ghép cột; chạy Qwen/linear baseline; tư vấn kỹ năng, biểu đồ và so sánh metric thật. Một worker suy luận nạp model lười/dùng lại, progress thật theo dòng, history/persisted outputs riêng ở outputs/web. Không có endpoint train; không sửa raw/split/trọng số.
+
+Đã cài FastAPI/Vue3/Vite vào môi trường, khóa Python web riêng và npm lock. Model đã chọn vẫn outputs/qwen_20261023T082631. Form trình duyệt cho hồ sơ Frontend2năm git/javascript dự đoán19793393,28VND/tháng, khớp CLI. Upload browser3 dòng:2 hợp lệ/1 lỗi, quốc tế có3 kỹ năng support87/19/24; Việt Nam thiếu evidence được báo rõ. HTTP smoke model thật qua3 định dạng, tải9 bảng và30 PNG, trích xuất mô tả; predictions khớp rtol1e-5, adapter/head checksum không đổi. Mẫu từ train/tổng hợp không coi là metric AI mới.
+
+39 unittest đạt; Vite production build, Prettier/Ruff và pip check đạt. Browser ECC kiểm5 trang trên375/768/1440, không tràn ngang, axe4.14.0 không còn violation trong nhóm WCAG đã chọn; đã sửa contrast, nhãn fileinput, focus vùng bảng. Keyboard menu Escape hoạt động. Không có baseline screenshot nên không gọi visual regression PASS; xem WEB_QA.md và WEB_RUNTIME_EVIDENCE.json. Plugin chặn filesystem upload/screenshot nên browser upload dùng File/DataTransfer; file vật lý3 định dạng được kiểm qua HTTP.
+
+Có script restore_web_models.py kiểm checksum gói cũ để khôi phục16 file model/metric, không ghi đè file khác; check-only đã chạy đạt. Hướng dẫn make web tại WEB_DEMO.md. Giữ các giới hạn chất lượng cũ, không điều chỉnh trọng số theo test.

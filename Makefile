@@ -20,3 +20,9 @@ pipeline-background:
 .PHONY: auto-tick
 auto-tick:
 	$(PYTHON) -m career_auto.coordinator
+
+.PHONY: web web-build
+web-build:
+	npm --prefix frontend run build
+web: web-build
+	MPLCONFIGDIR=$(CURDIR)/.cache/matplotlib $(PYTHON) -m uvicorn career_web.app:app --host 127.0.0.1 --port 8000 --workers 1

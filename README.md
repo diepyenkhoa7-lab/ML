@@ -1,6 +1,16 @@
 # Career AI — TensorFlow / Keras
 
-Bản làm lại trên nhánh `dev/tensorflow-rebuild`: một Qwen3-1.7B có đầu hồi quy chung cho Việt Nam và quốc tế; hồi quy tuyến tính TensorFlow làm đối chứng. Không có frontend/FastAPI/Gemma trong source hoạt động.
+Bản trên nhánh `dev/tensorflow-rebuild`: Qwen3-1.7B fine-tune với đầu dự đoán lương cho Việt Nam và quốc tế; hồi quy tuyến tính TensorFlow làm đối chứng. Có ứng dụng web **Vue3 + JavaScript / Python + FastAPI**, dùng trọng số đã học, không train qua web.
+
+## Chạy ứng dụng web
+
+```sh
+make web
+```
+
+Mở **http://127.0.0.1:8000**. Dashboard có dữ liệu sẵn có, tìm/lọc/xuất dữ liệu, upload CSV/JSON/XLSX và ghép cột, dự đoán lương, tư vấn kỹ năng, biểu đồ Matplotlib/Seaborn, so sánh MAE/RMSE/R². Tác vụ có tiến độ, lỗi từng dòng và lịch sử. Dữ liệu upload được lưu riêng; không cập nhật trọng số.
+
+Đã cài môi trường trên máy hiện tại. Máy mới cần Python3.11, Node24, `requirements.txt` + `requirements-web.txt`, `npm --prefix frontend ci` và trọng số đã học. Hướng dẫn đầy đủ trong `docs/WEB_DEMO.md`; kiểm thử trong `docs/WEB_QA.md`. Gói model có thể nạp bằng `scripts/restore_web_models.py`; base pretrained tải riêng theo manifest.
 
 ## Model đã chốt ngày 25/10/2026
 
