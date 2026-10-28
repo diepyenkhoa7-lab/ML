@@ -124,3 +124,46 @@ class MarketService:
                 for row in rows[:limit]
             ),
         )
+
+    # Salary normalization (T09): only the explicit salary field supplies evidence.
+    def normalize_salary(self, raw: str | None) -> dict:
+        """Return source amounts, units, classification and optional VND/month target."""
+        from .salary import normalize_salary
+
+        return normalize_salary(raw)
+
+    def salary_report(self, source_id: str | None = None) -> dict:
+        """Normalize every verified raw row; counts describe rows, not unique IT jobs."""
+        from collections import Counter
+
+        source_ids = (
+            [source.source_id for source in self.sources()] if source_id is None else [source_id]
+        )
+        rows = []
+        for selected in source_ids:
+            for number, record in enumerate(self.preview(selected, limit=None).records, start=1):
+                raw = record.raw.get("salary", "")
+                rows.append(
+                    {
+                        "source_id": record.source_id,
+                        "source_row": number,
+                        "job_id": record.job_id,
+                        "job_url": record.job_url,
+                        "raw_salary": raw,
+                        **self.normalize_salary(raw),
+                    }
+                )
+        return {
+            "rows": rows,
+            "row_count": len(rows),
+            "target_n": sum(row["salary_target_vnd_month"] is not None for row in rows),
+            "source_counts": dict(Counter(row["source_id"] for row in rows)),
+            "reason_counts": dict(Counter(row["salary_reason"] for row in rows)),
+            "status_counts": dict(Counter(row["salary_status"] for row in rows)),
+        }
+
+    def salary_exports(self, report: dict) -> dict[str, str]:
+        """Return raw/normalized/status/review CSV strings from a salary_report result."""
+        from .salary import salary_exports
+
+        return salary_exports(report)
