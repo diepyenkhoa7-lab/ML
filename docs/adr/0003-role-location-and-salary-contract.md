@@ -1,0 +1,3 @@
+# Phân nhóm vai trò, giữ nhiều địa điểm và dự đoán lương trung điểm
+
+Ngày 28/10/2026, người dùng chốt phân tích riêng Backend, Frontend, Fullstack, Mobile, Data/ML, DevOps và QA Automation; một tin có thể có nhiều địa điểm chuẩn, còn Remote là hình thức làm việc riêng và tổng số tin đếm theo tin duy nhất. Nhãn lương chính là trung điểm của khoảng lương có đủ tiền tệ và kỳ trả lương, đồng thời giữ hai đầu khoảng; tin thỏa thuận, khoảng chỉ có một đầu hoặc thiếu đơn vị vẫn được giữ cho phân tích tuyển dụng, chưa được dùng làm nhãn lương chính xác. Quyết định này giữ được thông tin tuyển dụng mà không tự biến thông tin thiếu thành nhãn huấn luyện.
