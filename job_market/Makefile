@@ -5,8 +5,8 @@ export PYTHONPATH := src
 check: lint test
 
 lint:
-	$(PYTHON) -m ruff check src tests app.py
-	$(PYTHON) -m ruff format --check src tests app.py
+	$(PYTHON) -m ruff check .
+	$(PYTHON) -m ruff format --check .
 
 test:
 	$(PYTHON) -m pytest tests -q
