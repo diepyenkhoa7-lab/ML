@@ -4,6 +4,7 @@ import argparse
 import json
 import sys
 from dataclasses import asdict
+from pathlib import Path
 
 from . import MarketError, MarketService
 
@@ -15,11 +16,22 @@ def main() -> int:
     preview = commands.add_parser("preview", help="Kiểm tra và xem raw dạng JSON")
     preview.add_argument("source_id")
     preview.add_argument("--limit", type=int, default=5)
+    download = commands.add_parser("download", help="Tải revision cố định hoặc kiểm tra cache")
+    download.add_argument("source_id")
+    download.add_argument("--raw-dir", type=Path)
+    download.add_argument("--cache-dir", type=Path)
+    download.add_argument(
+        "--check-only", action="store_true", help="Chỉ kiểm tra, không tải hoặc ghi"
+    )
     args = parser.parse_args()
     try:
-        service = MarketService()
+        service = MarketService(raw_dir=args.raw_dir if args.command == "download" else None)
         if args.command == "sources":
             result = [asdict(source) for source in service.sources()]
+        elif args.command == "download":
+            result = service.download_source(
+                args.source_id, cache_dir=args.cache_dir, check_only=args.check_only
+            )
         else:
             result = asdict(service.preview(args.source_id, args.limit))
     except MarketError as error:

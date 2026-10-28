@@ -68,6 +68,29 @@ class MarketService:
         catalog = json.loads(Path(__file__).with_name("sources.json").read_text())
         return tuple(Source(**{**item, "columns": tuple(item["columns"])}) for item in catalog)
 
+    # T02: tải revision cố định, dùng chung cho CLI và trang tải nguồn.
+    def download_source(
+        self,
+        source_id: str,
+        *,
+        cache_dir: Path | None = None,
+        timeout: float = 60,
+        check_only: bool = False,
+    ) -> dict:
+        """Return download status, source provenance, hashes, paths and UTC timestamps."""
+        from .downloader import download_source
+
+        source = next((item for item in self.sources() if item.source_id == source_id), None)
+        if source is None:
+            raise MarketError(f"Nguồn không được duyệt: {source_id}")
+        return download_source(
+            source,
+            self.raw_dir,
+            cache_dir or self.raw_dir.parent / "archives",
+            timeout=timeout,
+            check_only=check_only,
+        )
+
     def preview(self, source_id: str, limit: int | None = 5) -> RawPreview:
         """Verify the whole source; limit=None returns every unmodified record."""
         if limit is not None and (not isinstance(limit, int) or limit < 0):
