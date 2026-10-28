@@ -109,7 +109,7 @@ Huấn luyện chạy bằng lệnh riêng. Dashboard đọc dataset và model �
 
 ## Further Notes
 
-Bản đồ wayfinder canonical: [Bản đồ quyết định](https://github.com/theihoz/ML/issues/2). Ba quyết định còn mở: [Nguồn dataset mới](https://github.com/theihoz/ML/issues/3), [Đánh giá và mức hỗ trợ](https://github.com/theihoz/ML/issues/4), [Bằng chứng tư vấn](https://github.com/theihoz/ML/issues/5).
+Bản đồ wayfinder canonical: [Bản đồ quyết định](https://github.com/theihoz/ML/issues/2). Nguồn EDA đã được chốt theo lựa chọn EDA-trước của người dùng; [nhãn lương đủ kỳ/tiền tệ](https://github.com/theihoz/ML/issues/42), [đánh giá và mức hỗ trợ](https://github.com/theihoz/ML/issues/4), [bằng chứng tư vấn](https://github.com/theihoz/ML/issues/5) tiếp tục mở. Xem quyết định EDA-trước và trạng thái triển khai trong tài liệu repo.
 
 Đợt khảo sát bốn ứng viên mới chưa chọn được nguồn đủ điều kiện; bằng chứng ở [báo cáo nguồn mới](https://github.com/theihoz/ML/blob/411f1dbf43fea51b47677356b10f7cb3f5955190/docs/research/new-vietnam-datasets-20261028.md). Chưa chọn dataset cuối, chưa chốt ngưỡng low-support, chưa có kết quả model và chưa có lịch báo cáo. Các phần phụ thuộc phải giữ trạng thái chờ quyết định; việc duyệt spec không phải bằng chứng ứng dụng đã hoàn thành.
 
