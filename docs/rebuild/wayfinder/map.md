@@ -13,13 +13,15 @@ Chốt được nguồn dataset mới và các quyết định đánh giá, tư 
 
 ## Decisions so far
 
-Chưa có decision ticket nào của bản đồ được giải quyết; các yêu cầu đã xác nhận trước khi lập bản đồ được dẫn trong Notes.
+- [Chọn nguồn dataset Việt Nam mới có thể kiểm chứng](https://github.com/theihoz/ML/issues/3): người dùng cho triển khai EDA trước từ hai nguồn Kaggle mới; điều kiện nhãn huấn luyện chuyển sang gate ML riêng.
 
 ## Not yet specified
 
 - Ngưỡng tối thiểu về độ phủ vai trò, địa điểm và kỹ năng chỉ xác định được sau khi kiểm tra các nguồn mới.
 - Kỳ thời gian so sánh và việc cần nguồn bổ sung chỉ xác định được sau kiểm toán ngày đăng và tính đại diện của nguồn.
 - Định dạng gói dữ liệu bàn giao phụ thuộc vào khả năng tải và điều kiện phân phối của dataset được chọn.
+
+Gate mở riêng theo quyết định EDA-trước: [Xác minh nhãn lương đủ kỳ và tiền tệ để mở ML](https://github.com/theihoz/ML/issues/42); các phần huấn luyện/dự đoán vẫn bị chặn.
 
 ## Out of scope
 
