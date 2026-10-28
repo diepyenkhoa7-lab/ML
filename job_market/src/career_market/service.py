@@ -1,4 +1,4 @@
-"""Read approved raw postings without cleaning or deriving market measures."""
+"""Read approved postings and expose shared, source-aware business methods."""
 
 import csv
 import hashlib
@@ -6,6 +6,8 @@ import io
 import json
 from dataclasses import dataclass
 from pathlib import Path
+
+from .locations import location_report, normalize_locations
 
 
 class MarketError(ValueError):
@@ -63,6 +65,18 @@ class MarketService:
             if raw_dir is not None
             else (bundled_raw if bundled_raw.is_dir() else package_dir.parents[1] / "datasets/raw")
         )
+
+    # T05: location aliases; shared by CLI callers and the location page.
+    def normalize_locations(self, raw: str | None) -> dict:
+        """Normalize whole labels; see docs/tdd/T05.md for the dictionary contract."""
+        return normalize_locations(raw)
+
+    def location_report(
+        self, source_id: str, *, location: str | None = None, status: str | None = None
+    ) -> dict:
+        """Raw–clean table, exact canonical/status filters, and matching CSV (T05)."""
+        preview = self.preview(source_id, limit=None)
+        return location_report(source_id, preview.records, location, status)
 
     def sources(self) -> tuple[Source, ...]:
         catalog = json.loads(Path(__file__).with_name("sources.json").read_text())
