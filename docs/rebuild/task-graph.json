@@ -1,6 +1,6 @@
 {
   "status": "implementing-eda-first",
-  "date": "2026-10-28",
+  "date": "2026-10-29",
   "branch": "dev/job-market-ml-from-scratch",
   "map": "https://github.com/theihoz/ML/issues/2",
   "tickets": [
@@ -18,7 +18,8 @@
         "id": 6074969400,
         "url": "https://github.com/theihoz/ML/issues/15"
       },
-      "implementation_status": "in_progress"
+      "implementation_status": "complete",
+      "integration_commit": "06914444b2c709c7664877e893bbc161b7e2382a"
     },
     {
       "id": "T02",
@@ -34,7 +35,7 @@
         "id": 6074969881,
         "url": "https://github.com/theihoz/ML/issues/16"
       },
-      "implementation_status": "pending"
+      "implementation_status": "in_progress"
     },
     {
       "id": "T03",
@@ -50,7 +51,7 @@
         "id": 6074970282,
         "url": "https://github.com/theihoz/ML/issues/17"
       },
-      "implementation_status": "pending"
+      "implementation_status": "in_progress"
     },
     {
       "id": "T04",
@@ -82,7 +83,7 @@
         "id": 6074971137,
         "url": "https://github.com/theihoz/ML/issues/19"
       },
-      "implementation_status": "pending"
+      "implementation_status": "in_progress"
     },
     {
       "id": "T06",
@@ -114,7 +115,7 @@
         "id": 6074971951,
         "url": "https://github.com/theihoz/ML/issues/21"
       },
-      "implementation_status": "pending"
+      "implementation_status": "in_progress"
     },
     {
       "id": "T08",
@@ -146,7 +147,7 @@
         "id": 6074973069,
         "url": "https://github.com/theihoz/ML/issues/23"
       },
-      "implementation_status": "pending"
+      "implementation_status": "in_progress"
     },
     {
       "id": "T10",
@@ -162,7 +163,7 @@
         "id": 6074973445,
         "url": "https://github.com/theihoz/ML/issues/24"
       },
-      "implementation_status": "pending"
+      "implementation_status": "in_progress"
     },
     {
       "id": "T11",
