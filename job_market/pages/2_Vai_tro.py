@@ -12,7 +12,7 @@ from career_market import MarketError, MarketService
 
 st.set_page_config(page_title="Vai trò phần mềm", layout="wide")
 st.title("Vai trò phần mềm")
-st.write("Đối chiếu chức danh gốc với Backend, Frontend, Fullstack và Mobile.")
+st.write("Đối chiếu chức danh với bảy nhóm nghề, giữ bằng chứng và trường hợp chưa rõ.")
 raw_dir = os.environ.get("CAREER_MARKET_RAW_DIR")
 service = MarketService(raw_dir=Path(raw_dir) if raw_dir else None)
 source_id = st.selectbox("Nguồn dữ liệu", [source.source_id for source in service.sources()])
@@ -27,7 +27,7 @@ st.caption(preview.source.attribution)
 if not preview.source.has_job_description:
     st.warning("Thiếu JD: chỉ phân nhóm từ chức danh; không tự điền mô tả hoặc kỹ năng.")
 st.info(
-    "review: chưa rõ hoặc có nhiều vai trò. out_of_scope: ngoài bốn nhóm của T03. "
+    "review: chưa rõ hoặc có nhiều vai trò. out_of_scope: ngoài bảy nhóm nghề. "
     "Đây là số dòng thô, chưa khử trùng; ML vẫn bị chặn."
 )
 
@@ -51,7 +51,9 @@ for record in preview.records:
     )
 
 role = st.selectbox(
-    "Vai trò", ["Tất cả", "Backend", "Frontend", "Fullstack", "Mobile"], key="role_filter"
+    "Vai trò",
+    ["Tất cả", "Backend", "Frontend", "Fullstack", "Mobile", "Data/ML", "DevOps", "QA Automation"],
+    key="role_filter",
 )
 status = st.selectbox(
     "Trạng thái", ["Tất cả", "matched", "review", "out_of_scope"], key="status_filter"

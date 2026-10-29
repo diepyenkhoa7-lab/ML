@@ -1,4 +1,4 @@
-"""Conservative, evidence-based rules for the four T03 software roles."""
+"""Conservative occupational evidence for the seven agreed software roles."""
 
 import re
 
@@ -7,6 +7,9 @@ ROLE_PATTERNS = {
     "Frontend": r"\bfront[ -]?end\b",
     "Fullstack": r"\bfull[ -]?stack\b",
     "Mobile": r"\b(?:mobile|android|ios|flutter)\b",
+    "Data/ML": r"\b(?:data (?:engineer|scientist|analyst)|machine learning(?: developer| engineer)?|ml engineer|ai (?:developer|engineer|researcher)|lập trình viên ai)\b",
+    "DevOps": r"\b(?:devops|sre|site reliability engineer)\b",
+    "QA Automation": r"\b(?:automation test(?:er|ing)?|test automation|qa automation|kiểm thử tự động|software tester.{0,25}automation)\b",
 }
 ACTION = r"\b(?:build|develop|design|implement|maintain|xây dựng|phát triển|thiết kế|bảo trì)\b"
 TASK_PATTERNS = {
@@ -29,7 +32,7 @@ def classify_role(title: str, description: str = "", requirements: str = "") -> 
             "role": None,
             "role_status": "out_of_scope",
             "role_evidence": [{"field": "title", "text": excluded.group()}],
-            "role_reason": "Chức danh thuộc nghề ngoài phạm vi bốn vai trò phần mềm.",
+            "role_reason": "Chức danh thuộc nghề ngoài phạm vi bảy vai trò phần mềm.",
         }
     evidence = []
     candidates = set()
@@ -82,8 +85,8 @@ def classify_role(title: str, description: str = "", requirements: str = "") -> 
         "role_status": "review" if generic else "out_of_scope",
         "role_evidence": [],
         "role_reason": (
-            "Chức danh chưa đủ bằng chứng phân biệt bốn vai trò phần mềm."
+            "Chức danh chưa đủ bằng chứng phân biệt bảy vai trò phần mềm."
             if generic
-            else "Chưa có bằng chứng thuộc bốn vai trò phần mềm của T03."
+            else "Chưa có bằng chứng thuộc bảy vai trò phần mềm."
         ),
     }
