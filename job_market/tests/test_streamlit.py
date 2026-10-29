@@ -2,7 +2,7 @@ from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
 
-APP = Path(__file__).parents[1] / "app.py"
+APP = Path(__file__).parents[1] / "pages/0_Nguon_du_lieu.py"
 
 
 def test_dashboard_previews_real_records_and_switches_sources():
