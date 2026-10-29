@@ -59,6 +59,15 @@ class RawPreview:
 class MarketService:
     """Public application seam; adapters only render its results."""
 
+    def skill_demand(
+        self, rows, role=None, locations=None, work_mode=None, source_ids=None, limit=15
+    ):
+        from .analysis import skill_demand
+
+        if not isinstance(limit, int) or not 1 <= limit <= 50:
+            raise MarketError("Top kỹ năng phải nằm trong 1–50.")
+        return skill_demand(rows, role, locations, work_mode, source_ids, limit)
+
     def prepare_records(self, records):
         from .preparation import prepare_records
 
