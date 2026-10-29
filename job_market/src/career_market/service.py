@@ -59,6 +59,11 @@ class RawPreview:
 class MarketService:
     """Public application seam; adapters only render its results."""
 
+    def time_coverage(self, rows):
+        from .time_coverage import time_coverage
+
+        return time_coverage(rows, self.sources())
+
     def skill_demand(
         self, rows, role=None, locations=None, work_mode=None, source_ids=None, limit=15
     ):
