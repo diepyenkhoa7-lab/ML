@@ -39,13 +39,23 @@ try:
         format_func=lambda value: "Tất cả" if value is None else value,
         key="location_status",
     )
-    if location is not None or status is not None:
-        report = service.location_report(source_id, location=location, status=status)
+    multiple = st.multiselect("Thêm địa điểm (khớp ít nhất một)", report["location_options"])
+    work_mode = st.selectbox(
+        "Hình thức làm việc", [None, "Remote"], format_func=lambda v: v or "Tất cả"
+    )
+    if location is not None or status is not None or multiple or work_mode:
+        report = service.location_report(
+            source_id, location=location, status=status, locations=multiple, work_mode=work_mode
+        )
 except MarketError as error:
     st.error(str(error))
     st.stop()
 
 st.metric("Số dòng thô của nguồn", report["raw_row_count"])
+st.metric("Tin duy nhất sau lọc", report["unique_posting_count"])
+st.caption(
+    "Remote là hình thức làm việc, độc lập với tỉnh/thành. Nhóm địa điểm có thể chồng lắp; tổng tin đếm một lần theo ID/URL chuẩn."
+)
 st.caption(
     f"Đang hiển thị {len(report['rows'])} dòng thô sau lọc. Tần suất alias là số dòng gốc, "
     "chưa lọc vai trò hoặc khử trùng, không phải số tin duy nhất hay nhu cầu thị trường."

@@ -37,7 +37,7 @@ def test_location_aliases_share_canonical_labels_and_keep_evidence(raw, canonica
 
 @pytest.mark.parametrize(
     "raw",
-    ["123 Điện Biên Phủ", "Điện Biên Phủ", "12 Hà Nội, phường 3", "HCM City Mall", "Remote"],
+    ["123 Điện Biên Phủ", "Điện Biên Phủ", "12 Hà Nội, phường 3", "HCM City Mall"],
 )
 def test_addresses_and_unknown_labels_remain_unresolved_instead_of_substring_matches(raw):
     result = MarketService().normalize_locations(raw)
@@ -152,3 +152,36 @@ def test_separator_only_text_requires_review_instead_of_claiming_a_verified_loca
     assert result["location_status"] == "review"
     assert result["locations"] == []
     assert result["location_unresolved"] == [" | & "]
+
+
+def test_remote_is_independent_from_multiple_physical_locations():
+    result = MarketService().normalize_locations("HCM/HN/Remote")
+    assert result["locations"] == ["HCM", "HN"]
+    assert result["work_modes"] == ["Remote"]
+    assert result["location_unresolved"] == []
+
+
+def test_location_union_and_remote_filters_count_a_posting_only_once():
+    rows = [
+        {
+            "source_id": "fixture",
+            "job_url": "https://example.org/job/1?a=1",
+            "locations": ["HCM", "HN"],
+            "work_modes": ["Remote"],
+        },
+        {
+            "source_id": "fixture",
+            "job_url": "https://example.org/job/1?a=2",
+            "locations": ["HCM", "HN"],
+            "work_modes": ["Remote"],
+        },
+        {
+            "source_id": "fixture",
+            "job_url": "https://example.org/job/2",
+            "locations": ["HN"],
+            "work_modes": [],
+        },
+    ]
+    service = MarketService()
+    assert len(service.select_locations(rows, locations=["HCM", "HN"])) == 2
+    assert len(service.select_locations(rows, locations=["HCM", "HN"], work_mode="Remote")) == 1
