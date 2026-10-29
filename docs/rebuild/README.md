@@ -6,7 +6,7 @@ Branch làm việc: `dev/job-market-ml-from-scratch`. Ứng dụng Python/Stream
 
 - Phạm vi toàn dự án: [Spec tổng thể](SPEC.md).
 - Quyết định còn mở: [Bản đồ GitHub](https://github.com/theihoz/ML/issues/2).
-- Bằng chứng nguồn mới: [Khảo sát bốn dataset](https://github.com/theihoz/ML/blob/411f1dbf43fea51b47677356b10f7cb3f5955190/docs/research/new-vietnam-datasets-20261028.md). Chưa chọn được nguồn đủ điều kiện.
+- Bằng chứng khảo sát ban đầu: [Bốn ứng viên dataset](https://github.com/theihoz/ML/blob/411f1dbf43fea51b47677356b10f7cb3f5955190/docs/research/new-vietnam-datasets-20261028.md). Hai nguồn EDA được chốt sau đó trong EDA_FIRST.md; nguồn nhãn huấn luyện còn chờ xác minh.
 - Chi tiết từng tính năng: [Danh mục tính năng và công việc](PLAN.md).
 - Làm việc qua tracker: [Spec và 27 công việc trên GitHub](GITHUB.md).
 - Triển khai hiện tại: [EDA trước](EDA_FIRST.md), [trạng thái từng công việc](IMPLEMENTATION_STATUS.md).

@@ -25,4 +25,4 @@ Không còn phát hiện Spec cần sửa trong phạm vi đợt EDA. Các yêu 
 - Kiểm tra viewport thực 500px không tràn chiều rộng trang. Công cụ browser từ chối đường dẫn file cục bộ và lưu screenshot; vì vậy không khẳng định đã kiểm thử hộp chọn file của hệ điều hành hoặc có screenshot được lưu bởi connector.
 - Biểu đồ xuất thật đã được xem lại tại job_market/reports/skill-demand-topcv.png. Snapshot nguồn thật nằm ở job_market/datasets/processed, kèm manifest.
 
-Kết quả: Standards 1 phát hiện đã sửa; Spec 2 phát hiện đã sửa; chưa có phát hiện mở trong phạm vi EDA. Hosted CI được xác nhận riêng sau khi push.
+Kết quả: Standards 1 phát hiện đã sửa; Spec 2 phát hiện đã sửa; chưa có phát hiện mở trong phạm vi EDA. Hosted CI của code commit 4bff8f7 đã thành công: https://github.com/theihoz/ML/actions/runs/40828270329 . Các thay đổi sau mốc này chỉ ghi nhận tài liệu nghiệm thu.

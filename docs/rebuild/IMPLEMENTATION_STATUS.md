@@ -46,3 +46,5 @@ Ban đầu dùng implementer/merger worktree riêng. Khi agent phụ hết quota
 
 GitHub Issues là tracker chính; task-graph.json giữ đối chiếu trạng thái. Triage không áp dụng lại cho ticket đã tạo từ spec. Các file AGENTS, docs/agents và docs/research có sẵn của người dùng được giữ nguyên.
 
+Đã đọc lại trạng thái GitHub: 14 ticket và F01/F02 đóng; spec tổng thể #6, gate #42 và các quyết định #4/#5 còn mở. Triage không có issue mới needs-triage. CI của code commit 4bff8f7 thành công: https://github.com/theihoz/ML/actions/runs/40828270329 . Worktree triển khai đã dọn sau khi xác minh merge/sạch.
+
