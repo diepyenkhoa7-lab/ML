@@ -66,6 +66,55 @@ class MarketService:
             else (bundled_raw if bundled_raw.is_dir() else package_dir.parents[1] / "datasets/raw")
         )
 
+    # T10: experience normalization; independent of other normalization methods.
+    def normalize_experience(self, raw) -> dict:
+        """Return year bounds, kind, status and reason; see T10 ticket notes."""
+        from .experience import normalize_experience
+
+        return normalize_experience(raw)
+
+    def experience_report(
+        self, source_id: str, status: str | None = None, kind: str | None = None
+    ) -> dict:
+        """Raw/clean rows and matching CSV from one approved source; T10 notes define keys."""
+        preview = self.preview(source_id, limit=None)
+        rows = []
+        for record in preview.records:
+            raw = record.raw.get("experience", record.raw.get("exp"))
+            row = {
+                "source_id": record.source_id,
+                "job_id": record.job_id,
+                "job_url": record.job_url,
+                "experience_raw": raw,
+                **self.normalize_experience(raw),
+            }
+            if status is not None and row["experience_status"] != status:
+                continue
+            if kind is not None and row["experience_kind"] != kind:
+                continue
+            rows.append(row)
+        output = io.StringIO()
+        columns = [
+            "source_id",
+            "job_id",
+            "job_url",
+            "experience_raw",
+            "experience_min",
+            "experience_max",
+            "experience_kind",
+            "experience_status",
+            "experience_reason",
+        ]
+        writer = csv.DictWriter(output, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(rows)
+        return {
+            "rows": rows,
+            "total_count": preview.row_count,
+            "filtered_count": len(rows),
+            "csv": output.getvalue(),
+        }
+
     # T05: location aliases; shared by CLI callers and the location page.
     def normalize_locations(self, raw: str | None) -> dict:
         """Normalize whole labels; see docs/tdd/T05.md for the dictionary contract."""
