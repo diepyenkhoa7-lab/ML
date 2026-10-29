@@ -19,7 +19,7 @@ Gợi ý tối đa ba kỹ năng chưa có, phù hợp vai trò, có số tin h�
 - Candidate và thống kê xếp hạng chỉ từ train của run đã khóa, cùng role/phạm vi hỗ trợ. Số tin EDA toàn bộ không được đổi tên thành số mẫu train hoặc số nhãn lương.
 - Chuẩn hóa/loại kỹ năng đã có trước khi xếp hạng; giữ hồ sơ nền khi thử thêm một kỹ năng, không tự tăng kinh nghiệm hoặc đổi địa điểm.
 - Hiển thị riêng nhu cầu quan sát, thống kê lương có hỗ trợ và delta dự đoán nếu được phép. Không trộn thành một “% tăng lương” khó truy nguồn.
-- Cách phối hợp tín hiệu, threshold và tie-break chờ #5. Không dùng test để tối ưu ranking; không sinh danh sách cố định/LLM hoặc tự giới thiệu kỹ năng không có trong train.
+- Đã chốt ngày 29/10: dùng model được chọn, chỉ giữ kỹ năng đủ hỗ trợ và delta > 0; xếp giảm dần theo delta, lấy tối đa ba. Delta bằng nhau thì ưu tiên số tin train hỗ trợ nhiều hơn rồi tên chuẩn. Nhu cầu và n vẫn là bằng chứng hỗ trợ, hiển thị riêng. Hồ sơ nền hoặc hồ sơ thêm kỹ năng thiếu hỗ trợ thì không dùng delta để xếp hạng; không có ứng viên hợp lệ trả insufficient_evidence. Threshold bằng số chờ dữ liệu mở rộng, khóa trước fit. Không dùng test để tối ưu ranking; không sinh danh sách cố định/LLM hoặc tự giới thiệu kỹ năng không có trong train.
 - Feature importance để giải thích model được ghi rõ tập/định nghĩa/phương pháp, không tự chuyển thành lợi ích thu nhập cá nhân. Kỹ năng thiếu hỗ trợ hoặc không có candidate hợp lệ trả insufficient_evidence.
 
 ## Testing Decisions

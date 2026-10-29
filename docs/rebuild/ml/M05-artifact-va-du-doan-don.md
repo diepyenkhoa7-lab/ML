@@ -19,6 +19,7 @@ Nạp bộ artifact hoàn chỉnh đã kiểm tra và dùng cùng service cho fo
 - Artifact gồm preprocessing/model, feature schema, alias/catalog/policy, đơn vị/basis, snapshot/split/run ID, hash và báo cáo đánh giá. Kiểm tương thích trước suy luận; không tìm model cũ để fallback.
 - Một pipeline chuẩn hóa cho hồ sơ đơn và file, phân biệt missing/0/range/bound, canonical/unknown/OOV. Hình thức Remote phải là bằng chứng làm việc, không chỉ từ “remote” thuộc lĩnh vực kỹ thuật.
 - Các trạng thái có mã/lý do gồm model_unavailable, invalid_input, unsupported_profile, prediction_error và ok; ngưỡng support/warning do #4 chốt. Không đồng nhất row preview hợp lệ với hồ sơ được model hỗ trợ.
+- Người dùng đã chọn từ chối trả số lương/tư vấn khi hồ sơ ngoài phạm vi hoặc dưới ngưỡng hỗ trợ, không chỉ thêm cảnh báo rồi vẫn dự đoán. Ngưỡng cụ thể khóa theo dữ liệu mở rộng trước fit; lỗi hỗ trợ không tự chuyển sang nhóm nghề/khu vực khác.
 - Output ok có lương hữu hạn/dương, VND/tháng, basis, model/run/snapshot và cảnh báo. Lương là ước tính lương chào tuyển, không phải thu nhập thực nhận hoặc lời cam kết.
 - Lỗi hash/schema/model thiếu hoặc output sai không kích hoạt train, download model ngoài hoặc ghi đè artifact. Chỉ promote ứng viên đã đạt release policy; không dùng quy tắc “file mới nhất” thay lựa chọn đã kiểm tra.
 

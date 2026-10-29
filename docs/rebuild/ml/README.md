@@ -2,7 +2,7 @@
 
 Nhánh ổn định EDA: main tại 9ce0506. Nhánh soạn thảo/phát triển ML: dev/ml-development, bắt đầu từ cùng mốc. Theo yêu cầu người dùng, spec/audit ML mới hiện chỉ ở local; chưa push nhánh ML hoặc đăng một spec mới lên tracker. Push phần ML sau khi hoàn tất, tách khỏi lần push EDA.
 
-Đặc tả phát triển ngày 29/10/2026. Giữ các yêu cầu đã duyệt; chưa đổi dependency, chốt các đề xuất #4/#5, huấn luyện hoặc gỡ gate nhãn lương #42. Ranh giới kiểm thử MarketService/CLI/Streamlit đã được duyệt và được tái sử dụng.
+Đặc tả phát triển ngày 29/10/2026. Các nguyên tắc #4/#5 đã được người dùng xác nhận; ngưỡng hỗ trợ bằng số và cấu hình phụ thuộc dữ liệu cần khóa trước fit. Chưa đổi dependency, huấn luyện, mở gate #42 hoặc đóng issue từ xa. Ranh giới kiểm thử MarketService/CLI/Streamlit đã được duyệt và được tái sử dụng.
 
 - [Spec tổng ML](SPEC.md)
 - [26 tiêu chí nghiệm thu theo chức năng](ACCEPTANCE.md)
@@ -26,5 +26,7 @@ Có thể phát triển trước cổng kiểm tra, schema/config, trạng thái
 Quyết định bổ sung ngày 29/10: giữ riêng nhóm unknown gross/net, không trộn với gross/net đã xác nhận; đã ghi ADR 0006. Các phần khác của #4/#5 và gate #42 vẫn mở, chưa có model được train.
 
 Kiểm duyệt tiếp theo chấp nhận hai nhãn YODY vào file riêng, 17 trường hợp cần review và 7 trường hợp bị loại. ADR 0007 giữ phạm vi thu nhập tháng chào tuyển riêng. Chưa nhập hai nhãn vào base pipeline, chưa mở training; dữ liệu và manifest trong job_market/datasets/labels/2026-10-29.
+
+Quyết định #4/#5: chia công ty và nhóm trùng, tỷ lệ mục tiêu 70/15/15 seed 42; Ridge + Linear Regression, MAE chính/RMSE phụ, chọn validation MAE, bằng nhau chọn Linear Regression. Chỉ promote khi MAE tốt hơn trung vị train trên cả validation và test; không đạt thì giữ báo cáo, không đổi/chỉnh model theo test. Hồ sơ thiếu hỗ trợ không nhận lương/tư vấn. Gợi ý tối đa ba kỹ năng đủ hỗ trợ có delta dương, xếp theo delta rồi n train và tên chuẩn. Ngưỡng hỗ trợ cần dữ liệu mở rộng để khóa trước fit; ADR 0008/0009 ghi các lựa chọn này.
 
 Các ticket T14–T16 về lương quan sát giữ spec F03; không đồng nhất chúng với metric hoặc tác động kỹ năng của model. Chia nhỏ lại ticket nếu cần là bước to-tickets riêng, không tự thay 27 công việc cũ trong lần viết đặc tả này.

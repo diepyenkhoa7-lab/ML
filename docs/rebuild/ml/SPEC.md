@@ -24,10 +24,10 @@ Khi thiếu dữ liệu, chính sách đánh giá hoặc artifact tương thích
 6. Là người huấn luyện, tôi muốn tin trùng/đăng lại nằm cùng nhóm chia tập, để tránh đánh giá trên bản sao đã học.
 7. Là người huấn luyện, tôi muốn feature chỉ từ thông tin hồ sơ được phép nhập, để tránh rò lương từ tiêu đề hoặc nội dung.
 8. Là người huấn luyện, tôi muốn preprocessing chỉ học từ train, để validation/test thực sự độc lập.
-9. Là người huấn luyện, tôi muốn chạy Ridge và Random Forest tự khởi tạo, để có hai mô hình thực đáp ứng đề bài.
+9. Là người huấn luyện, tôi muốn chạy Ridge và Linear Regression tự khởi tạo, để có hai mô hình thực đáp ứng đề bài.
 10. Là người đánh giá, tôi muốn hai model dùng cùng split, để so sánh công bằng.
 11. Là người đánh giá, tôi muốn xem MAE/RMSE cùng VND/tháng và số mẫu, để hiểu sai số.
-12. Là người đánh giá, tôi muốn R² không xác định được ghi rõ, để không đọc một giá trị giả.
+12. Là người đánh giá, tôi muốn nhóm rỗng/ít mẫu được ghi rõ, để không đọc điểm số nhỏ như chứng nhận chất lượng.
 13. Là người đánh giá, tôi muốn chọn model bằng validation và giữ test riêng, để tránh chọn theo đáp án cuối.
 14. Là người phân tích, tôi muốn xem lỗi theo nghề, kinh nghiệm và địa điểm, để biết vùng model chưa đủ hỗ trợ.
 15. Là người demo, tôi muốn nạp lại model trong tiến trình mới, để xác nhận artifact chứa đủ preprocessing.
@@ -51,18 +51,20 @@ Khi thiếu dữ liệu, chính sách đánh giá hoặc artifact tương thích
 - Quyết định ngày 29/10: nhóm chưa rõ gross/net được giữ riêng, không trộn với gross hoặc net đã xác nhận. Cohort/model/kết quả phải ghi basis; đủ tiền tệ và kỳ vẫn chưa thay các điều kiện readiness còn lại.
 - Quyết định kiểm duyệt ngày 29/10: thu nhập tháng chào tuyển được chấp nhận thành phạm vi riêng, không gộp với lương cơ bản hoặc khoản chưa rõ cấu phần. Không cộng thưởng năm/phụ cấp vào trung điểm tháng; ghi đồng thời phạm vi thu nhập và basis.
 - Một tin là một quan sát dù có nhiều kỹ năng/địa điểm. Tách row nguồn, thực thể tin và nhóm chống leakage; không bỏ tham số định danh khi chỉ cần bỏ tracking.
+- Vòng quyết định 29/10: chia theo công ty, mọi bản trùng/đăng lại cùng tập; mục tiêu đánh giá là công ty chưa có trong train. MAE là metric chính. Tư vấn ưu tiên chênh lệch dự đoán của model, không ưu tiên nhu cầu trước delta. Các chi tiết chưa chốt vẫn giữ trong phần đề xuất.
+- Vòng tiếp theo: Ridge + Linear Regression; MAE chính, RMSE phụ; tỷ lệ mục tiêu 70/15/15, seed 42, chọn bằng validation MAE và test riêng. Không trả số lương/tư vấn khi thiếu hỗ trợ. Chỉ gợi ý candidate đủ hỗ trợ, delta > 0, tối đa ba; tie-break theo n train rồi tên chuẩn.
+- Vòng cuối: validation MAE bằng nhau thì chọn Linear Regression, dùng giá trị chưa làm tròn. Model được chọn chỉ dùng demo/tư vấn khi MAE nhỏ hơn baseline trung vị train trên cả validation và test, cùng cohort/basis/phạm vi. Test không đạt thì lưu báo cáo/run nhưng không promote, không đổi model hoặc chỉnh tham số bằng test.
 - Trước khi khóa snapshot ML phải sửa/kiểm tra các lỗi audit có thể làm sai nhãn, nghề, Remote, bằng chứng và nhóm tin. Không dùng trạng thái parser “valid” làm chứng cứ duy nhất cho một target.
 - Feature theo allowlist: vai trò, kinh nghiệm có biểu diễn khoảng/cận, kỹ năng chuẩn, địa điểm chuẩn và hình thức làm việc. Tiêu đề/JD nguyên văn, số tiền, cận lương, target, lý do suy từ target, ID/URL/công ty và trường nguồn chỉ phục vụ kiểm toán/nhóm/báo cáo; không tự đưa vào model.
 - Alias/quy tắc được đóng phiên bản; vocabulary encoder, imputer và scaler chỉ fit train. Kỹ năng/nhóm chưa gặp không âm thầm biến thành hồ sơ được hỗ trợ.
 - Snapshot, split, cấu hình, seed, feature schema, target policy, phiên bản thư viện và artifact có hash/ID. Run lỗi hoặc bị ngắt không thay model đang dùng.
 - Dashboard chỉ dùng artifact nội bộ đã được kiểm tra. Không nhận model từ upload. Suy luận không ghi đè training snapshot hoặc tự fit lại.
 
-### Đề xuất cần chốt qua các quyết định còn mở
+### Tham số còn chờ dữ liệu trước fit
 
-- #4: Ridge và Random Forest là hai ứng viên khởi đầu; thêm baseline trung vị chỉ để tham chiếu, không thay một trong hai model yêu cầu. Chọn bằng validation MAE, báo MAE/RMSE/R² trên cùng split và đơn vị gốc.
-- #4: chia theo nhóm tin với seed cố định; phương án grouped 70/15/15, seed 42 chỉ là đề xuất. Temporal holdout chỉ dùng khi ngày và sampling frame đủ phù hợp; không lấy hai snapshot khác nền tảng làm bằng chứng xu hướng thời gian.
-- #4: basis đã chốt giữ riêng từng nhóm; còn phải chốt kinh nghiệm thiếu/khoảng/cận, số nhóm tối thiểu, outlier, ngưỡng hỗ trợ và tiêu chí chấp nhận model sau kiểm toán nhãn. Chưa có quyết định thì readiness tiếp tục bị chặn; không dùng ngưỡng mặc định tùy tiện để mở train.
-- #5: tối đa ba kỹ năng chưa có; dùng nhu cầu từ train và thử thêm từng kỹ năng vào cùng hồ sơ nền. Cách phối hợp tín hiệu và ngưỡng phải được chốt; không dùng test để chọn danh sách hay tham số xếp hạng.
+- #4: temporal holdout chỉ xem xét khi ngày và sampling frame đủ phù hợp; không thay chia theo công ty đã chốt hoặc lấy hai snapshot khác nền tảng làm bằng chứng xu hướng thời gian.
+- #4: basis và tiêu chí chấp nhận đã chốt; biểu diễn kinh nghiệm thiếu/khoảng/cận, số nhóm tối thiểu, outlier và ngưỡng hỗ trợ còn phải khóa theo dữ liệu trước fit. Readiness tiếp tục bị chặn khi thiếu các điều kiện này; không dùng ngưỡng mặc định tùy tiện để mở train.
+- #5: ngưỡng hỗ trợ bằng số cho hồ sơ nền và hồ sơ thêm kỹ năng còn cần dữ liệu mở rộng để chốt trước fit; nhu cầu từ train giữ riêng như bằng chứng hỗ trợ. Không dùng test để chọn danh sách hay tham số xếp hạng.
 
 ## Testing Decisions
 

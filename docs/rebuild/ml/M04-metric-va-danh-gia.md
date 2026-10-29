@@ -16,15 +16,15 @@ Bảng và biểu đồ đánh giá từ y_true/prediction đã lưu, có split,
 
 ## Implementation Decisions
 
-- Đề xuất MAE/RMSE/R² theo #4. Lưu nhãn và prediction cùng row/entity/group/model/split ID để tính lại; không ghi sẵn model thắng hoặc metric.
-- R² khi không đủ mẫu/target không biến thiên được ghi không xác định, không gán 0/1. NaN/Inf không bị lặng lẽ xóa để làm đẹp điểm; prediction âm được báo là output không hợp lệ theo nghiệp vụ, không clip để che lỗi đánh giá.
+- Đã chốt MAE là metric chính, RMSE là metric phụ; cả hai theo VND/tháng trên cùng split. Lưu nhãn và prediction cùng row/entity/group/model/split ID để tính lại; không ghi sẵn model thắng hoặc metric.
+- Nhóm rỗng có metric null/lý do; nhóm ít mẫu có n và trạng thái hỗ trợ, không dùng điểm nhóm nhỏ làm bằng chứng chất lượng. NaN/Inf không bị lặng lẽ xóa để làm đẹp điểm; prediction âm được báo là output không hợp lệ theo nghiệp vụ, không clip để che lỗi đánh giá.
 - Báo theo role, kinh nghiệm, nguồn, địa điểm và work mode khi đủ hỗ trợ. Một tin thuộc nhiều nhóm địa điểm nhưng tổng đánh giá vẫn theo quan sát duy nhất; nhóm chồng lắp không được cộng thành n tổng.
-- Threshold ít mẫu/tiêu chí chấp nhận do #4 chốt trước đánh giá cuối. Không suy khoảng tin cậy từ RMSE hoặc dùng nhóm quá nhỏ để khẳng định chất lượng.
+- Tiêu chí phát hành đã chốt: model được chọn bằng validation MAE phải tốt hơn baseline trung vị train theo MAE trên cả validation và test. Không chọn lại model hoặc chỉnh tham số theo test. Threshold hỗ trợ bằng số còn phải khóa từ dữ liệu mở rộng trước fit. Không suy khoảng tin cậy từ RMSE hoặc dùng nhóm quá nhỏ để khẳng định chất lượng.
 - UI và bảng/ảnh xuất có đơn vị, basis, model/run/snapshot, split, bộ lọc, n, nguồn và kỳ dữ liệu. Không để provenance chỉ nằm ở trang đang mở mà mất khi tải file.
 
 ## Testing Decisions
 
-Metric kiểm bằng ví dụ tính tay nhỏ là test logic, không phải chất lượng model. Sau gate, recompute từ prediction thật; bảng/ảnh/export khớp cùng bộ lọc và metadata. Test nhóm rỗng/một mẫu/chồng địa điểm, R² không xác định và output không hữu hạn.
+Metric kiểm bằng ví dụ tính tay nhỏ là test logic, không phải chất lượng model. Sau gate, recompute từ prediction thật; bảng/ảnh/export khớp cùng bộ lọc và metadata. Test nhóm rỗng/một mẫu/chồng địa điểm và output không hữu hạn.
 
 ## Out of Scope
 

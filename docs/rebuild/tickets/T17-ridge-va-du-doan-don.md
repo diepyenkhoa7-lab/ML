@@ -9,7 +9,7 @@ Người dùng train model đầu tiên bằng lệnh rồi nhập một hồ s�
 ## Công việc
 
 - [ ] Chia tập theo quyết định đánh giá; fit preprocessing chỉ train.
-- [ ] Huấn luyện model đầu tiên, lưu cấu hình/seed/snapshot/metric.
+- [ ] Huấn luyện Ridge theo quyết định 29/10, lưu cấu hình/seed/snapshot/metric.
 - [ ] Nạp artifact vào form dự đoán đơn và kiểm tra reload tiến trình mới.
 
 ## Acceptance criteria

@@ -31,7 +31,7 @@ Ngày đối chiếu: 29/10/2026. Đây là bằng chứng cần thu khi triển
 | ID | Tình huống | Kết quả bắt buộc | Bằng chứng lưu |
 | --- | --- | --- | --- |
 | AC08 | Nhãn thật được chấp nhận, policy đã chốt | Hai model tự khởi tạo/fit trên cùng train và split; baseline không tính thay model thứ hai | Cấu hình run, log fit, hai artifact và hash |
-| AC09 | Chọn model rồi đánh giá test | Champion theo validation/policy; test không tham gia chọn cấu hình hoặc champion | Bảng lựa chọn, prediction từng split |
+| AC09 | Chọn model rồi đánh giá test | Validation MAE thấp hơn thắng, bằng nhau chọn Linear Regression; chỉ promote nếu MAE tốt hơn trung vị train trên cả validation/test; test không đạt giữ báo cáo, không chọn/chỉnh lại bằng test | Bảng lựa chọn, prediction từng split, baseline và release status |
 | AC10 | Run lỗi hoặc bị ngắt giữa chừng | Không active run chưa đủ; artifact đang dùng nguyên vẹn | Trạng thái run và hash active trước/sau |
 
 ## M04 — Đánh giá và giải thích
@@ -39,7 +39,7 @@ Ngày đối chiếu: 29/10/2026. Đây là bằng chứng cần thu khi triển
 | ID | Tình huống | Kết quả bắt buộc | Bằng chứng lưu |
 | --- | --- | --- | --- |
 | AC11 | Tính lại MAE/RMSE từ prediction hai model | Khớp bảng báo cáo trong dung sai được ghi; VND/tháng và n đúng split | y_true/prediction, phép tính lại, cấu hình dung sai |
-| AC12 | Nhóm rỗng, một mẫu, target hằng hoặc prediction không hữu hạn | R² không xác định ghi null/lý do; không âm thầm xóa output lỗi hoặc clip để đẹp điểm | Test metric tính tay và báo cáo lỗi |
+| AC12 | Nhóm rỗng, một mẫu hoặc prediction không hữu hạn | Metric nhóm rỗng ghi null/lý do; ít mẫu hiển thị n và trạng thái hỗ trợ; không âm thầm xóa output lỗi hoặc clip để đẹp điểm | Test metric tính tay và báo cáo lỗi |
 | AC13 | Tin có HCM và HN; tải bảng/ảnh có bộ lọc | n tổng theo tin duy nhất; nhóm chồng lắp được giải thích; export có đơn vị, basis, split/run/snapshot, nguồn/revision, kỳ quan sát, n và bộ lọc | CSV/ảnh hoặc gói sidecar tự đủ ngữ cảnh |
 | AC14 | Phân tích kỹ năng có giá trị theo model | Ghi phương pháp, tập dùng, n và giới hạn; tách importance, liên hệ lương và delta hồ sơ | Báo cáo kỹ năng tái lập, không tuyên bố nhân quả |
 

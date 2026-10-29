@@ -19,8 +19,9 @@ Lệnh huấn luyện tạo snapshot, chia tập, preprocessing và artifact mod
 
 ## Implementation Decisions
 
-- Đề xuất Ridge và Random Forest, metric MAE/RMSE/R² và chọn validation MAE; chờ quyết định đánh giá trước triển khai.
-- Chia tập theo nhóm tin/nguồn thời gian đã chốt; preprocessing chỉ fit train.
+- Cập nhật quyết định người dùng 29/10: Ridge + Linear Regression, MAE là metric chính, RMSE là metric phụ; chọn bằng validation MAE, test riêng cho đánh giá cuối.
+- Validation MAE bằng nhau chọn Linear Regression; chỉ promote model đã chọn nếu MAE nhỏ hơn baseline trung vị train trên cả validation và test. Nếu không đạt, giữ báo cáo nhưng không dùng test để chọn/chỉnh lại model.
+- Chia theo công ty, các tin trùng/đăng lại cùng tập; tỷ lệ mục tiêu 70/15/15, seed 42; preprocessing chỉ fit train. Không cắt nhóm để ép tỷ lệ.
 - Artifact ghi hash dữ liệu, cấu hình, seed, feature schema và model; train tạo run mới.
 - Feature chỉ dùng thông tin người dùng có thể nhập, loại nội dung/đặc trưng chứa lương target.
 

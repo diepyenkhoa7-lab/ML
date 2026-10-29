@@ -18,7 +18,7 @@ Khóa một snapshot đủ nhãn, tạo split có nhóm và feature schema minh 
 
 - Allowlist role, biểu diễn kinh nghiệm, skills, tập địa điểm và work mode. Không dùng raw title/JD, lương/cận lương/target, ID/URL, công ty hoặc source làm shortcut dự đoán; công ty/nguồn/thời gian chỉ phục vụ nhóm, audit và báo cáo theo policy.
 - Không explode một tin nhiều địa điểm/kỹ năng thành nhiều training observations. Thực thể trùng và nhóm đăng lại không giao split; các trường mâu thuẫn không được giải quyết bằng giữ dòng đầu.
-- Cách chia tập và threshold do #4 chốt sau kiểm toán. Đề xuất grouped split seed 42; không ép tỷ lệ bằng cách cắt nhóm. Lưu số mẫu, nhóm, nguồn, nghề và thời gian thực tế của mỗi phần.
+- Đã chốt ngày 29/10: chia theo công ty, tin trùng/đăng lại luôn cùng tập (ADR 0008). Tỷ lệ mục tiêu 70/15/15, seed 42; không giao công ty giữa train/validation/test, các liên kết trùng/đăng lại nối công ty phải giữ cùng nhóm. Danh tính chưa rõ cần review; không cắt nhóm để ép tỷ lệ. Threshold hỗ trợ còn chờ dữ liệu mở rộng. Lưu số mẫu, công ty, nhóm, nguồn, nghề và thời gian thực tế của mỗi phần.
 - Static alias catalog đóng phiên bản; vocab/encoder, imputer và scaler fit train. Giữ missing indicator và kind của khoảng/cận, không biến thiếu thành 0 năm hoặc coi một cận là số năm chính xác.
 - Chính sách biểu diễn experience và basis phải có phiên bản. Unknown/OOV ghi rõ; không tự bổ sung category từ test hoặc từ hồ sơ upload vào model đã lưu.
 

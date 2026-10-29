@@ -6,9 +6,11 @@ Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](ht
 
 Người dùng train model thứ hai, xem bảng so sánh hai model và model được chọn bằng validation.
 
+Cập nhật local theo quyết định 29/10: model thứ hai là Linear Regression (OLS), so với Ridge của T17; MAE chính, RMSE phụ. Tên file cũ giữ để không làm hỏng các liên kết hiện có. Chưa cập nhật bản issue trên GitHub trong giai đoạn giữ ML ở local.
+
 ## Công việc
 
-- [ ] Huấn luyện model thứ hai tự học từ cùng snapshot/tập chia.
+- [ ] Huấn luyện Linear Regression tự học từ cùng snapshot/tập chia với Ridge.
 - [ ] Tính ít nhất hai metric theo tiêu chí đã chốt.
 - [ ] Hiển thị so sánh, lựa chọn validation và test riêng trên dashboard.
 
