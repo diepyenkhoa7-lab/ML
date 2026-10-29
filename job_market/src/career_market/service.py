@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .locations import location_report, normalize_locations
 from .roles import classify_role
+from .skills import extract_languages
 
 
 class MarketError(ValueError):
@@ -71,6 +72,11 @@ class MarketService:
             if raw_dir is not None
             else (bundled_raw if bundled_raw.is_dir() else package_dir.parents[1] / "datasets/raw")
         )
+
+    # T07: ngôn ngữ có bằng chứng, dùng chung cho CLI và Streamlit.
+    def extract_skills(self, title: str, description: str = "", requirements: str = "") -> dict:
+        """Return skills, skill_evidence ({skill, field, text}) and skills_reason."""
+        return extract_languages(title, description, requirements)
 
     # T10: experience normalization; independent of other normalization methods.
     def normalize_experience(self, raw) -> dict:

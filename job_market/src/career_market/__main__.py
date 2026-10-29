@@ -16,6 +16,10 @@ def main() -> int:
     preview = commands.add_parser("preview", help="Kiểm tra và xem raw dạng JSON")
     preview.add_argument("source_id")
     preview.add_argument("--limit", type=int, default=5)
+    skills = commands.add_parser("skills", help="Trích ngôn ngữ có bằng chứng (T07)")
+    skills.add_argument("--title", required=True)
+    skills.add_argument("--description", default="")
+    skills.add_argument("--requirements", default="")
     download = commands.add_parser("download", help="Tải revision cố định hoặc kiểm tra cache")
     download.add_argument("source_id")
     download.add_argument("--raw-dir", type=Path)
@@ -28,6 +32,8 @@ def main() -> int:
         service = MarketService(raw_dir=args.raw_dir if args.command == "download" else None)
         if args.command == "sources":
             result = [asdict(source) for source in service.sources()]
+        elif args.command == "skills":
+            result = service.extract_skills(args.title, args.description, args.requirements)
         elif args.command == "download":
             result = service.download_source(
                 args.source_id, cache_dir=args.cache_dir, check_only=args.check_only
