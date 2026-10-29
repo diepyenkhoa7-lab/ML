@@ -165,13 +165,13 @@ def test_location_union_and_remote_filters_count_a_posting_only_once():
     rows = [
         {
             "source_id": "fixture",
-            "job_url": "https://example.org/job/1?a=1",
+            "job_url": "https://example.org/job/1?utm_source=one",
             "locations": ["HCM", "HN"],
             "work_modes": ["Remote"],
         },
         {
             "source_id": "fixture",
-            "job_url": "https://example.org/job/1?a=2",
+            "job_url": "https://example.org/job/1?utm_source=two",
             "locations": ["HCM", "HN"],
             "work_modes": ["Remote"],
         },

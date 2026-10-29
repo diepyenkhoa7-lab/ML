@@ -206,7 +206,8 @@ class MarketService:
     ) -> dict:
         """Raw–clean table, exact canonical/status filters, and matching CSV (T05)."""
         preview = self.preview(source_id, limit=None)
-        return location_report(source_id, preview.records, location, status, locations, work_mode)
+        canonical_rows = self.prepare_records(preview.records)["rows"]
+        return location_report(source_id, canonical_rows, location, status, locations, work_mode)
 
     def sources(self) -> tuple[Source, ...]:
         catalog = json.loads(Path(__file__).with_name("sources.json").read_text())

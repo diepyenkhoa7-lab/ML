@@ -31,6 +31,14 @@ def _number(value: str) -> Decimal:
     raise ValueError("invalid_amount")
 
 
+def _amount(value: str, scale: str | None, shared_scale: str | None) -> Decimal:
+    # Only shorthand amounts inherit the other endpoint's suffix (20–30 triệu).
+    # Full amounts such as 30.000.000 or 30000000 already express their scale.
+    if not scale and re.fullmatch(r"\d{1,3}(?:[.,]\d{1,2})?", value):
+        scale = shared_scale
+    return _number(value) * SCALES.get(scale, 1)
+
+
 def normalize_salary(raw: str | None) -> dict:
     """Keep amounts in source units; only explicit VND/month gets a target."""
     result = dict.fromkeys(
@@ -69,7 +77,7 @@ def normalize_salary(raw: str | None) -> dict:
         bound = "lower_bound" if prefix[1] in ("tren", "tu") else "upper_bound"
         text = text[prefix.end() :]
     for currency, pattern in [
-        ("VND", r"\b(?:vnd|vndong|dong|d)\b|₫"),
+        ("VND", r"\b(?:vnd|vndong|dong|d)\b|(?<=\d)d\b|₫"),
         ("USD", r"\busd\b|\$"),
         ("EUR", r"\beur\b|€"),
     ]:
@@ -108,8 +116,8 @@ def normalize_salary(raw: str | None) -> dict:
         return result
     first, scale1, second, scale2 = match.groups()
     try:
-        lower = _number(first) * SCALES.get(scale1 or scale2, 1)
-        upper = _number(second) * SCALES.get(scale2 or scale1, 1) if second else lower
+        lower = _amount(first, scale1, scale2)
+        upper = _amount(second, scale2, scale1) if second else lower
     except ValueError:
         return result
     if lower <= 0 or upper <= 0 or max(lower, upper) > 1_000_000_000_000_000:

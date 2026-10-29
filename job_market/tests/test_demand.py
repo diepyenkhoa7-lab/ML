@@ -62,7 +62,8 @@ def test_demand_filters_distinct_postings_and_exports_matching_chart_and_table()
 def test_dashboard_filters_real_postings_and_exposes_csv_and_png_exports():
     app = AppTest.from_file(str(Path(__file__).parents[1] / "app.py"), default_timeout=30).run()
     assert not app.exception
-    assert app.metric[0].value == "295"
+    # Two manual Mobile/Web QA titles are now review, not Mobile developers.
+    assert app.metric[0].value == "293"
     assert len(app.get("download_button")) == 2
     app.selectbox(key="demand_role").select("Backend").run()
     assert not app.exception

@@ -45,7 +45,7 @@ def snapshot(report, output_dir=None):
         "ml_state": report["ml_state"],
         "salary_gate": "https://github.com/theihoz/ML/issues/42",
         "counts_note": "Các partition raw đối chiếu rời nhau; review và salary_targets là tập con, không cộng vào raw.",
-        "repost_note": "Nhóm giống trường quan sát để rà soát và chia tập sau này; không tự loại URL khác như cùng một tin.",
+        "repost_note": "Nhóm giống trường quan sát để rà soát và chia tập sau này; không tự loại URL khác như cùng một tin. EDA hợp nhất bằng chứng tương thích theo posting_id, truy về rows qua evidence_row_ids; tin mâu thuẫn được cách ly entity_review.",
         "files": {
             name: {"sha256": hashlib.sha256(content).hexdigest(), "bytes": len(content)}
             for name, content in files.items()

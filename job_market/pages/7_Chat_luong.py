@@ -35,7 +35,7 @@ st.info(
     "ML bị chặn: gate nhãn lương chưa được giải quyết. Snapshot nhãn rỗng vẫn giữ schema; không huấn luyện khi mở trang."
 )
 st.caption(
-    "Raw = trùng + ID lỗi + ngoài nghề + nghề cần review + EDA. Review theo trường có thể chồng lắp EDA; không cộng review vào tổng raw. Nhóm giống nội dung dùng để rà soát, không tự coi URL khác là một tin."
+    "Raw = trùng + ID lỗi + ngoài nghề + nghề cần review + tin mâu thuẫn cần review + EDA. Review theo trường có thể chồng lắp EDA; không cộng review vào tổng raw. Nhóm giống nội dung dùng để rà soát, không tự coi URL khác là một tin."
 )
 st.json(summary)
 partition = st.selectbox("Tập đối chiếu", ["rows", "eda", "review", "duplicates", "targets"])
@@ -53,6 +53,8 @@ visible = [
             "work_modes",
             "salary_reason",
             "review_reasons",
+            "evidence_row_ids",
+            "entity_conflicts",
         ]
     }
     for row in selected

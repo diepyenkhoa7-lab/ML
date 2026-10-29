@@ -21,12 +21,29 @@ TASK_PATTERNS = {
 
 
 def classify_role(title: str, description: str = "", requirements: str = "") -> dict:
+    testing_title = re.search(r"\b(?:qa|test(?:er|ing)?|kiểm thử)\b", title, re.I)
+    mobile_test_platform = testing_title and not re.search(
+        ROLE_PATTERNS["Mobile"] + r"\s+(?:developer|engineer)\b", title, re.I
+    )
     excluded = re.search(
         r"\b(?:cnc|plc|hardware|knitwear|phần cứng|dệt kim|marketing|sales|"
         r"customer service|chăm sóc khách hàng|kinh doanh|bán hàng)\b",
         title,
         re.I,
     )
+    software_occupation = re.search(
+        r"(?:" + "|".join(ROLE_PATTERNS.values()) + r")\s+(?:developer|engineer)\b",
+        title,
+        re.I,
+    )
+    if excluded and software_occupation and software_occupation.end() <= excluded.start():
+        # A product domain after a clear software occupation is not the occupation.
+        excluded = re.search(
+            r"\b(?:cnc|plc|hardware|knitwear|phần cứng|dệt kim|"
+            r"customer service|chăm sóc khách hàng)\b",
+            title,
+            re.I,
+        )
     if excluded:
         return {
             "role": None,
@@ -37,6 +54,8 @@ def classify_role(title: str, description: str = "", requirements: str = "") -> 
     evidence = []
     candidates = set()
     for role, pattern in ROLE_PATTERNS.items():
+        if role == "Mobile" and mobile_test_platform:
+            continue
         match = re.search(pattern, title, re.IGNORECASE)
         if match:
             candidates.add(role)
@@ -60,6 +79,8 @@ def classify_role(title: str, description: str = "", requirements: str = "") -> 
         ):
             continue
         for role, pattern in TASK_PATTERNS.items():
+            if role == "Mobile" and mobile_test_platform:
+                continue
             if re.search(pattern, responsibility, re.I):
                 candidates.add(role)
                 item = {"field": "description", "text": sentence}
@@ -82,11 +103,11 @@ def classify_role(title: str, description: str = "", requirements: str = "") -> 
     generic = re.search(r"\b(?:developer|engineer|software|lập trình|phần mềm)\b", title, re.I)
     return {
         "role": None,
-        "role_status": "review" if generic else "out_of_scope",
+        "role_status": "review" if generic or testing_title else "out_of_scope",
         "role_evidence": [],
         "role_reason": (
             "Chức danh chưa đủ bằng chứng phân biệt bảy vai trò phần mềm."
-            if generic
+            if generic or testing_title
             else "Chưa có bằng chứng thuộc bảy vai trò phần mềm."
         ),
     }

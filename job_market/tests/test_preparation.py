@@ -21,8 +21,8 @@ def test_preparation_reconciles_rows_and_keeps_missing_salary_in_eda():
         "date_posted": "2026-01-01",
     }
     records = [
-        RawRecord("fixture", None, "https://example.org/1?q=1", raw),
-        RawRecord("fixture", None, "https://example.org/1?q=2", raw),
+        RawRecord("fixture", None, "https://example.org/1?utm_source=one", raw),
+        RawRecord("fixture", None, "https://example.org/1?utm_source=two", raw),
         RawRecord("fixture", None, "https://example.org/2", {**raw, "title": "Sales Executive"}),
     ]
     result = MarketService().prepare_records(records)
@@ -63,6 +63,6 @@ def test_quality_page_shows_real_reconciliation_and_blocked_ml():
     page = Path(__file__).parents[1] / "pages/7_Chat_luong.py"
     app = AppTest.from_file(str(page), default_timeout=30).run()
     assert not app.exception
-    assert [m.value for m in app.metric] == ["3606", "322", "0", "0"]
+    assert [m.value for m in app.metric] == ["3606", "320", "0", "0"]
     assert any("ML bị chặn" in item.value for item in app.info)
     assert app.get("download_button")[0].proto.url

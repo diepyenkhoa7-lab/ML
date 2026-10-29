@@ -8,7 +8,7 @@ from datetime import datetime
 
 from .postings import posting_key
 
-RULES_VERSION = "eda-v2"
+RULES_VERSION = "eda-v3"
 
 
 def digest(value):
@@ -26,8 +26,92 @@ def posting_date(raw):
     return text, None
 
 
+def reconcile_postings(rows):
+    """Combine compatible observations of one identity, keeping every source row."""
+    members_by_id = defaultdict(list)
+    for row in rows:
+        if row["posting_id"]:
+            members_by_id[row["posting_id"]].append(row)
+    entities = []
+    for members in members_by_id.values():
+        representative = members[0]
+        entity = dict(representative)
+        entity["evidence_row_ids"] = [row["row_id"] for row in members]
+        for prefix in ("salary", "experience"):
+            donor = next((row for row in members if row[f"{prefix}_raw"]), representative)
+            entity.update(
+                {key: value for key, value in donor.items() if key.startswith(prefix + "_")}
+            )
+        dated = next((row for row in members if row["posting_date"]), representative)
+        entity.update({key: dated[key] for key in ("date_raw", "posting_date", "date_kind")})
+        for field in ("locations", "skills", "work_modes", "location_unresolved"):
+            entity[field] = sorted({value for row in members for value in row[field]})
+        for field in ("skill_evidence", "role_evidence", "work_mode_evidence"):
+            evidence = {digest(value): value for row in members for value in row[field]}
+            entity[field] = [evidence[key] for key in sorted(evidence)]
+        entity["location_aliases"] = {
+            key: value for row in members for key, value in row["location_aliases"].items()
+        }
+        entity["has_job_description"] = any(row["has_job_description"] for row in members)
+        entity["location_status"] = (
+            "review"
+            if entity["location_unresolved"]
+            else "normalized"
+            if entity["locations"] or entity["work_modes"]
+            else "missing"
+        )
+        entity["location_reason"] = (
+            "Còn chuỗi địa điểm chưa rõ; xem các dòng bằng chứng của tin."
+            if entity["location_unresolved"]
+            else "Giữ nhãn địa điểm và hình thức từ các dòng bằng chứng của tin."
+        )
+        # Different labels/bounds/roles are not complementary evidence. Keep them
+        # for review instead of choosing whichever observation happened to be first.
+        conflicts = []
+        for field in (
+            "title_raw",
+            "company_raw",
+            "role",
+            "role_status",
+            "salary_raw",
+            "experience_raw",
+            "posting_date",
+        ):
+            observed = {
+                str(row[field]).strip().casefold()
+                for row in members
+                if row[field] not in (None, "")
+            }
+            if len(observed) > 1:
+                conflicts.append(field)
+        entity["entity_conflicts"] = conflicts
+        if conflicts:
+            entity["partition"] = representative["partition"] = "entity_review"
+            reason = "entity: conflicting " + ", ".join(conflicts)
+            representative["entity_conflicts"] = conflicts
+            representative["review_reasons"].append(reason)
+            entity["review_reasons"] = list(representative["review_reasons"])
+            entity["salary_target_vnd_month"] = None
+        entity["repost_group_id"] = digest(
+            [
+                entity["company_raw"].strip().casefold(),
+                entity["title_raw"].strip().casefold(),
+                entity["locations"],
+                sorted({row["raw"].get("job_description", "").strip() for row in members}),
+                sorted({row["raw"].get("job_requirements", "").strip() for row in members}),
+                entity["experience_raw"],
+                entity["salary_raw"],
+                sorted(conflicts),
+            ]
+        )
+        for row in members:
+            row["repost_group_id"] = entity["repost_group_id"]
+        entities.append(entity)
+    return entities
+
+
 def prepare_records(service, records):
-    rows, seen, groups = [], {}, defaultdict(list)
+    rows, seen = [], {}
     for record in records:
         raw = record.raw
         title = raw.get("job_title", raw.get("title", ""))
@@ -55,12 +139,14 @@ def prepare_records(service, records):
             **service.normalize_experience(raw.get("exp", raw.get("experience", ""))),
             **service.extract_skills(title, description, requirements),
             "duplicate_of": None,
+            "evidence_row_ids": [f"{record.source_id}:{len(rows) + 1}"],
+            "entity_conflicts": [],
         }
         row["work_mode_evidence"] = []
         if "Remote" in row["work_modes"]:
             row["work_mode_evidence"].append({"field": "location", "text": row["location_raw"]})
         if re.search(r"\bremote\b", title, re.I) and not re.search(
-            r"\b(?:no|not) remote\b", title, re.I
+            r"\b(?:no|not|non)[ -]+remote\b|\bremote\s+sensing\b", title, re.I
         ):
             if "Remote" not in row["work_modes"]:
                 row["work_modes"].append("Remote")
@@ -69,17 +155,6 @@ def prepare_records(service, records):
             row["posting_id"] = posting_key(record.source_id, record.job_url, record.job_id)
         except ValueError:
             row["posting_id"] = None
-        group_fields = [
-            company.casefold().strip(),
-            title.casefold().strip(),
-            sorted(row["locations"]),
-            description.strip(),
-            requirements.strip(),
-            row["experience_raw"],
-            row["salary_raw"],
-        ]
-        row["repost_group_id"] = digest(group_fields)
-        groups[row["repost_group_id"]].append(row)
         if row["posting_id"] is None:
             row["partition"] = "invalid_identity"
         elif row["posting_id"] in seen:
@@ -104,8 +179,13 @@ def prepare_records(service, records):
             reasons.append("date: chưa có ngày đăng hợp lệ")
         row["review_reasons"] = reasons
         rows.append(row)
+    entities = reconcile_postings(rows)
+    groups = defaultdict(list)
+    for row in rows:
+        if row["posting_id"]:
+            groups[row["repost_group_id"]].append(row)
     counts = Counter(row["partition"] for row in rows)
-    eda = [row for row in rows if row["partition"] == "eda"]
+    eda = [row for row in entities if row["partition"] == "eda"]
     targets = [row for row in eda if row["salary_target_vnd_month"] is not None]
     return {
         "rules_version": RULES_VERSION,
@@ -117,6 +197,7 @@ def prepare_records(service, records):
             "role_review": counts["role_review"],
             "eda_postings": len(eda),
             "salary_targets": len(targets),
+            **({"entity_review": counts["entity_review"]} if counts["entity_review"] else {}),
         },
         "rows": rows,
         "eda": eda,

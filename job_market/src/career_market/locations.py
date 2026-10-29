@@ -4,9 +4,6 @@ import csv
 import io
 import json
 import re
-from collections import Counter
-
-from .postings import posting_key, select_locations
 
 ALIASES = {
     "hcm": "HCM",
@@ -155,41 +152,53 @@ def normalize_locations(raw: str | None) -> dict:
 
 
 def location_report(
-    source_id, records, location=None, status=None, locations=None, work_mode=None
+    source_id, canonical_rows, location=None, status=None, locations=None, work_mode=None
 ) -> dict:
-    """CSV-ready raw–clean rows and raw-label frequencies; never unique-job counts."""
+    """Use the same canonical work-mode evidence as preparation and demand."""
     rows = []
     options = set()
-    alias_table = []
-    counts = Counter(record.raw["location"] for record in records)
-    for raw, count in counts.items():
-        result = normalize_locations(raw)
-        options.update(result["locations"])
+    aliases_by_raw = {}
+    for row in canonical_rows:
+        options.update(row["locations"])
         requested = list(locations or []) + ([location] if location else [])
-        if requested and not set(requested).intersection(result["locations"]):
+        if requested and not set(requested).intersection(row["locations"]):
             continue
-        if work_mode and work_mode not in result["work_modes"]:
+        if work_mode and work_mode not in row["work_modes"]:
             continue
-        if status is not None and status != result["location_status"]:
+        if status is not None and status != row["location_status"]:
             continue
+        result = {
+            key: row[key]
+            for key in (
+                "location_raw",
+                "locations",
+                "location_status",
+                "location_aliases",
+                "location_unresolved",
+                "work_modes",
+                "location_reason",
+            )
+        }
         flat = {
             key: json.dumps(value, ensure_ascii=False) if isinstance(value, (list, dict)) else value
             for key, value in result.items()
         }
-        alias_table.append({"location_raw": raw, **flat, "raw_rows": count})
-    by_raw = {row["location_raw"]: row for row in alias_table}
-    for record in records:
-        alias = by_raw.get(record.raw["location"])
-        if alias is not None:
-            rows.append(
-                {
-                    "source_id": source_id,
-                    "job_id": record.job_id or "",
-                    "job_url": record.job_url,
-                    "posting_id": posting_key(source_id, record.job_url, record.job_id),
-                    **{key: value for key, value in alias.items() if key != "raw_rows"},
-                }
-            )
+        alias = aliases_by_raw.setdefault(row["location_raw"], {**flat, "raw_rows": 0})
+        alias["raw_rows"] += 1
+        alias["work_modes"] = json.dumps(
+            sorted(set(json.loads(alias["work_modes"])) | set(row["work_modes"])),
+            ensure_ascii=False,
+        )
+        rows.append(
+            {
+                "source_id": source_id,
+                "job_id": row["job_id"] or "",
+                "job_url": row["job_url"],
+                "posting_id": row["posting_id"],
+                **flat,
+            }
+        )
+    alias_table = list(aliases_by_raw.values())
     fields = [
         "source_id",
         "job_id",
@@ -209,10 +218,10 @@ def location_report(
     writer.writerows(rows)
     return {
         "source_id": source_id,
-        "raw_row_count": len(records),
+        "raw_row_count": len(canonical_rows),
         "location_options": sorted(options),
         "alias_table": alias_table,
         "rows": rows,
-        "unique_posting_count": len(select_locations(rows)),
+        "unique_posting_count": len({row["posting_id"] for row in rows if row["posting_id"]}),
         "csv": output.getvalue(),
     }
