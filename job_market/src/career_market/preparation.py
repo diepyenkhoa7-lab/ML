@@ -8,7 +8,7 @@ from datetime import datetime
 
 from .postings import posting_key
 
-RULES_VERSION = "eda-v3"
+RULES_VERSION = "eda-v4"
 
 
 def digest(value):
@@ -26,7 +26,21 @@ def posting_date(raw):
     return text, None
 
 
-def reconcile_postings(rows):
+def review_reasons(row):
+    reasons = []
+    if row["partition"] != "eda":
+        reasons.append(row["partition"])
+    for domain, valid in (("location", "normalized"), ("experience", "ok"), ("salary", "valid")):
+        if row[f"{domain}_status"] != valid:
+            reasons.append(f"{domain}: {row[f'{domain}_reason']}")
+    if not row["posting_date"]:
+        reasons.append("date: chưa có ngày đăng hợp lệ")
+    if row["entity_conflicts"]:
+        reasons.append("entity: conflicting " + ", ".join(row["entity_conflicts"]))
+    return reasons
+
+
+def reconcile_postings(service, rows):
     """Combine compatible observations of one identity, keeping every source row."""
     members_by_id = defaultdict(list)
     for row in rows:
@@ -37,6 +51,19 @@ def reconcile_postings(rows):
         representative = members[0]
         entity = dict(representative)
         entity["evidence_row_ids"] = [row["row_id"] for row in members]
+        for field in ("title_raw", "company_raw"):
+            observed = sorted({row[field].strip() for row in members if row[field].strip()})
+            entity[field] = observed[0] if observed else ""
+        role = service.classify_role(
+            entity["title_raw"],
+            "\n".join(sorted({row["raw"].get("job_description", "") for row in members})),
+            "\n".join(sorted({row["raw"].get("job_requirements", "") for row in members})),
+        )
+        entity.update(role)
+        entity["partition"] = {"matched": "eda", "review": "role_review"}.get(
+            entity["role_status"], "out_of_scope"
+        )
+        representative["partition"] = entity["partition"]
         for prefix in ("salary", "experience"):
             donor = next((row for row in members if row[f"{prefix}_raw"]), representative)
             entity.update(
@@ -72,7 +99,6 @@ def reconcile_postings(rows):
             "title_raw",
             "company_raw",
             "role",
-            "role_status",
             "salary_raw",
             "experience_raw",
             "posting_date",
@@ -92,6 +118,7 @@ def reconcile_postings(rows):
             representative["review_reasons"].append(reason)
             entity["review_reasons"] = list(representative["review_reasons"])
             entity["salary_target_vnd_month"] = None
+        entity["review_reasons"] = review_reasons(entity)
         entity["repost_group_id"] = digest(
             [
                 entity["company_raw"].strip().casefold(),
@@ -141,12 +168,21 @@ def prepare_records(service, records):
             "duplicate_of": None,
             "evidence_row_ids": [f"{record.source_id}:{len(rows) + 1}"],
             "entity_conflicts": [],
+            "repost_group_id": None,
         }
         row["work_mode_evidence"] = []
         if "Remote" in row["work_modes"]:
             row["work_mode_evidence"].append({"field": "location", "text": row["location_raw"]})
-        if re.search(r"\bremote\b", title, re.I) and not re.search(
-            r"\b(?:no|not|non)[ -]+remote\b|\bremote\s+sensing\b", title, re.I
+        if re.search(
+            r"^remote\b|[\[(]\s*remote\b|\bremote(?=\s*(?:$|[\])]|(?:tại|tai)\b))"
+            r"|\b(?:fully|full|100%)\s+remote\b",
+            title,
+            re.I,
+        ) and not re.search(
+            r"\b(?:no|not|non)[ -]+remote\b"
+            r"|\bremote\s+(?:sensing|procedure\s+call|desktop|access|control|method\s+invocation)\b",
+            title,
+            re.I,
         ):
             if "Remote" not in row["work_modes"]:
                 row["work_modes"].append("Remote")
@@ -165,21 +201,9 @@ def prepare_records(service, records):
             row["partition"] = {"matched": "eda", "review": "role_review"}.get(
                 row["role_status"], "out_of_scope"
             )
-        reasons = []
-        if row["partition"] != "eda":
-            reasons.append(row["partition"])
-        for domain, valid in (
-            ("location", "normalized"),
-            ("experience", "ok"),
-            ("salary", "valid"),
-        ):
-            if row[f"{domain}_status"] != valid:
-                reasons.append(f"{domain}: {row[f'{domain}_reason']}")
-        if not date:
-            reasons.append("date: chưa có ngày đăng hợp lệ")
-        row["review_reasons"] = reasons
+        row["review_reasons"] = review_reasons(row)
         rows.append(row)
-    entities = reconcile_postings(rows)
+    entities = reconcile_postings(service, rows)
     groups = defaultdict(list)
     for row in rows:
         if row["posting_id"]:

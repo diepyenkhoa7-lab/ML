@@ -31,10 +31,16 @@ def _number(value: str) -> Decimal:
     raise ValueError("invalid_amount")
 
 
-def _amount(value: str, scale: str | None, shared_scale: str | None) -> Decimal:
+def _amount(value: str, scale: str | None, shared_scale: str | None, peer: str | None) -> Decimal:
     # Only shorthand amounts inherit the other endpoint's suffix (20–30 triệu).
-    # Full amounts such as 30.000.000 or 30000000 already express their scale.
-    if not scale and re.fullmatch(r"\d{1,3}(?:[.,]\d{1,2})?", value):
+    # Grouped full amounts, or a long bare amount paired with a short scaled
+    # amount, express their own scale. Two long shorthand endpoints can still
+    # share a suffix, e.g. 1000–2000 nghìn, without an arbitrary digit cutoff.
+    if (
+        not scale
+        and re.fullmatch(r"\d+(?:[.,]\d{1,2})?", value)
+        and (_number(value) < 1000 or (peer is not None and _number(peer) >= 1000))
+    ):
         scale = shared_scale
     return _number(value) * SCALES.get(scale, 1)
 
@@ -116,8 +122,8 @@ def normalize_salary(raw: str | None) -> dict:
         return result
     first, scale1, second, scale2 = match.groups()
     try:
-        lower = _amount(first, scale1, scale2)
-        upper = _amount(second, scale2, scale1) if second else lower
+        lower = _amount(first, scale1, scale2, second)
+        upper = _amount(second, scale2, scale1, first) if second else lower
     except ValueError:
         return result
     if lower <= 0 or upper <= 0 or max(lower, upper) > 1_000_000_000_000_000:

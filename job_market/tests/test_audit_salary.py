@@ -26,3 +26,13 @@ def test_mixed_full_amount_and_scale_has_twenty_five_million_midpoint(raw):
 def test_adjacent_dong_symbol_is_currency_evidence():
     result = MarketService().normalize_salary("20.000.000đ/tháng")
     assert (result["salary_currency"], result["salary_target_vnd_month"]) == ("VND", 20_000_000)
+
+
+@pytest.mark.parametrize("factor", [1, 1000])
+def test_four_digit_shorthand_keeps_shared_thousand_suffix(factor):
+    result = MarketService().normalize_salary(f"{1000 * factor}–{2000 * factor} nghìn VND/tháng")
+    assert (result["salary_lower"], result["salary_upper"], result["salary_target_vnd_month"]) == (
+        1_000_000 * factor,
+        2_000_000 * factor,
+        1_500_000 * factor,
+    )

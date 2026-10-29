@@ -23,7 +23,9 @@ TASK_PATTERNS = {
 def classify_role(title: str, description: str = "", requirements: str = "") -> dict:
     testing_title = re.search(r"\b(?:qa|test(?:er|ing)?|kiểm thử)\b", title, re.I)
     mobile_test_platform = testing_title and not re.search(
-        ROLE_PATTERNS["Mobile"] + r"\s+(?:developer|engineer)\b", title, re.I
+        ROLE_PATTERNS["Mobile"] + r"\s+(?:developer|engineer)\b(?!\s+(?:in\s+)?test(?:er|ing)?\b)",
+        title,
+        re.I,
     )
     excluded = re.search(
         r"\b(?:cnc|plc|hardware|knitwear|phần cứng|dệt kim|marketing|sales|"
@@ -39,8 +41,7 @@ def classify_role(title: str, description: str = "", requirements: str = "") -> 
     if excluded and software_occupation and software_occupation.end() <= excluded.start():
         # A product domain after a clear software occupation is not the occupation.
         excluded = re.search(
-            r"\b(?:cnc|plc|hardware|knitwear|phần cứng|dệt kim|"
-            r"customer service|chăm sóc khách hàng)\b",
+            r"\b(?:cnc|plc|hardware|knitwear|phần cứng|dệt kim)\b",
             title,
             re.I,
         )

@@ -5,6 +5,16 @@ import pytest
 from career_market import MarketService
 
 
+def test_mobile_engineer_in_test_needs_automation_evidence_not_platform():
+    result = MarketService().classify_role("Mobile Engineer in Test")
+    assert (result["role"], result["role_status"]) == (None, "review")
+
+
+def test_backend_customer_service_product_keeps_software_occupation():
+    result = MarketService().classify_role("Backend Developer - Customer Service Platform")
+    assert (result["role"], result["role_status"]) == ("Backend", "matched")
+
+
 def test_actual_mobile_game_tester_title_requires_role_review():
     title = (
         "Mobile Game Tester (QA) - Từ 01 Năm Kinh Nghiệm Trở Lên - Thu Nhập Hấp Dẫn Theo Năng Lực"

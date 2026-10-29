@@ -114,3 +114,73 @@ def test_missing_duplicate_salary_uses_supplied_evidence_in_either_order():
         assert len(report["targets"]) == 1
         assert report["targets"][0]["salary_target_vnd_month"] == 25_000_000
         assert len(report["targets"][0]["evidence_row_ids"]) == 2
+
+
+def test_reconciled_warnings_describe_entity_not_first_observation():
+    raw = {"title": "Backend Developer", "company": "Fixture", "location": "HCM"}
+    records = [
+        RawRecord("fixture", "1", "https://example.org/1", raw),
+        RawRecord(
+            "fixture",
+            "1",
+            "https://example.org/1",
+            {
+                **raw,
+                "salary": "20–30 triệu VND/tháng",
+                "experience": "2 năm",
+                "date_posted": "2026-01-01",
+            },
+        ),
+    ]
+    for ordered in [records, list(reversed(records))]:
+        report = MarketService().prepare_records(ordered)
+        entity = report["targets"][0]
+        assert entity["review_reasons"] == []
+        assert any("salary: missing_salary" in row["review_reasons"] for row in report["rows"])
+
+
+def test_complementary_backend_duties_resolve_missing_role_evidence():
+    raw = {"title": "Software Engineer", "company": "Fixture", "location": "HCM"}
+    records = [
+        RawRecord("fixture", "1", "https://example.org/1", raw),
+        RawRecord(
+            "fixture",
+            "1",
+            "https://example.org/1",
+            {
+                **raw,
+                "job_description": "Develop backend APIs.",
+            },
+        ),
+    ]
+    for ordered in [records, list(reversed(records))]:
+        report = MarketService().prepare_records(ordered)
+        assert len(report["eda"]) == 1
+        assert report["eda"][0]["role"] == "Backend"
+        assert report["eda"][0]["entity_conflicts"] == []
+
+
+def test_complementary_company_keeps_same_repost_group_in_either_order():
+    raw = {"title": "Backend Developer", "location": "HCM"}
+    records = [
+        RawRecord("fixture", "1", "https://example.org/1", {**raw, "company": ""}),
+        RawRecord("fixture", "1", "https://example.org/1", {**raw, "company": "Example"}),
+    ]
+    entities = [
+        MarketService().prepare_records(order)["eda"][0]
+        for order in [records, list(reversed(records))]
+    ]
+    assert [entity["company_raw"] for entity in entities] == ["Example", "Example"]
+    assert len({entity["repost_group_id"] for entity in entities}) == 1
+
+
+def test_invalid_first_row_keeps_group_column_in_export_schema():
+    raw = {"title": "Backend Developer", "location": "HCM"}
+    rows = MarketService().prepare_records(
+        [
+            RawRecord("fixture", None, "", raw),
+            RawRecord("fixture", "1", "https://example.org/1", raw),
+        ]
+    )["rows"]
+    assert rows[0]["repost_group_id"] is None
+    assert rows[1]["repost_group_id"]
