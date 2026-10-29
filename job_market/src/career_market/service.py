@@ -59,6 +59,33 @@ class RawPreview:
 class MarketService:
     """Public application seam; adapters only render its results."""
 
+    def prepare_records(self, records):
+        from .preparation import prepare_records
+
+        return prepare_records(self, records)
+
+    def prepare(self, source_ids=None):
+        sources = self.sources()
+        selected = list(source_ids) if source_ids is not None else [s.source_id for s in sources]
+        if not selected or len(set(selected)) != len(selected):
+            raise MarketError("Chọn ít nhất một nguồn, không lặp source ID.")
+        records = []
+        for source_id in selected:
+            records.extend(self.preview(source_id, limit=None).records)
+        result = self.prepare_records(records)
+        from dataclasses import asdict
+
+        result["sources"] = [asdict(s) for s in sources if s.source_id in selected]
+        return result
+
+    def snapshot(self, source_ids=None, output_dir=None):
+        from .snapshots import snapshot
+
+        try:
+            return snapshot(self.prepare(source_ids), output_dir)
+        except OSError as error:
+            raise MarketError(f"Không xuất được snapshot: {error}") from error
+
     # T03: phân loại vai trò, dùng chung cho các adapter.
     def classify_role(self, title: str, description: str = "", requirements: str = "") -> dict:
         """Return role, role_status, role_evidence (field/text), and role_reason."""

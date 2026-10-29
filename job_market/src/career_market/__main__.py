@@ -13,6 +13,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Xem nguồn tin tuyển dụng gốc đã duyệt.")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("sources", help="Danh mục nguồn và xuất xứ")
+    prepare = commands.add_parser("prepare", help="Chuẩn hóa và xuất snapshot EDA có manifest")
+    prepare.add_argument("--output", type=Path, required=True)
     preview = commands.add_parser("preview", help="Kiểm tra và xem raw dạng JSON")
     preview.add_argument("source_id")
     preview.add_argument("--limit", type=int, default=5)
@@ -32,6 +34,8 @@ def main() -> int:
         service = MarketService(raw_dir=args.raw_dir if args.command == "download" else None)
         if args.command == "sources":
             result = [asdict(source) for source in service.sources()]
+        elif args.command == "prepare":
+            result = service.snapshot(output_dir=args.output)["manifest"]
         elif args.command == "skills":
             result = service.extract_skills(args.title, args.description, args.requirements)
         elif args.command == "download":
