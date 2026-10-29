@@ -29,3 +29,11 @@ A04/A05 và A09 có ghi chép riêng trong audit-roles.md và audit-exports.md. 
 ## Giới hạn
 
 Reconciliation bảo thủ: khác câu lương có thể cần review dù hai cách viết tương đương; không tự giải quyết các phiên bản tin có nội dung xung đột. Nhóm repost chỉ dựa trường quan sát, chưa là thuật toán near-duplicate hoàn chỉnh cho ML. Chuẩn hóa nghề/Remote là quy tắc có bằng chứng và cần tiếp tục review trường hợp tự do. Gate dữ liệu và quyết định đánh giá/tư vấn vẫn chưa đóng.
+
+## Follow-up từ review độc lập
+
+Hai lượt review phát hiện biến thể chưa được các test đầu khóa: shared suffix bốn chữ số/nhóm nghìn, stale review_reasons, role/company được bổ sung ở bản ghi khác, Mobile Engineer in Test, Customer Service Platform, Remote Procedure Call và section Requirements trong một JD che nhiệm vụ ở JD khác khi ghép chuỗi. Mỗi trường hợp được tái hiện bằng test đỏ tại seam service rồi sửa; bổ sung test invalid_identity ở dòng đầu giữ schema group cho export. Entity giữ role evidence của từng quan sát đã phân giải độc lập thay vì nối JD qua ranh giới section.
+
+Snapshot cuối dùng eda-v5, ID 1ccf26a791b6875eaf5a789d45aca30dc0bb18414e866ef132798735e70382e5; số partition/target không đổi so với lần tạo v3 nêu trên. Kết quả tổng hợp và giới hạn nằm trong docs/rebuild/FIX_REVIEW-2026-10-29.md.
+
+Bộ kiểm tra cuối trên code 1b15a01: 246 passed in 49.51s; Ruff check và format check toàn job_market qua. Hai reviewer xác nhận lại các phát hiện đã sửa ở phạm vi tương ứng. Không push hoặc chạy hosted CI trong lượt này.

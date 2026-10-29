@@ -1,5 +1,7 @@
 # Review đợt EDA ngày 29/10/2026
 
+Cập nhật sau review: audit độc lập bổ sung đã phát hiện các trường hợp chưa được suite cũ bao phủ; xem AUDIT-2026-10-29.md. Kết luận nghiệm thu bên dưới là lịch sử của vòng review trước, không phải xác nhận hiện tại rằng không còn lỗi trước ML.
+
 Mốc so sánh: 710270a. Phạm vi nghiệm thu: T01–T13 và T23 theo quyết định EDA trước; các ticket ML giữ chặn bởi gate nhãn lương, đánh giá và tư vấn. Đây là review trực tiếp theo hai trục sau khi agent phụ hết quota, không phải hai đánh giá độc lập chạy song song.
 
 ## Standards

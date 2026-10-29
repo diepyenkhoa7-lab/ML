@@ -1,5 +1,15 @@
 # Trạng thái triển khai ngày 29/10/2026
 
+## Cập nhật sửa audit trên dev/ml-development
+
+Phần EDA đã push lên main tại 9ce0506. Follow-up A01–A09 đã sửa trên nhánh local dev/ml-development, chưa push. Bộ kiểm tra tích hợp cuối: 246 tests qua cùng Ruff; review hai trục không còn phát hiện cần sửa trong phạm vi các reproducers đã báo. Bằng chứng trong FIX_REVIEW-2026-10-29.md và job_market/docs/tdd/audit-normalization.md, audit-roles.md, audit-exports.md.
+
+Snapshot eda-v5: 3.606 raw = 320 EDA + 556 role_review + 2.730 out_of_scope; 0 duplicate/ID lỗi và 0 target. TopCV có 293 tin EDA sau khi hai title QA thủ công chuyển review; 5 tin Remote trên toàn bộ raw không đồng nghĩa có 5 tin Remote trong EDA. Snapshot ID: 1ccf26a791b6875eaf5a789d45aca30dc0bb18414e866ef132798735e70382e5.
+
+Spec ML và báo cáo LABEL_RESEARCH-2026-10-29.md trong docs/rebuild/ml giữ local. Có ứng viên nhãn cùng JD để review nhưng chưa chấp nhận canonical, chưa train hoặc đổi các gate. Phần dưới giữ lịch sử lần nghiệm thu EDA trước sửa audit.
+
+## Lịch sử nghiệm thu EDA
+
 Branch: dev/job-market-ml-from-scratch. Đã triển khai 14/27 ticket trong phạm vi EDA trước; toàn dự án còn chờ ML.
 
 Ứng dụng mới ở job_market, dùng Python/Streamlit và hai nguồn mới. Không import hoặc đọc dataset/model/code cũ. Bộ kiểm tra gần nhất: Ruff và 203 tests qua; có CLI cài từ wheel và kiểm tra browser thực. Xem REVIEW.md và job_market/README.md.

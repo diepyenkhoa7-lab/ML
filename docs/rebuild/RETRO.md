@@ -1,5 +1,13 @@
 # Retro phiên lập kế hoạch ngày 28/10/2026
 
+## Bổ sung sau sửa audit ngày 29/10/2026
+
+1. Kiểm tra tự động đã có trong job_market/Makefile và workflow Job market; cần đặt test mới trong job_market/tests để CI thu thập. Lượt này một agent đặt test export ở root, đã chuyển về đúng nơi và chạy lại cùng suite. Khi giao việc, truyền working directory và phạm vi file tuyệt đối; kiểm tra danh sách test được thu thập trước khi dùng số tests làm bằng chứng.
+2. Regression cần bao phủ cả hợp đồng đang sửa lẫn notation đã hỗ trợ. Review độc lập bắt được shared suffix bốn chữ số và stale review_reasons dù các case audit đầu đã xanh. Những ca này đã trở thành test hành vi qua service, cùng đảo thứ tự và bằng chứng bổ sung; không thay bằng quy định prose.
+3. Chờ lệnh sinh artifact kết thúc rồi mới mở file để kiểm chứng. Một lần main mở PNG cũ n=295 khi tiến trình mới còn dựng font cache; sau khi chờ hoàn tất đã xem đúng PNG n=293 có revision/kỳ quan sát. Dùng MPLCONFIGDIR trong thư mục ghi được để giảm lặp dựng cache. Giữ báo cáo lịch sử và kết quả mới tách rõ.
+
+Không thay AGENTS của người dùng hoặc thêm một hệ CI trùng lặp. Các giới hạn còn lại là ngữ nghĩa nhãn/basis và nguồn; xử lý qua ADR, bằng chứng từng tin và các quyết định hiện có.
+
 ## Cập nhật sau triển khai EDA ngày 29/10/2026
 
 Đã có runtime/Makefile/CI riêng trong job_market; lint bao phủ cả pages. Các ca alias, thiếu đơn vị, nhiều địa điểm và snapshot đã thành kiểm thử cụ thể. Chưa thay AGENTS của người dùng.
