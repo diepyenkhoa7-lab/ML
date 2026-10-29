@@ -4,7 +4,7 @@ Trạng thái: đặc tả phát triển ngày 29/10/2026, bổ sung cho spec t�
 
 ## Problem Statement
 
-Ứng dụng hiện phân tích dữ liệu và preview CSV nhưng chưa có mô hình lương. Hai nguồn mới có 3.606 dòng thô; pipeline đang báo 322 tin EDA và 0 nhãn VND/tháng đủ điều kiện. Audit bổ sung phát hiện lỗi chuẩn hóa/định danh/phân nhóm cần sửa trước khi dùng dữ liệu cho ML; các số đếm EDA hiện tại phải được kiểm toán lại, không coi là chứng nhận dữ liệu sạch.
+Ứng dụng hiện phân tích dữ liệu và preview CSV nhưng chưa có mô hình lương. Hai nguồn mới có 3.606 dòng thô; sau sửa audit, pipeline eda-v5 có 320 tin EDA và 0 target từ cột salary. Kiểm duyệt ngày 29/10 chấp nhận hai nhãn thu nhập tháng chào tuyển có chứng cứ cùng tin vào file riêng; chưa ghép vào pipeline hoặc mở train. Hai nhãn cùng nghề/công ty/ngày không đủ chia ba tập độc lập. Các trường hợp khác vẫn giữ trạng thái review/loại và bằng chứng riêng, không coi số đếm EDA là chứng nhận mọi tin đã được review thủ công.
 
 Người dùng cần tự huấn luyện ít nhất hai mô hình, đánh giá bằng ít nhất hai metric, dự đoán lương chào tuyển và tư vấn kỹ năng bằng bằng chứng thật, demo trực tiếp trên máy.
 
@@ -49,6 +49,7 @@ Khi thiếu dữ liệu, chính sách đánh giá hoặc artifact tương thích
 - MarketService giữ một ranh giới nghiệp vụ chung cho chuẩn hóa, kiểm tra readiness, train, đánh giá, nạp artifact, dự đoán và tư vấn. Adapter CLI/Streamlit chỉ nhận/hiển thị kết quả.
 - Đơn vị mục tiêu chính là VND/tháng. Khoảng đủ chứng cứ dùng trung điểm, giữ hai đầu. Một cận/thỏa thuận/thiếu kỳ hoặc tiền tệ không thành target chính. Không tự đổi ngoại tệ hay gross/net.
 - Quyết định ngày 29/10: nhóm chưa rõ gross/net được giữ riêng, không trộn với gross hoặc net đã xác nhận. Cohort/model/kết quả phải ghi basis; đủ tiền tệ và kỳ vẫn chưa thay các điều kiện readiness còn lại.
+- Quyết định kiểm duyệt ngày 29/10: thu nhập tháng chào tuyển được chấp nhận thành phạm vi riêng, không gộp với lương cơ bản hoặc khoản chưa rõ cấu phần. Không cộng thưởng năm/phụ cấp vào trung điểm tháng; ghi đồng thời phạm vi thu nhập và basis.
 - Một tin là một quan sát dù có nhiều kỹ năng/địa điểm. Tách row nguồn, thực thể tin và nhóm chống leakage; không bỏ tham số định danh khi chỉ cần bỏ tracking.
 - Trước khi khóa snapshot ML phải sửa/kiểm tra các lỗi audit có thể làm sai nhãn, nghề, Remote, bằng chứng và nhóm tin. Không dùng trạng thái parser “valid” làm chứng cứ duy nhất cho một target.
 - Feature theo allowlist: vai trò, kinh nghiệm có biểu diễn khoảng/cận, kỹ năng chuẩn, địa điểm chuẩn và hình thức làm việc. Tiêu đề/JD nguyên văn, số tiền, cận lương, target, lý do suy từ target, ID/URL/công ty và trường nguồn chỉ phục vụ kiểm toán/nhóm/báo cáo; không tự đưa vào model.

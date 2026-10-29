@@ -24,6 +24,14 @@ _Tránh dùng_: Nhãn địa điểm, mức lương tự điền khi nguồn thi
 Trung bình cộng của hai đầu một khoảng lương chào tuyển đã xác định tiền tệ và kỳ trả lương; ví dụ 20–30 triệu VND/tháng có trung điểm 25 triệu VND/tháng.
 _Tránh dùng_: Lương trung vị của thị trường, lương thực nhận.
 
+**Thu nhập tháng chào tuyển**:
+Khoảng thu nhập một tháng được tin công bố và có chứng cứ tiền tệ/kỳ; giữ thành nhóm riêng theo ADR 0007. Không tự xác nhận cấu phần lương cơ bản hoặc cộng thưởng năm vào trung điểm tháng.
+_Tránh dùng_: Lương cơ bản đã xác nhận, thu nhập thực nhận.
+
+**Basis gross/net**:
+Cách tin nguồn xác định gross hoặc net; ghi unknown khi nguồn không nói rõ. Nhóm unknown giữ riêng theo ADR 0006, độc lập với việc khoản tiền là lương cơ bản hay thu nhập tháng chào tuyển.
+_Tránh dùng_: Tự coi unknown là gross, loại thu nhập.
+
 **Vai trò nghề nghiệp**:
 Nhóm công việc dùng để so sánh lương và tư vấn, gồm Backend, Frontend, Fullstack, Mobile, Data/ML, DevOps và QA Automation.
 _Tránh dùng_: Cấp bậc, kỹ năng đơn lẻ.

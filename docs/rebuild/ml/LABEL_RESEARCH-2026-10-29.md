@@ -1,5 +1,7 @@
 # Nghiên cứu chứng cứ nhãn lương mới — 29/10/2026
 
+Kiểm duyệt sau nghiên cứu: LABEL_ADJUDICATION-2026-10-29.md ghi hai nhãn chấp nhận vào file riêng, 17 cần review, 7 bị loại trong 26 trường hợp. Pipeline canonical và gate training chưa đổi. Kết luận 0 ở phần nghiên cứu bên dưới là trạng thái trước kiểm duyệt; không dùng nó phủ nhận hai nhãn vừa được chấp nhận.
+
 Cập nhật sau báo cáo: người dùng đã chọn giữ nhóm unknown gross/net riêng (ADR 0006), không trộn với gross/net đã xác nhận. Main kiểm lại checksum và số record của cả hai CSV mới, cùng câu tháng của Jaxtina trong raw được duyệt. Quyết định basis này không tự nhận các ứng viên thành canonical hoặc mở train; các khoảng trống nguồn/nhãn và policy khác bên dưới vẫn cần xử lý.
 
 Kiểm tra trực tiếp ngày 29/10/2026, kết thúc khoảng 20:50 ICT. Phạm vi: nguồn mới trong catalog, raw mới và nguồn công khai bên ngoài. Chỉ ghi báo cáo này; không sửa catalog, dataset, gate, tracker, code hoặc model. Không đọc/dùng legacy `career_ai`, `career_web`, dataset hay artifact cũ. Công việc độc lập với nhánh sửa lỗi đang chạy song song.

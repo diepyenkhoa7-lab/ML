@@ -18,6 +18,7 @@ Báo cáo readiness kiểm toán snapshot, chứng cứ nhãn, nhóm tin và pol
 
 - Giữ nguồn, revision/hash, raw ID/URL, raw số tiền và chứng cứ tiền tệ/kỳ/basis cho từng nhãn. Chứng cứ bổ sung phải thuộc cùng tin và có xuất xứ; không suy MONTH từ lịch làm việc hoặc thưởng tháng 13.
 - Basis unknown giữ riêng theo quyết định người dùng ngày 29/10; không gộp với gross/net hoặc tự quy đổi. Chấp nhận một basis không có nghĩa đủ số nhóm/nhãn để mở training.
+- ADR 0007 chấp nhận nhóm thu nhập tháng chào tuyển riêng. Bằng chứng kỳ từ JD chỉ bổ sung cho đúng tin khi khoảng tiền khớp trường salary có currency; không tự gán monthly cho cả nguồn. Lưu riêng phạm vi thu nhập, basis, source-row/hash và quyết định kiểm duyệt; nhãn được chấp nhận chưa đồng nghĩa training-ready.
 - Phân biệt fixed/bounded/single-bound/negotiable/missing/invalid; chỉ fixed/bounded đủ chứng cứ mới xét target. Kiểm tra riêng hai đầu khi notation trộn số đầy đủ và triệu/k; không nhân scale đã có hai lần.
 - Danh tính tin giữ tham số định danh, bỏ tracking có quy tắc; có quan hệ row → entity → leakage group. Bằng chứng bổ sung tương thích được giữ; lương/đơn vị/nghề mâu thuẫn được review, không tùy thứ tự dòng.
 - Readiness có trạng thái blocked/needs_review/ready, số mẫu thực và mã lý do, phiên bản policy và snapshot. n>0 hoặc issue đóng không tự đủ để ready; phải qua kiểm toán, policy #4 và các kiểm tra bắt buộc.

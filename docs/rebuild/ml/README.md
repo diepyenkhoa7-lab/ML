@@ -8,6 +8,7 @@ Nhánh ổn định EDA: main tại 9ce0506. Nhánh soạn thảo/phát triển 
 - [26 tiêu chí nghiệm thu theo chức năng](ACCEPTANCE.md)
 - [Audit bổ sung trước ML](../AUDIT-2026-10-29.md)
 - [Nghiên cứu ứng viên nhãn lương mới](LABEL_RESEARCH-2026-10-29.md)
+- [Kết quả kiểm duyệt 26 ứng viên](LABEL_ADJUDICATION-2026-10-29.md)
 
 | Spec | Đầu ra | Truy vết công việc hiện có |
 | --- | --- | --- |
@@ -23,5 +24,7 @@ Nhánh ổn định EDA: main tại 9ce0506. Nhánh soạn thảo/phát triển 
 Có thể phát triển trước cổng kiểm tra, schema/config, trạng thái không có model và test logic tại seam đã duyệt. Fit/save/reload với model thật, báo cáo chất lượng và nghiệm thu dự đoán phải chờ nhãn thật/chính sách được chấp nhận. Fixture tổng hợp không dùng cho training hay công bố metric.
 
 Quyết định bổ sung ngày 29/10: giữ riêng nhóm unknown gross/net, không trộn với gross/net đã xác nhận; đã ghi ADR 0006. Các phần khác của #4/#5 và gate #42 vẫn mở, chưa có model được train.
+
+Kiểm duyệt tiếp theo chấp nhận hai nhãn YODY vào file riêng, 17 trường hợp cần review và 7 trường hợp bị loại. ADR 0007 giữ phạm vi thu nhập tháng chào tuyển riêng. Chưa nhập hai nhãn vào base pipeline, chưa mở training; dữ liệu và manifest trong job_market/datasets/labels/2026-10-29.
 
 Các ticket T14–T16 về lương quan sát giữ spec F03; không đồng nhất chúng với metric hoặc tác động kỹ năng của model. Chia nhỏ lại ticket nếu cần là bước to-tickets riêng, không tự thay 27 công việc cũ trong lần viết đặc tả này.

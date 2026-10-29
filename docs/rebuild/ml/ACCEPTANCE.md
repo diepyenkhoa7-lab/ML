@@ -4,7 +4,7 @@ Ngày đối chiếu: 29/10/2026. Đây là bằng chứng cần thu khi triển
 
 ## Điều kiện bắt đầu
 
-- #42: có nguồn nhãn mới được xác minh tiền tệ, kỳ trả lương, quyền sử dụng và thực thể tin; số nhãn hiện tại vẫn là 0.
+- #42: có nguồn nhãn mới được xác minh tiền tệ, kỳ trả lương, quyền sử dụng và thực thể tin. Sau kiểm duyệt 29/10, file riêng có hai nhãn được chấp nhận; pipeline chưa ghép bổ sung nên vẫn 0 target từ salary. Gate giữ chặn vì hai nhóm không đủ ba tập độc lập và policy còn mở.
 - #4: chốt chính sách đánh giá và hỗ trợ trước fit/chọn model. Không xem phương án trong spec là quyết định đã duyệt.
 - #5: chốt bằng chứng và xếp hạng trước nghiệm thu tư vấn.
 - Các lỗi liên quan nhãn/định danh/nghề/Remote trong audit phải có regression test và snapshot được tạo lại. Không tái dùng checksum của snapshot cũ cho dữ liệu đã sửa.

@@ -6,7 +6,7 @@ Phần EDA đã push lên main tại 9ce0506. Follow-up A01–A09 đã sửa tr�
 
 Snapshot eda-v5: 3.606 raw = 320 EDA + 556 role_review + 2.730 out_of_scope; 0 duplicate/ID lỗi và 0 target. TopCV có 293 tin EDA sau khi hai title QA thủ công chuyển review; 5 tin Remote trên toàn bộ raw không đồng nghĩa có 5 tin Remote trong EDA. Snapshot ID: 1ccf26a791b6875eaf5a789d45aca30dc0bb18414e866ef132798735e70382e5.
 
-Spec ML và báo cáo LABEL_RESEARCH-2026-10-29.md trong docs/rebuild/ml giữ local. Có ứng viên nhãn cùng JD để review nhưng chưa chấp nhận canonical, chưa train hoặc đổi các gate. Phần dưới giữ lịch sử lần nghiệm thu EDA trước sửa audit.
+Spec ML và báo cáo nghiên cứu/kiểm duyệt trong docs/rebuild/ml giữ local. Kiểm duyệt 26 trường hợp: hai nhãn YODY được chấp nhận vào file riêng (27,5/37,5 triệu VND/tháng, thu nhập tháng chào tuyển, basis unknown), 17 needs_review và 7 excluded. Chưa nhập canonical, chưa train hoặc đổi các gate; xem LABEL_ADJUDICATION-2026-10-29.md và job_market/datasets/labels/2026-10-29/manifest.json. Phần dưới giữ lịch sử lần nghiệm thu EDA trước sửa audit.
 
 ## Lịch sử nghiệm thu EDA
 
