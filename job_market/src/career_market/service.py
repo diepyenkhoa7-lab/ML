@@ -132,12 +132,23 @@ class MarketService:
         """Normalize whole labels; see docs/tdd/T05.md for the dictionary contract."""
         return normalize_locations(raw)
 
+    def select_locations(self, rows, locations=None, work_mode=None):
+        from .postings import select_locations
+
+        return select_locations(rows, locations, work_mode)
+
     def location_report(
-        self, source_id: str, *, location: str | None = None, status: str | None = None
+        self,
+        source_id: str,
+        *,
+        location: str | None = None,
+        status: str | None = None,
+        locations=None,
+        work_mode=None,
     ) -> dict:
         """Raw–clean table, exact canonical/status filters, and matching CSV (T05)."""
         preview = self.preview(source_id, limit=None)
-        return location_report(source_id, preview.records, location, status)
+        return location_report(source_id, preview.records, location, status, locations, work_mode)
 
     def sources(self) -> tuple[Source, ...]:
         catalog = json.loads(Path(__file__).with_name("sources.json").read_text())

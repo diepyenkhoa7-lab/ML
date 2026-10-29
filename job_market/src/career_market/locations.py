@@ -6,6 +6,8 @@ import json
 import re
 from collections import Counter
 
+from .postings import posting_key, select_locations
+
 ALIASES = {
     "hcm": "HCM",
     "tp.hcm": "HCM",
@@ -115,11 +117,16 @@ def normalize_locations(raw: str | None) -> dict:
     aliases = {}
     unresolved = []
     new_scope = False
-    for part in re.split(r"[|&]", raw):
+    work_modes = []
+    for part in re.split(r"[|&/]", raw):
         token = part.strip()
         if not token:
             continue
         label = token.casefold()
+        if label in {"remote", "làm việc từ xa", "lam viec tu xa"}:
+            if "Remote" not in work_modes:
+                work_modes.append("Remote")
+            continue
         new_scope = new_scope or label.endswith(" (mới)")
         canonical = (
             token if token in SOURCE_PROVINCES else ALIASES.get(label.removesuffix(" (mới)"))
@@ -130,14 +137,14 @@ def normalize_locations(raw: str | None) -> dict:
                 locations.append(canonical)
         else:
             unresolved.append(token)
-    if not locations and not unresolved:
+    if not locations and not unresolved and not work_modes:
         unresolved.append(raw)
     return {
         "locations": locations,
         "location_status": "review" if unresolved else "normalized",
         "location_aliases": aliases,
         "location_unresolved": unresolved,
-        "work_modes": [],
+        "work_modes": work_modes,
         "location_reason": (
             "Khớp toàn bộ nhãn địa điểm đã xác minh."
             if not unresolved
@@ -147,7 +154,9 @@ def normalize_locations(raw: str | None) -> dict:
     }
 
 
-def location_report(source_id, records, location=None, status=None) -> dict:
+def location_report(
+    source_id, records, location=None, status=None, locations=None, work_mode=None
+) -> dict:
     """CSV-ready raw–clean rows and raw-label frequencies; never unique-job counts."""
     rows = []
     options = set()
@@ -156,7 +165,10 @@ def location_report(source_id, records, location=None, status=None) -> dict:
     for raw, count in counts.items():
         result = normalize_locations(raw)
         options.update(result["locations"])
-        if location is not None and location not in result["locations"]:
+        requested = list(locations or []) + ([location] if location else [])
+        if requested and not set(requested).intersection(result["locations"]):
+            continue
+        if work_mode and work_mode not in result["work_modes"]:
             continue
         if status is not None and status != result["location_status"]:
             continue
@@ -174,6 +186,7 @@ def location_report(source_id, records, location=None, status=None) -> dict:
                     "source_id": source_id,
                     "job_id": record.job_id or "",
                     "job_url": record.job_url,
+                    "posting_id": posting_key(source_id, record.job_url, record.job_id),
                     **{key: value for key, value in alias.items() if key != "raw_rows"},
                 }
             )
@@ -181,6 +194,7 @@ def location_report(source_id, records, location=None, status=None) -> dict:
         "source_id",
         "job_id",
         "job_url",
+        "posting_id",
         "location_raw",
         "locations",
         "location_status",
@@ -199,5 +213,6 @@ def location_report(source_id, records, location=None, status=None) -> dict:
         "location_options": sorted(options),
         "alias_table": alias_table,
         "rows": rows,
+        "unique_posting_count": len(select_locations(rows)),
         "csv": output.getvalue(),
     }
