@@ -7,6 +7,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+from .skills import extract_languages
+
 
 class MarketError(ValueError):
     """An input problem safe to show in CLI and dashboard."""
@@ -63,6 +65,11 @@ class MarketService:
             if raw_dir is not None
             else (bundled_raw if bundled_raw.is_dir() else package_dir.parents[1] / "datasets/raw")
         )
+
+    # T07: ngôn ngữ có bằng chứng, dùng chung cho CLI và Streamlit.
+    def extract_skills(self, title: str, description: str = "", requirements: str = "") -> dict:
+        """Return skills, skill_evidence ({skill, field, text}) and skills_reason."""
+        return extract_languages(title, description, requirements)
 
     def sources(self) -> tuple[Source, ...]:
         catalog = json.loads(Path(__file__).with_name("sources.json").read_text())

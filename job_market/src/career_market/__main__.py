@@ -15,11 +15,17 @@ def main() -> int:
     preview = commands.add_parser("preview", help="Kiểm tra và xem raw dạng JSON")
     preview.add_argument("source_id")
     preview.add_argument("--limit", type=int, default=5)
+    skills = commands.add_parser("skills", help="Trích ngôn ngữ có bằng chứng (T07)")
+    skills.add_argument("--title", required=True)
+    skills.add_argument("--description", default="")
+    skills.add_argument("--requirements", default="")
     args = parser.parse_args()
     try:
         service = MarketService()
         if args.command == "sources":
             result = [asdict(source) for source in service.sources()]
+        elif args.command == "skills":
+            result = service.extract_skills(args.title, args.description, args.requirements)
         else:
             result = asdict(service.preview(args.source_id, args.limit))
     except MarketError as error:
