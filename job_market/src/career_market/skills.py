@@ -21,6 +21,34 @@ LANGUAGES = {
     "SQL": r"sql",
 }
 
+# Tên được quan sát trong hai nguồn mới; chỉ gom alias của cùng khái niệm.
+TECHNOLOGIES = {
+    "React": r"react(?:\.?js)?",
+    "Vue.js": r"vue(?:\.?js)?",
+    "Angular": r"angular(?!js)",
+    "AngularJS": r"angularjs",
+    "Node.js": r"node\.?js",
+    "Next.js": r"next\.?js",
+    ".NET": r"\.net|dotnet",
+    "ASP.NET": r"asp\.net",
+    "Spring Boot": r"spring\s*boot",
+    "Django": r"django",
+    "Flask": r"flask",
+    "FastAPI": r"fastapi",
+    "Laravel": r"laravel",
+    "MySQL": r"mysql",
+    "PostgreSQL": r"postgres(?:ql)?",
+    "MongoDB": r"mongodb",
+    "Redis": r"redis",
+    "SQL Server": r"sql\s*server|mssql",
+    "Oracle": r"oracle",
+    "AWS": r"aws|amazon web services",
+    "Azure": r"azure",
+    "GCP": r"gcp|google cloud(?: platform)?",
+    "Docker": r"docker",
+    "Kubernetes": r"kubernetes|k8s",
+}
+
 
 def _technical_context(text: str, match: re.Match) -> bool:
     before = text[: match.start()]
@@ -95,7 +123,7 @@ def extract_languages(title: str, description: str = "", requirements: str = "")
         seen = set()
         for text in re.split(r"(?<=[.!?])\s+|\n+", value):
             matches = []
-            for skill, alias in LANGUAGES.items():
+            for skill, alias in (LANGUAGES | TECHNOLOGIES).items():
                 for match in re.finditer(
                     rf"(?<![\w\u0300-\u036f-])(?:{alias})(?![\w\u0300-\u036f+#-])", text, re.I
                 ):
@@ -111,9 +139,9 @@ def extract_languages(title: str, description: str = "", requirements: str = "")
                     evidence.append({"skill": skill, "field": field, "text": text})
                     seen.add(skill)
     reason = (
-        "Có bằng chứng ngôn ngữ lập trình trong tin."
+        "Có bằng chứng kỹ năng công nghệ trong tin."
         if skills
-        else "Không tìm thấy bằng chứng ngôn ngữ lập trình theo quy tắc T07."
+        else "Không tìm thấy bằng chứng kỹ năng trong danh mục đã xác minh."
     )
     if not description.strip() and not requirements.strip():
         reason += " Thiếu JD/yêu cầu: chỉ xét tiêu đề."

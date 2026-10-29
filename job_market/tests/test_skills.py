@@ -11,6 +11,24 @@ from streamlit.testing.v1 import AppTest
 from career_market import MarketService
 
 
+def test_framework_database_and_cloud_aliases_keep_original_evidence():
+    result = MarketService().extract_skills(
+        "ReactJS / React.js / Vuejs / .NET / MySQL / PostgreSQL / AWS / Kubernetes"
+    )
+    assert set(result["skills"]) == {
+        "React",
+        "Vue.js",
+        ".NET",
+        "MySQL",
+        "PostgreSQL",
+        "AWS",
+        "Kubernetes",
+    }
+    assert "C#" not in result["skills"]
+    assert len([s for s in result["skills"] if s == "React"]) == 1
+    assert all(e["field"] == "title" and "ReactJS" in e["text"] for e in result["skill_evidence"])
+
+
 def test_languages_are_unique_but_keep_evidence_from_each_posting_field():
     result = MarketService().extract_skills(
         "JavaScript Developer", "Build Java services. Java services.", "JavaScript and Java"
@@ -23,7 +41,7 @@ def test_languages_are_unique_but_keep_evidence_from_each_posting_field():
             {"skill": "JavaScript", "field": "requirements", "text": "JavaScript and Java"},
             {"skill": "Java", "field": "requirements", "text": "JavaScript and Java"},
         ],
-        "skills_reason": "Có bằng chứng ngôn ngữ lập trình trong tin.",
+        "skills_reason": "Có bằng chứng kỹ năng công nghệ trong tin.",
     }
 
 
@@ -39,8 +57,9 @@ def test_c_family_boundaries_and_dotnet_do_not_infer_other_languages():
         "Objective-C",
         "C++",
         "C#",
+        ".NET",
     ]
-    assert service.extract_skills(".NET developer")["skills"] == []
+    assert service.extract_skills(".NET developer")["skills"] == [".NET"]
 
 
 def test_explicit_language_names_are_case_insensitive_and_not_substrings():
@@ -57,6 +76,9 @@ def test_explicit_language_names_are_case_insensitive_and_not_substrings():
         "Dart",
         "Ruby",
         "JavaScript",
+        "React",
+        "AWS",
+        "MySQL",
     ]
 
 
@@ -101,13 +123,13 @@ def test_missing_jd_and_no_match_have_explicit_reasons_without_inferred_skills()
     service = MarketService()
     title_only = service.extract_skills("Python Developer")
     assert title_only["skills_reason"] == (
-        "Có bằng chứng ngôn ngữ lập trình trong tin. Thiếu JD/yêu cầu: chỉ xét tiêu đề."
+        "Có bằng chứng kỹ năng công nghệ trong tin. Thiếu JD/yêu cầu: chỉ xét tiêu đề."
     )
     assert {item["field"] for item in title_only["skill_evidence"]} == {"title"}
-    assert service.extract_skills(".NET Developer", "Build APIs with AWS and React") == {
+    assert service.extract_skills("Chuyên viên văn phòng", "Quản lý hồ sơ") == {
         "skills": [],
         "skill_evidence": [],
-        "skills_reason": "Không tìm thấy bằng chứng ngôn ngữ lập trình theo quy tắc T07.",
+        "skills_reason": "Không tìm thấy bằng chứng kỹ năng trong danh mục đã xác minh.",
     }
     assert "Thiếu JD/yêu cầu" in service.extract_skills("")["skills_reason"]
 

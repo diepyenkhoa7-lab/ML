@@ -11,7 +11,7 @@ import streamlit as st
 from career_market import MarketError, MarketService
 
 st.set_page_config(page_title="Ngôn ngữ lập trình", layout="wide")
-st.title("Ngôn ngữ lập trình")
+st.title("Ngôn ngữ lập trình và công nghệ")
 st.write("Mỗi tin giữ một danh sách ngôn ngữ và bằng chứng riêng từ tiêu đề, JD, yêu cầu.")
 raw_dir = os.environ.get("CAREER_MARKET_RAW_DIR")
 service = MarketService(raw_dir=Path(raw_dir) if raw_dir else None)
@@ -45,7 +45,7 @@ for record in preview.records:
     )
 
 languages = sorted({skill for posting in postings for skill in posting["skills"]})
-selected = st.multiselect("Lọc ngôn ngữ (khớp ít nhất một)", languages)
+selected = st.multiselect("Lọc kỹ năng (khớp ít nhất một)", languages)
 filtered = [
     posting for posting in postings if not selected or set(selected).intersection(posting["skills"])
 ]
