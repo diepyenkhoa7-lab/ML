@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .locations import location_report, normalize_locations
+from .roles import classify_role
 
 
 class MarketError(ValueError):
@@ -56,6 +57,11 @@ class RawPreview:
 
 class MarketService:
     """Public application seam; adapters only render its results."""
+
+    # T03: phân loại vai trò, dùng chung cho các adapter.
+    def classify_role(self, title: str, description: str = "", requirements: str = "") -> dict:
+        """Return role, role_status, role_evidence (field/text), and role_reason."""
+        return classify_role(title, description, requirements)
 
     def __init__(self, raw_dir: Path | None = None):
         package_dir = Path(__file__).resolve().parent
