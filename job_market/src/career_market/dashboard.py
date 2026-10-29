@@ -5,6 +5,7 @@ from pathlib import Path
 
 import streamlit as st
 
+from .preparation import RULES_VERSION
 from .service import MarketError, MarketService
 
 
@@ -15,7 +16,7 @@ def _prepare(raw_dir, signature):
 
 def prepared_report(service):
     try:
-        signature = tuple(
+        signature = (RULES_VERSION,) + tuple(
             (
                 s.source_id,
                 (service.raw_dir / s.filename).stat().st_mtime_ns,

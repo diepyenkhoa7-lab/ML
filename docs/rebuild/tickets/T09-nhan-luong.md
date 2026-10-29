@@ -1,6 +1,6 @@
 # T09: Chuẩn hóa khoảng lương và đánh dấu nhãn hợp lệ
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/23) ngày 28/10/2026. Tính năng: F02. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/23). Bằng chứng: job_market/docs/tdd/T09.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng xem khoảng lương, trung điểm và đơn vị cạnh chuỗi
 
 ## Công việc
 
-- [ ] Phân tích số tiền, khoảng/cận/thỏa thuận, tiền tệ và kỳ từ nguồn.
-- [ ] Tính trung điểm chỉ khi đủ chứng cứ; giữ thông tin gross/net khi có.
-- [ ] Hiển thị đối chiếu và export nhãn/review.
+- [x] Phân tích số tiền, khoảng/cận/thỏa thuận, tiền tệ và kỳ từ nguồn.
+- [x] Tính trung điểm chỉ khi đủ chứng cứ; giữ thông tin gross/net khi có.
+- [x] Hiển thị đối chiếu và export nhãn/review.
 
 ## Acceptance criteria
 
-- [ ] 20–30 triệu VND/tháng có hai đầu và target 25 triệu.
-- [ ] Thỏa thuận, một cận hoặc thiếu đơn vị không thành target chính; vẫn giữ cho EDA.
-- [ ] Không tự đổi ngoại tệ/gross/net; target truy được chứng cứ.
+- [x] 20–30 triệu VND/tháng có hai đầu và target 25 triệu.
+- [x] Thỏa thuận, một cận hoặc thiếu đơn vị không thành target chính; vẫn giữ cho EDA.
+- [x] Không tự đổi ngoại tệ/gross/net; target truy được chứng cứ.
 
 ## Blocked by
 

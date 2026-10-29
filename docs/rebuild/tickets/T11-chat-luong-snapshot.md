@@ -1,6 +1,6 @@
 # T11: Đối chiếu chất lượng, nhóm trùng và xuất snapshot
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/25) ngày 28/10/2026. Tính năng: F02. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/25). Bằng chứng: job_market/docs/tdd/T11.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng xem bảng sạch/review/trùng theo nguồn và xuất snapshot 
 
 ## Công việc
 
-- [ ] Gom nhóm tin trùng/đăng lại và lưu quan hệ với bản gốc.
-- [ ] Tổng hợp trạng thái chất lượng và lý do cho từng dòng.
-- [ ] Xuất các tập EDA/đủ nhãn/review cùng manifest/checksum.
+- [x] Gom nhóm tin trùng/đăng lại và lưu quan hệ với bản gốc.
+- [x] Tổng hợp trạng thái chất lượng và lý do cho từng dòng.
+- [x] Xuất các tập EDA/đủ nhãn/review cùng manifest/checksum.
 
 ## Acceptance criteria
 
-- [ ] Tổng raw/sạch/review/loại/trùng đối chiếu bằng ID được.
-- [ ] Tin thiếu lương vẫn có thể vào EDA nhưng không tự vào tập target.
-- [ ] Snapshot mới có nguồn/phiên bản/checksum, chạy lại tái lập được; không lẫn nguồn cũ.
+- [x] Tổng raw/sạch/review/loại/trùng đối chiếu bằng ID được.
+- [x] Tin thiếu lương vẫn có thể vào EDA nhưng không tự vào tập target.
+- [x] Snapshot mới có nguồn/phiên bản/checksum, chạy lại tái lập được; không lẫn nguồn cũ.
 
 ## Blocked by
 

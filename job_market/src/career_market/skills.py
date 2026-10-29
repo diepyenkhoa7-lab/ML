@@ -23,6 +23,8 @@ LANGUAGES = {
 
 # Tên được quan sát trong hai nguồn mới; chỉ gom alias của cùng khái niệm.
 TECHNOLOGIES = {
+    "Flutter": r"flutter",
+    "Unity": r"unity(?:3d)?",
     "React": r"react(?:\.?js)?",
     "Vue.js": r"vue(?:\.?js)?",
     "Angular": r"angular(?!js)",

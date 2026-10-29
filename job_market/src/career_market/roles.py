@@ -7,7 +7,7 @@ ROLE_PATTERNS = {
     "Frontend": r"\bfront[ -]?end\b",
     "Fullstack": r"\bfull[ -]?stack\b",
     "Mobile": r"\b(?:mobile|android|ios|flutter)\b",
-    "Data/ML": r"\b(?:data (?:engineer|scientist|analyst)|machine learning(?: developer| engineer)?|ml engineer|ai (?:developer|engineer|researcher)|lập trình viên ai)\b",
+    "Data/ML": r"\b(?:data\s*/\s*ml|data (?:engineer|scientist|analyst)|machine learning(?: developer| engineer)?|ml engineer|ai (?:developer|engineer|researcher)|lập trình viên ai)\b",
     "DevOps": r"\b(?:devops|sre|site reliability engineer)\b",
     "QA Automation": r"\b(?:automation test(?:er|ing)?|test automation|qa automation|kiểm thử tự động|software tester.{0,25}automation)\b",
 }

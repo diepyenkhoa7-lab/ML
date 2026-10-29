@@ -19,7 +19,8 @@ career-market = "career_market.__main__:main"
 packages = ["src/career_market"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"datasets" = "career_market/datasets"
+"datasets/raw" = "career_market/datasets/raw"
+"datasets/provenance" = "career_market/datasets/provenance"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

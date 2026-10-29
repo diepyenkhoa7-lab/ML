@@ -1,6 +1,6 @@
 # T06: Giữ nhiều địa điểm, tách Remote và đếm tin duy nhất
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/20) ngày 28/10/2026. Tính năng: F02. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/20). Bằng chứng: job_market/docs/tdd/T06.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng lọc một tin ở cả HCM/HN, lọc Remote riêng và thấy t
 
 ## Công việc
 
-- [ ] Lưu tập địa điểm và hình thức làm việc độc lập.
-- [ ] Đưa bộ lọc nhiều địa điểm/Remote vào UI và export.
-- [ ] Đếm distinct tin, giải thích các nhóm địa điểm chồng lắp.
+- [x] Lưu tập địa điểm và hình thức làm việc độc lập.
+- [x] Đưa bộ lọc nhiều địa điểm/Remote vào UI và export.
+- [x] Đếm distinct tin, giải thích các nhóm địa điểm chồng lắp.
 
 ## Acceptance criteria
 
-- [ ] Tin HCM/HN/Remote giữ hai địa điểm vật lý và Remote riêng.
-- [ ] Một tin tính một lần trong tổng, kể cả khi nhiều bộ lọc khớp.
-- [ ] UI/export giữ đủ địa điểm và raw; có kiểm tra đếm tay.
+- [x] Tin HCM/HN/Remote giữ hai địa điểm vật lý và Remote riêng.
+- [x] Một tin tính một lần trong tổng, kể cả khi nhiều bộ lọc khớp.
+- [x] UI/export giữ đủ địa điểm và raw; có kiểm tra đếm tay.
 
 ## Blocked by
 

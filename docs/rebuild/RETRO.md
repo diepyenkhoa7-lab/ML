@@ -1,5 +1,17 @@
 # Retro phiên lập kế hoạch ngày 28/10/2026
 
+## Cập nhật sau triển khai EDA ngày 29/10/2026
+
+Đã có runtime/Makefile/CI riêng trong job_market; lint bao phủ cả pages. Các ca alias, thiếu đơn vị, nhiều địa điểm và snapshot đã thành kiểm thử cụ thể. Chưa thay AGENTS của người dùng.
+
+Agent phụ hết quota giữa frontier: T03/T07 còn worktree chưa commit, merger/T06 dừng trước khi thay đổi. Main đã kiểm kê và tiếp tục trực tiếp; bằng chứng TDD phân biệt vòng đỏ thực quan sát với phần code tiếp nhận. Lần tiếp theo nên checkpoint code/lát cắt sớm và giữ môi trường trong job_market/.venv thay vì chỉ ở /tmp để giảm phần phải khởi tạo lại.
+
+Review trên dữ liệu thật phát hiện Flutter/Unity bị bỏ sót dù unit test cũ xanh. Nên giữ kiểm tra đối chiếu các tên công nghệ phổ biến thực quan sát, đồng thời tăng rules_version khi đổi danh mục và khởi động lại demo trước nghiệm thu. Không dùng số test làm thay thế cho việc xem bảng/biểu đồ thật.
+
+Gói wheel chỉ đưa raw/provenance được chỉ định vào, tránh gom cả cache/processed. Phần đóng gói bàn giao đầy đủ và kiểm tra offline cả model vẫn thuộc T26/T27, chưa được đánh dấu hoàn tất.
+
+Phần dưới giữ lại đề xuất của phiên lập kế hoạch, không phải trạng thái triển khai hiện tại.
+
 Phạm vi: phiên hiện tại, từ yêu cầu tạo branch và phỏng vấn đến lập spec/bản đồ quyết định. Đây là đề xuất cải thiện môi trường cho lần triển khai; chưa sửa các cấu hình hoặc code cũ.
 
 ## 1. Ưu tiên cao: tách điểm vào của dự án mới khỏi môi trường cũ

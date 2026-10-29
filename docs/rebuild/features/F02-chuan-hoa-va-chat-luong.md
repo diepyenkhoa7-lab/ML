@@ -1,6 +1,6 @@
 # F02: Chuẩn hóa dữ liệu và nhãn có chứng cứ
 
-Trạng thái: đã được người dùng duyệt và đăng [spec tính năng trên GitHub](https://github.com/theihoz/ML/issues/8) ngày 28/10/2026. Các quyết định phụ thuộc dataset vẫn chờ chốt qua wayfinder.
+Trạng thái: đã triển khai chuẩn hóa và kiểm tra chất lượng trong đợt EDA, kiểm tra ngày 29/10/2026. [Spec tính năng trên GitHub](https://github.com/theihoz/ML/issues/8). Bằng chứng T03–T11 trong job_market/docs/tdd. Nhãn lương đủ điều kiện hiện n=0; các quyết định huấn luyện vẫn chờ gate riêng.
 
 ## Problem Statement
 

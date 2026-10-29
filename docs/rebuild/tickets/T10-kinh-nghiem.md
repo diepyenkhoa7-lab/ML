@@ -1,6 +1,6 @@
 # T10: Chuẩn hóa số năm và khoảng kinh nghiệm
 
-Trạng thái: đã triển khai và kiểm tra trên `dev/impl-t10-20261029`, chờ đưa vào integration. [GitHub Issue](https://github.com/theihoz/ML/issues/24) vẫn mở. Tính năng: F02.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/24). Bằng chứng: job_market/docs/tdd/T10.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 

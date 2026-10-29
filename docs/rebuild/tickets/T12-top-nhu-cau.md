@@ -1,6 +1,6 @@
 # T12: Xem top nhu cầu kỹ năng theo bộ lọc
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/26) ngày 28/10/2026. Tính năng: F03. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/26). Bằng chứng: job_market/docs/tdd/T12.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng lọc nhóm nghề/địa điểm, xem top kỹ năng trong tin c
 
 ## Công việc
 
-- [ ] Aggregate kỹ năng theo tin duy nhất và mẫu số rõ.
-- [ ] Vẽ biểu đồ thật bằng Matplotlib/Seaborn.
-- [ ] Nối filter, bảng và export cùng dữ liệu.
+- [x] Aggregate kỹ năng theo tin duy nhất và mẫu số rõ.
+- [x] Vẽ biểu đồ thật bằng Matplotlib/Seaborn.
+- [x] Nối filter, bảng và export cùng dữ liệu.
 
 ## Acceptance criteria
 
-- [ ] Bảng/biểu đồ khớp số đếm kiểm chứng, kể cả tin nhiều địa điểm.
-- [ ] Có nguồn, phạm vi, n và ghi nhu cầu quan sát trong dataset.
-- [ ] PNG/CSV khớp bộ lọc, không dùng số cố định.
+- [x] Bảng/biểu đồ khớp số đếm kiểm chứng, kể cả tin nhiều địa điểm.
+- [x] Có nguồn, phạm vi, n và ghi nhu cầu quan sát trong dataset.
+- [x] PNG/CSV khớp bộ lọc, không dùng số cố định.
 
 ## Blocked by
 

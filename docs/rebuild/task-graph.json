@@ -1,5 +1,5 @@
 {
-  "status": "implementing-eda-first",
+  "status": "eda-implemented-ml-blocked",
   "date": "2026-10-29",
   "branch": "dev/job-market-ml-from-scratch",
   "map": "https://github.com/theihoz/ML/issues/2",
@@ -19,7 +19,8 @@
         "url": "https://github.com/theihoz/ML/issues/15"
       },
       "implementation_status": "complete",
-      "integration_commit": "06914444b2c709c7664877e893bbc161b7e2382a"
+      "integration_commit": "06914444b2c709c7664877e893bbc161b7e2382a",
+      "evidence": "job_market/docs/tdd/T01.md"
     },
     {
       "id": "T02",
@@ -35,7 +36,8 @@
         "id": 6074969881,
         "url": "https://github.com/theihoz/ML/issues/16"
       },
-      "implementation_status": "in_progress"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T02.md"
     },
     {
       "id": "T03",
@@ -51,7 +53,8 @@
         "id": 6074970282,
         "url": "https://github.com/theihoz/ML/issues/17"
       },
-      "implementation_status": "in_progress"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T03.md"
     },
     {
       "id": "T04",
@@ -67,7 +70,8 @@
         "id": 6074970718,
         "url": "https://github.com/theihoz/ML/issues/18"
       },
-      "implementation_status": "pending"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T04.md"
     },
     {
       "id": "T05",
@@ -83,7 +87,8 @@
         "id": 6074971137,
         "url": "https://github.com/theihoz/ML/issues/19"
       },
-      "implementation_status": "in_progress"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T05.md"
     },
     {
       "id": "T06",
@@ -99,7 +104,8 @@
         "id": 6074971563,
         "url": "https://github.com/theihoz/ML/issues/20"
       },
-      "implementation_status": "pending"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T06.md"
     },
     {
       "id": "T07",
@@ -115,7 +121,8 @@
         "id": 6074971951,
         "url": "https://github.com/theihoz/ML/issues/21"
       },
-      "implementation_status": "in_progress"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T07.md"
     },
     {
       "id": "T08",
@@ -131,7 +138,8 @@
         "id": 6074972368,
         "url": "https://github.com/theihoz/ML/issues/22"
       },
-      "implementation_status": "pending"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T08.md"
     },
     {
       "id": "T09",
@@ -147,7 +155,8 @@
         "id": 6074973069,
         "url": "https://github.com/theihoz/ML/issues/23"
       },
-      "implementation_status": "in_progress"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T09.md"
     },
     {
       "id": "T10",
@@ -163,7 +172,8 @@
         "id": 6074973445,
         "url": "https://github.com/theihoz/ML/issues/24"
       },
-      "implementation_status": "in_progress"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T10.md"
     },
     {
       "id": "T11",
@@ -184,7 +194,8 @@
         "id": 6074973826,
         "url": "https://github.com/theihoz/ML/issues/25"
       },
-      "implementation_status": "pending"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T11.md"
     },
     {
       "id": "T12",
@@ -200,7 +211,8 @@
         "id": 6074974382,
         "url": "https://github.com/theihoz/ML/issues/26"
       },
-      "implementation_status": "pending"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T12.md"
     },
     {
       "id": "T13",
@@ -216,7 +228,8 @@
         "id": 6074974833,
         "url": "https://github.com/theihoz/ML/issues/27"
       },
-      "implementation_status": "pending"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T13.md"
     },
     {
       "id": "T14",
@@ -234,7 +247,8 @@
         "id": 6074975318,
         "url": "https://github.com/theihoz/ML/issues/28"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T15",
@@ -252,7 +266,8 @@
         "id": 6074975762,
         "url": "https://github.com/theihoz/ML/issues/29"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T16",
@@ -270,7 +285,8 @@
         "id": 6074976330,
         "url": "https://github.com/theihoz/ML/issues/30"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T17",
@@ -289,7 +305,8 @@
         "id": 6074976769,
         "url": "https://github.com/theihoz/ML/issues/31"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T18",
@@ -305,7 +322,8 @@
         "id": 6074977161,
         "url": "https://github.com/theihoz/ML/issues/32"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T19",
@@ -323,7 +341,8 @@
         "id": 6074977567,
         "url": "https://github.com/theihoz/ML/issues/33"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T20",
@@ -341,7 +360,8 @@
         "id": 6074978000,
         "url": "https://github.com/theihoz/ML/issues/34"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T21",
@@ -359,7 +379,8 @@
         "id": 6074978432,
         "url": "https://github.com/theihoz/ML/issues/35"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T22",
@@ -377,7 +398,8 @@
         "id": 6074978840,
         "url": "https://github.com/theihoz/ML/issues/36"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T23",
@@ -393,7 +415,8 @@
         "id": 6074979245,
         "url": "https://github.com/theihoz/ML/issues/37"
       },
-      "implementation_status": "pending"
+      "implementation_status": "complete",
+      "evidence": "job_market/docs/tdd/T23.md"
     },
     {
       "id": "T24",
@@ -410,7 +433,8 @@
         "id": 6074979723,
         "url": "https://github.com/theihoz/ML/issues/38"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T25",
@@ -426,7 +450,8 @@
         "id": 6074980176,
         "url": "https://github.com/theihoz/ML/issues/39"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T26",
@@ -449,7 +474,8 @@
         "id": 6074980718,
         "url": "https://github.com/theihoz/ML/issues/40"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     },
     {
       "id": "T27",
@@ -465,7 +491,8 @@
         "id": 6074981170,
         "url": "https://github.com/theihoz/ML/issues/41"
       },
-      "implementation_status": "pending"
+      "implementation_status": "blocked",
+      "evidence": "Gate nhãn lương/đánh giá/tư vấn hoặc công việc ML phụ thuộc chưa hoàn tất"
     }
   ],
   "revision": 2,
@@ -488,6 +515,7 @@
     "title": "Xác minh nhãn lương đủ kỳ và tiền tệ để mở ML",
     "state": "open"
   },
-  "integration_base": "b7466be04e6fe49c420482d81a3943ac2619358c"
+  "integration_base": "b7466be04e6fe49c420482d81a3943ac2619358c",
+  "last_verified_tests": 203
 }
 

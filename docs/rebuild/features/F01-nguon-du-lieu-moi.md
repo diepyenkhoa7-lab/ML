@@ -1,6 +1,6 @@
 # F01: Nguồn dữ liệu mới và xuất xứ
 
-Trạng thái: đã được người dùng duyệt và đăng [spec tính năng trên GitHub](https://github.com/theihoz/ML/issues/7) ngày 28/10/2026. Các quyết định phụ thuộc dataset vẫn chờ chốt qua wayfinder.
+Trạng thái: đã triển khai nguồn EDA mới theo quyết định người dùng, kiểm tra ngày 29/10/2026. [Spec tính năng trên GitHub](https://github.com/theihoz/ML/issues/7). Bằng chứng T01/T02 trong job_market/docs/tdd. Nguồn huấn luyện vẫn chờ gate nhãn lương riêng.
 
 ## Problem Statement
 
@@ -35,5 +35,5 @@ Chọn hoặc mua nguồn thương mại; coi bản tải lại nguồn cũ là 
 
 ## Further Notes
 
-Yêu cầu xử lý dữ liệu và bàn giao dataset. Công việc T01–T02. Bị chặn bởi quyết định chọn nguồn mới.
+Yêu cầu xử lý dữ liệu và bàn giao dataset. Công việc T01–T02 đã hoàn tất cho hai nguồn EDA mới; xem EDA_FIRST.md và IMPLEMENTATION_STATUS.md.
 

@@ -1,6 +1,6 @@
 # T05: Chuẩn hóa HCM/HN và xem bảng alias
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/19) ngày 28/10/2026. Tính năng: F02. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/19). Bằng chứng: job_market/docs/tdd/T05.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng thấy tên địa điểm chuẩn HCM/HN cạnh chuỗi gốc, l
 
 ## Công việc
 
-- [ ] Thống kê tên địa điểm trong dữ liệu mới và tạo alias có chứng cứ.
-- [ ] Chuẩn hóa các biến thể đã xác minh; đánh dấu địa chỉ chưa rõ.
-- [ ] Hiển thị đối chiếu raw–chuẩn và lọc/xuất.
+- [x] Thống kê tên địa điểm trong dữ liệu mới và tạo alias có chứng cứ.
+- [x] Chuẩn hóa các biến thể đã xác minh; đánh dấu địa chỉ chưa rõ.
+- [x] Hiển thị đối chiếu raw–chuẩn và lọc/xuất.
 
 ## Acceptance criteria
 
-- [ ] HCM, Hồ Chí Minh, ho chi minh cùng nhận HCM; Hà Nội tương đương nhận HN.
-- [ ] Không nhận tên đường như Điện Biên Phủ thành tỉnh chỉ từ một cụm từ.
-- [ ] Địa điểm chưa đủ chứng cứ giữ raw/trạng thái chưa rõ.
+- [x] HCM, Hồ Chí Minh, ho chi minh cùng nhận HCM; Hà Nội tương đương nhận HN.
+- [x] Không nhận tên đường như Điện Biên Phủ thành tỉnh chỉ từ một cụm từ.
+- [x] Địa điểm chưa đủ chứng cứ giữ raw/trạng thái chưa rõ.
 
 ## Blocked by
 

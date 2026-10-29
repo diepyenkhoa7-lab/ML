@@ -1,4 +1,5 @@
 PYTHON ?= python3
+PORT ?= 8502
 export PYTHONPATH := src
 
 .PHONY: check lint test run sources preview
@@ -12,7 +13,7 @@ test:
 	$(PYTHON) -m pytest tests -q
 
 run:
-	$(PYTHON) -m streamlit run app.py
+	$(PYTHON) -m streamlit run app.py --server.address 127.0.0.1 --server.port $(PORT)
 
 sources:
 	$(PYTHON) -m career_market sources

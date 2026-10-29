@@ -1,6 +1,6 @@
 # T13: Xem xu hướng khi đủ thời gian nguồn
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/27) ngày 28/10/2026. Tính năng: F03. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/27). Bằng chứng: job_market/docs/tdd/T13.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng xem thay đổi theo kỳ thời gian so sánh được, hoặc t
 
 ## Công việc
 
-- [ ] Kiểm tra ngày/năm nguồn và độ phủ các kỳ.
-- [ ] So sánh phạm vi nguồn/nhóm tin tương thích.
-- [ ] Hiển thị biểu đồ/bảng/export hoặc trạng thái thiếu bằng chứng.
+- [x] Kiểm tra ngày/năm nguồn và độ phủ các kỳ.
+- [x] So sánh phạm vi nguồn/nhóm tin tương thích.
+- [x] Hiển thị biểu đồ/bảng/export hoặc trạng thái thiếu bằng chứng.
 
 ## Acceptance criteria
 
-- [ ] Ngày đăng khác deadline/cập nhật/tải.
-- [ ] Không dựng xu hướng nhiều năm từ các snapshot không so sánh được.
-- [ ] Kỳ thiếu dữ liệu và thay đổi phạm vi nguồn được chỉ rõ.
+- [x] Ngày đăng khác deadline/cập nhật/tải.
+- [x] Không dựng xu hướng nhiều năm từ các snapshot không so sánh được.
+- [x] Kỳ thiếu dữ liệu và thay đổi phạm vi nguồn được chỉ rõ.
 
 ## Blocked by
 

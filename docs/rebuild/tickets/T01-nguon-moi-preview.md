@@ -1,6 +1,6 @@
 # T01: Nhập một nguồn mới và xem dữ liệu gốc
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/15) ngày 28/10/2026. Tính năng: F01. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/15). Bằng chứng: job_market/docs/tdd/T01.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Mở ứng dụng Python mới, nhập một file nguồn mới được duyệt
 
 ## Công việc
 
-- [ ] Tạo điểm vào Python/Streamlit mới và hợp đồng bản ghi đầu vào tối thiểu.
-- [ ] Nhập một nguồn thật, giữ raw, ID/URL và metadata nguồn; hiển thị preview.
-- [ ] Thêm lệnh kiểm tra, lint và CI tối thiểu cho ứng dụng mới.
+- [x] Tạo điểm vào Python/Streamlit mới và hợp đồng bản ghi đầu vào tối thiểu.
+- [x] Nhập một nguồn thật, giữ raw, ID/URL và metadata nguồn; hiển thị preview.
+- [x] Thêm lệnh kiểm tra, lint và CI tối thiểu cho ứng dụng mới.
 
 ## Acceptance criteria
 
-- [ ] Có thể cài/chạy riêng bản mới và xem nguồn thật, số dòng cùng schema.
-- [ ] Raw không đổi; lỗi nguồn/schema được hiển thị rõ.
-- [ ] Không đọc dữ liệu/artifact cũ; không dùng dữ liệu giả thay nguồn thật.
+- [x] Có thể cài/chạy riêng bản mới và xem nguồn thật, số dòng cùng schema.
+- [x] Raw không đổi; lỗi nguồn/schema được hiển thị rõ.
+- [x] Không đọc dữ liệu/artifact cũ; không dùng dữ liệu giả thay nguồn thật.
 
 ## Blocked by
 

@@ -1,6 +1,6 @@
 # T02: Tải lại đúng phiên bản dataset và kiểm checksum
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/16) ngày 28/10/2026. Tính năng: F01. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/16). Bằng chứng: job_market/docs/tdd/T02.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng tải đúng revision nguồn mới bằng lệnh, rồi thấy p
 
 ## Công việc
 
-- [ ] Ghi URL/revision/checksum và loại thời gian của nguồn.
-- [ ] Thêm lệnh tải có kiểm checksum, trạng thái thành công/lỗi và tái sử dụng bản khớp.
-- [ ] Hiển thị nguồn, giấy phép/điều kiện phân phối và trạng thái phiên bản.
+- [x] Ghi URL/revision/checksum và loại thời gian của nguồn.
+- [x] Thêm lệnh tải có kiểm checksum, trạng thái thành công/lỗi và tái sử dụng bản khớp.
+- [x] Hiển thị nguồn, giấy phép/điều kiện phân phối và trạng thái phiên bản.
 
 ## Acceptance criteria
 
-- [ ] Tải lại tạo nội dung khớp manifest hoặc báo nguồn đã thay đổi.
-- [ ] Phân biệt ngày đăng, cập nhật, hạn nộp và tải.
-- [ ] Phiên bản nguồn trên UI khớp file thật và có chứng cứ quyền dùng/bàn giao.
+- [x] Tải lại tạo nội dung khớp manifest hoặc báo nguồn đã thay đổi.
+- [x] Phân biệt ngày đăng, cập nhật, hạn nộp và tải.
+- [x] Phiên bản nguồn trên UI khớp file thật và có chứng cứ quyền dùng/bàn giao.
 
 ## Blocked by
 

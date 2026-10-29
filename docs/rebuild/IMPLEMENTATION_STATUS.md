@@ -1,50 +1,48 @@
-# Trạng thái triển khai EDA trước
+# Trạng thái triển khai ngày 29/10/2026
 
-Ngày 29/10/2026. Integration branch: `dev/job-market-ml-from-scratch`. Mốc spec/EDA-first: `b7466be04e6fe49c420482d81a3943ac2619358c`.
+Branch: dev/job-market-ml-from-scratch. Đã triển khai 14/27 ticket trong phạm vi EDA trước; toàn dự án còn chờ ML.
 
-## Phạm vi đang làm
+Ứng dụng mới ở job_market, dùng Python/Streamlit và hai nguồn mới. Không import hoặc đọc dataset/model/code cũ. Bộ kiểm tra gần nhất: Ruff và 203 tests qua; có CLI cài từ wheel và kiểm tra browser thực. Xem REVIEW.md và job_market/README.md.
 
-Người dùng chọn EDA trước; source gate cho EDA đã chốt. Gate [nhãn lương đủ kỳ/tiền tệ](https://github.com/theihoz/ML/issues/42) tiếp tục chặn ML. Mã mới ở job_market, không import hoặc đọc code/dataset/model cũ.
-
-TDD dùng seam đã được duyệt: giao diện nghiệp vụ chung được CLI và Streamlit gọi, smoke UI/CLI. Mỗi ticket có worktree/branch riêng, test đỏ → implementation tối thiểu → test xanh, merger đưa vào integration và kiểm tra lại trước khi đóng ticket.
-
-## Công việc
-
-| Mã | Trạng thái | Bằng chứng |
+| Công việc | Trạng thái | Bằng chứng / blocker |
 | --- | --- | --- |
-| [T01](https://github.com/theihoz/ML/issues/15) | Hoàn tất | Merge 0691444; Ruff và 17 tests qua; issue đã đóng |
-| [T02](https://github.com/theihoz/ML/issues/16) | Đang thực hiện | Worktree dev/impl-t02-20261029 |
-| [T03](https://github.com/theihoz/ML/issues/17) | Đang thực hiện | Worktree dev/impl-t03-20261029 |
-| [T04](https://github.com/theihoz/ML/issues/18) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T05](https://github.com/theihoz/ML/issues/19) | Đang thực hiện | Worktree dev/impl-t05-20261029 |
-| [T06](https://github.com/theihoz/ML/issues/20) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T07](https://github.com/theihoz/ML/issues/21) | Đang thực hiện | Worktree dev/impl-t07-20261029 |
-| [T08](https://github.com/theihoz/ML/issues/22) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T09](https://github.com/theihoz/ML/issues/23) | Đang thực hiện | Worktree dev/impl-t09-20261029 |
-| [T10](https://github.com/theihoz/ML/issues/24) | Đang thực hiện | Worktree dev/impl-t10-20261029 |
-| [T11](https://github.com/theihoz/ML/issues/25) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T12](https://github.com/theihoz/ML/issues/26) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T13](https://github.com/theihoz/ML/issues/27) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T14](https://github.com/theihoz/ML/issues/28) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T15](https://github.com/theihoz/ML/issues/29) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T16](https://github.com/theihoz/ML/issues/30) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T17](https://github.com/theihoz/ML/issues/31) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T18](https://github.com/theihoz/ML/issues/32) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T19](https://github.com/theihoz/ML/issues/33) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T20](https://github.com/theihoz/ML/issues/34) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T21](https://github.com/theihoz/ML/issues/35) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T22](https://github.com/theihoz/ML/issues/36) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T23](https://github.com/theihoz/ML/issues/37) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T24](https://github.com/theihoz/ML/issues/38) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T25](https://github.com/theihoz/ML/issues/39) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T26](https://github.com/theihoz/ML/issues/40) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T27](https://github.com/theihoz/ML/issues/41) | Chưa thực hiện | Chờ các blocker hoàn tất |
+| [T01](https://github.com/theihoz/ML/issues/15) | Hoàn tất | job_market/docs/tdd/T01.md |
+| [T02](https://github.com/theihoz/ML/issues/16) | Hoàn tất | job_market/docs/tdd/T02.md |
+| [T03](https://github.com/theihoz/ML/issues/17) | Hoàn tất | job_market/docs/tdd/T03.md |
+| [T04](https://github.com/theihoz/ML/issues/18) | Hoàn tất | job_market/docs/tdd/T04.md |
+| [T05](https://github.com/theihoz/ML/issues/19) | Hoàn tất | job_market/docs/tdd/T05.md |
+| [T06](https://github.com/theihoz/ML/issues/20) | Hoàn tất | job_market/docs/tdd/T06.md |
+| [T07](https://github.com/theihoz/ML/issues/21) | Hoàn tất | job_market/docs/tdd/T07.md |
+| [T08](https://github.com/theihoz/ML/issues/22) | Hoàn tất | job_market/docs/tdd/T08.md |
+| [T09](https://github.com/theihoz/ML/issues/23) | Hoàn tất | job_market/docs/tdd/T09.md |
+| [T10](https://github.com/theihoz/ML/issues/24) | Hoàn tất | job_market/docs/tdd/T10.md |
+| [T11](https://github.com/theihoz/ML/issues/25) | Hoàn tất | job_market/docs/tdd/T11.md |
+| [T12](https://github.com/theihoz/ML/issues/26) | Hoàn tất | job_market/docs/tdd/T12.md |
+| [T13](https://github.com/theihoz/ML/issues/27) | Hoàn tất | job_market/docs/tdd/T13.md |
+| [T14](https://github.com/theihoz/ML/issues/28) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T15](https://github.com/theihoz/ML/issues/29) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T16](https://github.com/theihoz/ML/issues/30) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T17](https://github.com/theihoz/ML/issues/31) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T18](https://github.com/theihoz/ML/issues/32) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T19](https://github.com/theihoz/ML/issues/33) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T20](https://github.com/theihoz/ML/issues/34) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T21](https://github.com/theihoz/ML/issues/35) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T22](https://github.com/theihoz/ML/issues/36) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T23](https://github.com/theihoz/ML/issues/37) | Hoàn tất | job_market/docs/tdd/T23.md |
+| [T24](https://github.com/theihoz/ML/issues/38) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T25](https://github.com/theihoz/ML/issues/39) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T26](https://github.com/theihoz/ML/issues/40) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
+| [T27](https://github.com/theihoz/ML/issues/41) | Bị chặn | Gate nhãn lương/đánh giá/tư vấn hoặc các bước ML phụ thuộc |
 
-## Triage và chẩn đoán
+## Dữ liệu thực và giới hạn
 
-Kiểm tra live không có issue mở ngoài bộ kế hoạch/wayfinder. Không triage lại các ticket đã được to-tickets chuẩn bị. Chưa có bug người dùng báo; diagnosing-bugs áp dụng cho lỗi thực tế có command tái hiện đỏ và kiểm thử hồi quy tại đúng seam.
+3.606 dòng thô đối chiếu thành 322 tin EDA, 454 tin review vai trò và 2.830 ngoài bảy nhóm nghề; không có bản sao cùng URL hoặc ID lỗi trong hai file hiện tại. Có nhóm cùng trường quan sát để rà soát/chia tập về sau, không tự gộp các URL khác.
 
-## Giới hạn hiện tại
+Nhãn VND/tháng đủ chứng cứ: n=0. Gate #42 còn mở; chưa có model, metric, dự đoán hoặc tư vấn dựa trên model. T14–T22, T24–T27 tiếp tục bị chặn. Hai nguồn không đủ cơ sở kết luận xu hướng nhiều năm.
 
-Chưa có model/metric/dự đoán mới. Raw lương thiếu kỳ không thành target tháng. Các số liệu EDA sẽ ghi nguồn, n, thời gian và phạm vi; không coi hai nguồn khác nền tảng ở hai năm là xu hướng thị trường cùng phạm vi.
+## Cách triển khai và kiểm tra
+
+Ban đầu dùng implementer/merger worktree riêng. Khi agent phụ hết quota, main kiểm kê worktree, tiếp nhận phần chưa commit và tiếp tục trực tiếp; không đổi model hoặc giả vờ đã có review độc lập. Bằng chứng T03/T07 phân biệt code tiếp nhận với vòng đỏ thực quan sát. Các bước còn lại chạy TDD tại seam MarketService đã duyệt, smoke CLI/UI và kiểm tra browser.
+
+GitHub Issues là tracker chính; task-graph.json giữ đối chiếu trạng thái. Triage không áp dụng lại cho ticket đã tạo từ spec. Các file AGENTS, docs/agents và docs/research có sẵn của người dùng được giữ nguyên.
 

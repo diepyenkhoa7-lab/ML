@@ -1,6 +1,6 @@
 # T03: Phân nhóm Backend, Frontend, Fullstack và Mobile
 
-Trạng thái: đã được người dùng duyệt và đăng [GitHub Issue](https://github.com/theihoz/ML/issues/17) ngày 28/10/2026. Tính năng: F02. Chưa triển khai; chỉ lấy việc khi mọi blocker đã hoàn tất.
+Trạng thái: đã triển khai và kiểm tra trong đợt EDA ngày 29/10/2026. [GitHub Issue](https://github.com/theihoz/ML/issues/17). Bằng chứng: job_market/docs/tdd/T03.md. ML giữ gate riêng theo EDA_FIRST.md.
 
 ## What to build
 
@@ -8,15 +8,15 @@ Người dùng xem/lọc bốn nhóm nghề phát triển phần mềm cạnh ch
 
 ## Công việc
 
-- [ ] Xây quy tắc nghề và bằng chứng từ chức danh/mô tả nguồn mới.
-- [ ] Thêm bộ lọc, bảng đối chiếu và export theo nhóm.
-- [ ] Đánh dấu chức danh mơ hồ/ngoài phạm vi để review.
+- [x] Xây quy tắc nghề và bằng chứng từ chức danh/mô tả nguồn mới.
+- [x] Thêm bộ lọc, bảng đối chiếu và export theo nhóm.
+- [x] Đánh dấu chức danh mơ hồ/ngoài phạm vi để review.
 
 ## Acceptance criteria
 
-- [ ] Bốn nhóm hiển thị riêng với bằng chứng và raw.
-- [ ] Chức danh không rõ không bị ép vào nhóm tùy ý.
-- [ ] Bảng lọc/export và các ca kiểm tra nghề đồng nhất.
+- [x] Bốn nhóm hiển thị riêng với bằng chứng và raw.
+- [x] Chức danh không rõ không bị ép vào nhóm tùy ý.
+- [x] Bảng lọc/export và các ca kiểm tra nghề đồng nhất.
 
 ## Blocked by
 

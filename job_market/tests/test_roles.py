@@ -194,3 +194,8 @@ def test_specialized_roles_need_explicit_occupational_evidence(title, role):
     result = MarketService().classify_role(title)
     assert (result["role"], result["role_status"]) == (role, "matched")
     assert result["role_evidence"][0]["text"] in title
+
+
+def test_canonical_data_ml_role_matches_the_profile_and_dataset_rules():
+    result = MarketService().classify_role("Data/ML")
+    assert (result["role"], result["role_status"]) == ("Data/ML", "matched")

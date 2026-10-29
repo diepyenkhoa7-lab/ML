@@ -11,6 +11,12 @@ from streamlit.testing.v1 import AppTest
 from career_market import MarketService
 
 
+def test_mobile_frameworks_observed_in_titles_are_included_as_technology_evidence():
+    result = MarketService().extract_skills("Flutter Developer / Unity Developer")
+    assert result["skills"] == ["Flutter", "Unity"]
+    assert all(item["field"] == "title" for item in result["skill_evidence"])
+
+
 def test_framework_database_and_cloud_aliases_keep_original_evidence():
     result = MarketService().extract_skills(
         "ReactJS / React.js / Vuejs / .NET / MySQL / PostgreSQL / AWS / Kubernetes"

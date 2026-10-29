@@ -1,6 +1,6 @@
 # Kế hoạch xây mới ứng dụng CNTT và lương lập trình viên
 
-Branch làm việc: `dev/job-market-ml-from-scratch`. Đây là tài liệu kế hoạch; chưa triển khai ứng dụng hoặc dùng dataset mới để huấn luyện.
+Branch làm việc: `dev/job-market-ml-from-scratch`. Ứng dụng Python/Streamlit mới ở job_market đã triển khai phần EDA theo quyết định người dùng; ML vẫn chờ nhãn lương đủ chứng cứ. Hướng dẫn chạy nằm trong job_market/README.md.
 
 ## Đọc theo mục đích
 
