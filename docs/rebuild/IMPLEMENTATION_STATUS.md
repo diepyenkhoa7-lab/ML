@@ -1,6 +1,6 @@
 # Trạng thái triển khai EDA trước
 
-Ngày 28/10/2026. Integration branch: `dev/job-market-ml-from-scratch`. Mốc spec/EDA-first: `b7466be04e6fe49c420482d81a3943ac2619358c`.
+Ngày 29/10/2026. Integration branch: `dev/job-market-ml-from-scratch`. Mốc spec/EDA-first: `b7466be04e6fe49c420482d81a3943ac2619358c`.
 
 ## Phạm vi đang làm
 
@@ -12,16 +12,16 @@ TDD dùng seam đã được duyệt: giao diện nghiệp vụ chung được C
 
 | Mã | Trạng thái | Bằng chứng |
 | --- | --- | --- |
-| [T01](https://github.com/theihoz/ML/issues/15) | Đang thực hiện | Implementer worktree dev/impl-t01-import; chưa merge/đóng issue |
-| [T02](https://github.com/theihoz/ML/issues/16) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T03](https://github.com/theihoz/ML/issues/17) | Chưa thực hiện | Chờ các blocker hoàn tất |
+| [T01](https://github.com/theihoz/ML/issues/15) | Hoàn tất | Merge 0691444; Ruff và 17 tests qua; issue đã đóng |
+| [T02](https://github.com/theihoz/ML/issues/16) | Đang thực hiện | Worktree dev/impl-t02-20261029 |
+| [T03](https://github.com/theihoz/ML/issues/17) | Đang thực hiện | Worktree dev/impl-t03-20261029 |
 | [T04](https://github.com/theihoz/ML/issues/18) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T05](https://github.com/theihoz/ML/issues/19) | Chưa thực hiện | Chờ các blocker hoàn tất |
+| [T05](https://github.com/theihoz/ML/issues/19) | Đang thực hiện | Worktree dev/impl-t05-20261029 |
 | [T06](https://github.com/theihoz/ML/issues/20) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T07](https://github.com/theihoz/ML/issues/21) | Chưa thực hiện | Chờ các blocker hoàn tất |
+| [T07](https://github.com/theihoz/ML/issues/21) | Đang thực hiện | Worktree dev/impl-t07-20261029 |
 | [T08](https://github.com/theihoz/ML/issues/22) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T09](https://github.com/theihoz/ML/issues/23) | Chưa thực hiện | Chờ các blocker hoàn tất |
-| [T10](https://github.com/theihoz/ML/issues/24) | Chưa thực hiện | Chờ các blocker hoàn tất |
+| [T09](https://github.com/theihoz/ML/issues/23) | Đang thực hiện | Worktree dev/impl-t09-20261029 |
+| [T10](https://github.com/theihoz/ML/issues/24) | Đang thực hiện | Worktree dev/impl-t10-20261029 |
 | [T11](https://github.com/theihoz/ML/issues/25) | Chưa thực hiện | Chờ các blocker hoàn tất |
 | [T12](https://github.com/theihoz/ML/issues/26) | Chưa thực hiện | Chờ các blocker hoàn tất |
 | [T13](https://github.com/theihoz/ML/issues/27) | Chưa thực hiện | Chờ các blocker hoàn tất |

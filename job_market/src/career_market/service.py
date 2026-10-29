@@ -1,4 +1,4 @@
-"""Read approved raw postings without cleaning or deriving market measures."""
+"""Read approved postings and expose shared, source-aware business methods."""
 
 import csv
 import hashlib
@@ -7,7 +7,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-from career_market.roles import classify_role
+from .locations import location_report, normalize_locations
+from .roles import classify_role
 
 
 class MarketError(ValueError):
@@ -71,9 +72,93 @@ class MarketService:
             else (bundled_raw if bundled_raw.is_dir() else package_dir.parents[1] / "datasets/raw")
         )
 
+    # T10: experience normalization; independent of other normalization methods.
+    def normalize_experience(self, raw) -> dict:
+        """Return year bounds, kind, status and reason; see T10 ticket notes."""
+        from .experience import normalize_experience
+
+        return normalize_experience(raw)
+
+    def experience_report(
+        self, source_id: str, status: str | None = None, kind: str | None = None
+    ) -> dict:
+        """Raw/clean rows and matching CSV from one approved source; T10 notes define keys."""
+        preview = self.preview(source_id, limit=None)
+        rows = []
+        for record in preview.records:
+            raw = record.raw.get("experience", record.raw.get("exp"))
+            row = {
+                "source_id": record.source_id,
+                "job_id": record.job_id,
+                "job_url": record.job_url,
+                "experience_raw": raw,
+                **self.normalize_experience(raw),
+            }
+            if status is not None and row["experience_status"] != status:
+                continue
+            if kind is not None and row["experience_kind"] != kind:
+                continue
+            rows.append(row)
+        output = io.StringIO()
+        columns = [
+            "source_id",
+            "job_id",
+            "job_url",
+            "experience_raw",
+            "experience_min",
+            "experience_max",
+            "experience_kind",
+            "experience_status",
+            "experience_reason",
+        ]
+        writer = csv.DictWriter(output, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(rows)
+        return {
+            "rows": rows,
+            "total_count": preview.row_count,
+            "filtered_count": len(rows),
+            "csv": output.getvalue(),
+        }
+
+    # T05: location aliases; shared by CLI callers and the location page.
+    def normalize_locations(self, raw: str | None) -> dict:
+        """Normalize whole labels; see docs/tdd/T05.md for the dictionary contract."""
+        return normalize_locations(raw)
+
+    def location_report(
+        self, source_id: str, *, location: str | None = None, status: str | None = None
+    ) -> dict:
+        """Raw–clean table, exact canonical/status filters, and matching CSV (T05)."""
+        preview = self.preview(source_id, limit=None)
+        return location_report(source_id, preview.records, location, status)
+
     def sources(self) -> tuple[Source, ...]:
         catalog = json.loads(Path(__file__).with_name("sources.json").read_text())
         return tuple(Source(**{**item, "columns": tuple(item["columns"])}) for item in catalog)
+
+    # T02: tải revision cố định, dùng chung cho CLI và trang tải nguồn.
+    def download_source(
+        self,
+        source_id: str,
+        *,
+        cache_dir: Path | None = None,
+        timeout: float = 60,
+        check_only: bool = False,
+    ) -> dict:
+        """Return download status, source provenance, hashes, paths and UTC timestamps."""
+        from .downloader import download_source
+
+        source = next((item for item in self.sources() if item.source_id == source_id), None)
+        if source is None:
+            raise MarketError(f"Nguồn không được duyệt: {source_id}")
+        return download_source(
+            source,
+            self.raw_dir,
+            cache_dir or self.raw_dir.parent / "archives",
+            timeout=timeout,
+            check_only=check_only,
+        )
 
     def preview(self, source_id: str, limit: int | None = 5) -> RawPreview:
         """Verify the whole source; limit=None returns every unmodified record."""
@@ -108,3 +193,46 @@ class MarketService:
                 for row in rows[:limit]
             ),
         )
+
+    # Salary normalization (T09): only the explicit salary field supplies evidence.
+    def normalize_salary(self, raw: str | None) -> dict:
+        """Return source amounts, units, classification and optional VND/month target."""
+        from .salary import normalize_salary
+
+        return normalize_salary(raw)
+
+    def salary_report(self, source_id: str | None = None) -> dict:
+        """Normalize every verified raw row; counts describe rows, not unique IT jobs."""
+        from collections import Counter
+
+        source_ids = (
+            [source.source_id for source in self.sources()] if source_id is None else [source_id]
+        )
+        rows = []
+        for selected in source_ids:
+            for number, record in enumerate(self.preview(selected, limit=None).records, start=1):
+                raw = record.raw.get("salary", "")
+                rows.append(
+                    {
+                        "source_id": record.source_id,
+                        "source_row": number,
+                        "job_id": record.job_id,
+                        "job_url": record.job_url,
+                        "raw_salary": raw,
+                        **self.normalize_salary(raw),
+                    }
+                )
+        return {
+            "rows": rows,
+            "row_count": len(rows),
+            "target_n": sum(row["salary_target_vnd_month"] is not None for row in rows),
+            "source_counts": dict(Counter(row["source_id"] for row in rows)),
+            "reason_counts": dict(Counter(row["salary_reason"] for row in rows)),
+            "status_counts": dict(Counter(row["salary_status"] for row in rows)),
+        }
+
+    def salary_exports(self, report: dict) -> dict[str, str]:
+        """Return raw/normalized/status/review CSV strings from a salary_report result."""
+        from .salary import salary_exports
+
+        return salary_exports(report)
