@@ -36,3 +36,8 @@ def test_four_digit_shorthand_keeps_shared_thousand_suffix(factor):
         2_000_000 * factor,
         1_500_000 * factor,
     )
+
+
+def test_grouped_thousand_endpoints_can_share_a_suffix():
+    result = MarketService().normalize_salary("1.000–2.000 nghìn VND/tháng")
+    assert result["salary_target_vnd_month"] == 1_500_000

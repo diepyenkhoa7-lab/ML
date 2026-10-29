@@ -184,3 +184,31 @@ def test_invalid_first_row_keeps_group_column_in_export_schema():
     )["rows"]
     assert rows[0]["repost_group_id"] is None
     assert rows[1]["repost_group_id"]
+
+
+def test_requirements_heading_in_one_observation_does_not_hide_other_duties():
+    raw = {"title": "Software Engineer", "company": "Example", "location": "HCM"}
+    records = [
+        RawRecord(
+            "fixture",
+            "1",
+            "https://example.org/1",
+            {
+                **raw,
+                "job_description": "Requirements:\nJava",
+            },
+        ),
+        RawRecord(
+            "fixture",
+            "1",
+            "https://example.org/1",
+            {
+                **raw,
+                "job_description": "We develop backend APIs.",
+            },
+        ),
+    ]
+    for ordered in [records, list(reversed(records))]:
+        report = MarketService().prepare_records(ordered)
+        assert len(report["eda"]) == 1
+        assert report["eda"][0]["role"] == "Backend"

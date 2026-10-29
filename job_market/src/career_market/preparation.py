@@ -8,7 +8,7 @@ from datetime import datetime
 
 from .postings import posting_key
 
-RULES_VERSION = "eda-v4"
+RULES_VERSION = "eda-v5"
 
 
 def digest(value):
@@ -40,7 +40,7 @@ def review_reasons(row):
     return reasons
 
 
-def reconcile_postings(service, rows):
+def reconcile_postings(rows):
     """Combine compatible observations of one identity, keeping every source row."""
     members_by_id = defaultdict(list)
     for row in rows:
@@ -54,12 +54,18 @@ def reconcile_postings(service, rows):
         for field in ("title_raw", "company_raw"):
             observed = sorted({row[field].strip() for row in members if row[field].strip()})
             entity[field] = observed[0] if observed else ""
-        role = service.classify_role(
-            entity["title_raw"],
-            "\n".join(sorted({row["raw"].get("job_description", "") for row in members})),
-            "\n".join(sorted({row["raw"].get("job_requirements", "") for row in members})),
-        )
-        entity.update(role)
+        # Classify each observation within its own section boundaries. Joining
+        # JDs would let a Requirements heading swallow another row's duties.
+        matched = [row for row in members if row["role_status"] == "matched"]
+        ambiguous = any(row["role_status"] == "review" and row["role_evidence"] for row in members)
+        if len({row["role"] for row in matched}) == 1 and not ambiguous:
+            entity.update({key: matched[0][key] for key in ("role", "role_status", "role_reason")})
+        elif matched or ambiguous or any(row["role_status"] == "review" for row in members):
+            entity.update(
+                role=None,
+                role_status="review",
+                role_reason="Cần review bằng chứng nghề trong các dòng của cùng tin.",
+            )
         entity["partition"] = {"matched": "eda", "review": "role_review"}.get(
             entity["role_status"], "out_of_scope"
         )
@@ -203,7 +209,7 @@ def prepare_records(service, records):
             )
         row["review_reasons"] = review_reasons(row)
         rows.append(row)
-    entities = reconcile_postings(service, rows)
+    entities = reconcile_postings(rows)
     groups = defaultdict(list)
     for row in rows:
         if row["posting_id"]:

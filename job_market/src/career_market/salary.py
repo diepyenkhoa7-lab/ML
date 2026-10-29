@@ -32,15 +32,10 @@ def _number(value: str) -> Decimal:
 
 
 def _amount(value: str, scale: str | None, shared_scale: str | None, peer: str | None) -> Decimal:
-    # Only shorthand amounts inherit the other endpoint's suffix (20–30 triệu).
-    # Grouped full amounts, or a long bare amount paired with a short scaled
-    # amount, express their own scale. Two long shorthand endpoints can still
-    # share a suffix, e.g. 1000–2000 nghìn, without an arbitrary digit cutoff.
-    if (
-        not scale
-        and re.fullmatch(r"\d+(?:[.,]\d{1,2})?", value)
-        and (_number(value) < 1000 or (peer is not None and _number(peer) >= 1000))
-    ):
+    # A shared suffix applies to two large endpoints too (1.000–2.000 nghìn).
+    # A full amount paired with a short scaled endpoint is already expanded
+    # (20 triệu–30.000.000); grouping separators alone do not decide the scale.
+    if not scale and (_number(value) < 1000 or (peer is not None and _number(peer) >= 1000)):
         scale = shared_scale
     return _number(value) * SCALES.get(scale, 1)
 
