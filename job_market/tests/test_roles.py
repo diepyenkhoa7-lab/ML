@@ -176,3 +176,21 @@ def test_fullstack_responsibilities_include_frontend_and_backend():
         "Fullstack Developer", "Develop REST APIs.\nDevelop user interfaces."
     )
     assert (result["role"], result["role_status"]) == ("Fullstack", "matched")
+
+
+@pytest.mark.parametrize(
+    ("title", "role"),
+    [
+        ("Data Engineer", "Data/ML"),
+        ("Machine Learning Developer", "Data/ML"),
+        ("Lập Trình Viên AI", "Data/ML"),
+        ("Senior DevOps Engineer", "DevOps"),
+        ("Site Reliability Engineer", "DevOps"),
+        ("Software Tester (Manual & Automation)", "QA Automation"),
+        ("Intern Automation Test", "QA Automation"),
+    ],
+)
+def test_specialized_roles_need_explicit_occupational_evidence(title, role):
+    result = MarketService().classify_role(title)
+    assert (result["role"], result["role_status"]) == (role, "matched")
+    assert result["role_evidence"][0]["text"] in title
