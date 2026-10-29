@@ -59,6 +59,23 @@ class RawPreview:
 class MarketService:
     """Public application seam; adapters only render its results."""
 
+    def profile_columns(self, content, delimiter=","):
+        from .profiles import parse_csv
+
+        try:
+            columns, rows = parse_csv(content, delimiter)
+            return {"columns": columns, "row_count": len(rows)}
+        except ValueError as error:
+            raise MarketError(str(error)) from error
+
+    def preview_profiles(self, content, mapping, delimiter=","):
+        from .profiles import preview_profiles
+
+        try:
+            return preview_profiles(self, content, mapping, delimiter)
+        except ValueError as error:
+            raise MarketError(str(error)) from error
+
     def time_coverage(self, rows):
         from .time_coverage import time_coverage
 
