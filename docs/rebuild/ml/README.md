@@ -30,7 +30,7 @@ Kiểm duyệt tiếp theo chấp nhận hai nhãn YODY vào file riêng, 17 tr�
 
 Quyết định #4/#5: chia công ty và nhóm trùng, tỷ lệ mục tiêu 70/15/15 seed 42; Ridge + Linear Regression, MAE chính/RMSE phụ, chọn validation MAE, bằng nhau chọn Linear Regression. Chỉ promote khi MAE tốt hơn trung vị train trên cả validation và test; không đạt thì giữ báo cáo, không đổi/chỉnh model theo test. Hồ sơ thiếu hỗ trợ không nhận lương/tư vấn. Gợi ý tối đa ba kỹ năng đủ hỗ trợ có delta dương, xếp theo delta rồi n train và tên chuẩn. Ngưỡng hỗ trợ cần dữ liệu mở rộng để khóa trước fit; ADR 0008/0009 ghi các lựa chọn này.
 
-Ngày 30/10, người dùng duyệt bản chia 23 lát cắt ML. Đã đăng các issue con với ready-for-agent, 23 parent native và 33 blocker native; đọc lại xác minh body/labels/relationships và parent cũ không đổi nội dung/trạng thái/nhãn. Graph triển khai cho phần ML là ticket-graph.json; ticket-publication.json ghi ánh xạ và bằng chứng publication. Các issue parent cũ là đầu mục tổng hợp, không triển khai thêm một bản trùng với child.
+Ngày 30/10, người dùng duyệt bản chia 23 lát cắt ML. Đã đăng các issue con với ready-for-agent, 23 liên kết parent native và 33 blocker native; đọc lại xác minh body/labels/relationships và parent cũ không đổi nội dung/trạng thái/nhãn. Graph triển khai cho phần ML là ticket-graph.json; ticket-publication.json ghi ánh xạ và bằng chứng publication. Các issue parent cũ là đầu mục tổng hợp, không triển khai thêm một bản trùng với child.
 
 Frontier hiện có: ML01/#43, ML02/#44, ML03/#45, ML04/#46 và ML20/#63. Các bước fit giữ #42/readiness; policy số còn chờ #4/#5. Không đóng gate, train hoặc push code trong lượt publication. Graph 27 ticket cũ giữ nguyên như lịch sử/đầu mục tổng hợp.
 
