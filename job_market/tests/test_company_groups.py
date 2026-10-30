@@ -193,3 +193,37 @@ def test_conflicting_company_ids_are_reviewed_and_compensation_evidence_is_untou
     assert first["compensation_scope"] == "advertised_monthly_income"
     assert first["salary_label_evidence"] == {"currency": {"raw": "VND", "approved": True}}
     assert rows == before
+
+
+def test_two_reviewed_labels_from_one_company_cannot_fill_three_company_partitions():
+    rows = [
+        row(
+            "1",
+            "YODY",
+            salary_target_vnd_month=27_500_000,
+            salary_basis="unknown",
+            compensation_scope="advertised_monthly_income",
+        ),
+        row(
+            "2",
+            "YODY",
+            salary_target_vnd_month=37_500_000,
+            salary_basis="unknown",
+            compensation_scope="advertised_monthly_income",
+        ),
+        row("3", "Unlabeled"),
+        row("4", "Conflict", salary_target_vnd_month=10_000_000, entity_conflicts=["company_raw"]),
+    ]
+    report = MarketService().company_report(rows)
+    readiness = report["split_readiness"]
+    assert readiness["independent_groups"] == 3
+    assert readiness["usable_labeled_groups"] == 1
+    assert readiness["labeled_company_count"] == 1
+    assert readiness["labeled_split_group_count"] == 1
+    assert readiness["usable_labeled_companies"] == 1
+    assert readiness["usable_labeled_entities"] == 2
+    assert readiness["minimum_group_count_met"] is False
+    assert readiness["training_ready"] is False
+    assert "YODY" in readiness["reason"]
+    assert "train/validation/test" in readiness["reason"]
+    assert readiness["cohorts"][0]["usable_labeled_groups"] == 1

@@ -204,7 +204,72 @@ def company_report(rows):
         fields = sorted({key for row in table for key in row}) or default_fields
         return csv_bytes(table, fields).decode("utf-8")
 
+    # Count only prepared labeled entities in identity-ready components. This is
+    # a structural impossibility check, not a training/support gate or splitter.
+    labeled = [
+        row
+        for row in assignments
+        if row["status"] == "ready_for_split"
+        and row.get("salary_target_vnd_month") is not None
+        and row.get("partition") in {None, "eda", "duplicates"}
+    ]
+
+    def labeled_counts(members):
+        return {
+            "usable_labeled_groups": len({r["group_id"] for r in members}),
+            "usable_labeled_companies": len({r["company_canonical"] for r in members}),
+            "usable_labeled_entities": len({r["entity_id"] for r in members}),
+        }
+
+    cohort_members = defaultdict(list)
+    for row in labeled:
+        cohort_members[
+            row.get("salary_basis", "unknown"), row.get("compensation_scope", "unknown")
+        ].append(row)
+    cohorts = []
+    for (basis, scope), members in cohort_members.items():
+        counts = labeled_counts(members)
+        cohorts.append(
+            {
+                "salary_basis": basis,
+                "compensation_scope": scope,
+                **counts,
+                "minimum_group_count_met": counts["usable_labeled_groups"] >= 3,
+            }
+        )
+    cohorts.sort(key=lambda cohort: json.dumps(cohort, sort_keys=True))
+    counts = labeled_counts(labeled)
+    minimum_met = any(cohort["minimum_group_count_met"] for cohort in cohorts)
+    names = sorted({r["company_raw"].strip() for r in labeled})
+    name_note = f" ({', '.join(names)})" if counts["usable_labeled_companies"] == 1 else ""
+    if not minimum_met:
+        reason = (
+            f"Có {counts['usable_labeled_entities']} entity có nhãn, "
+            f"{counts['usable_labeled_companies']} công ty{name_note}, "
+            f"{counts['usable_labeled_groups']} nhóm độc lập dùng được. "
+            "Chưa có cohort cùng basis/phạm vi thu nhập với ít nhất 3 nhóm dùng được; "
+            "không thể tạo ba tập train/validation/test đều không rỗng mà không cắt nhóm công ty. "
+            "Hai nhãn cùng một công ty vẫn chỉ là một nhóm; chưa thể huấn luyện."
+        )
+    else:
+        reason = (
+            "Đủ tối thiểu 3 nhóm trong ít nhất một cohort chỉ là điều kiện cấu trúc cần thiết. "
+            "Chưa chia train/validation/test hoặc huấn luyện; ML06 vẫn chờ policy hỗ trợ và gate."
+        )
+    split_readiness = {
+        "independent_groups": len(groups),
+        "labeled_company_count": counts["usable_labeled_companies"],
+        "labeled_split_group_count": counts["usable_labeled_groups"],
+        **counts,
+        "identity_ready_groups": sum(g["status"] == "ready_for_split" for g in groups),
+        "minimum_group_count_met": minimum_met,
+        "cohorts": cohorts,
+        "training_ready": False,
+        "reason": reason,
+    }
+
     return {
+        "split_readiness": split_readiness,
         "rules_version": RULES_VERSION,
         "rows": assignments,
         "aliases": aliases,

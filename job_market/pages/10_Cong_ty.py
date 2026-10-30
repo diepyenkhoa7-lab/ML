@@ -23,6 +23,8 @@ except MarketError as error:
     st.error(str(error))
     st.stop()
 
+st.subheader("Toàn bộ dữ liệu đã chuẩn bị")
+st.caption("Các số tổng gồm cả dòng chưa có nhãn lương, review và ngoài phạm vi nghề; không thể dùng số công ty tổng để mở huấn luyện.")
 for column, key, label in zip(
     st.columns(5),
     ["rows", "entities", "companies", "groups", "review_groups"],
@@ -32,6 +34,15 @@ for column, key, label in zip(
 st.info(
     "Chia theo công ty, mục tiêu 70/15/15, seed 42. Cả nhóm phải cùng một tập; nhóm review được cách ly. Đây là báo cáo danh tính, chưa chia tập hoặc huấn luyện; ML06 còn chờ policy hỗ trợ."
 )
+st.subheader("Chỉ cohort có nhãn lương và danh tính dùng được")
+readiness = report["split_readiness"]
+for column, key, label in zip(
+    st.columns(3),
+    ["usable_labeled_entities", "labeled_company_count", "labeled_split_group_count"],
+    ["Entity có nhãn dùng được", "Công ty có nhãn dùng được", "Nhóm độc lập có nhãn dùng được"],
+):
+    column.metric(label, readiness[key])
+st.warning(readiness["reason"])
 st.caption(
     "Chỉ thống nhất khoảng trắng, hoa/thường và Unicode tương đương. Không suy công ty mẹ/con hoặc recruiter/client; chưa xử lý mọi near-duplicate. Giữ tên/ID nguồn để kiểm toán."
 )
