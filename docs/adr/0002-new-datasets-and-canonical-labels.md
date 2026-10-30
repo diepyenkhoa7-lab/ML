@@ -1,0 +1,3 @@
+# Dùng dataset mới và thống nhất các tên gọi tương đương
+
+Ngày 28/10/2026, người dùng yêu cầu tìm dataset mới từ nguồn công khai và không dùng lại các file dữ liệu hiện có trong workspace; việc đọc lại dữ liệu cũ trước yêu cầu này không phải căn cứ chọn hay huấn luyện bản mới. Phạm vi chính là Việt Nam, còn dữ liệu quốc tế nếu bổ sung phải giữ riêng nguồn, thị trường và đơn vị; phân tích nhiều năm phụ thuộc vào khả năng xác minh thời gian và tính so sánh của nguồn mới. Các tên gọi tương đương trong dữ liệu mới phải được gom về nhãn chuẩn, ví dụ `HCM`, `Hồ Chí Minh`, `ho chi minh` thành `HCM`, đồng thời giữ giá trị gốc để đối chiếu.
