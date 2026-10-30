@@ -1,11 +1,12 @@
 # Danh mục spec ML
 
-Nhánh ổn định EDA: main tại 9ce0506. Nhánh soạn thảo/phát triển ML: dev/ml-development, bắt đầu từ cùng mốc. Theo yêu cầu người dùng, spec/audit ML mới hiện chỉ ở local; chưa push nhánh ML hoặc đăng một spec mới lên tracker. Push phần ML sau khi hoàn tất, tách khỏi lần push EDA.
+Nhánh ổn định EDA: main tại 9ce0506. Nhánh soạn thảo/phát triển ML: dev/ml-development, bắt đầu từ cùng mốc; chưa push code ML, sẽ push sau khi hoàn tất theo yêu cầu người dùng. Ngày 30/10 đã đăng 23 ticket ML sau khi người dùng duyệt bản chia; các spec/audit chi tiết vẫn được lưu trong nhánh local, không tự tạo một spec parent mới trùng #6.
 
 Đặc tả phát triển ngày 29/10/2026. Các nguyên tắc #4/#5 đã được người dùng xác nhận; ngưỡng hỗ trợ bằng số và cấu hình phụ thuộc dữ liệu cần khóa trước fit. Chưa đổi dependency, huấn luyện, mở gate #42 hoặc đóng issue từ xa. Ranh giới kiểm thử MarketService/CLI/Streamlit đã được duyệt và được tái sử dụng.
 
 - [Spec tổng ML](SPEC.md)
 - [26 tiêu chí nghiệm thu theo chức năng](ACCEPTANCE.md)
+- [23 ticket ML đã duyệt và đăng GitHub](TICKET_PLAN.md)
 - [Audit bổ sung trước ML](../AUDIT-2026-10-29.md)
 - [Nghiên cứu ứng viên nhãn lương mới](LABEL_RESEARCH-2026-10-29.md)
 - [Kết quả kiểm duyệt 26 ứng viên](LABEL_ADJUDICATION-2026-10-29.md)
@@ -29,4 +30,8 @@ Kiểm duyệt tiếp theo chấp nhận hai nhãn YODY vào file riêng, 17 tr�
 
 Quyết định #4/#5: chia công ty và nhóm trùng, tỷ lệ mục tiêu 70/15/15 seed 42; Ridge + Linear Regression, MAE chính/RMSE phụ, chọn validation MAE, bằng nhau chọn Linear Regression. Chỉ promote khi MAE tốt hơn trung vị train trên cả validation và test; không đạt thì giữ báo cáo, không đổi/chỉnh model theo test. Hồ sơ thiếu hỗ trợ không nhận lương/tư vấn. Gợi ý tối đa ba kỹ năng đủ hỗ trợ có delta dương, xếp theo delta rồi n train và tên chuẩn. Ngưỡng hỗ trợ cần dữ liệu mở rộng để khóa trước fit; ADR 0008/0009 ghi các lựa chọn này.
 
-Các ticket T14–T16 về lương quan sát giữ spec F03; không đồng nhất chúng với metric hoặc tác động kỹ năng của model. Chia nhỏ lại ticket nếu cần là bước to-tickets riêng, không tự thay 27 công việc cũ trong lần viết đặc tả này.
+Ngày 30/10, người dùng duyệt bản chia 23 lát cắt ML. Đã đăng các issue con với ready-for-agent, 23 parent native và 33 blocker native; đọc lại xác minh body/labels/relationships và parent cũ không đổi nội dung/trạng thái/nhãn. Graph triển khai cho phần ML là ticket-graph.json; ticket-publication.json ghi ánh xạ và bằng chứng publication. Các issue parent cũ là đầu mục tổng hợp, không triển khai thêm một bản trùng với child.
+
+Frontier hiện có: ML01/#43, ML02/#44, ML03/#45, ML04/#46 và ML20/#63. Các bước fit giữ #42/readiness; policy số còn chờ #4/#5. Không đóng gate, train hoặc push code trong lượt publication. Graph 27 ticket cũ giữ nguyên như lịch sử/đầu mục tổng hợp.
+
+Các ticket T14–T16 về lương quan sát giữ spec F03, chi tiết trong ML16–ML18; không đồng nhất chúng với metric hoặc tác động kỹ năng của model. Preview XLSX ML20 có thể làm trước prediction ML21 theo dependency mới đã được người dùng duyệt.

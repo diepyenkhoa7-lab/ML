@@ -83,4 +83,4 @@ Mở gate #42 chỉ bằng việc có code ML; dùng lại dữ liệu cũ; đi�
 
 ## Further Notes
 
-Tám spec M01–M08 trong danh mục ML làm rõ các F04–F08 và ticket hiện có, không tự thay 27 ticket đã duyệt. F03/T14–T16 tiếp tục mô tả thống kê lương quan sát, tách khỏi feature importance hoặc chênh lệch dự đoán. Việc chia nhỏ lại ticket và đổi dependency là bước riêng sau khi duyệt phạm vi, không diễn ra trong lần viết spec này.
+Tám spec M01–M08 trong danh mục ML làm rõ các F04–F08 và ticket hiện có. Ngày 30/10, người dùng duyệt và đã đăng 23 issue ML chi tiết với dependency trong ticket-graph.json/TICKET_PLAN.md. Graph 27 ticket cũ giữ vai trò lịch sử/đầu mục tổng hợp, không tạo hai bản triển khai trùng nhau. F03/T14–T16 tiếp tục mô tả thống kê lương quan sát trong ML16–ML18, tách khỏi feature importance hoặc chênh lệch dự đoán. Publication này không mở gate hoặc tự huấn luyện.
