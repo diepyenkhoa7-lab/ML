@@ -135,6 +135,8 @@ def install_analysis_charts(state):
 def handle_finished_job(state, job):
     action = job["action"]
     if action == "validate_baseline":
+        state["status"] = "check_reference"
+    elif action == "check_reference":
         state["status"] = "validate_reference"
     elif action == "validate_reference":
         record_candidate(state, state["reference_run"], 5e-5, reference=True)
@@ -248,6 +250,12 @@ def tick():
                     policy["baseline_run"],
                 ],
             )
+        elif state["status"] == "check_reference":
+            start(
+                state,
+                "check_reference",
+                ["scripts/check_saved_run.py", "--model", "llm", "--run", state["reference_run"]],
+            )
         elif state["status"] == "validate_reference":
             start(
                 state,
@@ -256,7 +264,8 @@ def tick():
             )
         elif state["status"] == "choose_next_trial":
             if (
-                state["additional_experiments_used"] >= policy["max_additional_experiments"]
+                policy.get("search_closed", False)
+                or state["additional_experiments_used"] >= policy["max_additional_experiments"]
                 or state["consecutive_no_improvement"] >= policy["patience"]
             ):
                 state.update(
@@ -279,7 +288,7 @@ def tick():
                         dict(
                             rank=item["rank"],
                             learning_rate=item["learning_rate"],
-                            epochs=1 if smoke else 2,
+                            epochs=1 if smoke else policy["max_epochs"],
                             **(dict(limit=20) if smoke else {}),
                         ),
                     )

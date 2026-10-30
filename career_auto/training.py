@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import shutil
+from datetime import UTC, datetime
 from importlib.metadata import version
 from pathlib import Path
 
@@ -64,17 +65,38 @@ def answer_loss(model, batch, training):
     return tf.reduce_sum(ce * w) / tf.maximum(tf.reduce_sum(w), 1.0)
 
 
-def validation(model, head, valid):
-    values = [
-        float(head(pooled(model, tokenize(model, [r])))[0, 0]) for r in valid.to_dict("records")
-    ]
+def progress(run, epoch, phase, examples, total, **details):
+    event = dict(
+        timestamp=datetime.now(UTC).isoformat(),
+        epoch=epoch,
+        phase=phase,
+        examples=examples,
+        total=total,
+        **details,
+    )
+    if run is not None:
+        write(run / "progress.json", event)
+    print(json.dumps(event), flush=True)
+
+
+def validation(model, head, valid, run=None, epoch=None):
+    values = []
+    progress(run, epoch, "validation_salary", 0, len(valid))
+    for i, row in enumerate(valid.to_dict("records"), 1):
+        values.append(float(head(pooled(model, tokenize(model, [row])))[0, 0]))
+        if i % 100 == 0 or i == len(valid):
+            progress(run, epoch, "validation_salary", i, len(valid))
     errors = np.abs(np.asarray(values) - target(valid))
     score = float(np.mean([errors[valid.market.eq(m)].mean() for m in valid.market.unique()]))
     losses = []
-    for item in load_language("valid")[:32]:
+    language = load_language("valid")[:32]
+    progress(run, epoch, "validation_language", 0, len(language))
+    for i, item in enumerate(language, 1):
         batch = answer_batch(model, item)
         if batch is not None:
             losses.append(float(answer_loss(model, batch, False)))
+        if i % 4 == 0 or i == len(language):
+            progress(run, epoch, "validation_language", i, len(language), evaluated=len(losses))
     if not losses:
         raise ValueError("No validation language examples fit context")
     ce = float(np.mean(losses))
@@ -146,7 +168,11 @@ def train(config, run, resume=False, checkpoint_stop_after=None):
     counts = train_data.market.value_counts()
     market_weights = {m: min(len(train_data) / (2 * n), 5.0) for m, n in counts.items()}
     language = load_language("train")[:2] if limited else load_language("train")
-    before_lora = [v.numpy().copy() for v in variables[:lora_count]] if not resume else None
+    before_lora = (
+        [v.numpy().copy() for v in variables[:lora_count]]
+        if int(optimizer.iterations) == 0
+        else None
+    )
     try:
         while cursor["epoch"] < config["epochs"]:
             epoch = cursor["epoch"]
@@ -161,10 +187,12 @@ def train(config, run, resume=False, checkpoint_stop_after=None):
                 accum = [tf.zeros_like(v) for v in selected_vars]
                 pending = 0
                 last_save = cursor["next_index"]
+                progress(run, epoch + 1, phase, last_save, len(rows), event="phase_start")
                 for i in range(cursor["next_index"], len(rows)):
                     row = rows[i]
                     batch = answer_batch(model, row) if phase == "language" else None
                     if phase == "language" and batch is None:
+                        progress(run, epoch + 1, phase, i + 1, len(rows), skipped="context_limit")
                         continue
                     with tf.GradientTape() as tape:
                         if phase == "numeric":
@@ -226,15 +254,15 @@ def train(config, run, resume=False, checkpoint_stop_after=None):
                             checkpoints.save(run, model.backbone, head, optimizer, cursor, frozen)
                             last_save = i + 1
                     if i % 10 == 0:
-                        progress = dict(
-                            epoch=epoch + 1,
-                            phase=phase,
-                            examples=i + 1,
+                        progress(
+                            run,
+                            epoch + 1,
+                            phase,
+                            i + 1,
+                            len(rows),
                             loss=float(loss),
                             optimizer_steps=int(optimizer.iterations),
                         )
-                        write(run / "progress.json", progress)
-                        print(json.dumps(progress), flush=True)
                 # Flush a partial language batch if the final examples exceeded context.
                 if pending:
                     optimizer.apply_gradients(
@@ -242,13 +270,16 @@ def train(config, run, resume=False, checkpoint_stop_after=None):
                     )
                     if phase == "language":
                         cursor["language_updates"] += 1
+                progress(run, epoch + 1, phase, len(rows), len(rows), event="phase_complete")
                 cursor.update(phase="language" if phase == "numeric" else "validate", next_index=0)
                 checkpoints.save(run, model.backbone, head, optimizer, cursor, frozen)
                 continue
-            scores = validation(model, head, valid)
+            scores = validation(model, head, valid, run=run, epoch=epoch + 1)
+            progress(run, epoch + 1, "validation_complete", len(valid), len(valid), **scores)
             cursor["history"].append(dict(epoch=epoch + 1, **scores))
             if cursor["best"] is None or scores["selection_score"] < cursor["best"]:
                 best_dir = run / f"best_epoch_{epoch + 1}"
+                progress(run, epoch + 1, "saving_best", 0, 1)
                 best_dir.mkdir(exist_ok=True)
                 model.backbone.save_lora_weights(str(best_dir / "qwen.lora.h5"))
                 head.save(best_dir / "salary_head.keras")
@@ -265,9 +296,12 @@ def train(config, run, resume=False, checkpoint_stop_after=None):
                     ),
                 )
                 cursor.update(best=scores["selection_score"], best_dir=best_dir.name)
+                progress(run, epoch + 1, "saving_best", 1, 1)
             cursor.update(epoch=epoch + 1, phase="numeric", next_index=0)
             checkpoints.save(run, model.backbone, head, optimizer, cursor, frozen)
             write(run / "llm_history.json", cursor["history"])
+        # A crash can occur after the final checkpoint but before history publication.
+        write(run / "llm_history.json", cursor["history"])
         best = run / cursor["best_dir"]
         for name in ["qwen.lora.h5", "salary_head.keras", "reload_probe.json"]:
             shutil.copyfile(best / name, run / name)

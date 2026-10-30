@@ -10,6 +10,56 @@ from career_ai.data import FEATURES, ROOT, UNITS, load
 from .state import FOLDER, write
 
 
+def text_demo(run, folder, profiles, main):
+    """Exercise extraction plus regression; examples are synthetic, not quality labels."""
+    import numpy as np
+
+    records = []
+    for market in ["vietnam", "international"]:
+        profile = next(p for p in profiles if p["market"] == market)
+        if market == "vietnam":
+            description = (
+                f"Tuyển {profile['role']}. Kinh nghiệm: {profile['experience_years']} năm. "
+                f"Kỹ năng yêu cầu: {profile['skills']}."
+            )
+        else:
+            description = (
+                f"Hiring a {profile['role']}. Experience: {profile['experience_years']} years. "
+                f"Required skills: {profile['skills']}."
+            )
+        records.append(dict(market=market, location=profile["location"], description=description))
+    path = folder / "job_text.json"
+    write(path, records)
+    previous = {
+        name: (run / name).read_bytes()
+        for name in ["predictions.json", "predictions.csv"]
+        if (run / name).exists()
+    }
+    sys.argv = ["career_ai", "predict", "--run", str(run), "--input", str(path)]
+    main()
+    predictions = json.loads((run / "predictions.json").read_text())
+    if len(predictions) != 2:
+        raise ValueError("Text demo did not return both markets")
+    for record, prediction in zip(records, predictions, strict=True):
+        if (
+            prediction.get("error")
+            or prediction.get("market") != record["market"]
+            or prediction.get("unit") != UNITS[record["market"]]
+            or not prediction.get("model_version")
+            or not np.isfinite(prediction.get("prediction", float("nan")))
+        ):
+            raise ValueError("Text extraction-to-salary demo failed; inspect predictions.json")
+    write(folder / "text_predictions.json", predictions)
+    for name, content in previous.items():
+        (run / name).write_bytes(content)
+    return dict(
+        passed=True,
+        profiles=2,
+        provenance="Synthetic job descriptions from train profile features; salary excluded",
+        quality_metric=False,
+    )
+
+
 def demo(run):
     import numpy as np
     import pandas as pd
@@ -53,6 +103,7 @@ def demo(run):
             np.testing.assert_allclose(numbers, reference, rtol=1e-5)
         reference = numbers
         write(folder / f"predictions_{suffix}.json", values)
+    extraction = text_demo(run, folder, records[:4], main)
     write(folder / "advice_profiles.json", records[:4])
     sys.argv = [
         "career_ai",
@@ -75,6 +126,7 @@ def demo(run):
             valid_profiles=4,
             rejected_rows=2,
             advice=True,
+            text_extraction=extraction,
             dataset="train-derived demonstration, not test metrics",
         ),
     )

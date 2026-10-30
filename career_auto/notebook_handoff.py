@@ -39,7 +39,7 @@ if RUN_TRAINING:
     from career_auto.training import train
     if training_processes():
         raise RuntimeError('Đang có tiến trình train khác.')
-    config=dict(rank=metadata['rank'],learning_rate=metadata.get('learning_rate',5e-5),epochs=2)
+    config=dict(rank=metadata['rank'],learning_rate=metadata.get('learning_rate',5e-5),epochs=1)
     run=ROOT/'outputs'/('manual_notebook_'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S'))
     train(config,run)
 """,

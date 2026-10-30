@@ -7,10 +7,18 @@ from unittest.mock import patch
 import pandas as pd
 
 from career_ai.inputs import missing, read_profiles
-from career_ai.language import evaluate_language, validate_recommendations
+from career_ai.language import evaluate_language, normalize_skill_names, validate_recommendations
 
 
 class BatchContracts(unittest.TestCase):
+    def test_advice_alias_requires_canonical_evidence(self):
+        value = dict(skills=["AWS", "Rust"], explanation="Liên hệ quan sát")
+        evidence = [dict(skill="amazon web services (aws)"), dict(skill="rust")]
+        normalized = normalize_skill_names(value, evidence)
+        self.assertEqual(validate_recommendations(normalized, evidence), evidence)
+        with self.assertRaises(ValueError):
+            validate_recommendations(normalize_skill_names(value, evidence[1:]), evidence[1:])
+
     def test_csv_json_xlsx_agree_and_missing_experience_is_none(self):
         rows = [
             dict(

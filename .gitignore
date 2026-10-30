@@ -9,3 +9,5 @@ data/raw/
 data/*
 !data/tensorflow_v1/
 !data/profiles_demo.json
+frontend/node_modules/
+frontend/dist/

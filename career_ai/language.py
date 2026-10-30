@@ -71,17 +71,37 @@ def advise(lm, profile):
         return dict(status="insufficient_data", recommendations=[])
     value = generate_json(
         lm,
-        "Select at most three skills from this evidence and explain in Vietnamese. "
-        'Return {"skills": ["..."], "explanation": "..."}. '
-        "Do not state salary numbers or promise an increase. "
-        "Evidence is observational, not causal.\n" + json.dumps(evidence, ensure_ascii=False),
+        "Chọn tối đa ba kỹ năng trong bảng bằng chứng. Sao chép đúng tên kỹ năng. "
+        "Giải thích ngắn bằng tiếng Việt: đây là liên hệ thu nhập quan sát, "
+        "không chứng minh nhu cầu tuyển dụng hay tác động nhân quả. "
+        "Không nêu số tiền, không hứa tăng lương. "
+        'Chỉ trả JSON {"skills": ["tên trong bảng"], "explanation": "giải thích tiếng Việt"}.\n'
+        + json.dumps(evidence, ensure_ascii=False),
     )
+    value = normalize_skill_names(value, evidence)
     selected = validate_recommendations(value, evidence)
     return dict(
         recommendations=selected,
         explanation=value.get("explanation"),
         caution="Observational association, not causal. Salary estimates are not guaranteed.",
     )
+
+
+def normalize_skill_names(value, evidence):
+    """Resolve explicit aliases only when their exact canonical name is in evidence."""
+    names = {e["skill"].casefold(): e["skill"] for e in evidence}
+    aliases = {"aws": "amazon web services (aws)", "pytorch": "torch/pytorch"}
+    if not isinstance(value.get("skills"), list):
+        return value
+    skills = []
+    for skill in value["skills"]:
+        if not isinstance(skill, str):
+            skills.append(skill)
+            continue
+        key = skill.strip().casefold()
+        canonical = names.get(key, names.get(aliases.get(key, ""), skill))
+        skills.append(canonical)
+    return dict(value, skills=skills)
 
 
 def validate_recommendations(value, evidence):

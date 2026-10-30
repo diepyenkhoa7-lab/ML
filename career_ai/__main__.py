@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .data import ROOT, UNITS, digest, load, load_language, prepare, validate_profile, write
+from .data import ROOT, UNITS, digest, prepare, validate_profile, write
 from .inputs import missing, read_profiles
 
 
@@ -32,6 +32,7 @@ def main():
     p.add_argument("--epochs", type=int)
     p.add_argument("--limit", type=int)
     p.add_argument("--language-eval", action="store_true")
+    p.add_argument("--split", choices=["valid", "test"], default="valid")
     a = p.parse_args()
     if a.epochs is not None and a.epochs < 1:
         p.error("--epochs must be positive")
@@ -77,23 +78,8 @@ def main():
     from .models import predict
 
     if a.command == "evaluate":
-        from .evaluation import metrics
-
-        if a.model == "llm" and json.loads((a.run / "llm.json").read_text()).get("limited_trial"):
-            p.error("Limited smoke trial cannot be reported as full test evaluation")
-        frame = load("test")
-        pred = predict(frame, a.run, a.model)
-        result = metrics(frame, pred)
-        evaluated = frame.assign(prediction=pred, unit=frame.market.map(UNITS))
-        evaluated.to_csv(a.run / (a.model + "_test_predictions.csv"), index=False)
-        write(a.run / (a.model + "_test_metrics.json"), result)
-        if a.language_eval and a.model == "llm":
-            from .language import evaluate_language
-            from .models import loaded_llm
-
-            examples = load_language("test")
-            write(a.run / "language_test.json", evaluate_language(loaded_llm(a.run)[0], examples))
-        print(json.dumps(result, indent=2))
+        from career_auto.evaluation import evaluate
+        print(json.dumps(evaluate(a.run, a.model, a.split, a.language_eval), indent=2))
         return
     if not a.input:
         p.error("--input is required")
