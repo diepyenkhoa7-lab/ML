@@ -4,7 +4,7 @@ from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
 
-from career_market.company_service import CompanyMarketService as MarketService
+from career_market import MarketService
 
 PAGE = Path(__file__).parents[1] / "pages/10_Cong_ty.py"
 

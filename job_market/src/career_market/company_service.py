@@ -1,10 +1,7 @@
-"""ML02 MarketService extension; parent registers the method on the shared service."""
+"""Compatibility facade for callers of the original ML02 service extension."""
 
-from .companies import company_report
 from .service import MarketService
 
 
 class CompanyMarketService(MarketService):
-    def company_report(self, rows):
-        """Audit prepared rows, preserving compensation and label evidence verbatim."""
-        return company_report(rows)
+    """Inherit company reporting from the shared application service."""

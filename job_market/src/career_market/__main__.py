@@ -7,12 +7,14 @@ from dataclasses import asdict
 from pathlib import Path
 
 from . import MarketError, MarketService
+from .company_cli import company_arguments, run_company_report
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Xem nguồn tin tuyển dụng gốc đã duyệt.")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("sources", help="Danh mục nguồn và xuất xứ")
+    company_arguments(commands.add_parser("companies", help="Đối chiếu công ty và nhóm tin"))
     prepare = commands.add_parser("prepare", help="Chuẩn hóa và xuất snapshot EDA có manifest")
     prepare.add_argument("--output", type=Path, required=True)
     prepare.add_argument(
@@ -40,6 +42,8 @@ def main() -> int:
         service = MarketService(raw_dir=args.raw_dir if args.command == "download" else None)
         if args.command == "sources":
             result = [asdict(source) for source in service.sources()]
+        elif args.command == "companies":
+            result = run_company_report(service, args)
         elif args.command == "prepare":
             result = service.snapshot(output_dir=args.output, review_dir=args.review_dir)[
                 "manifest"

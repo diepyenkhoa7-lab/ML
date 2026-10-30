@@ -97,6 +97,12 @@ class MarketService:
 
         return time_coverage(rows, self.sources())
 
+    def company_report(self, rows):
+        """Audit company groups while preserving prepared compensation evidence."""
+        from .companies import company_report
+
+        return company_report(rows)
+
     def skill_demand(
         self, rows, role=None, locations=None, work_mode=None, source_ids=None, limit=15
     ):

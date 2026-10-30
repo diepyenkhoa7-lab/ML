@@ -5,8 +5,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from career_market import MarketError
-from career_market.company_service import CompanyMarketService as MarketService
+from career_market import MarketError, MarketService
 from career_market.dashboard import prepared_report
 
 st.set_page_config(page_title="Đối chiếu công ty", layout="wide")

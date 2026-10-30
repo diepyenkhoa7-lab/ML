@@ -1,9 +1,0 @@
-{
-  "repo": "keras/qwen3_1.7b_en",
-  "revision": "6938c40886582c96128ccde561bd8d1d69239a15",
-  "local_path": "models/qwen3",
-  "license": "Apache-2.0 per model card",
-  "download_complete": true,
-  "bytes": 6883417048,
-  "sha256": "c600f82e6d3b5c2c08d666b8d7fb961745e6265b10cea5ae92cbbe55645dd23a"
-}

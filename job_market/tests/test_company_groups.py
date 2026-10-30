@@ -1,6 +1,6 @@
 """ML02 synthetic identities: service seam only; never training observations."""
 
-from career_market.company_service import CompanyMarketService as MarketService
+from career_market import MarketService
 
 
 def row(posting, company, **extra):

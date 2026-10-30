@@ -5,8 +5,7 @@ import json
 import sys
 from pathlib import Path
 
-from .company_service import CompanyMarketService
-from .service import MarketError
+from .service import MarketError, MarketService
 
 
 def company_arguments(parser):
@@ -43,7 +42,7 @@ def main():
     parser = company_arguments(argparse.ArgumentParser(description="ML02 company identity audit"))
     args = parser.parse_args()
     try:
-        result = run_company_report(CompanyMarketService(), args)
+        result = run_company_report(MarketService(), args)
     except MarketError as error:
         print(str(error), file=sys.stderr)
         return 2

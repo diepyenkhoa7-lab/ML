@@ -5,10 +5,15 @@ import os
 import subprocess
 import sys
 
-from career_market.company_service import CompanyMarketService as MarketService
+import pytest
+
+from career_market import MarketService
 
 
-def test_company_cli_exports_the_service_report_from_prepared_json(tmp_path):
+@pytest.mark.parametrize(
+    "command", [("career_market.company_cli",), ("career_market", "companies")]
+)
+def test_company_cli_exports_the_service_report_from_prepared_json(tmp_path, command):
     rows = [
         {"source_id": "fixture", "posting_id": "a", "company_raw": "Example"},
         {"source_id": "fixture", "posting_id": "b", "company_raw": "EXAMPLE"},
@@ -20,7 +25,7 @@ def test_company_cli_exports_the_service_report_from_prepared_json(tmp_path):
         [
             sys.executable,
             "-m",
-            "career_market.company_cli",
+            *command,
             "--input",
             str(input_path),
             "--output",
@@ -36,13 +41,17 @@ def test_company_cli_exports_the_service_report_from_prepared_json(tmp_path):
     assert csv_path.read_text() == expected["csv"]
 
 
-def test_company_cli_invalid_input_is_an_actionable_error(tmp_path):
+@pytest.mark.parametrize(
+    "command", [("career_market.company_cli",), ("career_market", "companies")]
+)
+def test_company_cli_invalid_input_is_an_actionable_error(tmp_path, command):
     path = tmp_path / "bad.json"
     path.write_text('{"rows": [42]}')
     result = subprocess.run(
-        [sys.executable, "-m", "career_market.company_cli", "--input", str(path)],
+        [sys.executable, "-m", *command, "--input", str(path)],
         capture_output=True,
         text=True,
+        env={**os.environ, "PYTHONPATH": "src"},
     )
     assert result.returncode == 2
     assert "Traceback" not in result.stderr
