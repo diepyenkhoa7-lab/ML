@@ -24,7 +24,9 @@ except MarketError as error:
     st.stop()
 
 st.subheader("Toàn bộ dữ liệu đã chuẩn bị")
-st.caption("Các số tổng gồm cả dòng chưa có nhãn lương, review và ngoài phạm vi nghề; không thể dùng số công ty tổng để mở huấn luyện.")
+st.caption(
+    "Các số tổng gồm cả dòng chưa có nhãn lương, review và ngoài phạm vi nghề; không thể dùng số công ty tổng để mở huấn luyện."
+)
 for column, key, label in zip(
     st.columns(5),
     ["rows", "entities", "companies", "groups", "review_groups"],
