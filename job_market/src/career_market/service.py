@@ -59,6 +59,22 @@ class RawPreview:
 class MarketService:
     """Public application seam; adapters only render its results."""
 
+    def predict_profile(self, profile):
+        from .profiles import normalize_profile
+
+        normalized = normalize_profile(self, profile)
+        return {
+            "status": "invalid_input" if normalized["errors"] else "model_unavailable",
+            "reason": (
+                "; ".join(normalized["errors"])
+                if normalized["errors"]
+                else "Chưa có artifact model được kiểm tra để dự đoán lương chào tuyển."
+            ),
+            "salary_prediction": None,
+            "advice": [],
+            "profile": normalized,
+        }
+
     def profile_columns(self, content, delimiter=","):
         from .profiles import parse_csv
 
